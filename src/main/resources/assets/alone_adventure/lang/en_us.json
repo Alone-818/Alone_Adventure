@@ -1,0 +1,54 @@
+{
+  "tab.alone_adventure.weapons": "Alone Adventure: Weapons",
+  "tab.alone_adventure.curios": "Alone Adventure: Curios",
+  "tab.alone_adventure.items": "Alone Adventure: Items",
+
+  "tooltip.alone_adventure.press_shift": "Hold [Shift] for details",
+
+  "item.alone_adventure.crystalline_heart": "Crystalline Heart",
+  "item.alone_adventure.crystalline_heart.tooltip.desc": "A heart condensed from crystal, the crystals on it still shifting in color.",
+  "item.alone_adventure.crystalline_heart.tooltip.heal_desc": "Regenerates 1 shield every 10 seconds after taking damage",
+  "item.alone_adventure.crystalline_heart.tooltip.armor_bonus": "Higher armor and armor toughness increase shield capacity and regen speed",
+
+  "item.alone_adventure.bleedingshield": "Bleeding Shield",
+  "item.alone_adventure.bleedingshield.tooltip.desc": "A shield forged from congealed blood, the blood still seeks to erode its wielder.",
+  "item.alone_adventure.bleedingshield.tooltip.toughness_desc": "Every 2 armor points or 1 health point sacrificed converts to 1 armor toughness",
+
+  "item.alone_adventure.adaptive_flesh": "Adaptive Flesh",
+  "item.alone_adventure.adaptive_flesh.tooltip.desc": "A squirming piece of living tissue that seems to learn alongside your pain.",
+  "item.alone_adventure.adaptive_flesh.tooltip.mechanism_desc": "Each hit of a damage type grants 1 layer of adaptation (15% per layer, max 5); taking a different damage type decays all existing layers by 1",
+
+  "item.alone_adventure.night_contract": "Night Contract",
+  "item.alone_adventure.night_contract.tooltip.desc": "A pact signed in blood; moonlight is its gift, sunlight its curse.",
+  "item.alone_adventure.night_contract.tooltip.sun_desc": "In sunlight (daytime, unobstructed sky): health cannot regenerate, and you are afflicted with Wither",
+  "item.alone_adventure.night_contract.tooltip.night_desc": "At night (indoors or outdoors): restores 1 health every 4 seconds and grants Night Vision",
+  "item.alone_adventure.night_contract.tooltip.sleep_desc": "Can sleep during the day; sleeping in daylight skips straight to nightfall",
+  "item.alone_adventure.night_contract.tooltip.moon_desc": "Brighter moon phases grant higher bonuses: new moon +10%, up to full moon +50% movement speed and crit damage",
+  "item.alone_adventure.night_contract.tooltip.current_phase": "Current moon: %1$s -- +%2$s movement speed and crit damage",
+  "item.alone_adventure.night_contract.tooltip.phase.0": "Full Moon",
+  "item.alone_adventure.night_contract.tooltip.phase.1": "Waning Gibbous",
+  "item.alone_adventure.night_contract.tooltip.phase.2": "Last Quarter",
+  "item.alone_adventure.night_contract.tooltip.phase.3": "Waning Crescent",
+  "item.alone_adventure.night_contract.tooltip.phase.4": "New Moon",
+  "item.alone_adventure.night_contract.tooltip.phase.5": "Waxing Crescent",
+  "item.alone_adventure.night_contract.tooltip.phase.6": "First Quarter",
+  "item.alone_adventure.night_contract.tooltip.phase.7": "Waxing Gibbous",
+
+  "item.alone_adventure.survival_whimper": "Survival Whimper",
+  "item.alone_adventure.survival_whimper.tooltip.desc": "A whimper that refuses to die; uses your last breath to escape death.",
+  "item.alone_adventure.survival_whimper.tooltip.immunity": "On a fatal blow: immune to this damage",
+  "item.alone_adventure.survival_whimper.tooltip.teleport": "Teleports back to your respawn point (or world spawn if no bed)",
+  "item.alone_adventure.survival_whimper.tooltip.cooldown": "Cooldown: 3 minutes",
+  "item.alone_adventure.survival_whimper.tooltip.cooldown_left": "Cooldown remaining: %d seconds",
+
+  "item.alone_adventure.parryshield": "Parry Shield",
+  "item.alone_adventure.parryshield.tooltip.desc": "Raise this shield at the moment an enemy strike lands for a perfect defense.",
+  "item.alone_adventure.parryshield.tooltip.parry_desc": "Block within 1s of raising: full immunity, reflects 250% damage and weakens the attacker for 3s (1s parry cooldown)",
+  "item.alone_adventure.parryshield.tooltip.block_desc": "Held up longer: absorbs 80% of the damage",
+
+  "item.alone_adventure.powersword": "Powersword",
+  "item.alone_adventure.powersword.tooltip.desc": "A mysterious weapon of an imperial far future, its blade driven by highly compressed energy, cleaving far beyond ordinary alloys.",
+  "item.alone_adventure.powersword.tooltip.pierce_desc": "Pierce: main attacks ignore armor toughness; against enemies with armor above 8, +0.3 damage per point over the threshold, and +0.5 per point of toughness above 6 (up to 10 total), this damage ignores armor and toughness",
+  "item.alone_adventure.powersword.tooltip.overclock_desc": "Overclock: activate with right-click (lasts 13s by default, costs 5 durability), grants Resistance II for 5s on activation, +50% attack damage while active, +3 fire damage and 4s ignition per hit, heals 60% of damage dealt; 30s cooldown (duration and cooldown configurable)",
+  "item.alone_adventure.powersword.tooltip.overclock_active": "Overclocked: %ds remaining"
+}

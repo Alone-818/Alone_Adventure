@@ -1,0 +1,15 @@
+{
+  "format": 1,
+  "enchantment": {
+    "description": "enchantment.alone_journey.high_speed_slash.desc",
+    "types": ["alone_journey:chainsword"],
+    "rarity": "rare",
+    "category": "weapon",
+    "weight": 5,
+    "treasure": true,
+    "curses": false,
+    "max_level": 1,
+    "min_level": 1,
+    "enchantability": 15
+  }
+}

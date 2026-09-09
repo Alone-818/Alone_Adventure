@@ -1,0 +1,15 @@
+{
+  "format": 1,
+  "enchantment": {
+    "description": "enchantment.alone_journey.meticulous_craft.desc",
+    "types": ["alone_journey:powersword","alone_journey:chainsword"],
+    "rarity": "uncommon",
+    "category": "weapon",
+    "weight": 5,
+    "treasure": false,
+    "curses": false,
+    "max_level": 5,
+    "min_level": 1,
+    "enchantability": 15
+  }
+}

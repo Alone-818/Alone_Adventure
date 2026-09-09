@@ -1,0 +1,6 @@
+{
+  "replace": true,
+  "size": 1,
+  "icon": "curios:slot/empty_necklace_slot",
+  "entities": ["player"]
+}
