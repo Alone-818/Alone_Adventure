@@ -3,15 +3,20 @@ package Alone818.com.alone_adventure.client;
 import Alone818.com.alone_adventure.Alone_adventure;
 import Alone818.com.alone_adventure.Items.powersword;
 import Alone818.com.alone_adventure.init.ModItems;
+import com.mojang.blaze3d.platform.InputConstants;
+import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
+import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import org.lwjgl.glfw.GLFW;
 
 /**
  * 客户端物品动态属性注册器 —— 驱动举盾 / 超频的模型变换。
@@ -28,6 +33,20 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 public final class ModClientSetup {
 
     private ModClientSetup() {}
+
+    /** 饰品主动技能按键（触发帝国天鹰主动技能） */
+    public static final KeyMapping EAGLE_SKILL_KEY = new KeyMapping(
+            "key.alone_adventure.curio_skill",
+            KeyConflictContext.IN_GAME,
+            InputConstants.Type.KEYSYM,
+            GLFW.GLFW_KEY_R,
+            "key.categories.alone_adventure");
+
+    /** 注册按键绑定（模组事件总线） */
+    @SubscribeEvent
+    public static void onRegisterKeys(RegisterKeyMappingsEvent event) {
+        event.register(EAGLE_SKILL_KEY);
+    }
 
     /** 举盾状态属性名，需与 parryshield.json 中 overrides 的键完全一致 */
     public static final ResourceLocation BLOCKING_PROPERTY =

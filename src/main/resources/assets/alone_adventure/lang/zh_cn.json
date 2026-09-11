@@ -1,5 +1,7 @@
 {
   "tab.alone_adventure.items": "孤独冒险：物品",
+  "tab.alone_adventure.weapons": "孤独冒险：武器",
+  "tab.alone_adventure.curios": "孤独冒险：饰品",
 
   "tooltip.alone_adventure.press_shift": "按住 [Shift] 查看详细用法",
 
@@ -39,6 +41,13 @@
   "item.alone_adventure.survival_whimper.tooltip.cooldown": "冷却：3 分钟",
   "item.alone_adventure.survival_whimper.tooltip.cooldown_left": "冷却剩余：%d 秒",
 
+  "item.alone_adventure.dragon_power": "龙胤之力",
+  "item.alone_adventure.dragon_power.tooltip.desc": "樱龙的恩赐，如露水般流淌于体内的不死之力。",
+  "item.alone_adventure.dragon_power.tooltip.immunity": "受到致命伤害时免疫此次伤害，并原地复活恢复全部生命",
+  "item.alone_adventure.dragon_power.tooltip.effects": "复活后：隐身 7 秒、无敌 5 秒、黑暗 3 秒",
+  "item.alone_adventure.dragon_power.tooltip.cooldown": "冷却：7 分钟",
+  "item.alone_adventure.dragon_power.tooltip.cooldown_left": "冷却剩余：%d 秒",
+
   "item.alone_adventure.parryshield": "招架之盾",
   "item.alone_adventure.parryshield.tooltip.desc": "在敌人攻击命中前的瞬间举起此盾，可获得完美的防御。",
   "item.alone_adventure.parryshield.tooltip.parry_desc": "举盾 1 秒内格挡攻击：完全免疫，反弹 250% 伤害，并使攻击者虚弱 3 秒（盾反冷却 1 秒）",
@@ -48,5 +57,49 @@
   "item.alone_adventure.powersword.tooltip.desc": "来自 39 个千年后的神秘帝国武器，由高度压缩的能量驱动剑刃，斩击力度远超寻常合金。",
   "item.alone_adventure.powersword.tooltip.pierce_desc": "穿甲：主攻击无视护甲韧性；对护甲值高于 8 的敌人每点超出护甲附加 0.3 点、韧性高于 6 每点附加 0.5 点额外伤害（合计最高 10 点），该伤害无视护甲与护甲韧性",
   "item.alone_adventure.powersword.tooltip.overclock_desc": "超频：右键激活（默认持续 13 秒，损耗 5 点耐久），激活时获得抗性 II 持续 5 秒，期间攻击伤害 +50%，命中额外造成 3 点火焰伤害并点燃 4 秒，攻击造成伤害的 60% 转化为自身治疗；使用后冷却 30 秒（时长与冷却可配置）",
-  "item.alone_adventure.powersword.tooltip.overclock_active": "超频中：剩余 %d 秒"
+  "item.alone_adventure.powersword.tooltip.overclock_active": "超频中：剩余 %d 秒",
+
+  "item.alone_adventure.chainsawsword": "链锯剑",
+  "item.alone_adventure.chainsawsword.tooltip.desc": "来自 39 个千年后的神秘帝国武器，依靠锯齿切割敌人。",
+  "item.alone_adventure.chainsawsword.tooltip.tear_desc": "撕裂：普通攻击叠加 4 层，扫射命中有 50% 概率叠加 2 层（命中时刷新持续时间）。持续时间结束时结算一次伤害（等级 × 0.6），然后等级减半，减半后自动重新挂上继续结算，直到等级归零。",
+  "item.alone_adventure.chainsawsword.tooltip.sweep_desc": "扫射：右键激活（持续 7 秒，损耗 3 点耐久，冷却 15 秒）。激活期间每 0.2 秒对前方 6 格锥形范围内的实体造成 1 点伤害（视线会被方块阻挡），并有 50% 概率附加 2 层撕裂。",
+  "item.alone_adventure.chainsawsword.tooltip.sweep_active": "扫射中：剩余 %d 秒",
+
+  "item.alone_adventure.painstrike_hammer": "痛击之锤",
+  "item.alone_adventure.painstrike_hammer.tooltip.desc": "一柄粗暴的重锤，每一次挥击都在惩罚敌人，瓦解对方的防御。",
+  "item.alone_adventure.painstrike_hammer.tooltip.charge_desc": "易伤：每次命中叠加 2 层易伤",
+
+  "effect.alone_adventure.vulnerability": "易伤",
+  "effect.alone_adventure.laceration": "撕裂",
+  "effect.alone_adventure.endurance": "耐力",
+  "item.alone_adventure.golden_beetroot": "金甜菜根",
+  "tooltip.alone_adventure.golden_beetroot": "食用给予耐力 I 60 秒，也可用于酿造耐力药水",
+  "item.alone_adventure.injection_empty": "空针管",
+  "item.alone_adventure.injection_empty.tooltip": "用于合成药水针剂的空针管",
+  "item.alone_adventure.injection_syringe": "药水针剂",
+  "tooltip.alone_adventure.injection_template.empty": "此针剂无效果（请先将药水放进合成台）",
+  "tooltip.alone_adventure.injection_template.header": "药水针剂（效果时长 0.8 倍，0.5 倍使用时间）",
+
+  "item.minecraft.potion.effect.endurance": "耐力药水",
+  "item.minecraft.splash_potion.effect.endurance": "喷溅型耐力药水",
+  "item.minecraft.lingering_potion.effect.endurance": "滞留型耐力药水",
+  "item.minecraft.tipped_arrow.effect.endurance": "耐力之箭",
+  "item.minecraft.potion.effect.endurance_long": "耐力药水",
+  "item.minecraft.splash_potion.effect.endurance_long": "喷溅型耐力药水",
+  "item.minecraft.lingering_potion.effect.endurance_long": "滞留型耐力药水",
+  "item.minecraft.tipped_arrow.effect.endurance_long": "耐力之箭",
+  "item.minecraft.potion.effect.endurance_strong": "强效耐力药水",
+  "item.minecraft.splash_potion.effect.endurance_strong": "喷溅型强效耐力药水",
+  "item.minecraft.lingering_potion.effect.endurance_strong": "滞留型强效耐力药水",
+  "item.minecraft.tipped_arrow.effect.endurance_strong": "强效耐力之箭",
+
+  "item.alone_adventure.imperial_eagle": "帝国天鹰",
+  "item.alone_adventure.imperial_eagle.tooltip.desc": "人类帝国的双头鹰徽记，象征着荣耀与不朽。",
+  "item.alone_adventure.imperial_eagle.tooltip.invert": "负面效果反转：虚弱→力量、缓慢→速度、黑暗→夜视、中毒→再生",
+  "item.alone_adventure.imperial_eagle.tooltip.immunity": "免疫火焰与岩浆伤害",
+  "item.alone_adventure.imperial_eagle.tooltip.skill": "主动技能（默认键 R）：抗性 II、力量 I、生命恢复 II，持续 2 分钟，冷却 30 秒",
+  "item.alone_adventure.imperial_eagle.tooltip.cooldown_left": "技能冷却剩余：%d 秒",
+
+  "key.alone_adventure.curio_skill": "饰品主动技能",
+  "key.categories.alone_adventure": "孤独冒险"
 }

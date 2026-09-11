@@ -78,7 +78,7 @@ public class survival_whimper extends Item implements ICurioItem {
 
             // 冷却中时实时显示剩余时间（NBT 由 Curios 同步到客户端）
             if (level != null) {
-                long remaining = ImmunityEvent.getRemainingCooldown(stack, level.getGameTime());
+                long remaining = ImmunityEvent.getRemainingCooldown(stack);
                 if (remaining > 0) {
                     tooltip.add(Component.translatable("item.alone_adventure.survival_whimper.tooltip.cooldown_left",
                                     Math.round(remaining / 20.0F))

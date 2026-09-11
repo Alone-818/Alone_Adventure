@@ -5,6 +5,8 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "alone_adventure.refmap.json",
   "mixins": [
+    "FoodDataMixin",
+    "LivingEntityMixin"
   ],
   "client": [
   ],

@@ -1,24 +1,41 @@
 package Alone818.com.alone_adventure.events;
 
 import Alone818.com.alone_adventure.Alone_adventure;
+import Alone818.com.alone_adventure.Effects.LacerationEffect;
 import Alone818.com.alone_adventure.Items.powersword;
 import Alone818.com.alone_adventure.init.ModItems;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 /**
  * 武器攻击事件处理器
- * 负责动力剑的穿甲伤害、火焰伤害和吸血效果
+ * 负责动力剑的穿甲伤害、火焰伤害和吸血效果；
+ * 负责撕裂的延迟减半回贴。
+ *
+ * 链锯剑的高频扫射已改为「长按右键持续使用」模型，
+ * 结算逻辑在 {@link Alone818.com.alone_adventure.Items.chainsawsword#onUseTick} 中完成，
+ * 不再需要事件驱动。
  */
 @Mod.EventBusSubscriber(modid = Alone_adventure.MODID)
 public class WeaponAttackEvent {
+
+    /**
+     * 撕裂延迟结算：每 tick 检查所有实体，
+     * 把到期减半后的撕裂等级重新挂上，直到归零。
+     */
+    @SubscribeEvent
+    public static void onLivingTick(LivingEvent.LivingTickEvent event) {
+        LivingEntity entity = event.getEntity();
+        Level level = entity.level();
+        if (level.isClientSide) return;
+
+        LacerationEffect.tryReapply(entity);
+    }
 
     /**
      * 处理动力剑的穿甲伤害、火焰伤害和吸血效果
@@ -29,11 +46,10 @@ public class WeaponAttackEvent {
         if (event.getSource().getEntity() instanceof LivingEntity attacker) {
             ItemStack weapon = attacker.getItemInHand(attacker.getUsedItemHand());
 
-            // 检查是否为动力剑
             if (weapon.is(ModItems.POWERSWORD.get())) {
                 LivingEntity target = event.getEntity();
 
-                // 1. 超频伤害加成：基础伤害 +50%（穿甲加成结算在倍率之后，不受放大）
+                // 1. 超频伤害加成：基础伤害 +50%
                 boolean overclocked = powersword.isOverclocked(weapon, attacker.level().getGameTime());
                 if (overclocked) {
                     event.setAmount(event.getAmount() * powersword.OVERCLOCK_DAMAGE_MULTIPLIER);
@@ -47,13 +63,10 @@ public class WeaponAttackEvent {
 
                 // 3. 超频效果：火焰伤害+点燃+吸血
                 if (overclocked && target != attacker) {
-                    // 额外造成3点火焰伤害
                     target.hurt(target.damageSources().onFire(), powersword.FIRE_DAMAGE);
-                    // 点燃4秒
                     target.setSecondsOnFire(powersword.FIRE_BURN_DURATION / 20);
                 }
                 if (overclocked) {
-                    // 吸血：造成伤害的60%转化为治疗
                     float healAmount = event.getAmount() * powersword.OVERCLOCK_HEAL_RATIO;
                     attacker.heal(healAmount);
                 }

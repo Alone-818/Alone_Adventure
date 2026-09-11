@@ -25,6 +25,10 @@ public class ModCreativeModeTabs {
                                 output.accept(new ItemStack(ModItems.POWERSWORD.get()));
                                 // 武器：招架之盾
                                 output.accept(new ItemStack(ModItems.PARRYSHIELD.get()));
+                                // 武器：链锯剑
+                                output.accept(new ItemStack(ModItems.CHAINSAW_SWORD.get()));
+                                // 武器：痛击之锤
+                                output.accept(new ItemStack(ModItems.PAINSTRIKE_HAMMER.get()));
                             })
                             .build());
 
@@ -41,6 +45,8 @@ public class ModCreativeModeTabs {
                                 output.accept(new ItemStack(ModItems.NIGHT_CONTRACT.get()));
                                 output.accept(new ItemStack(ModItems.SURVIVAL_WHIMPER.get()));
                                 output.accept(new ItemStack(ModItems.ADAPTIVE_FLESH.get()));
+                                output.accept(new ItemStack(ModItems.DRAGON_POWER.get()));
+                                output.accept(new ItemStack(ModItems.IMPERIAL_EAGLE.get()));
                             })
                             .build());
 
@@ -48,10 +54,11 @@ public class ModCreativeModeTabs {
     public static final RegistryObject<CreativeModeTab> ITEMS_TAB =
             CREATIVE_MODE_TABS.register("alone_adventure_items",
                     () -> CreativeModeTab.builder()
-                            .icon(() -> new ItemStack(Items.APPLE))
+                            .icon(() -> new ItemStack(ModItems.INJECTION_SYRINGE.get()))
                             .title(Component.translatable("tab.alone_adventure.items"))
                             .displayItems((itemDisplayParameters, output) -> {
-                                // 占位，未来添加道具
+                                output.accept((new ItemStack(ModItems.INJECTION_EMPTY.get())));
+                                output.accept((new ItemStack(ModItems.INJECTION_SYRINGE.get())));
                             })
                             .build());
 

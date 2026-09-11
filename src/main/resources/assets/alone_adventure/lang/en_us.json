@@ -41,6 +41,13 @@
   "item.alone_adventure.survival_whimper.tooltip.cooldown": "Cooldown: 3 minutes",
   "item.alone_adventure.survival_whimper.tooltip.cooldown_left": "Cooldown remaining: %d seconds",
 
+  "item.alone_adventure.dragon_power": "Power of the Dragon Lineage",
+  "item.alone_adventure.dragon_power.tooltip.desc": "The bloodline of dragons flows within; death itself dares not claim you.",
+  "item.alone_adventure.dragon_power.tooltip.immunity": "On a fatal blow: immune to this damage and revive in place with full health",
+  "item.alone_adventure.dragon_power.tooltip.effects": "After reviving: Invisibility 7s, Invulnerability 5s, Darkness 3s",
+  "item.alone_adventure.dragon_power.tooltip.cooldown": "Cooldown: 7 minutes",
+  "item.alone_adventure.dragon_power.tooltip.cooldown_left": "Cooldown remaining: %d seconds",
+
   "item.alone_adventure.parryshield": "Parry Shield",
   "item.alone_adventure.parryshield.tooltip.desc": "Raise this shield at the moment an enemy strike lands for a perfect defense.",
   "item.alone_adventure.parryshield.tooltip.parry_desc": "Block within 1s of raising: full immunity, reflects 250% damage and weakens the attacker for 3s (1s parry cooldown)",
@@ -50,5 +57,36 @@
   "item.alone_adventure.powersword.tooltip.desc": "A mysterious weapon of an imperial far future, its blade driven by highly compressed energy, cleaving far beyond ordinary alloys.",
   "item.alone_adventure.powersword.tooltip.pierce_desc": "Pierce: main attacks ignore armor toughness; against enemies with armor above 8, +0.3 damage per point over the threshold, and +0.5 per point of toughness above 6 (up to 10 total), this damage ignores armor and toughness",
   "item.alone_adventure.powersword.tooltip.overclock_desc": "Overclock: activate with right-click (lasts 13s by default, costs 5 durability), grants Resistance II for 5s on activation, +50% attack damage while active, +3 fire damage and 4s ignition per hit, heals 60% of damage dealt; 30s cooldown (duration and cooldown configurable)",
-  "item.alone_adventure.powersword.tooltip.overclock_active": "Overclocked: %ds remaining"
+  "item.alone_adventure.powersword.tooltip.overclock_active": "Overclocked: %ds remaining",
+
+  "item.alone_adventure.chainsawsword": "Chainsaw Sword",
+  "item.alone_adventure.chainsawsword.tooltip.desc": "A mysterious imperial weapon from 39 millennia in the future, relying on serrated teeth to cut through foes.",
+  "item.alone_adventure.chainsawsword.tooltip.tear_desc": "Tear: Normal hits stack 4 levels, sweep hits have a 50% chance to stack 2 levels (refreshes on hit). When duration ends, settle once for damage = level × 0.6, then halve the level, re-apply with half level and continue settling until level reaches zero.",
+  "item.alone_adventure.chainsawsword.tooltip.sweep_desc": "Sweep: Right-click to activate (lasts 7s, costs 3 durability, 15s cooldown). During activation, deals 1 damage every 0.2s to entities in front within 6 blocks cone (blocked by obstacles), and stacks 2 Laceration levels on hit (50% chance).",
+  "item.alone_adventure.chainsawsword.tooltip.sweep_active": "Sweeping: %d seconds remaining",
+
+  "item.alone_adventure.painstrike_hammer": "Painstrike Hammer",
+  "item.alone_adventure.painstrike_hammer.tooltip.desc": "A brutal heavy hammer that punishes every blow, breaking down the enemy's guard.",
+  "item.alone_adventure.painstrike_hammer.tooltip.charge_desc": "Vulnerability: each hit stacks +2 Vulnerability",
+
+  "effect.alone_adventure.vulnerability": "Vulnerability",
+  "effect.alone_adventure.laceration": "Laceration",
+  "effect.alone_adventure.endurance": "Endurance",
+  "item.alone_adventure.golden_beetroot": "Golden Beetroot",
+  "tooltip.alone_adventure.golden_beetroot": "Grants Endurance I for 60 seconds when eaten, also used to brew Endurance Potion",
+  "item.alone_adventure.injection_empty": "Empty Syringe",
+  "item.alone_adventure.injection_empty.tooltip": "An empty syringe used to craft potion syringes",
+  "item.alone_adventure.injection_syringe": "Potion Syringe",
+  "tooltip.alone_adventure.injection_template.empty": "This syringe has no effects (place a potion in the crafting grid)",
+  "tooltip.alone_adventure.injection_template.header": "Potion syringe (duration 0.8x, 0.5x use time)",
+
+  "item.alone_adventure.imperial_eagle": "Imperial Eagle",
+  "item.alone_adventure.imperial_eagle.tooltip.desc": "The two-headed eagle emblem of the Imperium, symbolizing glory and immortality.",
+  "item.alone_adventure.imperial_eagle.tooltip.invert": "Inverts negative effects: Weakness->Strength, Slowness->Speed, Darkness->Night Vision, Poison->Regeneration",
+  "item.alone_adventure.imperial_eagle.tooltip.immunity": "Immune to fire and lava damage",
+  "item.alone_adventure.imperial_eagle.tooltip.skill": "Active skill (default key R): Resistance II, Strength I, Regeneration II for 2 minutes, 30s cooldown",
+  "item.alone_adventure.imperial_eagle.tooltip.cooldown_left": "Skill cooldown: %d seconds remaining",
+
+  "key.alone_adventure.curio_skill": "Curio Active Skill",
+  "key.categories.alone_adventure": "Alone Adventure"
 }
