@@ -1,9 +1,4 @@
 {
   "replace": false,
-  "values": [
-    "alone_adventure:night_contract",
-    "alone_adventure:survival_whimper",
-    "alone_adventure:dragon_power",
-    "alone_adventure:imperial_eagle"
-  ]
+  "values": []
 }
