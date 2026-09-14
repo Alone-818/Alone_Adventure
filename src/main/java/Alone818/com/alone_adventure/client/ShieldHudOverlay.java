@@ -1,6 +1,7 @@
 package Alone818.com.alone_adventure.client;
 
 import Alone818.com.alone_adventure.Alone_adventure;
+import Alone818.com.alone_adventure.Curios.binding_bandage;
 import Alone818.com.alone_adventure.Curios.crystalline_heart;
 import Alone818.com.alone_adventure.init.ModItems;
 import net.minecraft.client.Minecraft;
@@ -24,11 +25,11 @@ import top.theillusivec4.curios.api.type.util.ICuriosHelper;
 import java.util.Optional;
 
 /**
- * 护盾 HUD 渲染器 —— 在生命值左侧显示水晶心（crystalline_heart）护盾。
+ * 护盾 HUD 渲染器 —— 在生命值左侧显示水晶心（crystalline_heart）与紧缚绷带（binding_bandage）护盾。
  *
  * 布局（参考 alone_journey 的 ShieldHudOverlay）：
- *   [护盾图标][护盾数值] ♥♥♥♥♥…
- * 图标绘制在血量行（screenHeight - 39）上、红心起始位置（screenWidth/2 - 91）的左侧。
+ *   两个护盾从右往左排布：绷带护盾 → 水晶心护盾 → ♥♥♥♥♥…
+ *   [绷带图标][绷带数值] [水晶心图标][水晶心数值] ♥♥♥♥♥…
  *
  * 纹理 textures/gui/shield_icons.png 为 36x9 的横条，含 4 帧 9px 图标：
  *   u=0  空格（未装备/无护盾时的底槽）
@@ -64,10 +65,17 @@ public final class ShieldHudOverlay {
     private static final int COLOR_EMPTY = 0xFF8A8A8A;  // 耗尽灰
     private static final int COLOR_FLASH = 0xFFFFFFFF;  // 受击闪烁白
 
-    /** 上一帧护盾值，用于检测掉盾触发闪烁；-1 表示尚未渲染过 */
-    private static double lastShield = -1.0D;
-    /** 闪烁结束的游戏刻 */
-    private static long flashUntilTick = Long.MIN_VALUE;
+    // ── 水晶心护盾闪烁状态 ──
+    /** 上一帧水晶心护盾值，用于检测掉盾触发闪烁；-1 表示尚未渲染过 */
+    private static double crystalLastShield = -1.0D;
+    /** 水晶心护盾闪烁结束的游戏刻 */
+    private static long crystalFlashUntilTick = Long.MIN_VALUE;
+
+    // ── 绷带护盾闪烁状态 ──
+    /** 上一帧绷带护盾值，用于检测掉盾触发闪烁；-1 表示尚未渲染过 */
+    private static double bandageLastShield = -1.0D;
+    /** 绷带护盾闪烁结束的游戏刻 */
+    private static long bandageFlashUntilTick = Long.MIN_VALUE;
 
     @SubscribeEvent
     public static void onRenderHealth(RenderGuiOverlayEvent.Post event) {
@@ -94,52 +102,82 @@ public final class ShieldHudOverlay {
         Font font = mc.font;
         int screenWidth = mc.getWindow().getGuiScaledWidth();
         int screenHeight = mc.getWindow().getGuiScaledHeight();
-
-        // 读取客户端已同步的水晶心 NBT
-        ICuriosHelper helper = CuriosApi.getCuriosHelper();
-        Optional<SlotResult> crystalOpt = helper.findFirstCurio(player, ModItems.CRYSTALLINE_HEART.get());
-        if (crystalOpt.isEmpty()) {
-            return;
-        }
-        ItemStack stack = crystalOpt.get().stack();
-        CompoundTag tag = stack.getTag();
-        if (tag == null || !tag.contains(crystalline_heart.NB_TAG_SHIELD)) {
-            return;
-        }
-
-        // 最大护盾 = 基础上限（服务端写入） + 护甲加成（与 ShieldEvent 同公式，实时重算）
-        double maxShield = tag.getDouble(crystalline_heart.NB_TAG_MAX_SHIELD)
-                + player.getArmorValue() / (double) ARMOR_TO_SHIELD;
-        if (maxShield <= 0) {
-            return;
-        }
-        double shield = Mth.clamp(tag.getDouble(crystalline_heart.NB_TAG_SHIELD), 0, maxShield);
-
         long gameTime = mc.level.getGameTime();
 
-        // 掉盾瞬间触发 10 tick 闪烁（首帧 lastShield < 0 不闪）
-        if (lastShield >= 0 && shield < lastShield) {
-            flashUntilTick = gameTime + 10L;
-        }
-        lastShield = shield;
-
-        boolean flashing = gameTime < flashUntilTick;
-        boolean empty = shield <= 0;
-
-        String text = String.valueOf((int) Math.ceil(shield));
-        int textWidth = font.width(text);
-
-        // 血量行 y；红心区域最左为 screenWidth/2 - 91，图标再往左排布
+        // 血量行 y；红心区域最左为 screenWidth/2 - 91，两个护盾从该位置向左排布
         int y = screenHeight - 39;
-        int iconX = screenWidth / 2 - 91 - textWidth - ICON_SIZE - 3;
-        int textX = iconX + ICON_SIZE + 1;
+        // rightEdge 表示下一个护盾图标的右边缘（从右往左逐个追加）
+        int rightEdge = screenWidth / 2 - 91;
 
-        // 图标帧：空 → 底槽，闪烁 → 闪帧，否则满盾
-        int u = empty ? U_EMPTY : (flashing ? U_FLASH : U_FULL);
-        gui.blit(SHIELD_ICONS, iconX, y, u, 0F, ICON_SIZE, ICON_SIZE, TEXTURE_WIDTH, TEXTURE_HEIGHT);
+        ICuriosHelper helper = CuriosApi.getCuriosHelper();
 
-        // 文字颜色随状态：灰 → 白（闪）→ 蓝
-        int color = empty ? COLOR_EMPTY : (flashing ? COLOR_FLASH : COLOR_SHIELD);
-        gui.drawString(font, text, textX, y + 1, color);
+        // ── 1. 紧缚绷带护盾（整数 0~3，无护甲加成）──
+        Optional<SlotResult> bandageOpt = helper.findFirstCurio(player, ModItems.BINDING_BANDAGE.get());
+        if (bandageOpt.isPresent()) {
+            ItemStack bandageStack = bandageOpt.get().stack();
+            CompoundTag bandageTag = bandageStack.getTag();
+            double bandageShield = 0;
+            if (bandageTag != null && bandageTag.contains(binding_bandage.NB_TAG_SHIELD)) {
+                bandageShield = Mth.clamp(bandageTag.getDouble(binding_bandage.NB_TAG_SHIELD), 0, binding_bandage.SHIELD_MAX);
+            }
+
+            // 掉盾瞬间触发 10 tick 闪烁（首帧 lastShield < 0 不闪）
+            if (bandageLastShield >= 0 && bandageShield < bandageLastShield) {
+                bandageFlashUntilTick = gameTime + 10L;
+            }
+            bandageLastShield = bandageShield;
+
+            boolean flashing = gameTime < bandageFlashUntilTick;
+            boolean empty = bandageShield <= 0;
+
+            String text = String.valueOf((int) Math.ceil(bandageShield));
+            int textWidth = font.width(text);
+
+            int iconX = rightEdge - ICON_SIZE;
+            int textX = iconX - textWidth - 1;
+            rightEdge = textX - 3; // 为下一个护盾留出间距
+
+            int u = empty ? U_EMPTY : (flashing ? U_FLASH : U_FULL);
+            gui.blit(SHIELD_ICONS, iconX, y, u, 0F, ICON_SIZE, ICON_SIZE, TEXTURE_WIDTH, TEXTURE_HEIGHT);
+
+            int color = empty ? COLOR_EMPTY : (flashing ? COLOR_FLASH : COLOR_SHIELD);
+            gui.drawString(font, text, textX, y + 1, color);
+        }
+
+        // ── 2. 水晶心护盾（浮点数，受护甲加成）──
+        Optional<SlotResult> crystalOpt = helper.findFirstCurio(player, ModItems.CRYSTALLINE_HEART.get());
+        if (crystalOpt.isPresent()) {
+            ItemStack crystalStack = crystalOpt.get().stack();
+            CompoundTag crystalTag = crystalStack.getTag();
+            if (crystalTag != null && crystalTag.contains(crystalline_heart.NB_TAG_SHIELD)) {
+                // 最大护盾 = 基础上限（服务端写入） + 护甲加成（与 ShieldEvent 同公式，实时重算）
+                double maxShield = crystalTag.getDouble(crystalline_heart.NB_TAG_MAX_SHIELD)
+                        + player.getArmorValue() / (double) ARMOR_TO_SHIELD;
+                if (maxShield > 0) {
+                    double shield = Mth.clamp(crystalTag.getDouble(crystalline_heart.NB_TAG_SHIELD), 0, maxShield);
+
+                    // 掉盾瞬间触发 10 tick 闪烁
+                    if (crystalLastShield >= 0 && shield < crystalLastShield) {
+                        crystalFlashUntilTick = gameTime + 10L;
+                    }
+                    crystalLastShield = shield;
+
+                    boolean flashing = gameTime < crystalFlashUntilTick;
+                    boolean empty = shield <= 0;
+
+                    String text = String.valueOf((int) Math.ceil(shield));
+                    int textWidth = font.width(text);
+
+                    int iconX = rightEdge - ICON_SIZE;
+                    int textX = iconX - textWidth - 1;
+
+                    int u = empty ? U_EMPTY : (flashing ? U_FLASH : U_FULL);
+                    gui.blit(SHIELD_ICONS, iconX, y, u, 0F, ICON_SIZE, ICON_SIZE, TEXTURE_WIDTH, TEXTURE_HEIGHT);
+
+                    int color = empty ? COLOR_EMPTY : (flashing ? COLOR_FLASH : COLOR_SHIELD);
+                    gui.drawString(font, text, textX, y + 1, color);
+                }
+            }
+        }
     }
 }

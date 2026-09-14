@@ -47,6 +47,8 @@ public class ModCreativeModeTabs {
                                 output.accept(new ItemStack(ModItems.ADAPTIVE_FLESH.get()));
                                 output.accept(new ItemStack(ModItems.DRAGON_POWER.get()));
                                 output.accept(new ItemStack(ModItems.IMPERIAL_EAGLE.get()));
+                                output.accept(new ItemStack(ModItems.BROKEN_MASK.get()));
+                                output.accept(new ItemStack(ModItems.BINDING_BANDAGE.get()));
                             })
                             .build());
 

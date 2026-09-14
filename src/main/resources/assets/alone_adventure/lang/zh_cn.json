@@ -34,6 +34,24 @@
   "item.alone_adventure.night_contract.tooltip.phase.6": "上弦月",
   "item.alone_adventure.night_contract.tooltip.phase.7": "盈凸月",
 
+  "curios.identifier.contract": "契约",
+  "curios.modifiers.contract": "佩戴契约时：",
+
+  "item.alone_adventure.broken_mask": "破损面具",
+  "item.alone_adventure.broken_mask.tooltip.desc": "裂开的石质面具，低语着被遗忘的契约。",
+  "item.alone_adventure.broken_mask.tooltip.vuln_desc": "攻击命中时 20% 概率对目标施加易伤 I（10 秒）",
+  "item.alone_adventure.broken_mask.tooltip.consume_desc": "目标的易伤被伤害消耗时：50% 概率获得力量 I（5 秒）并回复 10 点生命",
+  "item.alone_adventure.broken_mask.tooltip.attr_desc": "基础属性：+7 护甲、+20% 最大生命、+3 护甲韧性",
+  "item.alone_adventure.broken_mask.tooltip.skill_desc": "主动技能（默认键 R）：半径 8 格内所有实体获得易伤 II（1 分钟）；自身回复生命上限的一半并获得抗性 II（1 分钟），冷却 90 秒",
+  "item.alone_adventure.broken_mask.tooltip.cooldown_left": "技能冷却剩余：%s 秒",
+
+  "item.alone_adventure.binding_bandage": "紧缚绷带",
+  "item.alone_adventure.binding_bandage.tooltip.desc": "浸过药草的旧绷带，缠得越紧，人就越不肯倒下。",
+  "item.alone_adventure.binding_bandage.tooltip.passive_desc": "攻击命中时 10% 概率为自己施加耐力 I（10 秒：速度、跳跃提升，饱食度不消耗），不可叠加",
+  "item.alone_adventure.binding_bandage.tooltip.active_desc": "主动技能（默认键 R）：获得 1 点护盾（上限 3 点），冷却 45 秒；受伤时护盾抵消伤害并扣除 1 点",
+  "item.alone_adventure.binding_bandage.tooltip.shield": "当前护盾：%s/%s 点",
+  "item.alone_adventure.binding_bandage.tooltip.cooldown_left": "技能冷却剩余：%d 秒",
+
   "item.alone_adventure.survival_whimper": "求生渴望",
   "item.alone_adventure.survival_whimper.tooltip.desc": "一声不肯死去的呜咽，用最后一口气让你继续站起来。",
   "item.alone_adventure.survival_whimper.tooltip.immunity": "受到致命伤害时免疫此次伤害",

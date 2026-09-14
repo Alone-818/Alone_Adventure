@@ -34,6 +34,24 @@
   "item.alone_adventure.night_contract.tooltip.phase.6": "First Quarter",
   "item.alone_adventure.night_contract.tooltip.phase.7": "Waxing Gibbous",
 
+  "curios.identifier.contract": "Contract",
+  "curios.modifiers.contract": "When bound by contract:",
+
+  "item.alone_adventure.broken_mask": "Broken Mask",
+  "item.alone_adventure.broken_mask.tooltip.desc": "A cracked stone mask, whispering of a forgotten pact.",
+  "item.alone_adventure.broken_mask.tooltip.vuln_desc": "20% chance on hit to inflict Vulnerability I (10s) on the target",
+  "item.alone_adventure.broken_mask.tooltip.consume_desc": "When the target's Vulnerability is consumed: 50% chance to gain Strength I (5s) and restore 10 health",
+  "item.alone_adventure.broken_mask.tooltip.attr_desc": "Base: +7 Armor, +20% Max Health, +3 Armor Toughness",
+  "item.alone_adventure.broken_mask.tooltip.skill_desc": "Active skill (default key R): inflict Vulnerability II (1 min) on all entities within 8 blocks; heal half of max health and gain Resistance II (1 min); 90s cooldown",
+  "item.alone_adventure.broken_mask.tooltip.cooldown_left": "Skill cooldown: %ss left",
+
+  "item.alone_adventure.binding_bandage": "Binding Bandage",
+  "item.alone_adventure.binding_bandage.tooltip.desc": "An old herb-soaked bandage; the tighter it binds, the less willing you are to fall.",
+  "item.alone_adventure.binding_bandage.tooltip.passive_desc": "10% chance on hit to give yourself Endurance I (10s: +speed, +jump, hunger locked); does not stack or refresh",
+  "item.alone_adventure.binding_bandage.tooltip.active_desc": "Active skill (default key R): gain 1 shield point (max 3), 3 min cooldown; incoming damage is negated and costs 1 shield point",
+  "item.alone_adventure.binding_bandage.tooltip.shield": "Shield: %s/%s",
+  "item.alone_adventure.binding_bandage.tooltip.cooldown_left": "Skill cooldown: %d seconds left",
+
   "item.alone_adventure.survival_whimper": "Survival Whimper",
   "item.alone_adventure.survival_whimper.tooltip.desc": "A whimper that refuses to die; uses your last breath to escape death.",
   "item.alone_adventure.survival_whimper.tooltip.immunity": "On a fatal blow: immune to this damage",

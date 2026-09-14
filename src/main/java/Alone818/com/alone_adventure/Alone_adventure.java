@@ -5,6 +5,7 @@ import Alone818.com.alone_adventure.crafting.ModRecipes;
 import Alone818.com.alone_adventure.crafting.PotionUpgradeRecipe;
 import Alone818.com.alone_adventure.init.ModBlocks;
 import Alone818.com.alone_adventure.init.ModCreativeModeTabs;
+import Alone818.com.alone_adventure.init.ModEntities;
 import Alone818.com.alone_adventure.init.ModEffects;
 import Alone818.com.alone_adventure.init.ModItems;
 import Alone818.com.alone_adventure.init.ModPotions;

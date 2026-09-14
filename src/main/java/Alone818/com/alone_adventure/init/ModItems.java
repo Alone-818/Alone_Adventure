@@ -39,6 +39,14 @@ public class ModItems {
     public static final RegistryObject<Item> IMPERIAL_EAGLE =
             ITEMS.register("imperial_eagle", imperial_eagle::new);
 
+    // 破损面具：+7护甲/+20%生命/+3韧性；攻击20%概率施加易伤，易伤被消耗时获得力量并回复固定生命
+    public static final RegistryObject<Item> BROKEN_MASK =
+            ITEMS.register("broken_mask", broken_mask::new);
+
+    // 紧缚绷带：10%概率攻击后自我施加耐力，主动技能获得护盾
+    public static final RegistryObject<Item> BINDING_BANDAGE =
+            ITEMS.register("binding_bandage", binding_bandage::new);
+
     // ===== 装备物品 =====
     public static final RegistryObject<Item> PARRYSHIELD =
             ITEMS.register("parryshield", parryshield::new);
@@ -51,6 +59,10 @@ public class ModItems {
 
     public static final RegistryObject<Item> PAINSTRIKE_HAMMER =
             ITEMS.register("painstrike_hammer", painstrike_hammer::new);
+
+    // 墨制刀刃：远程投掷武器，命中施加虚弱；耐久随时间自动回复，不会损坏
+    public static final RegistryObject<Item> INK_BLADE =
+            ITEMS.register("ink_blade", ink_blade::new);
 
     // ===== 道具物品 =====
     public static final RegistryObject<Item> INJECTION_EMPTY =
