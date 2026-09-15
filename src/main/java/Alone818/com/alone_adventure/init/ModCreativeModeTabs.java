@@ -29,6 +29,8 @@ public class ModCreativeModeTabs {
                                 output.accept(new ItemStack(ModItems.CHAINSAW_SWORD.get()));
                                 // 武器：痛击之锤
                                 output.accept(new ItemStack(ModItems.PAINSTRIKE_HAMMER.get()));
+                                // 武器：墨制刀刃
+                                output.accept(new ItemStack(ModItems.INK_BLADE.get()));
                             })
                             .build());
 

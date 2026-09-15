@@ -53,6 +53,7 @@ public class Alone_adventure {
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
         ModEffects.register(modEventBus);
+        ModEntities.register(modEventBus);
         ModCreativeModeTabs.register(modEventBus);
         ModRecipes.register(modEventBus);
         ModPotions.register(modEventBus);

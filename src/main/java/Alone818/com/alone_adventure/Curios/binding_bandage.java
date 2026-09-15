@@ -38,8 +38,8 @@ import java.util.Optional;
 public class binding_bandage extends Item implements ICurioItem {
 
     // ===== 被动：攻击自施耐力 =====
-    public static final float ENDURANCE_CHANCE = 0.10F;        // 10% 概率
-    public static final int ENDURANCE_DURATION_TICKS = 200;    // 10 秒
+    public static final float ENDURANCE_CHANCE = 0.30F;        // 30% 概率
+    public static final int ENDURANCE_DURATION_TICKS = 60;     // 3 秒
 
     // ===== 主动：护盾 =====
     public static final int SHIELD_GAIN = 1;                   // 每次触发 +1 点护盾
