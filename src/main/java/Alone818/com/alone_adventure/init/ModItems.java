@@ -39,6 +39,8 @@ public class ModItems {
     public static final RegistryObject<Item> IMPERIAL_EAGLE =
             ITEMS.register("imperial_eagle", imperial_eagle::new);
 
+    // 破帽：+7护甲/+20%生命/+3韧性；攻击20%概率施加易伤
+
     // 破损面具：+7护甲/+20%生命/+3韧性；攻击20%概率施加易伤，易伤被消耗时获得力量并回复固定生命
     public static final RegistryObject<Item> BROKEN_MASK =
             ITEMS.register("broken_mask", broken_mask::new);
@@ -46,6 +48,11 @@ public class ModItems {
     // 紧缚绷带：10%概率攻击后自我施加耐力，主动技能获得护盾
     public static final RegistryObject<Item> BINDING_BANDAGE =
             ITEMS.register("binding_bandage", binding_bandage::new);
+
+    // 亡灵秘典：契约饰品；减少20%最大生命值，减少95%攻击伤害，周期性获得黄心；
+    // 攻击时施加灾厄效果（时长×等级取决于伤害），灾厄≥生命值时致命一击
+    public static final RegistryObject<Item> NECROMANCER_LEDGER =
+            ITEMS.register("necromancer_ledger", necromancer_ledger::new);
 
     // 封印王座：契约栏位；星辉随时间回复（上限12），按星辉提供伤害/护甲被动；
     // 受击扣红心时损失星辉；主动技能消耗全部星辉换取护盾与黄心
