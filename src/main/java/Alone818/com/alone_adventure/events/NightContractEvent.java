@@ -77,6 +77,13 @@ public class NightContractEvent {
         Player player = event.player;
         Level level = player.level();
 
+        // 节流：每 5 tick 处理一次。内部所有计时（凋零续期 %20、回血 %80、夜视 %20）
+        // 都是 5 的倍数，对齐 tickCount 后行为完全不变；
+        // 未佩戴时移除月相修饰符的兜底也只需 0.25 秒内生效
+        if (player.tickCount % 5 != 0) {
+            return;
+        }
+
         if (!isWearing(player)) {
             removeMoonModifiers(player);
             return;

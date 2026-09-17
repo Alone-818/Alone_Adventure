@@ -3,6 +3,7 @@ package Alone818.com.alone_adventure.network;
 import Alone818.com.alone_adventure.Curios.binding_bandage;
 import Alone818.com.alone_adventure.Curios.broken_mask;
 import Alone818.com.alone_adventure.Curios.imperial_eagle;
+import Alone818.com.alone_adventure.Curios.sealed_throne;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -33,7 +34,8 @@ public class EagleSkillPacket {
                 // 一次按键按优先级尝试：未佩戴或冷却中的饰品 activateSkill 返回 false 并继续
                 if (!imperial_eagle.activateSkill(sender)
                         && !broken_mask.activateSkill(sender)
-                        && !binding_bandage.activateSkill(sender)) {
+                        && !binding_bandage.activateSkill(sender)
+                        && !sealed_throne.activateSkill(sender)) {
                     // 全部不可用（未佩戴/冷却中）：给本人短促提示音
                     sender.playNotifySound(SoundEvents.NOTE_BLOCK_HARP.get(), SoundSource.PLAYERS, 0.6F, 0.5F);
                 }

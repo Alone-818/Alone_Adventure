@@ -106,6 +106,13 @@ public class ShieldEvent {
         }
 
         Player player = event.player;
+
+        // 节流：每 5 tick 一次。护盾回复间隔最短也有 40 tick（200 - 韧性×8，
+        // 韧性按上限 20 计），修饰符兜底与血量钳制 0.25 秒内生效无感知
+        if (player.tickCount % 5 != 0) {
+            return;
+        }
+
         ICuriosHelper helper = CuriosApi.getCuriosHelper();
         Optional<SlotResult> crystalOpt = helper.findFirstCurio(player, ModItems.CRYSTALLINE_HEART.get());
         if (crystalOpt.isEmpty()) {

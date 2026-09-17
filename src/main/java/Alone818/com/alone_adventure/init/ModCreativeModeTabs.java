@@ -31,6 +31,8 @@ public class ModCreativeModeTabs {
                                 output.accept(new ItemStack(ModItems.PAINSTRIKE_HAMMER.get()));
                                 // 武器：墨制刀刃
                                 output.accept(new ItemStack(ModItems.INK_BLADE.get()));
+                                // 武器：星辉大剑
+                                output.accept(new ItemStack(ModItems.STARLIGHT_GREATSWORD.get()));
                             })
                             .build());
 
@@ -51,6 +53,7 @@ public class ModCreativeModeTabs {
                                 output.accept(new ItemStack(ModItems.IMPERIAL_EAGLE.get()));
                                 output.accept(new ItemStack(ModItems.BROKEN_MASK.get()));
                                 output.accept(new ItemStack(ModItems.BINDING_BANDAGE.get()));
+                                output.accept(new ItemStack(ModItems.SEALED_THRONE.get()));
                             })
                             .build());
 

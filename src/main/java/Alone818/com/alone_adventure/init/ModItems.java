@@ -47,6 +47,11 @@ public class ModItems {
     public static final RegistryObject<Item> BINDING_BANDAGE =
             ITEMS.register("binding_bandage", binding_bandage::new);
 
+    // 封印王座：契约栏位；星辉随时间回复（上限12），按星辉提供伤害/护甲被动；
+    // 受击扣红心时损失星辉；主动技能消耗全部星辉换取护盾与黄心
+    public static final RegistryObject<Item> SEALED_THRONE =
+            ITEMS.register("sealed_throne", sealed_throne::new);
+
     // ===== 装备物品 =====
     public static final RegistryObject<Item> PARRYSHIELD =
             ITEMS.register("parryshield", parryshield::new);
@@ -63,6 +68,11 @@ public class ModItems {
     // 墨制刀刃：远程投掷武器，命中施加虚弱；耐久随时间自动回复，不会损坏
     public static final RegistryObject<Item> INK_BLADE =
             ITEMS.register("ink_blade", ink_blade::new);
+
+    // 星辉大剑：高 CD 重武器；持于手上每 3 秒聚 1 层星辉储能（上限 20），
+    // 命中时每层 +5% 伤害并转化为同层数的伤害吸收（20 秒），随后储能清零
+    public static final RegistryObject<Item> STARLIGHT_GREATSWORD =
+            ITEMS.register("starlight_greatsword", starlight_greatsword::new);
 
     // ===== 道具物品 =====
     public static final RegistryObject<Item> INJECTION_EMPTY =

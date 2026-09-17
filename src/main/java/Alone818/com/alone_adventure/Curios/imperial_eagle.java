@@ -55,6 +55,9 @@ public class imperial_eagle extends Item implements ICurioItem {
     @Override
     public void curioTick(SlotContext slotContext, ItemStack stack) {
         if (!(slotContext.entity() instanceof ServerPlayer player)) return;
+        // 节流：每 5 tick 检查一次。负面效果（虚弱/缓慢等）来源时长都远大于 5 tick，
+        // 最多 0.25 秒的反转延迟玩家无感知，换来 4 次效果查找降为 1/5
+        if (player.tickCount % 5 != 0) return;
 
         invert(player, MobEffects.WEAKNESS, MobEffects.DAMAGE_BOOST);
         invert(player, MobEffects.MOVEMENT_SLOWDOWN, MobEffects.MOVEMENT_SPEED);

@@ -94,6 +94,16 @@
   "item.alone_adventure.ink_blade.tooltip.blades_left": "Blades left: %s/%s",
   "entity.alone_adventure.ink_blade_projectile": "Ink Blade",
 
+  "item.alone_adventure.sealed_throne": "Sealed Throne",
+  "item.alone_adventure.sealed_throne.tooltip.desc": "A throne crystallized from starlight; its wearer will gradually draw forth its radiance.",
+  "item.alone_adventure.sealed_throne.tooltip.star_desc": "Starlight regens 1 per 3s, max 12",
+  "item.alone_adventure.sealed_throne.tooltip.regen_desc": "Regeneration: +1 star every 3 seconds (60 ticks)",
+  "item.alone_adventure.sealed_throne.tooltip.passive_desc": "Each star +2% attack damage; every 4 stars +2 armor",
+  "item.alone_adventure.sealed_throne.tooltip.hit_desc": "When hit and hearts are actually lost, lose 2 stars (shield absorption prevents star loss)",
+  "item.alone_adventure.sealed_throne.tooltip.skill_desc": "Active skill (default R): consume all stars, gain 1 shield per 3 stars, gain equal yellow hearts (20s)",
+  "item.alone_adventure.sealed_throne.tooltip.stars": "Starlight: %s/%s",
+  "item.alone_adventure.sealed_throne.tooltip.shield": "Throne Shield: %s",
+
   "item.minecraft.potion.effect.endurance": "Potion of Endurance",
   "item.minecraft.splash_potion.effect.endurance": "Splash Potion of Endurance",
   "item.minecraft.lingering_potion.effect.endurance": "Lingering Potion of Endurance",
@@ -126,5 +136,16 @@
   "item.alone_adventure.imperial_eagle.tooltip.cooldown_left": "Skill cooldown: %d seconds remaining",
 
   "key.alone_adventure.curio_skill": "Curio Active Skill",
-  "key.categories.alone_adventure": "Alone Adventure"
+  "key.categories.alone_adventure": "Alone Adventure",
+
+  "item.alone_adventure.starlight_greatsword": "Starlight Greatsword",
+  "item.alone_adventure.starlight_greatsword.tooltip.desc": "A heavy blade awash with starlight; the longer it is held, the brighter it glows.",
+  "item.alone_adventure.starlight_greatsword.tooltip.charge_desc": "Charge: held in hand it gathers 1 starlight layer every 3 seconds (max 20)",
+  "item.alone_adventure.starlight_greatsword.tooltip.hit_desc": "On hit: base 15 damage, +10% per layer, and damage absorption (golden hearts, stacks every 3 seconds), then the charge resets",
+  "item.alone_adventure.starlight_greatsword.tooltip.charge": "Starlight Charge: %s/%s",
+
+  "subtitle.alone_adventure.skill_ready.imperial_eagle": "§aImperial Eagle: active skill ready",
+  "subtitle.alone_adventure.skill_ready.broken_mask": "§aBroken Mask: active skill ready",
+  "subtitle.alone_adventure.skill_ready.binding_bandage": "§aBinding Bandage: active skill ready",
+  "subtitle.alone_adventure.skill_ready.sealed_throne": "§aSealed Throne: active skill ready"
 }

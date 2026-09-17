@@ -121,9 +121,15 @@ public class crystalline_heart extends Item implements ICurioItem {
         CompoundTag tag = stack.getOrCreateTag();
 
         // 首次穿上时初始化当前护盾；此后不再重复写入，避免每 tick 重写 NBT
+        // （初始化必须即时：后续节流分支之前执行）
         if (!tag.contains(NB_TAG_SHIELD)) {
             tag.putDouble(NB_TAG_SHIELD, 0);
         }
+
+        // 节流：上限重算与血量钳制每 10 tick 一次即可。
+        // 最大生命变化（药水到期等）本就以秒为单位，0.5 秒延迟无感知；
+        // HUD 的护甲加成本就在客户端实时重算，不依赖此写入
+        if (player.tickCount % 10 != 0) return;
 
         // 最大护盾随玩家当前最大生命值动态变化，仅在数值变化时写入（供 HUD 读取）
         double maxShield = getBaseMaxShield(player);

@@ -3,6 +3,7 @@ package Alone818.com.alone_adventure.client;
 import Alone818.com.alone_adventure.Alone_adventure;
 import Alone818.com.alone_adventure.Curios.binding_bandage;
 import Alone818.com.alone_adventure.Curios.crystalline_heart;
+import Alone818.com.alone_adventure.Curios.sealed_throne;
 import Alone818.com.alone_adventure.init.ModItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -64,6 +65,13 @@ public final class ShieldHudOverlay {
     private static final int COLOR_SHIELD = 0xFF3BD3EE; // 护盾蓝
     private static final int COLOR_EMPTY = 0xFF8A8A8A;  // 耗尽灰
     private static final int COLOR_FLASH = 0xFFFFFFFF;  // 受击闪烁白
+    private static final int COLOR_STAR = 0xFFD9A6FF;   // 王座星辉紫
+
+    // ── 封印王座护盾闪烁状态 ──
+    /** 上一帧王座护盾值，用于检测掉盾触发闪烁；-1 表示尚未渲染过 */
+    private static double throneLastShield = -1.0D;
+    /** 王座护盾闪烁结束的游戏刻 */
+    private static long throneFlashUntilTick = Long.MIN_VALUE;
 
     // ── 水晶心护盾闪烁状态 ──
     /** 上一帧水晶心护盾值，用于检测掉盾触发闪烁；-1 表示尚未渲染过 */
@@ -110,6 +118,39 @@ public final class ShieldHudOverlay {
         int rightEdge = screenWidth / 2 - 91;
 
         ICuriosHelper helper = CuriosApi.getCuriosHelper();
+
+        // ── 0. 封印王座护盾（整数，主动技能消耗星辉获得，星辉归零时熄灭）──
+        Optional<SlotResult> throneOpt = helper.findFirstCurio(player, ModItems.SEALED_THRONE.get());
+        if (throneOpt.isPresent()) {
+            ItemStack throneStack = throneOpt.get().stack();
+            CompoundTag throneTag = throneStack.getTag();
+            double throneShield = 0;
+            if (throneTag != null && throneTag.contains(sealed_throne.NB_TAG_SHIELD)) {
+                throneShield = Math.max(0, throneTag.getDouble(sealed_throne.NB_TAG_SHIELD));
+            }
+            if (throneShield > 0) {
+                if (throneLastShield >= 0 && throneShield < throneLastShield) {
+                    throneFlashUntilTick = gameTime + 10L;
+                }
+                throneLastShield = throneShield;
+
+                boolean flashing = gameTime < throneFlashUntilTick;
+                String text = String.valueOf((int) Math.ceil(throneShield));
+                int textWidth = font.width(text);
+
+                int iconX = rightEdge - ICON_SIZE;
+                int textX = iconX - textWidth - 1;
+                rightEdge = textX - 3;
+
+                int u = flashing ? U_FLASH : U_FULL;
+                gui.blit(SHIELD_ICONS, iconX, y, u, 0F, ICON_SIZE, ICON_SIZE, TEXTURE_WIDTH, TEXTURE_HEIGHT);
+
+                int color = flashing ? COLOR_FLASH : COLOR_STAR;
+                gui.drawString(font, text, textX, y + 1, color);
+            } else {
+                throneLastShield = -1.0D; // 护盾熄灭后重置闪烁检测
+            }
+        }
 
         // ── 1. 紧缚绷带护盾（整数 0~3，无护甲加成）──
         Optional<SlotResult> bandageOpt = helper.findFirstCurio(player, ModItems.BINDING_BANDAGE.get());

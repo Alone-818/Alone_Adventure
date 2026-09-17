@@ -94,6 +94,16 @@
   "item.alone_adventure.ink_blade.tooltip.blades_left": "剩余刀刃：%s/%s",
   "entity.alone_adventure.ink_blade_projectile": "墨制刀刃飞刃",
 
+  "item.alone_adventure.sealed_throne": "封印王座",
+  "item.alone_adventure.sealed_throne.tooltip.desc": "一座凝固了星辉的王座，佩戴者将逐步汲取其中的光。",
+  "item.alone_adventure.sealed_throne.tooltip.star_desc": "星辉每 3 秒回复 1 点，上限 12 点",
+  "item.alone_adventure.sealed_throne.tooltip.regen_desc": "星辉回复：每 3 秒 +1 点（60 tick）",
+  "item.alone_adventure.sealed_throne.tooltip.passive_desc": "每个星辉 +2% 攻击伤害，每 4 个星辉 +2 点护甲",
+  "item.alone_adventure.sealed_throne.tooltip.hit_desc": "受击扣除红心时损失 2 点星辉（护盾吸收伤害不损失）",
+  "item.alone_adventure.sealed_throne.tooltip.skill_desc": "主动技能（默认键 R）：消耗全部星辉，每 3 星辉获得 1 点护盾，获得等量黄心（20 秒）",
+  "item.alone_adventure.sealed_throne.tooltip.stars": "星辉：%s/%s",
+  "item.alone_adventure.sealed_throne.tooltip.shield": "王座护盾：%s 点",
+
   "effect.alone_adventure.vulnerability": "易伤",
   "effect.alone_adventure.laceration": "撕裂",
   "effect.alone_adventure.endurance": "耐力",
@@ -126,5 +136,16 @@
   "item.alone_adventure.imperial_eagle.tooltip.cooldown_left": "技能冷却剩余：%d 秒",
 
   "key.alone_adventure.curio_skill": "饰品主动技能",
-  "key.categories.alone_adventure": "孤独冒险"
+  "key.categories.alone_adventure": "孤独冒险",
+
+  "item.alone_adventure.starlight_greatsword": "星辉大剑",
+  "item.alone_adventure.starlight_greatsword.tooltip.desc": "剑身流转着星辉的重剑，举得越久，光芒越盛。",
+  "item.alone_adventure.starlight_greatsword.tooltip.charge_desc": "聚能：持于手上每 3 秒积累 1 层星辉储能（上限 20 层）",
+  "item.alone_adventure.starlight_greatsword.tooltip.hit_desc": "命中：基础伤害 15，每层增加10%，并获得对应层数的伤害吸收（黄心，3秒叠一次），随后储能清零",
+  "item.alone_adventure.starlight_greatsword.tooltip.charge": "星辉储能：%s/%s 层",
+
+  "subtitle.alone_adventure.skill_ready.imperial_eagle": "§a帝国天鹰：主动技能已就绪",
+  "subtitle.alone_adventure.skill_ready.broken_mask": "§a破损面具：主动技能已就绪",
+  "subtitle.alone_adventure.skill_ready.binding_bandage": "§a紧缚绷带：主动技能已就绪",
+  "subtitle.alone_adventure.skill_ready.sealed_throne": "§a封印王座：主动技能已就绪"
 }
