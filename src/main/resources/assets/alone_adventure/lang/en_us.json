@@ -144,6 +144,12 @@
   "item.alone_adventure.starlight_greatsword.tooltip.hit_desc": "On hit: base 15 damage, +10% per layer, and damage absorption (golden hearts, stacks every 3 seconds), then the charge resets",
   "item.alone_adventure.starlight_greatsword.tooltip.charge": "Starlight Charge: %s/%s",
 
+  "item.alone_adventure.reaper_scythe": "Reaper Scythe",
+  "item.alone_adventure.reaper_scythe.tooltip.desc": "A massive scythe; each unique mob you kill empowers it with additional damage.",
+  "item.alone_adventure.reaper_scythe.tooltip.damage": "Damage: %s",
+  "item.alone_adventure.reaper_scythe.tooltip.bonus": "Bonus per new kill: +%s",
+  "item.alone_adventure.reaper_scythe.tooltip.upcap": "No damage cap",
+
   "subtitle.alone_adventure.skill_ready.imperial_eagle": "§aImperial Eagle: active skill ready",
   "subtitle.alone_adventure.skill_ready.broken_mask": "§aBroken Mask: active skill ready",
   "subtitle.alone_adventure.skill_ready.binding_bandage": "§aBinding Bandage: active skill ready",

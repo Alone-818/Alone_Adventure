@@ -37,6 +37,13 @@
   "curios.identifier.contract": "契约",
   "curios.modifiers.contract": "佩戴契约时：",
 
+  "item.alone_adventure.necromancer_ledger": "亡灵秘典",
+  "item.alone_adventure.necromancer_ledger.tooltip.desc": "一份以鲜血签署的亡灵契约，将你的攻击化为灾厄的种子。",
+  "item.alone_adventure.necromancer_ledger.tooltip.absorption": "每 60 秒获得 10 点黄心（不可堆叠）",
+  "item.alone_adventure.necromancer_ledger.tooltip.calamity": "攻击时施加灾厄 I，时长 = 攻击伤害 × 0.8 秒，多次攻击叠加时长",
+  "item.alone_adventure.necromancer_ledger.tooltip.skill": "主动技能（默认键 R）：周围生物灾厄时长变为 1/5，等级 +3；下次攻击时长 × 2",
+  "item.alone_adventure.necromancer_ledger.tooltip.lethal": "灾厄等级 × 灾厄时长（秒）≥ 目标生命值时，下次攻击造成 32676 直接伤害",
+
   "item.alone_adventure.broken_mask": "破损面具",
   "item.alone_adventure.broken_mask.tooltip.desc": "裂开的石质面具，低语着被遗忘的契约。",
   "item.alone_adventure.broken_mask.tooltip.vuln_desc": "攻击命中时 20% 概率对目标施加易伤 I（10 秒）",
@@ -107,6 +114,7 @@
   "effect.alone_adventure.vulnerability": "易伤",
   "effect.alone_adventure.laceration": "撕裂",
   "effect.alone_adventure.endurance": "耐力",
+  "effect.alone_adventure.calamity": "灾厄",
   "item.alone_adventure.golden_beetroot": "金甜菜根",
   "tooltip.alone_adventure.golden_beetroot": "食用给予耐力 I 60 秒，也可用于酿造耐力药水",
   "item.alone_adventure.injection_empty": "空针管",
@@ -143,6 +151,12 @@
   "item.alone_adventure.starlight_greatsword.tooltip.charge_desc": "聚能：持于手上每 3 秒积累 1 层星辉储能（上限 20 层）",
   "item.alone_adventure.starlight_greatsword.tooltip.hit_desc": "命中：基础伤害 15，每层增加10%，并获得对应层数的伤害吸收（黄心，3秒叠一次），随后储能清零",
   "item.alone_adventure.starlight_greatsword.tooltip.charge": "星辉储能：%s/%s 层",
+
+  "item.alone_adventure.reaper_scythe": "收割者镰刀",
+  "item.alone_adventure.reaper_scythe.tooltip.desc": "一把巨大的镰刀，每杀死一种新的生物即可获得额外伤害。",
+  "item.alone_adventure.reaper_scythe.tooltip.damage": "伤害：%s",
+  "item.alone_adventure.reaper_scythe.tooltip.bonus": "击杀新生物加成：+%s",
+  "item.alone_adventure.reaper_scythe.tooltip.upcap": "无伤害上限",
 
   "subtitle.alone_adventure.skill_ready.imperial_eagle": "§a帝国天鹰：主动技能已就绪",
   "subtitle.alone_adventure.skill_ready.broken_mask": "§a破损面具：主动技能已就绪",

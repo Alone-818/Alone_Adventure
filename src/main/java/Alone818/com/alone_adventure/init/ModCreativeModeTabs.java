@@ -3,9 +3,7 @@ package Alone818.com.alone_adventure.init;
 import Alone818.com.alone_adventure.Alone_adventure;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.item.*;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
@@ -54,6 +52,7 @@ public class ModCreativeModeTabs {
                                 output.accept(new ItemStack(ModItems.BROKEN_MASK.get()));
                                 output.accept(new ItemStack(ModItems.BINDING_BANDAGE.get()));
                                 output.accept(new ItemStack(ModItems.SEALED_THRONE.get()));
+                                output.accept(new ItemStack(ModItems.NECROMANCER_LEDGER.get()));
                             })
                             .build());
 
