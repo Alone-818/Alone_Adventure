@@ -27,11 +27,11 @@ import java.util.UUID;
  */
 public class bleedingshield extends Item implements ICurioItem {
 
-    // 配置常量
-    private static final double ARMOR_REDUCTION_RATIO = 0.8;    // 减少 80% 护甲
-    private static final double HEALTH_REDUCTION_RATIO = 0.2;   // 减少 20% 最大生命值
-    public static final double ARMOR_PER_TOUGHNESS = 4.0;       // 每减少 2 点护甲 +1 护甲韧性
-    public static final double HEALTH_PER_TOUGHNESS = 3.0;      // 每减少 1 点生命 +1 护甲韧性
+    // 配置常量（默认值，可由 Config 在 alone_adventure-common.toml 覆盖）
+    public static double ARMOR_REDUCTION_RATIO = 0.8;    // 减少 80% 护甲
+    public static double HEALTH_REDUCTION_RATIO = 0.2;   // 减少 20% 最大生命值
+    public static double ARMOR_PER_TOUGHNESS = 4.0;      // 每减少 2 点护甲 +1 护甲韧性
+    public static double HEALTH_PER_TOUGHNESS = 3.0;     // 每减少 1 点生命 +1 护甲韧性
 
     // 修饰符使用固定 UUID（与结晶之心的做法一致），便于检测是否已生效与手动兜底
     public static final UUID ARMOR_REDUCTION_UUID = UUID.fromString("1a2b3c4d-0001-4a5b-8c9d-abcdef000001");

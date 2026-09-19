@@ -35,8 +35,10 @@ import java.util.UUID;
  */
 public class reaper_scythe extends SwordItem {
 
+    // 基础攻击伤害在注册期固定，不参与配置
     public static final int BASE_ATTACK_DAMAGE = 5;
-    public static final int DAMAGE_PER_NEW_KILL = 2;
+    /** 每击杀一种新生物的攻击伤害加成（默认值，可由 Config 在 alone_adventure-common.toml 覆盖） */
+    public static int DAMAGE_PER_NEW_KILL = 2;
 
     // 用于辨识这个物品独有的伤害修饰符
     private static final UUID BONUS_DAMAGE_UUID = UUID.fromString("b5b8c9d0-2a4e-4f5a-8b3c-9d6e7f8a9b0c");

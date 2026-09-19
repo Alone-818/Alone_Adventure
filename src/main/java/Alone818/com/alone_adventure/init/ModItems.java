@@ -48,7 +48,7 @@ public class ModItems {
     public static final RegistryObject<Item> BROKEN_MASK =
             ITEMS.register("broken_mask", broken_mask::new);
 
-    // 紧缚绷带：10%概率攻击后自我施加耐力，主动技能获得护盾
+    // 紧缚绷带：50%概率攻击后自我施加耐力，攻击虚弱目标附加等级×2伤害；主动技能获得护盾
     public static final RegistryObject<Item> BINDING_BANDAGE =
             ITEMS.register("binding_bandage", binding_bandage::new);
 
@@ -61,6 +61,12 @@ public class ModItems {
     // 受击扣红心时损失星辉；主动技能消耗全部星辉换取护盾与黄心
     public static final RegistryObject<Item> SEALED_THRONE =
             ITEMS.register("sealed_throne", sealed_throne::new);
+
+    // 充能核心：多形态契约饰品；雷霆/冰冻/黑暗循环切换（R 键，冷却 5 秒）；
+    // 当前形态随时间充能层数（上限与每层时间随形态不同），切换时释放并清零：
+    // 雷霆→力量（层数+1）级 15 秒；冰冻→等同层数黄心；黑暗→下次攻击 +层数×8 伤害
+    public static final RegistryObject<Item> CHARGING_CORE =
+            ITEMS.register("charging_core", charging_core::new);
 
     // ===== 装备物品 =====
     public static final RegistryObject<Item> PARRYSHIELD =
@@ -75,7 +81,7 @@ public class ModItems {
     public static final RegistryObject<Item> PAINSTRIKE_HAMMER =
             ITEMS.register("painstrike_hammer", painstrike_hammer::new);
 
-    // 墨制刀刃：远程投掷武器，命中施加虚弱；耐久随时间自动回复，不会损坏
+    // 墨制刀刃：远程投掷武器，命中造成3点伤害并叠加虚弱（最高5级）；耐久随时间自动回复，不会损坏
     public static final RegistryObject<Item> INK_BLADE =
             ITEMS.register("ink_blade", ink_blade::new);
 
@@ -87,6 +93,11 @@ public class ModItems {
     // ===== 巨大镰刀 =====
     public static final RegistryObject<Item> REAPER_SCYTHE =
             ITEMS.register("reaper_scythe", reaper_scythe::new);
+
+    // 机器爪刃：高攻速连击武器（远古科技机器人部件）；连续命中实体每次 +1 伤害，
+    // 2 秒内未命中（含挥空）则加成清零
+    public static final RegistryObject<Item> MACHINE_CLAW =
+            ITEMS.register("machine_claw", machine_claw::new);
 
     // ===== 道具物品 =====
     public static final RegistryObject<Item> INJECTION_EMPTY =

@@ -2,6 +2,7 @@ package Alone818.com.alone_adventure.network;
 
 import Alone818.com.alone_adventure.Curios.binding_bandage;
 import Alone818.com.alone_adventure.Curios.broken_mask;
+import Alone818.com.alone_adventure.Curios.charging_core;
 import Alone818.com.alone_adventure.Curios.imperial_eagle;
 import Alone818.com.alone_adventure.Curios.necromancer_ledger;
 import Alone818.com.alone_adventure.Curios.sealed_throne;
@@ -16,7 +17,7 @@ import java.util.function.Supplier;
 /**
  * 饰品主动技能包 —— 客户端按键（默认 R）触发后发往服务端，
  * 服务端依次尝试触发佩戴中的主动技能饰品（各自验证佩戴与冷却）：
- * 帝国天鹰 → 破损面具 → 紧缚绷带。
+ * 帝国天鹰 → 破损面具 → 紧缚绷带 → 封印王座 → 充能核心 → 亡灵秘典。
  */
 public class EagleSkillPacket {
 
@@ -37,6 +38,7 @@ public class EagleSkillPacket {
                         && !broken_mask.activateSkill(sender)
                         && !binding_bandage.activateSkill(sender)
                         && !sealed_throne.activateSkill(sender)
+                        && !charging_core.activateSkill(sender)
                         && !necromancer_ledger.activateSkill(sender)) {
                     // 全部不可用（未佩戴/冷却中）：给本人短促提示音
                     sender.playNotifySound(SoundEvents.NOTE_BLOCK_HARP.get(), SoundSource.PLAYERS, 0.6F, 0.5F);

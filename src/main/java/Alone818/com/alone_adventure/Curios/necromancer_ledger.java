@@ -35,34 +35,39 @@ import java.util.List;
 public class necromancer_ledger extends Item implements ICurioItem {
 
     // ===== 属性修正 =====
+    // 以下数值为默认值，可由 Config（alone_adventure-common.toml）覆盖
     /** 最大生命值减少比例：20% */
-    public static final float MAX_HEALTH_REDUCTION = 0.20F;
+    public static float MAX_HEALTH_REDUCTION = 0.20F;
     /** 攻击伤害减少比例：95% */
-    public static final float ATTACK_DAMAGE_REDUCTION = 0.95F;
+    public static float ATTACK_DAMAGE_REDUCTION = 0.95F;
 
     // ===== 黄心回复 =====
     /** 每 60 秒获得的黄心点数 */
-    public static final double ABSORPTION_AMOUNT = 10.0;
+    public static double ABSORPTION_AMOUNT = 10.0;
     /** 黄心回复间隔（tick）：60 秒 = 1200 tick */
-    public static final int ABSORPTION_INTERVAL_TICKS = 1200;
+    public static int ABSORPTION_INTERVAL_TICKS = 1200;
 
     // ===== 灾厄 =====
     /** 攻击时基础灾厄时长倍率 */
     public static final int DURATION_BASE_MULTIPLIER = 20;
     /** 攻击时施加的灾厄等级 */
-    public static final int CALAMITY_BASE_LEVEL = 1;
+    public static int CALAMITY_BASE_LEVEL = 1;
+    /** 灾厄时长比例：时长（秒）= 攻击伤害 × 该值 */
+    public static double CALAMITY_DURATION_RATIO = 0.8;
+    /** 技能叠加倍率：技能后下次攻击的灾厄时长 × 该值 */
+    public static double SKILL_STACK_DURATION_MULTIPLIER = 2.0;
     /** 灾厄等级 × 灾厄时长 >= 目标生命值时的直接伤害 */
-    public static final float LETHAL_DAMAGE = 32676.0F;
+    public static float LETHAL_DAMAGE = 32676.0F;
 
     // ===== 技能 =====
     /** R 技能持续时间（tick）：30 秒 = 600 tick */
-    public static final int SKILL_DURATION_TICKS = 600;
+    public static int SKILL_DURATION_TICKS = 600;
     /** R 技能影响半径 */
-    public static final double SKILL_RADIUS = 8.0;
+    public static double SKILL_RADIUS = 8.0;
     /** R 技能：周围生物灾厄等级额外 +3 */
-    public static final int SKILL_LEVEL_BONUS = 3;
+    public static int SKILL_LEVEL_BONUS = 3;
     /** R 技能：周围生物灾厄时长变为 1/5 */
-    public static final float SKILL_DURATION_RATIO = 0.20F;
+    public static float SKILL_DURATION_RATIO = 0.20F;
 
     // NBT 键
     public static final String NB_TAG_SKILL_ACTIVE = "NecromancerSkillActive"; // 技能是否活跃

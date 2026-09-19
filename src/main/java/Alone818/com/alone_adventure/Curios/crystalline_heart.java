@@ -29,9 +29,9 @@ public class crystalline_heart extends Item implements ICurioItem {
     public static final String NB_TAG_SHIELD = "ShieldReduction";     // 当前护盾值
     public static final String NB_TAG_LAST_HEAL = "LastHealTime";     // 上次回复护盾时的世界时间（tick）
 
-    // 配置常量
-    private static final int PER_HEALTH_TO_SHIELD = 4;   // 每 4 点最大生命值可转化为 1 点护盾
-    private static final double MAX_HEALTH_PENALTY = -0.8; // 减少 80% 最大生命值
+    // 配置常量（默认值，可由 Config 在 alone_adventure-common.toml 覆盖）
+    public static int PER_HEALTH_TO_SHIELD = 4;   // 每 4 点最大生命值可转化为 1 点护盾
+    public static double MAX_HEALTH_PENALTY = -0.8; // 减少 80% 最大生命值
 
     public static final UUID HEALTH_MODIFIER_UUID = UUID.fromString("a1b2c3d4-e5f6-7890-abcd-ef1234567890");
 
@@ -81,15 +81,15 @@ public class crystalline_heart extends Item implements ICurioItem {
     }
 
     /**
-     * 计算减少后的最大生命值（原最大生命值的 20%）。
+     * 计算减少后的最大生命值（默认为原最大生命值的 20%，随 MAX_HEALTH_PENALTY 变化）。
      * Curios 应用修饰符与 onEquip 的先后顺序不可控：
      * 修饰符已生效时 getMaxHealth() 即为减少后的值；
-     * 未生效时当前值为原值，需自行乘以 20%。
+     * 未生效时当前值为原值，需自行乘以削减后比例（1 + 惩罚比例）。
      */
     public static double getReducedMaxHealth(Player player) {
         AttributeInstance attr = player.getAttribute(Attributes.MAX_HEALTH);
         boolean applied = attr != null && attr.getModifier(HEALTH_MODIFIER_UUID) != null;
-        return applied ? player.getMaxHealth() : player.getMaxHealth() * 0.2;
+        return applied ? player.getMaxHealth() : player.getMaxHealth() * (1.0 + MAX_HEALTH_PENALTY);
     }
 
     /**
@@ -108,8 +108,9 @@ public class crystalline_heart extends Item implements ICurioItem {
      */
     public static double getBaseMaxShield(Player player) {
         double reducedMaxHealth = getReducedMaxHealth(player);
-        // 被减少的生命值 = 原最大生命值 * 0.8 = 减少后最大生命值 * 4
-        double healthReduction = reducedMaxHealth * 4.0;
+        // 被减少的生命值 = 原最大生命值 × |惩罚| = 减少后最大生命值 × |惩罚| / 削减后比例
+        // （默认 -0.8 时即 减少后最大生命值 × 4）
+        double healthReduction = reducedMaxHealth * -MAX_HEALTH_PENALTY / (1.0 + MAX_HEALTH_PENALTY);
         return healthReduction / PER_HEALTH_TO_SHIELD;
     }
     @Override

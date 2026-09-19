@@ -28,6 +28,7 @@ import org.lwjgl.glfw.GLFW;
  *
  * 1. 招架之盾：玩家正在使用（举盾）→ blocking = 1.0 → 切换到 parryshield_blocking.json
  * 2. 动力剑：堆栈 NBT 中超频结束时刻未到 → overclock = 1.0 → 切换到 powersword_light.json
+ * 3. 链锯剑：正在使用（右键扫射/超频激活中）→ overclock = 1.0 → 切换到 chainsawsword_overclock.json
  */
 @Mod.EventBusSubscriber(modid = Alone_adventure.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public final class ModClientSetup {
@@ -52,9 +53,10 @@ public final class ModClientSetup {
     public static final ResourceLocation BLOCKING_PROPERTY =
             new ResourceLocation(Alone_adventure.MODID, "blocking");
 
-    /** 超频状态属性名，需与 powersword.json 中 overrides 的键完全一致 */
+    /** 超频状态属性名，需与 powersword.json / chainsawsword.json 中 overrides 的键完全一致 */
     public static final ResourceLocation OVERCLOCK_PROPERTY =
             new ResourceLocation(Alone_adventure.MODID, "overclock");
+
 
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
@@ -71,6 +73,13 @@ public final class ModClientSetup {
             ItemProperties.register(ModItems.POWERSWORD.get(), OVERCLOCK_PROPERTY,
                     (stack, level, entity, seed) -> level != null
                             && powersword.isOverclocked(stack, level.getGameTime()) ? 1.0F : 0.0F);
+            // ===== 链锯剑：扫射（超频）模型变换 =====
+            // 正在使用（右键扫射激活中）时 overclock = 1.0，模型切换到 chainsawsword_overclock.json
+            //（链锯剑无 NBT 超频标记，超频状态即"使用中"，与招架之盾的举盾判定同款）
+            ItemProperties.register(ModItems.CHAINSAW_SWORD.get(), OVERCLOCK_PROPERTY,
+                    (stack, level, entity, seed) -> (entity instanceof Player player
+                            && player.isUsingItem()
+                            && player.getUseItem().is(ModItems.CHAINSAW_SWORD.get())) ? 1.0F : 0.0F);
         });
     }
 }

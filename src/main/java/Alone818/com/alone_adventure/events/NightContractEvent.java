@@ -26,16 +26,17 @@ import java.util.UUID;
 @Mod.EventBusSubscriber(modid = Alone818.com.alone_adventure.Alone_adventure.MODID)
 public class NightContractEvent {
 
+    // 以下数值为默认值，可由 Config（alone_adventure-common.toml）覆盖
     // 夜晚露天时的生命恢复间隔（4 秒恢复 1 点）
-    private static final int HEAL_INTERVAL_TICKS = 80;
+    public static int HEAL_INTERVAL_TICKS = 80;
     // 入夜时刻（一天 24000 tick 中夜晚开始的时刻）
     private static final long NIGHTFALL_TICKS = 13000L;
     // 月相亮度：满月(0)为 4，蛾眉/凸月为 3~1，新月(4)为 0，盈亏对称
     private static final int MAX_MOON_BRIGHTNESS = 4;
     // 每级月相亮度提供的攻击伤害/护甲百分比加成
-    private static final double BONUS_PER_BRIGHTNESS = 0.10;
+    public static double BONUS_PER_BRIGHTNESS = 0.10;
     // 新月保底加成（新月仍然有加成）
-    private static final double NEW_MOON_BASE_BONUS = 0.10;
+    public static double NEW_MOON_BASE_BONUS = 0.10;
 
     private static final UUID SPEED_UUID = UUID.fromString("e5f6a7b8-c9d0-4e1f-8a2b-3c4d5e6f7a8b");
 

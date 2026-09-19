@@ -244,25 +244,23 @@
 			}
 		}
 	],
-	"overrides": [
-		{
-			"predicate": {"alone_adventure:overclock": 1.0},
-			"model": "alone_adventure:item/chainsawsword_overclock"
-		}
-	],
 	"display": {
 		"thirdperson_righthand": {
-			"translation": [0, 10.75, 2.25]
+			"rotation": [-32, 9, 20],
+			"translation": [-3.75, 9.5, -4.25]
 		},
 		"thirdperson_lefthand": {
-			"translation": [0, 10.75, 2.25]
+			"rotation": [1.18, -13.92, 38.09],
+			"translation": [-7, 8, -0.25]
 		},
 		"firstperson_righthand": {
-			"translation": [0, 8, 0],
+			"rotation": [-83, 43, 34],
+			"translation": [-4, 5.75, 0],
 			"scale": [0.75, 0.75, 0.75]
 		},
 		"firstperson_lefthand": {
-			"translation": [0, 8, 0],
+			"rotation": [-83, 43, 34],
+			"translation": [-4, 5.75, 0],
 			"scale": [0.75, 0.75, 0.75]
 		},
 		"ground": {

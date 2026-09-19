@@ -38,10 +38,10 @@ import java.util.Optional;
  */
 public class imperial_eagle extends Item implements ICurioItem {
 
-    /** 主动技能持续：2 分钟 = 2400 tick */
-    public static final int SKILL_TICKS = 2400;
-    /** 主动技能冷却：30 秒 = 600 tick */
-    public static final int SKILL_COOLDOWN_TICKS = 600;
+    /** 主动技能持续：2 分钟 = 2400 tick（默认值，可由 Config 覆盖） */
+    public static int SKILL_TICKS = 2400;
+    /** 主动技能冷却：30 秒 = 600 tick（默认值，可由 Config 覆盖） */
+    public static int SKILL_COOLDOWN_TICKS = 600;
 
     /** NBT 键：技能下次可用时的世界时刻（gameTime） */
     public static final String TAG_SKILL_READY_AT = "EagleSkillReadyAt";

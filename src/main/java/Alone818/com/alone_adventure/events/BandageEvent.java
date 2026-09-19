@@ -23,7 +23,7 @@ import java.util.Optional;
 /**
  * 紧缚绷带 - 效果处理
  *
- * 1. 佩戴者每次攻击命中时，10% 概率为自己施加耐力 I
+ * 1. 佩戴者每次攻击命中时，50% 概率为自己施加耐力 I
  *    （移动速度、跳跃高度提升，饱食度不消耗）。不可叠加：
  *    已有耐力时既不重复施加也不刷新时长。
  * 2. 护盾结算（主动技能获得的点数盾）：
@@ -31,6 +31,8 @@ import java.util.Optional;
  *    给予 2 秒抗性 IV 防止同一次攻击的多段伤害瞬间耗尽护盾
  *    （与 {@link ShieldEvent} 的结晶心脏护盾机制一致）。
  *    当前护盾点数显示在饰品悬停提示中。
+ * 3. 攻击虚弱目标：额外造成 虚弱等级×2 点伤害（等级 = amplifier+1；
+ *    与墨制刀刃的可叠加虚弱联动，虚弱 V 时单次 +10 点）。
  */
 @Mod.EventBusSubscriber(modid = Alone_adventure.MODID)
 public class BandageEvent {
@@ -41,7 +43,7 @@ public class BandageEvent {
     }
 
     /**
-     * 攻击命中：10% 概率对自己施加耐力 I（10 秒），不可叠加。
+     * 攻击命中：50% 概率对自己施加耐力 I（3 秒），不可叠加。
      * 用 LivingHurtEvent（伤害结算前）与痛击之锤/破损面具的施加时机一致。
      */
     @SubscribeEvent
@@ -58,6 +60,27 @@ public class BandageEvent {
 
         attacker.addEffect(new MobEffectInstance(ModEffects.ENDURANCE.get(),
                 binding_bandage.ENDURANCE_DURATION_TICKS, 0, false, true));
+    }
+
+    /**
+     * 攻击虚弱目标：额外造成 虚弱等级×2 点伤害。
+     * 在 LivingDamageEvent（护甲结算后）追加，额外伤害不被护甲削减。
+     */
+    @SubscribeEvent
+    public static void onAttackDamage(LivingDamageEvent event) {
+        if (!(event.getSource().getEntity() instanceof Player attacker)) return;
+        if (attacker.level().isClientSide()) return;
+        if (event.isCanceled()) return;
+
+        LivingEntity target = event.getEntity();
+        if (target == attacker) return;
+        if (findBandage(attacker).isEmpty()) return;
+
+        MobEffectInstance weakness = target.getEffect(MobEffects.WEAKNESS);
+        if (weakness == null) return;
+
+        // 虚弱等级 = amplifier + 1，每级 +2 点
+        event.setAmount(event.getAmount() + (weakness.getAmplifier() + 1) * binding_bandage.WEAKNESS_BONUS_PER_LEVEL);
     }
 
     /**

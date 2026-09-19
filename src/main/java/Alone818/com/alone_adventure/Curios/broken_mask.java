@@ -46,23 +46,24 @@ import java.util.UUID;
 public class broken_mask extends Item implements ICurioItem {
 
     // ===== 基础属性数值 =====
-    public static final double ARMOR_BONUS = 7.0;        // +7 护甲（点数）
-    public static final double MAX_HEALTH_BONUS = 0.20;  // +20% 最大生命（比例）
-    public static final double TOUGHNESS_BONUS = 3.0;    // +3 护甲韧性（点数）
+    // 以下数值为默认值，可由 Config（alone_adventure-common.toml）覆盖
+    public static double ARMOR_BONUS = 7.0;        // +7 护甲（点数）
+    public static double MAX_HEALTH_BONUS = 0.20;  // +20% 最大生命（比例）
+    public static double TOUGHNESS_BONUS = 3.0;    // +3 护甲韧性（点数）
 
     // ===== 主动技能 =====
     // 半径（方块）：以自身为中心的球形范围
-    public static final double SKILL_RADIUS = 8.0;
+    public static double SKILL_RADIUS = 8.0;
     // 范围内实体获得的易伤 II 持续时长：1 分钟
-    public static final int SKILL_VULN_DURATION_TICKS = 1200;
+    public static int SKILL_VULN_DURATION_TICKS = 1200;
     // 自身获得的抗性 II 持续时长：1 分钟（与易伤一致）
-    public static final int SKILL_RESIST_DURATION_TICKS = 1200;
+    public static int SKILL_RESIST_DURATION_TICKS = 1200;
     // 自身治疗比例：生命上限的一半
-    public static final float SKILL_HEAL_RATIO = 0.5F;
+    public static float SKILL_HEAL_RATIO = 0.5F;
 
     // ===== 主动技能冷却 =====
     // 面具CD改为90秒 = 1800 tick
-    public static final int SKILL_COOLDOWN_TICKS = 1800;
+    public static int SKILL_COOLDOWN_TICKS = 1800;
 
     // NBT 键：技能下次可用时的世界时刻（gameTime）
     public static final String TAG_SKILL_READY_AT = "BrokenMaskSkillReadyAt";

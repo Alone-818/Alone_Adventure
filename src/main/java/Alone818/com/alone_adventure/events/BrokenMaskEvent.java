@@ -26,16 +26,17 @@ import java.util.Random;
 @Mod.EventBusSubscriber(modid = Alone_adventure.MODID)
 public class BrokenMaskEvent {
 
+    // 以下数值为默认值，可由 Config（alone_adventure-common.toml）覆盖
     // 施加易伤的概率
-    public static final float VULNERABILITY_CHANCE = 0.20F;
+    public static float VULNERABILITY_CHANCE = 0.20F;
     // 易伤持续时间：10 秒
-    public static final int VULNERABILITY_DURATION_TICKS = 200;
+    public static int VULNERABILITY_DURATION_TICKS = 200;
     // 力量持续时间：5 秒
-    public static final int STRENGTH_DURATION_TICKS = 100;
+    public static int STRENGTH_DURATION_TICKS = 100;
     // 消耗易伤时回复的固定生命值 → 改为 10 HP
-    public static final float REWARD_HEAL_AMOUNT = 10.0F;
+    public static float REWARD_HEAL_AMOUNT = 10.0F;
     // 消耗易伤时获得力量的概率 → 改为 50%
-    public static final float STRENGTH_CHANCE = 0.50F;
+    public static float STRENGTH_CHANCE = 0.50F;
 
     private static final Random RANDOM = new Random();
 

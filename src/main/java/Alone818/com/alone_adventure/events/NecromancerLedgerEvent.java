@@ -35,9 +35,6 @@ import java.util.List;
 @Mod.EventBusSubscriber(modid = Alone_adventure.MODID)
 public class NecromancerLedgerEvent {
 
-    private static final int ABSORPTION_INTERVAL_TICKS = 1200;
-    private static final double ABSORPTION_AMOUNT = 10.0;
-
     /** 检测玩家是否佩戴亡灵秘典 */
     private static boolean isWearing(Player player) {
         return CuriosApi.getCuriosHelper()
@@ -98,9 +95,10 @@ public class NecromancerLedgerEvent {
         CompoundTag tag = stack.getTag();
         boolean skillStacked = tag != null && tag.getBoolean(necromancer_ledger.NB_TAG_SKILL_STACKED);
 
-        // 灾厄时长 = 伤害值（秒）× 0.8 倍率；技能后下次攻击 = 伤害 × 0.8 × 2 秒
+        // 灾厄时长 = 伤害值（秒）× CALAMITY_DURATION_RATIO；技能后下次攻击再乘叠加倍率
         // 1 秒 = 20 tick，确保至少 20 tick（1 秒）防止瞬间消失
-        double rawDurationSeconds = originalDamage * 0.8 * (skillStacked ? 2.0 : 1.0);
+        double rawDurationSeconds = originalDamage * necromancer_ledger.CALAMITY_DURATION_RATIO
+                * (skillStacked ? necromancer_ledger.SKILL_STACK_DURATION_MULTIPLIER : 1.0);
         int newDurationTicks = (int) Math.max(rawDurationSeconds * 20, 20);
         // 额外保护：防止异常大的时长导致服务器卡顿（上限 1000 tick ≈ 50 秒）
         if (newDurationTicks > 1000) {
@@ -133,12 +131,12 @@ public class NecromancerLedgerEvent {
         if (!(event.player instanceof ServerPlayer player)) return;
         if (player.level().isClientSide()) return;
         if (!isWearing(player)) return;
-        if (player.tickCount % ABSORPTION_INTERVAL_TICKS != 0) return;
+        if (player.tickCount % necromancer_ledger.ABSORPTION_INTERVAL_TICKS != 0) return;
 
         ItemStack stack = getStack(player);
         if (stack.isEmpty()) return;
 
-        player.setAbsorptionAmount((float) (player.getAbsorptionAmount() + ABSORPTION_AMOUNT));
+        player.setAbsorptionAmount((float) (player.getAbsorptionAmount() + necromancer_ledger.ABSORPTION_AMOUNT));
     }
 
     /**

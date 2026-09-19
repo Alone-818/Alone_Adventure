@@ -44,22 +44,22 @@ public class powersword extends SwordItem {
     public static final int ATTACK_DAMAGE = 8;
     public static final float ATTACK_SPEED = 1.6F;
 
-    // 穿甲特性参数
-    public static final int ARMOR_PENALTY_THRESHOLD = 8;  // 护甲值超过此值才计算穿甲伤害
-    public static final int ARMOR_TOUGHNESS_THRESHOLD = 6; // 护甲韧性超过此值才计算穿甲伤害
-    public static final float ARMOR_PENALTY_MULTIPLIER = 0.3F;
-    public static final float ARMOR_TOUGHNESS_MULTIPLIER = 0.5F;
-    public static final int MAX_PENALTY_DAMAGE = 10;  // 穿甲伤害上限
+    // 穿甲特性参数（默认值，可由 Config 在 alone_adventure-common.toml 覆盖；基础攻击伤害/攻速在注册期固定，不参与配置）
+    public static int ARMOR_PENALTY_THRESHOLD = 8;  // 护甲值超过此值才计算穿甲伤害
+    public static int ARMOR_TOUGHNESS_THRESHOLD = 6; // 护甲韧性超过此值才计算穿甲伤害
+    public static float ARMOR_PENALTY_MULTIPLIER = 0.3F;
+    public static float ARMOR_TOUGHNESS_MULTIPLIER = 0.5F;
+    public static int MAX_PENALTY_DAMAGE = 10;  // 穿甲伤害上限
 
     // 超频特性参数
-    public static final int OVERCLOCK_DURATION_TICKS = 260; // 13 秒 * 20 tick/秒
-    public static final int OVERCLOCK_DURABILITY_COST = 5;
-    public static final int OVERCLOCK_COOLDOWN_TICKS = 600; // 30 秒 * 20 tick/秒
-    public static final int RESISTANCE_DURATION_TICKS = 100; // 5 秒 * 20 tick/秒
-    public static final int FIRE_DAMAGE = 3;
-    public static final int FIRE_BURN_DURATION = 80; // 4 秒 * 20 tick/秒
-    public static final float OVERCLOCK_DAMAGE_MULTIPLIER = 1.5F; // +50%
-    public static final float OVERCLOCK_HEAL_RATIO = 0.6F; // 吸血比例：造成伤害的 60%
+    public static int OVERCLOCK_DURATION_TICKS = 260; // 13 秒 * 20 tick/秒
+    public static int OVERCLOCK_DURABILITY_COST = 5;
+    public static int OVERCLOCK_COOLDOWN_TICKS = 600; // 30 秒 * 20 tick/秒
+    public static int RESISTANCE_DURATION_TICKS = 100; // 5 秒 * 20 tick/秒
+    public static int FIRE_DAMAGE = 3;
+    public static int FIRE_BURN_DURATION = 80; // 4 秒 * 20 tick/秒
+    public static float OVERCLOCK_DAMAGE_MULTIPLIER = 1.5F; // +50%
+    public static float OVERCLOCK_HEAL_RATIO = 0.6F; // 吸血比例：造成伤害的 60%
 
     // NBT 标签：超频结束的游戏刻（level.getGameTime() 口径）
     public static final String TAG_OVERCLOCK_END = "PowerswordOverclockEnd";

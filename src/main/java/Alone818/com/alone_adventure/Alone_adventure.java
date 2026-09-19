@@ -14,7 +14,9 @@ import Alone818.com.alone_adventure.network.ReviveEffectPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.network.NetworkRegistry;
@@ -57,6 +59,9 @@ public class Alone_adventure {
         ModCreativeModeTabs.register(modEventBus);
         ModRecipes.register(modEventBus);
         ModPotions.register(modEventBus);
+
+        // 饰品数值配置（alone_adventure-common.toml，由 Config 在加载/重载时回填到各饰品静态字段）
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
 
 
 

@@ -29,8 +29,8 @@ import net.minecraft.world.phys.Vec3;
  */
 public class survival_whimper extends Item implements ICurioItem {
 
-    // 冷却时长：3 分钟 = 180 秒 = 3600 tick
-    public static final int COOLDOWN_TICKS = 3600;
+    // 冷却时长：3 分钟 = 180 秒 = 3600 tick（默认值，可由 Config 覆盖）
+    public static int COOLDOWN_TICKS = 3600;
 
     public survival_whimper() {
         super(new Properties().stacksTo(1));

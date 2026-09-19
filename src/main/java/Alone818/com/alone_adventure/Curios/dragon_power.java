@@ -30,15 +30,16 @@ import java.util.List;
 public class dragon_power extends Item implements ICurioItem {
 
     // 冷却时长：7 分钟 = 420 秒 = 8400 tick
-    public static final int COOLDOWN_TICKS = 8400;
+    // 以下数值为默认值，可由 Config（alone_adventure-common.toml）覆盖
+    public static int COOLDOWN_TICKS = 8400;
 
     // 效果持续时间（tick）：隐身 7s、无敌 5s、黑暗 3s
-    public static final int INVISIBILITY_TICKS = 140;
-    public static final int INVULNERABLE_TICKS = 100;
-    public static final int DARKNESS_TICKS = 60;
+    public static int INVISIBILITY_TICKS = 140;
+    public static int INVULNERABLE_TICKS = 100;
+    public static int DARKNESS_TICKS = 60;
 
     // 复活恢复的生命比例（半血站起，而非满血）
-    public static final float REVIVE_HEALTH_RATIO = 0.5F;
+    public static float REVIVE_HEALTH_RATIO = 0.5F;
 
     public dragon_power() {
         super(new Properties().stacksTo(1).rarity(net.minecraft.world.item.Rarity.RARE));

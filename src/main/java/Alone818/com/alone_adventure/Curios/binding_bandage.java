@@ -26,8 +26,9 @@ import java.util.Optional;
  * 紧缚绷带 - 契约槽位饰品
  *
  * 被动效果（见 {@link Alone818.com.alone_adventure.events.BandageEvent}）：
- * - 每次攻击命中有 10% 概率为自己施加耐力 I（10 秒，不可叠加：
+ * - 每次攻击命中有 50% 概率为自己施加耐力 I（3 秒，不可叠加：
  *   已有耐力时不重复施加、也不刷新时长）
+ * - 攻击带有虚弱效果的目标时，额外造成 虚弱等级×2 点伤害
  *
  * 主动技能（按键触发，默认 R，与帝国天鹰共用按键）：
  * - 获得 1 点护盾（存于本饰品 NBT，上限 3 点），冷却 45 秒
@@ -38,13 +39,18 @@ import java.util.Optional;
 public class binding_bandage extends Item implements ICurioItem {
 
     // ===== 被动：攻击自施耐力 =====
-    public static final float ENDURANCE_CHANCE = 0.30F;        // 30% 概率
-    public static final int ENDURANCE_DURATION_TICKS = 60;     // 3 秒
+    // 以下数值为默认值，可由 Config（alone_adventure-common.toml）覆盖
+    public static float ENDURANCE_CHANCE = 0.50F;        // 50% 概率
+    public static int ENDURANCE_DURATION_TICKS = 60;     // 3 秒
+
+    // ===== 被动：攻击虚弱目标 =====
+    /** 对虚弱目标攻击的额外伤害：虚弱等级 × 该值 */
+    public static float WEAKNESS_BONUS_PER_LEVEL = 2.0F;
 
     // ===== 主动：护盾 =====
-    public static final int SHIELD_GAIN = 1;                   // 每次触发 +1 点护盾
-    public static final int SHIELD_MAX = 3;                    // 护盾存储上限
-    public static final int SKILL_COOLDOWN_TICKS = 900;        // 冷却 45 秒 = 900 tick
+    public static int SHIELD_GAIN = 1;                   // 每次触发 +1 点护盾
+    public static int SHIELD_MAX = 3;                    // 护盾存储上限
+    public static int SKILL_COOLDOWN_TICKS = 900;        // 冷却 45 秒 = 900 tick
 
     // NBT 键
     public static final String NB_TAG_SHIELD = "BandageShield";            // 当前护盾点数
@@ -110,6 +116,8 @@ public class binding_bandage extends Item implements ICurioItem {
         if (Screen.hasShiftDown()) {
             tooltip.add(Component.translatable("item.alone_adventure.binding_bandage.tooltip.passive_desc")
                     .withStyle(ChatFormatting.DARK_GREEN));
+            tooltip.add(Component.translatable("item.alone_adventure.binding_bandage.tooltip.weakness_desc")
+                    .withStyle(ChatFormatting.RED));
             tooltip.add(Component.translatable("item.alone_adventure.binding_bandage.tooltip.active_desc")
                     .withStyle(ChatFormatting.AQUA));
 

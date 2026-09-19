@@ -60,8 +60,8 @@ public class StarlightGreatswordEvent {
         // 1. 伤害加成：基础伤害 × (1 + 储能 × 10%)
         event.setAmount(starlight_greatsword.ATTACK_DAMAGE * (1.0F + charge * starlight_greatsword.DAMAGE_PER_CHARGE));
 
-        // 2. 吸收转化：黄心 = 伤害 / 5（每 5 点伤害 → 1 层吸收，对应 2 点黄心）
-        int absorptionLevels = (int) Math.ceil(event.getAmount() / 5.0F);
+        // 2. 吸收转化：每 DAMAGE_PER_ABSORPTION_LEVEL 点命中伤害 → 1 层吸收（每层 2 点黄心）
+        int absorptionLevels = (int) Math.ceil(event.getAmount() / starlight_greatsword.DAMAGE_PER_ABSORPTION_LEVEL);
         player.addEffect(new MobEffectInstance(MobEffects.ABSORPTION,
                 starlight_greatsword.ABSORPTION_DURATION_TICKS,
                 absorptionLevels - 1, false, true, true));

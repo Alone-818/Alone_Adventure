@@ -23,8 +23,9 @@ import java.util.Optional;
 @Mod.EventBusSubscriber(modid = Alone818.com.alone_adventure.Alone_adventure.MODID)
 public class ShieldEvent {
     // 回复冷却时间间隔（以tick为单位，1秒=20 tick。例如 10 秒 = 200 tick）
-    private static final int HEAL_INTERVAL_TICKS = 200;
-    private static final int ARMOR_TO_SHIELD = 5;
+    // 以下数值为默认值，可由 Config（alone_adventure-common.toml）覆盖
+    public static int HEAL_INTERVAL_TICKS = 200;
+    public static int ARMOR_TO_SHIELD = 5;
 
     @SubscribeEvent
     public static void onLivingDamage(LivingDamageEvent event) {

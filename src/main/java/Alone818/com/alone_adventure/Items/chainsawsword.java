@@ -38,30 +38,31 @@ import java.util.List;
 public class chainsawsword extends SwordItem {
 
     // ===== 撕裂参数 =====
+    // 以下数值为默认值，可由 Config（alone_adventure-common.toml）覆盖；基础攻击伤害/攻速在注册期固定，不参与配置
     /** 普通攻击命中叠加的撕裂层数 */
-    public static final int LACERATION_LEVELS_PER_ATTACK = 4;
+    public static int LACERATION_LEVELS_PER_ATTACK = 4;
     /** 撕裂持续时间（tick），每次命中刷新 */
-    public static final int LACERATION_DURATION_TICKS = 40;
+    public static int LACERATION_DURATION_TICKS = 40;
 
     // ===== 扫射参数 =====
     /** 扫射间隔：每 N tick 一刀（2 tick → 10 刀/秒） */
-    public static final int SLASH_INTERVAL_TICKS = 2;
+    public static int SLASH_INTERVAL_TICKS = 2;
     /** 每刀基础伤害（低伤，靠频率与撕裂累积） */
-    public static final float SLASH_DAMAGE = 0.5F;
+    public static float SLASH_DAMAGE = 0.5F;
     /** 每刀命中的撕裂叠加层数 */
-    public static final int SLASH_LACERATION_LEVELS = 1;
+    public static int SLASH_LACERATION_LEVELS = 1;
     /** 扫射扇形总角度（度），半角 = 该值 / 2 */
-    public static final float SLASH_ARC_DEGREES = 90.0F;
+    public static float SLASH_ARC_DEGREES = 90.0F;
     /** 扫射作用半径（格） */
-    public static final float SLASH_RANGE = 4.0F;
+    public static float SLASH_RANGE = 4.0F;
 
     // ===== 时长 / 冷却 =====
     /** 单次扫射最长持续：7 秒（140 tick） */
-    public static final int SLASH_MAX_USE_TICKS = 20 * 7;
+    public static int SLASH_MAX_USE_TICKS = 20 * 7;
     /** 扫射结束后的冷却：15 秒（300 tick） */
-    public static final int SLASH_COOLDOWN_TICKS = 20 * 15;
+    public static int SLASH_COOLDOWN_TICKS = 20 * 15;
     /** 不足此 tick 数视为短按，不施加冷却 */
-    public static final int MIN_USE_FOR_COOLDOWN_TICKS = 10;
+    public static int MIN_USE_FOR_COOLDOWN_TICKS = 10;
 
     public chainsawsword() {
         // 钻石材料：附加伤害 5（+钻石基伤 3 = 8）、攻速修正 -2.8、耐久 880

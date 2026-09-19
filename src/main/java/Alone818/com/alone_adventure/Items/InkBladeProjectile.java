@@ -19,16 +19,20 @@ import net.minecraft.world.phys.HitResult;
 /**
  * 墨制刀刃的投掷弹体。
  *
- * 命中对目标造成 {@value #DAMAGE} 点伤害并施加虚弱 I（{@value #WEAKNESS_DURATION_TICKS} tick），
+ * 命中对目标造成 {@value #DAMAGE} 点伤害并叠加虚弱（每击 +1 级，上限
+ * {@value #WEAKNESS_MAX_LEVEL} 级，持续 {@value #WEAKNESS_DURATION_TICKS} tick，命中刷新），
  * 随后自行消失（弹体不掉落、不可拾取——耐久由 {@link ink_blade} 在掷出时统一扣除）。
  * 不伤害驯兽的机制与 {@link painstrike_hammer} 的易伤一致。
  */
 public class InkBladeProjectile extends ThrowableItemProjectile {
 
+    // 以下数值为默认值，可由 Config（alone_adventure-common.toml）覆盖
     /** 命中伤害 */
-    public static final float DAMAGE = 2.0F;
-    /** 虚弱持续时间（5 秒），等级固定 I（amplifier 0） */
-    public static final int WEAKNESS_DURATION_TICKS = 100;
+    public static float DAMAGE = 3.0F;
+    /** 虚弱叠加持续时间（5 秒），每次命中刷新 */
+    public static int WEAKNESS_DURATION_TICKS = 100;
+    /** 虚弱叠加上限：5 级（amplifier 最高 4） */
+    public static int WEAKNESS_MAX_LEVEL = 5;
     /** 飞行下坠重力：原版投掷物为 0.03，减半使弹道更平直 */
     private static final float GRAVITY = 0.01F;
 
@@ -81,7 +85,19 @@ public class InkBladeProjectile extends ThrowableItemProjectile {
         hit.hurt(damageSources().thrown(this, getOwner()), DAMAGE);
 
         if (hit instanceof LivingEntity living && !(living instanceof TamableAnimal)) {
-            living.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, WEAKNESS_DURATION_TICKS, 0));
+            addWeakness(living);
         }
+    }
+
+    /**
+     * 叠加虚弱：新等级 = 原有等级 + 1（上限 {@value #WEAKNESS_MAX_LEVEL} 级），并刷新持续时间。
+     * amplifier = 等级 - 1，对 amplifier 直接相加即等价于等级相加（与链锯剑叠撕裂同款）。
+     */
+    public static void addWeakness(LivingEntity target) {
+        MobEffectInstance existing = target.getEffect(MobEffects.WEAKNESS);
+        int newAmplifier = existing == null ? 0
+                : Math.min(WEAKNESS_MAX_LEVEL - 1, existing.getAmplifier() + 1);
+        target.addEffect(new MobEffectInstance(
+                MobEffects.WEAKNESS, WEAKNESS_DURATION_TICKS, newAmplifier));
     }
 }

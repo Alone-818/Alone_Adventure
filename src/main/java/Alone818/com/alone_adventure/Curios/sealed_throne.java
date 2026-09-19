@@ -34,10 +34,10 @@ import java.util.UUID;
  *
  * 星辉机制：
  * - 星辉上限 {@value #MAX_STARS} 点，佩戴时缓慢回复：每 {@value #STAR_REGEN_TICKS} tick
- *   （3 秒）回复 1 点（curioTick 服务端计时，NBT 随堆栈同步到客户端显示）
+ *   （5 秒）回复 1 点（curioTick 服务端计时，NBT 随堆栈同步到客户端显示）
  *
  * 被动（按当前星辉动态调整，见 {@link #refreshStarAttributes}）：
- * - 攻击伤害：每个星辉 +2%（MULTIPLY_TOTAL）
+ * - 攻击伤害：每个星辉 +5%（MULTIPLY_TOTAL）
  * - 护甲：每 4 个星辉 +2 点（向下取整）
  *
  * 受击（见 {@link Alone818.com.alone_adventure.events.ThroneEvent}）：
@@ -45,31 +45,32 @@ import java.util.UUID;
  *   （护盾抵消本次伤害时红心未减少，不扣星辉）
  *
  * 主动技能（按键触发，默认 R，与其他主动饰品共用）：
- * - 消耗全部星辉：每 3 点星辉获得 1 点王座护盾；
+ * - 消耗全部星辉：每 6 点星辉获得 1 点王座护盾；
  *   获得等于星辉数量的黄心（原版吸收效果）
  */
 public class sealed_throne extends Item implements ICurioItem {
 
     // ===== 星辉 =====
+    // 以下数值为默认值，可由 Config（alone_adventure-common.toml）覆盖
     /** 星辉上限 */
-    public static final int MAX_STARS = 12;
-    /** 星辉回复间隔：3 秒 = 60 tick */
-    public static final int STAR_REGEN_TICKS = 60;
+    public static int MAX_STARS = 12;
+    /** 星辉回复间隔：5 秒 = 100 tick */
+    public static int STAR_REGEN_TICKS = 100;
     /** 受击扣除红心时损失的星辉 */
-    public static final int STAR_LOSS_PER_HIT = 2;
-    /** 每个星辉提供的攻击伤害比例（2%） */
-    public static final double DAMAGE_PER_STAR = 0.02;
+    public static int STAR_LOSS_PER_HIT = 2;
+    /** 每个星辉提供的攻击伤害比例（5%） */
+    public static double DAMAGE_PER_STAR = 0.05;
     /** 每 4 个星辉提供的护甲点数 */
-    public static final int STARS_PER_ARMOR = 4;
-    public static final double ARMOR_PER_GROUP = 2.0;
+    public static int STARS_PER_ARMOR = 4;
+    public static double ARMOR_PER_GROUP = 2.0;
 
     // ===== 主动技能 =====
-    /** 每 3 点星辉转化为 1 点护盾 */
-    public static final int STARS_PER_SHIELD = 3;
-    /** 王座护盾堆叠上限：8 点 */
-    public static final int SHIELD_MAX = 8;
+    /** 每 6 点星辉转化为 1 点护盾 */
+    public static int STARS_PER_SHIELD = 6;
+    /** 王座护盾堆叠上限：4 点 */
+    public static int SHIELD_MAX = 4;
     /** 黄心（吸收）持续时间：20 秒 */
-    public static final int ABSORPTION_DURATION_TICKS = 400;
+    public static int ABSORPTION_DURATION_TICKS = 400;
 
     // NBT 键
     public static final String NB_TAG_STARS = "ThroneStars";           // 当前星辉
@@ -240,7 +241,7 @@ public class sealed_throne extends Item implements ICurioItem {
         tag.putLong(NB_TAG_NEXT_STAR, player.level().getGameTime() + STAR_REGEN_TICKS);
         tag.putBoolean(NB_TAG_SKILL_PENDING, true);
 
-        // 2. 护盾：每 3 点星辉 +1，叠加到剩余护盾上（上限 SHIELD_MAX）
+        // 2. 护盾：每 6 点星辉 +1，叠加到剩余护盾上（上限 SHIELD_MAX）
         double newShield = Math.min(SHIELD_MAX, oldShield + stars / STARS_PER_SHIELD);
         tag.putDouble(NB_TAG_SHIELD, newShield);
         stack.setTag(tag);
@@ -284,7 +285,7 @@ public class sealed_throne extends Item implements ICurioItem {
                         stars, MAX_STARS)
                 .withStyle(stars == 0 ? ChatFormatting.DARK_GRAY : ChatFormatting.LIGHT_PURPLE);
         tooltip.add(starsLine);
-        // 星辉回复提示：每 3 秒 +1（仅 Shift 时显示）
+        // 星辉回复提示：每 5 秒 +1（仅 Shift 时显示）
         if (Screen.hasShiftDown()) {
             tooltip.add(Component.translatable("item.alone_adventure.sealed_throne.tooltip.regen_desc")
                     .withStyle(ChatFormatting.AQUA));

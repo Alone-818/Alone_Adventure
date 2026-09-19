@@ -24,7 +24,8 @@ import java.util.List;
  * 墨制刀刃 - 远程投掷武器
  *
  * 右键掷出一枚飞刃（{@link InkBladeProjectile}），命中造成
- * {@value InkBladeProjectile#DAMAGE} 点伤害并施加虚弱 I（{@value InkBladeProjectile#WEAKNESS_DURATION_TICKS} tick）。
+ * {@value InkBladeProjectile#DAMAGE} 点伤害并叠加虚弱（每击 +1 级，
+ * 上限 {@value InkBladeProjectile#WEAKNESS_MAX_LEVEL} 级，持续 {@value InkBladeProjectile#WEAKNESS_DURATION_TICKS} tick）。
  * 投掷冷却 {@value #COOLDOWN_TICKS} tick（0.15 秒），走原版物品冷却系统，遮罩自动同步客户端。
  *
  * 耐久机制：共 {@value #MAX_THROWS} 点耐久，每掷出一把刀刃消耗 1 点；
@@ -36,12 +37,13 @@ public class ink_blade extends Item {
 
     /** 满耐久可掷出的刀刃数量 */
     public static final int MAX_THROWS = 24;
+    // 以下数值为默认值，可由 Config（alone_adventure-common.toml）覆盖；耐久上限（刀刃数）在注册期固定，不参与配置
     /** 投掷冷却：0.15 秒（3 tick） */
-    public static final int COOLDOWN_TICKS = 3;
+    public static int COOLDOWN_TICKS = 3;
     /** 耐久回收间隔：每 0.5 秒（10 tick）回收 1 点，即每秒 2 点 */
-    public static final int REGEN_INTERVAL_TICKS = 10;
+    public static int REGEN_INTERVAL_TICKS = 10;
     /** 飞刃初速（雪球为 1.5，提升后弹道更快更平） */
-    public static final float THROW_SPEED = 2.5F;
+    public static float THROW_SPEED = 2.5F;
 
     /** NBT 标签：下一次耐久回收的游戏刻（level.getGameTime() 口径） */
     public static final String TAG_NEXT_REGEN = "InkBladeNextRegen";

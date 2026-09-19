@@ -20,23 +20,24 @@ import java.util.List;
  */
 public class parryshield extends ShieldItem {
 
+    // 以下数值为默认值，可由 Config（alone_adventure-common.toml）覆盖
     // 招架窗口：举盾后 1 秒内可完成招架
-    public static final int PARRY_WINDOW_TICKS = 20;
+    public static int PARRY_WINDOW_TICKS = 20;
 
     // 反弹伤害比例：250%
-    public static final float PARRY_REFLECT_RATIO = 2.5F;
+    public static float PARRY_REFLECT_RATIO = 2.5F;
 
     // 虚弱效果持续时间：3 秒
-    public static final int WEAKNESS_DURATION_TICKS = 60;
+    public static int WEAKNESS_DURATION_TICKS = 60;
 
     // 虚弱效果等级：II (放大器 1)
-    public static final int WEAKNESS_AMPLIFIER = 1;
+    public static int WEAKNESS_AMPLIFIER = 1;
 
     // 长时间举盾吸收比例：80%
-    public static final float LONG_BLOCK_ABSORB = 0.8F;
+    public static float LONG_BLOCK_ABSORB = 0.8F;
 
     // 冷却时间：1 秒
-    public static final int PARRY_COOLDOWN_TICKS = 20;
+    public static int PARRY_COOLDOWN_TICKS = 20;
 
     public parryshield() {
         super(new Properties().stacksTo(1));

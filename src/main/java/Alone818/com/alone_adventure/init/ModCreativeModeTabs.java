@@ -31,7 +31,14 @@ public class ModCreativeModeTabs {
                                 output.accept(new ItemStack(ModItems.INK_BLADE.get()));
                                 // 武器：星辉大剑
                                 output.accept(new ItemStack(ModItems.STARLIGHT_GREATSWORD.get()));
+                                //武器：死神镰刀
+                                output.accept(new ItemStack(ModItems.REAPER_SCYTHE.get()));
+                                //武器：机器爪刃
+                                output.accept(new ItemStack(ModItems.MACHINE_CLAW.get()));
+                                //武器：机器爪刃
+                                output.accept(new ItemStack(ModItems.MACHINE_CLAW.get()));
                             })
+
                             .build());
 
     // ===== 饰品标签 =====
@@ -53,6 +60,7 @@ public class ModCreativeModeTabs {
                                 output.accept(new ItemStack(ModItems.BINDING_BANDAGE.get()));
                                 output.accept(new ItemStack(ModItems.SEALED_THRONE.get()));
                                 output.accept(new ItemStack(ModItems.NECROMANCER_LEDGER.get()));
+                                output.accept(new ItemStack(ModItems.CHARGING_CORE.get()));
                             })
                             .build());
 

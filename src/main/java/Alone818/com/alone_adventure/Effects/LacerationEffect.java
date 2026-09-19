@@ -23,11 +23,11 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class LacerationEffect extends MobEffect {
 
-    // 结算伤害比例：伤害 = 等级 × 0.6
-    public static final float DAMAGE_PER_LEVEL = 0.6F;
+    // 结算伤害比例：伤害 = 等级 × 该值（默认值，可由 Config 在 alone_adventure-common.toml 的 chainsawsword 分节覆盖）
+    public static float DAMAGE_PER_LEVEL = 0.6F;
 
     // 减半后重新挂上的持续时间（tick）
-    public static final int REAPPLY_DURATION_TICKS = 30;
+    public static int REAPPLY_DURATION_TICKS = 30;
 
     // 减半后待重新挂上的等级（存 amplifier = 等级 - 1，keyed by entity UUID）
     private static final Map<UUID, Integer> pendingReapply = new ConcurrentHashMap<>();

@@ -31,14 +31,17 @@ public class starlight_greatsword extends SwordItem {
     public static final float ATTACK_SPEED = 0.5F;
 
     // ===== 星辉储能 =====
+    // 以下数值为默认值，可由 Config（alone_adventure-common.toml）覆盖；基础攻击伤害/攻速在注册期固定，不参与配置
     /** 储能上限（= 伤害吸收等级上限） */
-    public static final int MAX_CHARGE = 20;
+    public static int MAX_CHARGE = 20;
     /** 每层储能的回复间隔：60 tick = 3 秒 */
-    public static final int CHARGE_INTERVAL_TICKS = 60;
+    public static int CHARGE_INTERVAL_TICKS = 60;
     /** 每层储能提供的攻击伤害加成（10%） */
-    public static final float DAMAGE_PER_CHARGE = 0.10F;
+    public static float DAMAGE_PER_CHARGE = 0.10F;
     /** 命中后吸收（黄心）持续时长：20 秒 */
-    public static final int ABSORPTION_DURATION_TICKS = 400;
+    public static int ABSORPTION_DURATION_TICKS = 400;
+    /** 吸收转化：每多少点命中伤害转化为 1 层吸收（每层 2 点黄心） */
+    public static float DAMAGE_PER_ABSORPTION_LEVEL = 5.0F;
 
     /** NBT 键：当前星辉储能层数 */
     public static final String TAG_CHARGE = "StarlightCharge";
