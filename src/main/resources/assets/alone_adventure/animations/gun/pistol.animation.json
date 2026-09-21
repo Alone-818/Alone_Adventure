@@ -1,67 +1,6 @@
 {
 	"format_version": "1.8.0",
 	"animations": {
-		"fire": {
-			"animation_length": 0.5,
-			"bones": {
-				"ZHUTI": {
-					"rotation": {
-						"0.0": {
-							"vector": [0, 0, 0]
-						},
-						"0.0833": {
-							"vector": [0, 0, -7]
-						},
-						"0.25": {
-							"vector": [0, 0, 2]
-						},
-						"0.5": {
-							"vector": [0, 0, 0]
-						}
-					},
-					"position": {
-						"0.0": {
-							"vector": [0, 0, 0]
-						},
-						"0.0833": {
-							"vector": [1, 0.75, 0]
-						},
-						"0.25": {
-							"vector": [0.25, 0.2, 0]
-						},
-						"0.5": {
-							"vector": [0, 0, 0]
-						}
-					}
-				},
-				"BANJI": {
-					"rotation": {
-						"0.0": {
-							"vector": [0, 0, 0]
-						},
-						"0.0833": {
-							"vector": [14, 0, 0]
-						},
-						"0.25": {
-							"vector": [0, 0, 0]
-						}
-					}
-				},
-				"DANCHAO": {
-					"rotation": {
-						"0.0": {
-							"vector": [0, 0, 0]
-						},
-						"0.2083": {
-							"vector": [0, 0, 0]
-						},
-						"0.5": {
-							"vector": [7, 0, 0]
-						}
-					}
-				}
-			}
-		},
 		"reload": {
 			"animation_length": 1.5,
 			"bones": {
@@ -146,9 +85,42 @@
 				}
 			}
 		},
+		"fire": {
+			"animation_length": 0.5,
+			"bones": {
+				"ZHUTI": {
+					"rotation": {
+						"0.0": [0, 0, 0],
+						"0.0833": [0, 0, -7],
+						"0.25": [0, 0, 2],
+						"0.5": [0, 0, 0]
+					},
+					"position": {
+						"0.0": [0, 0, 0],
+						"0.0833": [1, 0.75, 0],
+						"0.25": [0.25, 0.2, 0],
+						"0.5": [0, 0, 0]
+					}
+				},
+				"BANJI": {
+					"rotation": {
+						"0.0": [0, 0, 0],
+						"0.0833": [14, 0, 0],
+						"0.25": [0, 0, 0]
+					}
+				},
+				"DANCHAO": {
+					"rotation": {
+						"0.0": [0, 0, 0],
+						"0.2083": [0, 0, 0],
+						"0.5": [7, 0, 0]
+					}
+				}
+			}
+		},
 		"aim": {
 			"loop": true,
-			"animation_length": 3.0,
+			"animation_length": 3,
 			"bones": {
 				"ZHUTI": {
 					"rotation": {
@@ -208,7 +180,7 @@
 		},
 		"idle": {
 			"loop": true,
-			"animation_length": 4.0,
+			"animation_length": 4,
 			"bones": {
 				"ZHUTI": {
 					"rotation": {
