@@ -93,12 +93,6 @@ public final class GunItemAnimation {
             return state.setAndContinue(kick);
         }
 
-        // ── reload：当前堆栈处于装填状态（NBT 记录装填开始时刻） ──
-        CompoundTag tag = currentStack.getTag();
-        if (tag != null && tag.contains(GunItem.TAG_RELOAD_START) && resolve(itemId, RELOAD) != null) {
-            return state.setAndContinue(RawAnimation.begin().thenPlay(itemId + "_" + RELOAD));
-        }
-
         // ── run：疾跑（控制器过渡自动平滑进出） ──
         if (player.isSprinting() && resolve(itemId, RUN) != null) {
             return state.setAndContinue(RawAnimation.begin().thenLoop(itemId + "_" + RUN));
