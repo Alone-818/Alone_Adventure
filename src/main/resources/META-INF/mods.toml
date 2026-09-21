@@ -73,3 +73,10 @@ mandatory=true
 versionRange="[4.8,)"
 ordering="NONE"
 side="BOTH"
+
+[[dependencies."${mod_id}"]]
+modId="jei"
+mandatory=false
+versionRange="[15.0.0,)"
+ordering="AFTER"
+side="CLIENT"

@@ -146,7 +146,7 @@
   "item.alone_adventure.hunter_serum.tooltip.cooldown_left": "技能冷却剩余：%d 秒",
 
   "item.alone_adventure.quest_contract": "任务契约",
-  "item.alone_adventure.quest_contract.tooltip.desc": "记录持有者试炼的契约饰品——完成全部任务后，可作为合成材料",
+  "item.alone_adventure.quest_contract.tooltip.desc": "记录持有者试炼的契约饰品——佩戴时生效，完成全部任务后可作为合成材料。右键副手消耗材料提交进度。",
   "quest.alone_adventure.quest_contract.kill_zombie": "击杀僵尸 ×10",
   "quest.alone_adventure.quest_contract.collect_beetroot": "收集金甜菜根 ×3",
   "tooltip.alone_adventure.quest.material_ready": "✔ 契约达成——现可作为合成材料",
@@ -154,6 +154,7 @@
   "message.alone_adventure.quest.task_done": "任务完成：%s",
   "message.alone_adventure.quest.all_done": "契约达成！该物品现可作为合成材料",
   "message.alone_adventure.quest.kill_progress": "任务进度：%s（%d/%d）",
+  "message.alone_adventure.quest.submitted": "材料已提交，任务进度已更新",
 
   "effect.alone_adventure.vulnerability": "易伤",
   "effect.alone_adventure.laceration": "撕裂",

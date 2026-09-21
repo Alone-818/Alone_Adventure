@@ -158,7 +158,7 @@
   "tooltip.alone_adventure.golden_beetroot": "Grants Endurance I for 60 seconds when eaten, also used to brew Endurance Potion",
 
   "item.alone_adventure.quest_contract": "Quest Contract",
-  "item.alone_adventure.quest_contract.tooltip.desc": "A contract curio recording its holder's trials - usable as a crafting material once all tasks are complete",
+  "item.alone_adventure.quest_contract.tooltip.desc": "A contract curio recording its holder's trials - active when worn as a curio. Complete all tasks to unlock as a crafting material. Right-click with materials in offhand to submit progress.",
   "quest.alone_adventure.quest_contract.kill_zombie": "Slay Zombies x10",
   "quest.alone_adventure.quest_contract.collect_beetroot": "Gather Golden Beetroot x3",
   "tooltip.alone_adventure.quest.material_ready": "✔ Contract fulfilled - now usable as a crafting material",
@@ -166,6 +166,7 @@
   "message.alone_adventure.quest.task_done": "Task complete: %s",
   "message.alone_adventure.quest.all_done": "Contract fulfilled! This item is now usable as a crafting material",
   "message.alone_adventure.quest.kill_progress": "Task progress: %s (%d/%d)",
+  "message.alone_adventure.quest.submitted": "Materials submitted, quest progress updated",
 
   "item.alone_adventure.sailor_spinach": "Sailor's Spinach",
   "tooltip.alone_adventure.sailor_spinach": "Restores 4 hunger and 8 saturation when eaten, and grants Strength II (30s) and Regeneration II (10s)",

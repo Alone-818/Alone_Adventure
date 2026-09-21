@@ -34,10 +34,10 @@ import java.util.List;
  *
  * 激活期间（由 HunterVisionPacket 调用 {@link #activate}）：
  * 1. 黑白视野：加载去色后处理着色器（shaders/post/hunter_vision.json）
- * 2. 分色线框高亮（几何沿用原版 LevelRenderer.renderLineBox 的 12 边盒）：
- *    - 生物：红色
- *    - 凋落物：蓝色（盒子外扩 0.15 便于辨认）
- *    - 容器（箱子/木桶/潜影盒等）：黄色，每 20 tick 扫描范围内区块
+ * 2. 统一白色线框高亮（几何沿用原版 LevelRenderer.renderLineBox 的 12 边盒）：
+ *    - 生物：白色
+ *    - 凋落物：白色（盒子外扩 0.15 便于辨认）
+ *    - 容器（箱子/木桶/潜影盒等）：白色，每 20 tick 扫描范围内区块
  * 手动批渲染直接控制 GL 状态：关闭深度测试，实体与凋落物
  * 可穿墙看到；全部为纯客户端渲染（仅本人可见），无同步问题。
  */
@@ -49,10 +49,10 @@ public class HunterVisionClient {
     /** 最近一次扫描到的容器方块盒 */
     private static final List<AABB> CONTAINER_BOXES = new ArrayList<>();
 
-    /** 高亮颜色：生物红 / 凋落物蓝 / 容器黄 */
-    private static final float[] COLOR_CREATURE = {1.0F, 0.20F, 0.20F, 0.9F};
-    private static final float[] COLOR_ITEM = {0.25F, 0.55F, 1.0F, 0.9F};
-    private static final float[] COLOR_CONTAINER = {1.0F, 0.80F, 0.15F, 0.9F};
+    /** 高亮颜色：统一白色，线条加粗 */
+    private static final float[] COLOR_WHITE = {1.0F, 1.0F, 1.0F, 0.9F};
+    /** 线框线条粗细 */
+    private static final float LINE_WIDTH = 10.0F;
 
     /** 去色后处理着色器 */
     private static final ResourceLocation VISION_SHADER =
@@ -123,7 +123,7 @@ public class HunterVisionClient {
         }
     }
 
-    /** 渲染分色线框：生物（红）与凋落物（蓝）每帧实时包围盒，容器（黄）为定期扫描结果 */
+    /** 渲染统一白色线框：生物、凋落物、容器每帧实时包围盒 */
     @SubscribeEvent
     public static void onRenderLevelStage(RenderLevelStageEvent event) {
         if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_TRANSLUCENT_BLOCKS) return;
@@ -140,39 +140,40 @@ public class HunterVisionClient {
         poseStack.translate(-camPos.x, -camPos.y, -camPos.z);
 
         // 手动批渲染直接控制 GL 状态：关闭深度测试 → 穿墙可见；
-        // 顶点颜色（红/蓝/黄）直接写入 POSITION_COLOR，一批画完
+        // 顶点颜色（白色）直接写入 POSITION_COLOR，一批画完
         Tesselator tesselator = Tesselator.getInstance();
         BufferBuilder buffer = tesselator.getBuilder();
         RenderSystem.setShader(GameRenderer::getPositionColorShader);
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.disableDepthTest(); // 透墙显示
+        RenderSystem.lineWidth(LINE_WIDTH);
         buffer.begin(VertexFormat.Mode.DEBUG_LINES, DefaultVertexFormat.POSITION_COLOR);
 
-        // 1. 生物：红色
+        // 1. 生物：白色
         for (Entity entity : mc.level.entitiesForRendering()) {
             if (entity == mc.player) continue;
             if (!(entity instanceof LivingEntity)) continue;
             if (mc.player.distanceToSqr(entity) > radiusSq) continue;
 
             LevelRenderer.renderLineBox(poseStack, buffer, entity.getBoundingBox(),
-                    COLOR_CREATURE[0], COLOR_CREATURE[1], COLOR_CREATURE[2], COLOR_CREATURE[3]);
+                    COLOR_WHITE[0], COLOR_WHITE[1], COLOR_WHITE[2], COLOR_WHITE[3]);
         }
 
-        // 2. 凋落物：蓝色（盒子外扩 0.15 便于辨认）
+        // 2. 凋落物：白色（盒子外扩 0.15 便于辨认）
         for (Entity entity : mc.level.entitiesForRendering()) {
             if (!(entity instanceof ItemEntity)) continue;
             if (mc.player.distanceToSqr(entity) > radiusSq) continue;
 
             AABB box = entity.getBoundingBox().inflate(0.15);
             LevelRenderer.renderLineBox(poseStack, buffer, box,
-                    COLOR_ITEM[0], COLOR_ITEM[1], COLOR_ITEM[2], COLOR_ITEM[3]);
+                    COLOR_WHITE[0], COLOR_WHITE[1], COLOR_WHITE[2], COLOR_WHITE[3]);
         }
 
-        // 3. 容器：黄色
+        // 3. 容器：白色
         for (AABB box : CONTAINER_BOXES) {
             LevelRenderer.renderLineBox(poseStack, buffer, box,
-                    COLOR_CONTAINER[0], COLOR_CONTAINER[1], COLOR_CONTAINER[2], COLOR_CONTAINER[3]);
+                    COLOR_WHITE[0], COLOR_WHITE[1], COLOR_WHITE[2], COLOR_WHITE[3]);
         }
 
         tesselator.end();

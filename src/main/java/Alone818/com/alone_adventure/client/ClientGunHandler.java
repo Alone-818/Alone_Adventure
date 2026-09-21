@@ -32,8 +32,9 @@ import net.minecraftforge.fml.common.Mod;
  * </ul>
  * 攻击键事件本身只用于取消原版攻击（防挥空/挖方块）。
  *
- * <b>第三人称开火反馈</b>：每次开火调用 {@code player.swing}——本地播放挥臂
- * 动画并广播给其他玩家（第三人称可见），配合服务端的枪口粒子。
+ * <b>第三人称开火反馈</b>：由服务端在开火成功时 {@code player.swing} 广播
+ * （ClientboundAnimatePacket 不回发本人）——其他玩家第三人称可见挥手，
+ * 配合枪口粒子；<b>本地不播</b>，第一人称不甩枪（开火表现为 fire 踢枪动画）。
  *
  * <b>R 键装填</b>：按 {@link ModClientSetup#GUN_RELOAD_KEY}（默认 R）发送
  * {@link GunReloadPacket}，服务端对主副手所有持枪开始装填
@@ -181,8 +182,9 @@ public final class ClientGunHandler {
         } else if (!dualWielding && attackDown && !attackWasDown
                 && !player.isSpectator() && mainGun) {
             // 单持：按下边沿触发一次开火（半自动）
+            //（第三人称挥手反馈由服务端 tryFire 成功后广播，本地不播——
+            //  本地 player.swing 会让第一人称甩枪，开火表现由 fire 踢枪动画负责）
             Alone_adventure.NETWORK.sendToServer(new GunFirePacket(InteractionHand.MAIN_HAND));
-            player.swing(InteractionHand.MAIN_HAND); // 第三人称开火反馈
             mainFireAt = player.tickCount;
         }
 
@@ -204,7 +206,7 @@ public final class ClientGunHandler {
         if (!(stack.getItem() instanceof GunItem gun)) return;
 
         Alone_adventure.NETWORK.sendToServer(new GunFirePacket(hand));
-        player.swing(hand); // 第三人称开火反馈（本地动画 + 广播）
+        // 第三人称挥手反馈由服务端 tryFire 广播（本地不播，避免第一人称甩枪）
 
         // 排程：该枪冷却独立计时，两发之间至少间隔刚开火枪射速的一半
         int interval = gun.getStats().fireRateTicks();

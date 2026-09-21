@@ -129,8 +129,8 @@ public class GunItem extends Item implements GeoItem {
     }
 
     /**
-     * 行为控制器：fire &gt; reload &gt; aim &gt; run &gt; idle 按优先级选取
-     * {@code animations/gun/<注册名>_<行为>.animation.json}（缺文件降级）。
+     * 行为控制器：aim &gt; fire &gt; reload &gt; run &gt; idle 按优先级选取
+     * 行为动画（单文件/逐行为文件双形式解析，缺文件降级）。
      * 谓词体（GunItemAnimation）仅客户端渲染线程执行。
      */
     @Override
@@ -240,9 +240,17 @@ public class GunItem extends Item implements GeoItem {
         return 72000;
     }
 
+    /**
+     * 使用动画取 NONE：第一人称照常应用手臂基座变换
+     * （{@code applyItemArmTransform}），枪械保持在正常持枪位。
+     * <b>不可用 SPYGLASS</b>——原版 switch 对其无分支（望远镜走
+     * {@code isScoping} 全屏渲染），会导致瞄准中的枪跳到相机原点
+     * 怼脸渲染（单/双持瞄准时模型巨大偏移的根因）。
+     * 瞄准姿态由 aim 行为动画（{@code animations/gun/}）负责。
+     */
     @Override
     public UseAnim getUseAnimation(ItemStack stack) {
-        return UseAnim.SPYGLASS;
+        return UseAnim.NONE;
     }
 
     // ===== 装填 =====
@@ -410,6 +418,9 @@ public class GunItem extends Item implements GeoItem {
         // 枪口反馈：音效 + 枪口烟/火花
         level.playSound(null, player, SoundEvents.CROSSBOW_SHOOT,
                 SoundSource.PLAYERS, 0.9F, 0.55F);
+        // 第三人称开火反馈：服务端挥手广播给其他玩家（ClientboundAnimatePacket
+        // 不回发本人，第一人称不甩枪；踢枪动画由 fire 行为动画负责）
+        player.swing(hand);
         if (level instanceof ServerLevel server) {
             Vec3 look = player.getLookAngle();
             Vec3 muzzle = player.getEyePosition().add(look.scale(0.8D));

@@ -1,32 +1,27 @@
 package Alone818.com.alone_adventure.client;
 
-import Alone818.com.alone_adventure.Alone_adventure;
 import Alone818.com.alone_adventure.Items.gun.GunItem;
 import Alone818.com.alone_adventure.Items.gun.GunStats;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.cache.GeckoLibCache;
-
-import java.util.HashMap;
-import java.util.Map;
 import software.bernie.geckolib.core.animation.Animation;
 import software.bernie.geckolib.core.animation.AnimationState;
 import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.core.object.PlayState;
-import software.bernie.geckolib.loading.object.BakedAnimations;
 
 /**
  * 枪械动画行为状态机 —— GeckoLib 控制器谓词。
  *
  * 每把枪一个 "behavior" 控制器，按优先级选取行为动画：
- * <b>fire（开火）&gt; reload（装填）&gt; aim（瞄准）&gt; run（跑动）&gt; idle（待机）</b>。
- * 各行为经 {@link GunGeoModel} 解析到 {@code animations/gun/<物品id>_<行为>.animation.json}；
+ * <b>aim（瞄准）&gt; fire（开火）&gt; reload（装填）&gt; run（跑动）&gt; idle（待机）</b>。
+ * 各行为经 {@link GunGeoModel} 解析：单文件 {@code animations/gun/<物品id>.animation.json}
+ * （Blockbench 整包导出，推荐）优先，逐行为文件
+ * {@code animations/gun/<物品id>_<行为>.animation.json}（旧约定）兼容；
  * <b>缺文件自动降级到下一优先级</b>（一把枪可以只提供部分行为的动画），
  * 全缺则静止。状态间过渡由 GeckoLib 控制器的过渡时长平滑（5 tick）。
  *
@@ -39,7 +34,7 @@ import software.bernie.geckolib.loading.object.BakedAnimations;
  * </ul>
  *
  * 注意：物品为单例，GeckoLib 控制器状态按<b>物品类型</b>共享——双持两把枪
- * 的动画同步（一手开火两手都做踢枪动作）；行为文件按物品 id 命名，天然一枪一套。
+ * 的动画同步（一手开火两手都做踢枪动作）；动画文件按物品 id 命名，天然一枪一套。
  */
 public final class GunItemAnimation {
 
@@ -76,6 +71,12 @@ public final class GunItemAnimation {
         GunItem gun = state.getAnimatable();
         String itemId = BuiltInRegistries.ITEM.getKey(gun).getPath();
 
+        // ── aim：正在右键瞄准（使用枪械），瞄准射击时保持瞄准姿态 ──
+        if (player.isUsingItem() && player.getUseItem().getItem() instanceof GunItem
+                && resolve(itemId, AIM) != null) {
+            return state.setAndContinue(RawAnimation.begin().thenLoop(itemId + "_" + AIM));
+        }
+
         // ── fire：任一手最近开火且动画尚未播完 ──
         float now = player.tickCount + state.getPartialTick();
         float sinceFire = Math.min(
@@ -98,12 +99,6 @@ public final class GunItemAnimation {
             return state.setAndContinue(RawAnimation.begin().thenPlay(itemId + "_" + RELOAD));
         }
 
-        // ── aim：正在右键瞄准（使用枪械） ──
-        if (player.isUsingItem() && player.getUseItem().getItem() instanceof GunItem
-                && resolve(itemId, AIM) != null) {
-            return state.setAndContinue(RawAnimation.begin().thenLoop(itemId + "_" + AIM));
-        }
-
         // ── run：疾跑（控制器过渡自动平滑进出） ──
         if (player.isSprinting() && resolve(itemId, RUN) != null) {
             return state.setAndContinue(RawAnimation.begin().thenLoop(itemId + "_" + RUN));
@@ -116,21 +111,14 @@ public final class GunItemAnimation {
         return PlayState.STOP;
     }
 
-    /** 行为名 → 行为文件路径缓存（每物品个位数条目；渲染单线程） */
-    private static final Map<String, ResourceLocation> PATHS = new HashMap<>();
-
     /**
-     * 解析行为动画：直查 {@code animations/gun/<物品id>_<行为>.animation.json}
-     * 中的同名动画（GeckoLib 全局缓存；缺文件返回 null = 该行为未提供）。
+     * 解析行为动画：委托 {@link GunGeoModel#resolveAnimation} 双形式解析
+     * （单文件 {@code <物品id>.animation.json} 优先，逐行为文件兼容）。
+     * 缺文件返回 null = 该行为未提供。
      */
     @Nullable
     public static Animation resolve(String itemId, String behavior) {
-        String name = itemId + "_" + behavior;
-        ResourceLocation path = PATHS.computeIfAbsent(name,
-                n -> new ResourceLocation(Alone_adventure.MODID,
-                        GunGeoModel.ANIM_DIR + n + ".animation.json"));
-        BakedAnimations baked = GeckoLibCache.getBakedAnimations().get(path);
-        return baked != null ? baked.getAnimation(name) : null;
+        return GunGeoModel.resolveAnimation(itemId, behavior);
     }
 
     /** 是否处于双持举枪（主手单手枪 + 副手可用枪）：主手模型切举枪变体 */

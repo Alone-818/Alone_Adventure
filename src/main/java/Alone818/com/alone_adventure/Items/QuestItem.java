@@ -1,5 +1,6 @@
 package Alone818.com.alone_adventure.Items;
 
+import Alone818.com.alone_adventure.Alone_adventure;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -10,6 +11,8 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -22,6 +25,7 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.crafting.PartialNBTIngredient;
 import org.jetbrains.annotations.Nullable;
+import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
@@ -42,10 +46,13 @@ import java.util.List;
  *       此时（且仅此时）可被配方用作材料；未完成的物品在配方里不被接受</li>
  * </ol>
  *
- * <b>任务判定与自愈</b>：物品在背包（{@link #inventoryTick}）或契约槽
- * （{@link #curioTick}）中每 {@value #EVAL_INTERVAL_TICKS} tick 服务端重估一次：
+ * <b>任务判定与自愈</b>：仅在契约槽佩戴时，每 {@value #EVAL_INTERVAL_TICKS} tick 服务端重估一次：
  * 收集类任务可回退（材料花掉后标记自动摘除），击杀进度持久累计不回退。
  * 物品离开玩家（箱子/掉落）后保持最后状态。
+ *
+ * <b>材料提交</b>——右键点击：将材料（副手）消耗后统计任务进度。
+ *   佩戴契约饰品在主手，所需材料在副手，右键点击完成材料提交。
+ *   材料提交后，周期评估会在下一次重估时自动检查完成状态。
  *
  * <b>配方的材料门控</b>——用 {@link #material} 生成"已完成"成分，或 JSON 里写：
  * <pre>{@code
@@ -99,6 +106,28 @@ public class QuestItem extends Item implements ICurioItem {
         return tasks;
     }
 
+    /** 判断玩家是否佩戴指定物品（契约槽） */
+    public static boolean isWearing(Player player, ItemStack stack) {
+        return CuriosApi.getCuriosHelper()
+                .findFirstCurio(player, stack.getItem())
+                .isPresent();
+    }
+
+    /** 判断玩家是否佩戴了指定的任务物品 */
+    public static boolean isWearing(Player player, Item questItem) {
+        return CuriosApi.getCuriosHelper()
+                .findFirstCurio(player, questItem)
+                .isPresent();
+    }
+
+    /** 获取玩家当前佩戴的对应任务物品堆栈 */
+    public static ItemStack getPlayerStack(Player player, Item questItem) {
+        return CuriosApi.getCuriosHelper()
+                .findFirstCurio(player, questItem)
+                .map(result -> result.stack())
+                .orElse(ItemStack.EMPTY);
+    }
+
     /** 堆栈是否已达成全部任务（= 可作为合成材料） */
     public static boolean isQuestDone(ItemStack stack) {
         CompoundTag tag = stack.getTag();
@@ -115,10 +144,45 @@ public class QuestItem extends Item implements ICurioItem {
         return PartialNBTIngredient.of(questItem, nbt);
     }
 
-    // ===== 任务模板 =====
+    /** 右键点击：消耗副手材料，统计任务进度。
+     * 佩戴契约饰品在主手，所需材料在副手，右键点击完成材料提交。
+     */
+    @Override
+    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+        if (level.isClientSide) return InteractionResultHolder.pass(player.getItemInHand(hand));
 
-    /** 一项任务：服务端判定完成；完成状态逐任务标记到堆栈 NBT */
-    public abstract static class Task {
+        ItemStack questStack = player.getItemInHand(hand);
+        if (!(questStack.getItem() instanceof QuestItem)) return InteractionResultHolder.pass(questStack);
+
+        // 获取副手中的物品（作为材料）
+        ItemStack offhandStack = player.getItemInHand(InteractionHand.OFF_HAND);
+        if (offhandStack.isEmpty()) return InteractionResultHolder.pass(questStack);
+
+        CompoundTag tag = questStack.getOrCreateTag();
+        CompoundTag quest = tag.getCompound(TAG_QUEST);
+        boolean anyProgress = false;
+
+        for (Task task : tasks) {
+            if (quest.getBoolean(task.id())) continue; // 已完成的任务跳过
+
+            if (task instanceof CollectTask collect && collect.item == offhandStack.getItem()) {
+                int have = player.getInventory().countItem(collect.item);
+                if (have > 0) {
+                    offhandStack.shrink(1);
+                    anyProgress = true;
+                }
+            }
+        }
+
+        if (anyProgress) {
+            player.displayClientMessage(Component.translatable("message.alone_adventure.quest.submitted"), true);
+        }
+
+        return InteractionResultHolder.success(questStack);
+    }
+
+    /** 任务条目：可判定（服务端周期评估）、可展示（tooltip / 进度文本） */
+    public static abstract class Task {
 
         private final String id;
 
@@ -126,65 +190,22 @@ public class QuestItem extends Item implements ICurioItem {
             this.id = id;
         }
 
-        /** 任务 id（进度键 / 堆栈 NBT 键 / 翻译键尾段） */
+        /** 任务 id（堆栈 NBT 标记键 / 翻译键尾段） */
         public String id() {
             return id;
         }
 
-        /** 任务名（翻译键自动派生：{@code quest.alone_adventure.<物品id>.<任务id>}） */
-        public Component title(String questId) {
-            return Component.translatable("quest.alone_adventure." + questId + "." + id);
-        }
-
-        /** 服务端判定本任务当前是否完成 */
+        /** 服务端判定任务是否达成（questId = 所属任务物品的注册名） */
         public abstract boolean test(ServerPlayer player, String questId);
 
-        /** 击杀事件是否命中本任务（仅击杀计数类实现） */
-        public boolean matchesKill(LivingEntity victim) {
-            return false;
+        /** 展示标题（键：quest.<modid>.<questId>.<id>） */
+        public Component title(String questId) {
+            return Component.translatable(
+                    "quest." + Alone_adventure.MODID + "." + questId + "." + id);
         }
     }
 
-    /** 击杀任务：累计击杀指定类型生物 N 只（进度持久，跨死亡/重登录） */
-    public static final class KillTask extends Task {
-
-        private final EntityTypeHolder target;
-        private final int count;
-
-        private KillTask(String id, EntityTypeHolder target, int count) {
-            super(id);
-            this.target = target;
-            this.count = Math.max(1, count);
-        }
-
-        /** 按实体类型：{@code QuestItem.KillTask.of("kill_zombie", EntityType.ZOMBIE, 10)} */
-        public static KillTask of(String id, net.minecraft.world.entity.EntityType<?> type, int count) {
-            return new KillTask(id, EntityTypeHolder.ofType(type), count);
-        }
-
-        /** 按实体类型标签（如 {@code EntityTypeTags.UNDEAD}） */
-        public static KillTask of(String id, TagKey<net.minecraft.world.entity.EntityType<?>> tag, int count) {
-            return new KillTask(id, EntityTypeHolder.ofTag(tag), count);
-        }
-
-        @Override
-        public boolean test(ServerPlayer player, String questId) {
-            return killProgress(player, questId, id()) >= count;
-        }
-
-        @Override
-        public boolean matchesKill(LivingEntity victim) {
-            return target.matches(victim);
-        }
-
-        /** 击杀进度文本（动作栏反馈，QuestEvent 调用） */
-        public Component progressText(int current, String questId) {
-            return Component.translatable("message.alone_adventure.quest.kill_progress",
-                    title(questId), current, count);
-        }
-    }
-
-    /** 收集任务：背包中持有指定物品 N 个即完成（可回退：花掉后标记自动摘除） */
+    /** 收集任务：仅在佩戴契约饰品时，背包中持有指定物品 N 个即完成（可回退：花掉后标记自动摘除） */
     public static final class CollectTask extends Task {
 
         private final Item item;
@@ -207,6 +228,45 @@ public class QuestItem extends Item implements ICurioItem {
         }
     }
 
+    /** 击杀任务：佩戴契约饰品期间击杀目标 ×N；进度持久累计（QuestEvent 结算，不回退） */
+    public static final class KillTask extends Task {
+
+        private final EntityTypeHolder target;
+        private final int count;
+
+        private KillTask(String id, EntityTypeHolder target, int count) {
+            super(id);
+            this.target = target;
+            this.count = Math.max(1, count);
+        }
+
+        /** {@code QuestItem.KillTask.of("kill_zombie", EntityType.ZOMBIE, 10)} */
+        public static KillTask of(String id, net.minecraft.world.entity.EntityType<?> type, int count) {
+            return new KillTask(id, EntityTypeHolder.ofType(type), count);
+        }
+
+        /** 按实体类型标签批量指定击杀目标 */
+        public static KillTask ofTag(String id, TagKey<net.minecraft.world.entity.EntityType<?>> tag, int count) {
+            return new KillTask(id, EntityTypeHolder.ofTag(tag), count);
+        }
+
+        /** 击杀事件结算用：受害者是否为本任务目标（QuestEvent 调用） */
+        public boolean matchesKill(LivingEntity victim) {
+            return target.matches(victim);
+        }
+
+        /** 动作栏进度文本："任务进度：%s（%d/%d）"（QuestEvent 调用） */
+        public Component progressText(int now, String questId) {
+            return Component.translatable("message.alone_adventure.quest.kill_progress",
+                    title(questId), now, count);
+        }
+
+        @Override
+        public boolean test(ServerPlayer player, String questId) {
+            return killProgress(player, questId, id()) >= count;
+        }
+    }
+
     /** 击杀目标（实体类型或类型标签，二选一） */
     private record EntityTypeHolder(
             @Nullable net.minecraft.world.entity.EntityType<?> type,
@@ -225,15 +285,12 @@ public class QuestItem extends Item implements ICurioItem {
         }
     }
 
-    // ===== 评估（背包内 / 契约槽上，每 20 tick 服务端） =====
+    // ===== 评估（仅契约槽佩戴时，每 20 tick 服务端） =====
 
     @Override
     public void inventoryTick(ItemStack stack, Level level, Entity entity, int slot, boolean selected) {
-        if (level.isClientSide) return;
-        // 契约槽不触发 inventoryTick，佩戴时的评估走 curioTick；这里覆盖背包/快捷栏
-        if (entity instanceof ServerPlayer player && entity.tickCount % EVAL_INTERVAL_TICKS == 0) {
-            evaluate(player, stack);
-        }
+        // 仅在契约槽佩戴时激活任务（通过 curioTick 触发）
+        // 此实现不再在背包中激活任务
     }
 
     @Override
