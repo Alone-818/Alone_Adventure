@@ -27,7 +27,7 @@ Blockbench 的 **Minecraft Item display** 设置导出后放到
 
 原版平面贴片模型(`models/gun/*_raised.json` 等)不再参与枪械渲染
 (GeckoLib 渲染器接管第一/第三人称与 GUI),仅作历史参考保留。
-
+主手
 ## Blockbench 制作流程
 
 1. 新建 **基岩版实体(Bedrock Entity)** 项目建模(多骨骼/多方块均可),
