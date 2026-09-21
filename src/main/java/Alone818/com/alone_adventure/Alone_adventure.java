@@ -10,6 +10,11 @@ import Alone818.com.alone_adventure.init.ModEffects;
 import Alone818.com.alone_adventure.init.ModItems;
 import Alone818.com.alone_adventure.init.ModPotions;
 import Alone818.com.alone_adventure.network.EagleSkillPacket;
+import Alone818.com.alone_adventure.network.GunFirePacket;
+import Alone818.com.alone_adventure.network.GunRecoilPacket;
+import Alone818.com.alone_adventure.network.GunReloadPacket;
+import Alone818.com.alone_adventure.network.GunSwitchAmmoPacket;
+import Alone818.com.alone_adventure.network.HunterVisionPacket;
 import Alone818.com.alone_adventure.network.ReviveEffectPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
@@ -44,6 +49,16 @@ public class Alone_adventure {
                 ReviveEffectPacket::encode, ReviveEffectPacket::decode, ReviveEffectPacket::handle);
         NETWORK.registerMessage(packetId++, EagleSkillPacket.class,
                 EagleSkillPacket::encode, EagleSkillPacket::decode, EagleSkillPacket::handle);
+        NETWORK.registerMessage(packetId++, HunterVisionPacket.class,
+                HunterVisionPacket::encode, HunterVisionPacket::decode, HunterVisionPacket::handle);
+        NETWORK.registerMessage(packetId++, GunFirePacket.class,
+                GunFirePacket::encode, GunFirePacket::decode, GunFirePacket::handle);
+        NETWORK.registerMessage(packetId++, GunRecoilPacket.class,
+                GunRecoilPacket::encode, GunRecoilPacket::decode, GunRecoilPacket::handle);
+        NETWORK.registerMessage(packetId++, GunReloadPacket.class,
+                GunReloadPacket::encode, GunReloadPacket::decode, GunReloadPacket::handle);
+        NETWORK.registerMessage(packetId++, GunSwitchAmmoPacket.class,
+                GunSwitchAmmoPacket::encode, GunSwitchAmmoPacket::decode, GunSwitchAmmoPacket::handle);
     }
 
     // Directly reference a slf4j logger

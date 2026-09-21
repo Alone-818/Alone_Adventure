@@ -36,6 +36,11 @@ public class ShieldEvent {
             return;
         }
 
+        // 已被其他处理器（如诡异八音盒护盾）取消的伤害不再触发护盾，防止重复扣盾
+        if (event.isCanceled()) {
+            return;
+        }
+
         // /kill（genericKill）和虚空坠落等无视无敌保护的伤害不能被护盾免疫，必须放行
         if (event.getSource().is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
             return;

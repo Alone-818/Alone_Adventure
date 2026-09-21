@@ -3,6 +3,7 @@ package Alone818.com.alone_adventure.events;
 import Alone818.com.alone_adventure.Alone_adventure;
 import Alone818.com.alone_adventure.Curios.binding_bandage;
 import Alone818.com.alone_adventure.Curios.broken_mask;
+import Alone818.com.alone_adventure.Curios.hunter_serum;
 import Alone818.com.alone_adventure.Curios.imperial_eagle;
 import Alone818.com.alone_adventure.Curios.sealed_throne;
 import net.minecraft.nbt.CompoundTag;
@@ -93,6 +94,12 @@ public class SkillReadyEvent {
             if (now < tag.getLong(binding_bandage.TAG_SKILL_READY_AT)) return null;
             tag.remove(binding_bandage.TAG_SKILL_READY_AT);
             return "subtitle.alone_adventure.skill_ready.binding_bandage";
+        }
+        // 猎人血清
+        if (tag.contains(hunter_serum.TAG_SKILL_READY_AT)) {
+            if (now < tag.getLong(hunter_serum.TAG_SKILL_READY_AT)) return null;
+            tag.remove(hunter_serum.TAG_SKILL_READY_AT);
+            return "subtitle.alone_adventure.skill_ready.hunter_serum";
         }
         // 封印王座：技能消耗后等待第一点星辉回复，即视为技能就绪
         if (tag.getBoolean(sealed_throne.NB_TAG_SKILL_PENDING)

@@ -3,11 +3,14 @@ package Alone818.com.alone_adventure.init;
 import Alone818.com.alone_adventure.Alone_adventure;
 import Alone818.com.alone_adventure.Curios.*;
 import Alone818.com.alone_adventure.Items.*;
+import Alone818.com.alone_adventure.Items.gun.*;
 import Alone818.com.alone_adventure.init.ModEffects;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -68,6 +71,11 @@ public class ModItems {
     public static final RegistryObject<Item> CHARGING_CORE =
             ITEMS.register("charging_core", charging_core::new);
 
+    // 猎人血清：契约饰品；R 键开启猎人视野——黑暗+黑白视角，
+    // 高亮范围内生物/凋落物（发光）与容器（白色线框），仅本人可见
+    public static final RegistryObject<Item> HUNTER_SERUM =
+            ITEMS.register("hunter_serum", hunter_serum::new);
+
     // ===== 装备物品 =====
     public static final RegistryObject<Item> PARRYSHIELD =
             ITEMS.register("parryshield", parryshield::new);
@@ -90,6 +98,15 @@ public class ModItems {
     public static final RegistryObject<Item> STARLIGHT_GREATSWORD =
             ITEMS.register("starlight_greatsword", starlight_greatsword::new);
 
+    // 投掷电击器：投掷型范围电击道具，弹道同雪球，掷出后高频低伤电击周围生物
+    public static final RegistryObject<Item> SHOCK_DEVICE =
+            ITEMS.register("shock_device", shock_device::new);
+
+    // 连队团旗：战术道具；原地插旗 30 秒，范围内玩家获得抗性 II/耐力 I，
+    // 首入范围补足 10 点黄心（每旗每人一次）；耐久 8 次，金锭修复，冷却 120 秒
+    public static final RegistryObject<Item> REGIMENT_BANNER =
+            ITEMS.register("regiment_banner", regiment_banner::new);
+
     // ===== 巨大镰刀 =====
     public static final RegistryObject<Item> REAPER_SCYTHE =
             ITEMS.register("reaper_scythe", reaper_scythe::new);
@@ -99,14 +116,69 @@ public class ModItems {
     public static final RegistryObject<Item> MACHINE_CLAW =
             ITEMS.register("machine_claw", machine_claw::new);
 
+    // 火腿大棒：伤害 8/攻速 0.8/耐久 32；每次攻击回复 3 点饱食度，耗尽后变为骨头
+    public static final RegistryObject<Item> HAM_CLUB =
+            ITEMS.register("ham_club", ham_club::new);
+
+    // 女武神头盔：皮革头盔防御 +2（共 3 点）；佩戴时造成伤害 +10%
+    public static final RegistryObject<Item> VALKYRIE_HELMET =
+            ITEMS.register("valkyrie_helmet", valkyrie_helmet::new);
+
     // ===== 道具物品 =====
     public static final RegistryObject<Item> INJECTION_EMPTY =
             ITEMS.register("injection_empty",
                     () -> new Item(new Item.Properties().stacksTo(16)));
 
+    // 药水针剂：效果完全相同的针剂（NBT 一致）可堆叠至 4 个
     public static final RegistryObject<Item> INJECTION_SYRINGE =
             ITEMS.register("injection_syringe",
-                    () -> new injection_template(new Item.Properties().stacksTo(1)));
+                    () -> new injection_template(new Item.Properties().stacksTo(4)));
+
+    // 怪物残灰：击杀敌对生物概率掉落的合成材料（猎人血清提升掉率，不受抢夺影响）
+    public static final RegistryObject<Item> MONSTER_ASH =
+            ITEMS.register("monster_ash", monster_ash::new);
+
+    // 血脉碎片：击杀敌对生物概率掉落的合成材料（猎人血清提升掉率，不受抢夺影响）
+    public static final RegistryObject<Item> BLOOD_SHARD =
+            ITEMS.register("blood_shard", blood_shard::new);
+
+    // 急救包：使用回复最大生命值 60%，冷却 120 秒；耐久 3 次，不可堆叠、无法附魔
+    public static final RegistryObject<Item> FIRST_AID_KIT =
+            ITEMS.register("first_aid_kit", first_aid_kit::new);
+
+    // 诡异八音盒：消耗道具；获得 90 点护盾（1:1 抵消伤害），但 60 秒后立刻死亡
+    public static final RegistryObject<Item> EERIE_MUSIC_BOX =
+            ITEMS.register("eerie_music_box", eerie_music_box::new);
+
+    // ===== 枪械 =====
+
+    // 弹药：长子弹（步枪用，高威力远射程）
+    public static final RegistryObject<Item> LONG_BULLET =
+            ITEMS.register("long_bullet", long_bullet::new);
+
+    // 弹药：霰弹（霰弹枪用，多弹丸大散布）
+    public static final RegistryObject<Item> SHOTGUN_SHELL =
+            ITEMS.register("shotgun_shell", shotgun_shell::new);
+
+    // 弹药：短子弹（手枪用，低威力快射速）
+    public static final RegistryObject<Item> SHORT_BULLET =
+            ITEMS.register("short_bullet", short_bullet::new);
+
+    // 弹药：弩箭弹药（步枪可切换装填的箭形弹药）
+    public static final RegistryObject<Item> CROSSBOW_BOLT =
+            ITEMS.register("crossbow_bolt", crossbow_bolt::new);
+
+    // 步枪：双手长枪模板（长子弹/弩箭弹药，G 键切换弹种）
+    public static final RegistryObject<Item> RIFLE =
+            ITEMS.register("rifle", rifle::new);
+
+    // 霰弹枪：单手面杀伤模板（霰弹，6 弹丸大散布）
+    public static final RegistryObject<Item> SHOTGUN =
+            ITEMS.register("shotgun", shotgun::new);
+
+    // 手枪：单手速射模板（短子弹，半自动，可双持）
+    public static final RegistryObject<Item> PISTOL =
+            ITEMS.register("pistol", pistol::new);
 
     // 金甜菜根：8 金粒围绕甜菜根合成；食用给予耐力，也是耐力药水的酿造原料
     public static final RegistryObject<Item> GOLDEN_BEETROOT =
@@ -118,6 +190,32 @@ public class ModItems {
                                     .effect(() -> new MobEffectInstance(ModEffects.ENDURANCE.get(), 1200), 1.0F)
                                     .alwaysEat()
                                     .build())));
+
+    // 水手菠菜：食用回复 4 点饱食度与 8 点饱和度，给予力量 II 与生命恢复 II
+    public static final RegistryObject<Item> SAILOR_SPINACH =
+            ITEMS.register("sailor_spinach",
+                    () -> new sailor_spinach(new Item.Properties()
+                            .food(new FoodProperties.Builder()
+                                    .nutrition(4)
+                                    // 饱和度 = 营养 4 × 系数 1.0 × 2 = 8 点
+                                    .saturationMod(1.0F)
+                                    .effect(() -> new MobEffectInstance(
+                                            MobEffects.DAMAGE_BOOST,
+                                            sailor_spinach.STRENGTH_DURATION_TICKS, 1), 1.0F)
+                                    .effect(() -> new MobEffectInstance(
+                                            MobEffects.REGENERATION,
+                                            sailor_spinach.REGEN_DURATION_TICKS, 1), 1.0F)
+                                    .alwaysEat()
+                                    .build())));
+
+    // 任务契约：任务物品模板实例——可佩戴为契约饰品；
+    // 击杀僵尸 ×10 + 收集金甜菜根 ×3 全部完成后，才可作为合成材料（NBT QuestDone 门控）
+    public static final RegistryObject<Item> QUEST_CONTRACT =
+            ITEMS.register("quest_contract",
+                    () -> new QuestItem(new Item.Properties()
+                                    .stacksTo(1).rarity(net.minecraft.world.item.Rarity.UNCOMMON),
+                            QuestItem.KillTask.of("kill_zombie", EntityType.ZOMBIE, 10),
+                            QuestItem.CollectTask.of("collect_beetroot", GOLDEN_BEETROOT.get(), 3)));
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

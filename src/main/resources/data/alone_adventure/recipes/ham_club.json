@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XXX",
+    "XXX",
+    " B "
+  ],
+  "key": {
+    "X": { "item": "minecraft:porkchop" },
+    "B": { "item": "minecraft:bone" }
+  },
+  "result": { "item": "alone_adventure:ham_club", "count": 1 }
+}

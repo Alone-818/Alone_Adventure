@@ -11,7 +11,9 @@
     "alone_adventure:binding_bandage",
     "alone_adventure:sealed_throne",
     "alone_adventure:necromancer_ledger",
-    "alone_adventure:charging_core"
+    "alone_adventure:charging_core",
+    "alone_adventure:hunter_serum",
+    "alone_adventure:quest_contract"
 
   ]
 }

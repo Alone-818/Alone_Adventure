@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "   ",
+    "S S",
+    "CHC"
+  ],
+  "key": {
+    "S": { "item": "minecraft:stick" },
+    "C": { "item": "minecraft:cobblestone" },
+    "H": { "item": "minecraft:leather_helmet" }
+  },
+  "result": { "item": "alone_adventure:valkyrie_helmet", "count": 1 }
+}

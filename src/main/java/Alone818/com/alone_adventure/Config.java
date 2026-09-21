@@ -6,6 +6,7 @@ import Alone818.com.alone_adventure.Curios.broken_mask;
 import Alone818.com.alone_adventure.Curios.charging_core;
 import Alone818.com.alone_adventure.Curios.crystalline_heart;
 import Alone818.com.alone_adventure.Curios.dragon_power;
+import Alone818.com.alone_adventure.Curios.hunter_serum;
 import Alone818.com.alone_adventure.Curios.imperial_eagle;
 import Alone818.com.alone_adventure.Curios.necromancer_ledger;
 import Alone818.com.alone_adventure.Curios.sealed_throne;
@@ -13,16 +14,21 @@ import Alone818.com.alone_adventure.Curios.survival_whimper;
 import Alone818.com.alone_adventure.Effects.LacerationEffect;
 import Alone818.com.alone_adventure.Items.InkBladeProjectile;
 import Alone818.com.alone_adventure.Items.chainsawsword;
+import Alone818.com.alone_adventure.Items.ham_club;
 import Alone818.com.alone_adventure.Items.ink_blade;
 import Alone818.com.alone_adventure.Items.machine_claw;
 import Alone818.com.alone_adventure.Items.painstrike_hammer;
 import Alone818.com.alone_adventure.Items.parryshield;
 import Alone818.com.alone_adventure.Items.powersword;
+import Alone818.com.alone_adventure.Items.RegimentBannerEntity;
+import Alone818.com.alone_adventure.Items.regiment_banner;
+import Alone818.com.alone_adventure.Items.sailor_spinach;
+import Alone818.com.alone_adventure.Items.shock_device;
+import Alone818.com.alone_adventure.Items.ShockDeviceProjectile;
+import Alone818.com.alone_adventure.Items.valkyrie_helmet;
 import Alone818.com.alone_adventure.Items.reaper_scythe;
 import Alone818.com.alone_adventure.Items.starlight_greatsword;
-import Alone818.com.alone_adventure.events.BrokenMaskEvent;
-import Alone818.com.alone_adventure.events.NightContractEvent;
-import Alone818.com.alone_adventure.events.ShieldEvent;
+import Alone818.com.alone_adventure.events.*;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -174,6 +180,24 @@ public class Config {
     private static ForgeConfigSpec.IntValue INK_WEAKNESS_DURATION_TICKS;
     private static ForgeConfigSpec.IntValue INK_WEAKNESS_MAX_LEVEL;
 
+    private static ForgeConfigSpec.IntValue SHOCK_COOLDOWN_TICKS;
+    private static ForgeConfigSpec.DoubleValue SHOCK_THROW_SPEED;
+    private static ForgeConfigSpec.IntValue SHOCK_INTERVAL_TICKS;
+    private static ForgeConfigSpec.DoubleValue SHOCK_DAMAGE;
+    private static ForgeConfigSpec.DoubleValue SHOCK_RADIUS;
+    private static ForgeConfigSpec.IntValue SHOCK_DURATION_TICKS;
+
+    private static ForgeConfigSpec.IntValue REGIMENT_COOLDOWN_TICKS;
+    private static ForgeConfigSpec.IntValue REGIMENT_LIFETIME_TICKS;
+    private static ForgeConfigSpec.DoubleValue REGIMENT_AURA_RADIUS;
+    private static ForgeConfigSpec.DoubleValue REGIMENT_ABSORPTION_AMOUNT;
+
+    private static ForgeConfigSpec.IntValue SAILOR_STRENGTH_DURATION_TICKS;
+    private static ForgeConfigSpec.IntValue SAILOR_REGEN_DURATION_TICKS;
+
+    private static ForgeConfigSpec.DoubleValue MUSIC_SHIELD_AMOUNT;
+    private static ForgeConfigSpec.IntValue MUSIC_DEATH_DELAY_TICKS;
+
     private static ForgeConfigSpec.IntValue STAR_MAX_CHARGE;
     private static ForgeConfigSpec.IntValue STAR_CHARGE_INTERVAL_TICKS;
     private static ForgeConfigSpec.DoubleValue STAR_DAMAGE_PER_CHARGE;
@@ -184,6 +208,26 @@ public class Config {
 
     private static ForgeConfigSpec.IntValue CLAW_COMBO_DAMAGE_PER_HIT;
     private static ForgeConfigSpec.IntValue CLAW_COMBO_TIMEOUT_TICKS;
+
+    private static ForgeConfigSpec.IntValue HAM_FOOD_PER_ATTACK;
+
+    private static ForgeConfigSpec.IntValue VALKYRIE_EXTRA_DEFENSE;
+    private static ForgeConfigSpec.DoubleValue VALKYRIE_DAMAGE_BONUS;
+
+    private static ForgeConfigSpec.IntValue SERUM_SKILL_DURATION_TICKS;
+    private static ForgeConfigSpec.IntValue SERUM_SKILL_COOLDOWN_TICKS;
+    private static ForgeConfigSpec.IntValue SERUM_HIGHLIGHT_RADIUS;
+    private static ForgeConfigSpec.IntValue SERUM_POTION_LEVEL_BONUS;
+    private static ForgeConfigSpec.DoubleValue SERUM_ARMOR_PEN_RATIO;
+    private static ForgeConfigSpec.DoubleValue SERUM_TOUGHNESS_PEN_RATIO;
+
+    private static ForgeConfigSpec.DoubleValue ASH_BASE_DROP_CHANCE;
+    private static ForgeConfigSpec.DoubleValue ASH_SERUM_DROP_CHANCE;
+    private static ForgeConfigSpec.IntValue ASH_DROP_COUNT;
+
+    private static ForgeConfigSpec.DoubleValue BLOOD_SHARD_BASE_DROP_CHANCE;
+    private static ForgeConfigSpec.DoubleValue BLOOD_SHARD_SERUM_DROP_CHANCE;
+    private static ForgeConfigSpec.IntValue BLOOD_SHARD_DROP_COUNT;
 
     static final ForgeConfigSpec SPEC;
 
@@ -207,17 +251,11 @@ public class Config {
         // ===== 流血护盾 =====
         BUILDER.push("bleedingshield");
         BLEEDING_ARMOR_REDUCTION_RATIO = BUILDER
-                .comment("护甲削减比例（0.8 = 减少 80%）")
-                .defineInRange("armorReductionRatio", 0.8, 0.0, 0.99);
+                .comment("护甲加成比例（0.3 = +30%）")
+                .defineInRange("armorReductionRatio", 0.3, 0.0, 0.99);
         BLEEDING_HEALTH_REDUCTION_RATIO = BUILDER
                 .comment("最大生命值削减比例（0.2 = 减少 20%）")
                 .defineInRange("healthReductionRatio", 0.2, 0.0, 0.99);
-        BLEEDING_ARMOR_PER_TOUGHNESS = BUILDER
-                .comment("每减少多少点护甲转化为 1 点护甲韧性")
-                .defineInRange("armorPerToughness", 4.0, 0.001, 1000.0);
-        BLEEDING_HEALTH_PER_TOUGHNESS = BUILDER
-                .comment("每减少多少点生命值转化为 1 点护甲韧性")
-                .defineInRange("healthPerToughness", 3.0, 0.001, 1000.0);
         BUILDER.pop();
 
         // ===== 暗夜契约 =====
@@ -585,6 +623,64 @@ public class Config {
                 .defineInRange("weaknessMaxLevel", 5, 1, 255);
         BUILDER.pop();
 
+        // ===== 投掷电击器 =====
+        BUILDER.push("shock_device");
+        SHOCK_COOLDOWN_TICKS = BUILDER
+                .comment("投掷冷却（tick，10 = 0.5 秒）")
+                .defineInRange("cooldownTicks", 10, 0, MAX_TICKS);
+        SHOCK_THROW_SPEED = BUILDER
+                .comment("投掷初速（雪球为 1.5）")
+                .defineInRange("throwSpeed", 1.5, 0.1, 10.0);
+        SHOCK_INTERVAL_TICKS = BUILDER
+                .comment("电击间隔（tick，2 = 每秒 10 次）")
+                .defineInRange("shockIntervalTicks", 2, 1, 100);
+        SHOCK_DAMAGE = BUILDER
+                .comment("每次电击的伤害（点）")
+                .defineInRange("shockDamage", 1.0, 0.0, 1000.0);
+        SHOCK_RADIUS = BUILDER
+                .comment("电击半径（格）")
+                .defineInRange("shockRadius", 4.0, 0.0, 64.0);
+        SHOCK_DURATION_TICKS = BUILDER
+                .comment("命中锚定后的持续放电时长（tick，100 = 5 秒）")
+                .defineInRange("shockDurationTicks", 100, 1, MAX_TICKS);
+        BUILDER.pop();
+
+        // ===== 连队团旗 =====
+        BUILDER.push("regiment_banner");
+        REGIMENT_COOLDOWN_TICKS = BUILDER
+                .comment("插旗冷却（tick，2400 = 120 秒）")
+                .defineInRange("cooldownTicks", 2400, 0, MAX_TICKS);
+        REGIMENT_LIFETIME_TICKS = BUILDER
+                .comment("旗子存在时长（tick，600 = 30 秒）")
+                .defineInRange("lifetimeTicks", 600, 1, MAX_TICKS);
+        REGIMENT_AURA_RADIUS = BUILDER
+                .comment("光环半径（格）")
+                .defineInRange("auraRadius", 8.0, 0.0, 64.0);
+        REGIMENT_ABSORPTION_AMOUNT = BUILDER
+                .comment("首入范围补足的黄心点数")
+                .defineInRange("absorptionAmount", 10.0, 0.0, 1000.0);
+        BUILDER.pop();
+
+        // ===== 水手菠菜 =====
+        BUILDER.push("sailor_spinach");
+        SAILOR_STRENGTH_DURATION_TICKS = BUILDER
+                .comment("食用获得的力量 II 持续（tick，600 = 30 秒）")
+                .defineInRange("strengthDurationTicks", 600, 1, MAX_TICKS);
+        SAILOR_REGEN_DURATION_TICKS = BUILDER
+                .comment("食用获得的生命恢复 II 持续（tick，200 = 10 秒）")
+                .defineInRange("regenDurationTicks", 200, 1, MAX_TICKS);
+        BUILDER.pop();
+
+        // ===== 诡异八音盒 =====
+        BUILDER.push("eerie_music_box");
+        MUSIC_SHIELD_AMOUNT = BUILDER
+                .comment("使用获得的护盾点数（1:1 抵消最终伤害）")
+                .defineInRange("shieldAmount", 90.0, 0.0, 10000.0);
+        MUSIC_DEATH_DELAY_TICKS = BUILDER
+                .comment("使用后距离死亡的时间（tick，600 = 60 秒）")
+                .defineInRange("deathDelayTicks", 600, 1, MAX_TICKS);
+        BUILDER.pop();
+
         // ===== 星辉大剑 =====
         BUILDER.push("starlight_greatsword");
         STAR_MAX_CHARGE = BUILDER
@@ -621,6 +717,71 @@ public class Config {
                 .defineInRange("comboTimeoutTicks", 40, 1, MAX_TICKS);
         BUILDER.pop();
 
+        // ===== 火腿大棒 =====
+        BUILDER.push("ham_club");
+        HAM_FOOD_PER_ATTACK = BUILDER
+                .comment("每次攻击回复的饱食度（饥饿值点数）")
+                .defineInRange("foodPerAttack", 3, 0, 20);
+        BUILDER.pop();
+
+        // ===== 女武神头盔 =====
+        BUILDER.push("valkyrie_helmet");
+        VALKYRIE_EXTRA_DEFENSE = BUILDER
+                .comment("相比皮革头盔的额外防御（点）")
+                .defineInRange("extraDefense", 2, 0, 10);
+        VALKYRIE_DAMAGE_BONUS = BUILDER
+                .comment("佩戴时造成伤害加成（0.10 = +10%）")
+                .defineInRange("damageBonus", 0.10, 0.0, 10.0);
+        BUILDER.pop();
+
+        // ===== 猎人血清 =====
+        BUILDER.push("hunter_serum");
+        SERUM_SKILL_DURATION_TICKS = BUILDER
+                .comment("猎人视野持续（tick，300 = 15 秒）")
+                .defineInRange("skillDurationTicks", 300, 1, MAX_TICKS);
+        SERUM_SKILL_COOLDOWN_TICKS = BUILDER
+                .comment("技能冷却（tick，1200 = 60 秒）")
+                .defineInRange("skillCooldownTicks", 1200, 0, MAX_TICKS);
+        SERUM_HIGHLIGHT_RADIUS = BUILDER
+                .comment("高亮半径（格）：生物/凋落物发光与容器线框的生效范围")
+                .defineInRange("highlightRadius", 64, 1, 128);
+        SERUM_POTION_LEVEL_BONUS = BUILDER
+                .comment("被动：使用针剂时药水效果等级加成")
+                .defineInRange("potionLevelBonus", 1, 0, 10);
+        SERUM_ARMOR_PEN_RATIO = BUILDER
+                .comment("视野期间：攻击无视的目标护甲比例（0.4 = 40%）")
+                .defineInRange("armorPenRatio", 0.4, 0.0, 1.0);
+        SERUM_TOUGHNESS_PEN_RATIO = BUILDER
+                .comment("视野期间：攻击无视的目标护甲韧性比例（0.2 = 20%）")
+                .defineInRange("toughnessPenRatio", 0.2, 0.0, 1.0);
+        BUILDER.pop();
+
+        // ===== 怪物残灰 =====
+        BUILDER.push("monster_ash");
+        ASH_BASE_DROP_CHANCE = BUILDER
+                .comment("击杀敌对生物时的掉落概率（0.02 = 2%，不受抢夺加成）")
+                .defineInRange("baseDropChance", 0.02, 0.0, 1.0);
+        ASH_SERUM_DROP_CHANCE = BUILDER
+                .comment("击杀者佩戴猎人血清时的掉落概率（0.05 = 5%）")
+                .defineInRange("serumDropChance", 0.05, 0.0, 1.0);
+        ASH_DROP_COUNT = BUILDER
+                .comment("掉落数量（始终固定为 1）")
+                .defineInRange("dropCount", 1, 0, 64);
+        BUILDER.pop();
+
+        // ===== 血脉碎片 =====
+        BUILDER.push("blood_shard");
+        BLOOD_SHARD_BASE_DROP_CHANCE = BUILDER
+                .comment("击杀敌对生物时的掉落概率（0.02 = 2%，不受抢夺加成）")
+                .defineInRange("baseDropChance", 0.02, 0.0, 1.0);
+        BLOOD_SHARD_SERUM_DROP_CHANCE = BUILDER
+                .comment("击杀者佩戴猎人血清时的掉落概率（0.05 = 5%）")
+                .defineInRange("serumDropChance", 0.05, 0.0, 1.0);
+        BLOOD_SHARD_DROP_COUNT = BUILDER
+                .comment("掉落数量（始终固定为 1）")
+                .defineInRange("dropCount", 1, 0, 64);
+        BUILDER.pop();
+
         SPEC = BUILDER.build();
     }
 
@@ -634,10 +795,8 @@ public class Config {
         ShieldEvent.ARMOR_TO_SHIELD = HEART_ARMOR_TO_SHIELD.get();
 
         // 流血护盾
-        bleedingshield.ARMOR_REDUCTION_RATIO = BLEEDING_ARMOR_REDUCTION_RATIO.get();
         bleedingshield.HEALTH_REDUCTION_RATIO = BLEEDING_HEALTH_REDUCTION_RATIO.get();
-        bleedingshield.ARMOR_PER_TOUGHNESS = BLEEDING_ARMOR_PER_TOUGHNESS.get();
-        bleedingshield.HEALTH_PER_TOUGHNESS = BLEEDING_HEALTH_PER_TOUGHNESS.get();
+        bleedingshield.ARMOR_BONUS_RATIO = BLEEDING_ARMOR_REDUCTION_RATIO.get();
 
         // 暗夜契约
         NightContractEvent.HEAL_INTERVAL_TICKS = NIGHT_HEAL_INTERVAL_TICKS.get();
@@ -770,6 +929,28 @@ public class Config {
         InkBladeProjectile.WEAKNESS_DURATION_TICKS = INK_WEAKNESS_DURATION_TICKS.get();
         InkBladeProjectile.WEAKNESS_MAX_LEVEL = INK_WEAKNESS_MAX_LEVEL.get();
 
+        // ===== 投掷电击器 =====
+        shock_device.COOLDOWN_TICKS = SHOCK_COOLDOWN_TICKS.get();
+        shock_device.THROW_SPEED = (float) SHOCK_THROW_SPEED.get().doubleValue();
+        ShockDeviceProjectile.SHOCK_INTERVAL_TICKS = SHOCK_INTERVAL_TICKS.get();
+        ShockDeviceProjectile.SHOCK_DAMAGE = (float) SHOCK_DAMAGE.get().doubleValue();
+        ShockDeviceProjectile.SHOCK_RADIUS = (float) SHOCK_RADIUS.get().doubleValue();
+        ShockDeviceProjectile.SHOCK_DURATION_TICKS = SHOCK_DURATION_TICKS.get();
+
+        // ===== 连队团旗 =====
+        regiment_banner.COOLDOWN_TICKS = REGIMENT_COOLDOWN_TICKS.get();
+        RegimentBannerEntity.LIFETIME_TICKS = REGIMENT_LIFETIME_TICKS.get();
+        RegimentBannerEntity.AURA_RADIUS = REGIMENT_AURA_RADIUS.get();
+        RegimentBannerEntity.ABSORPTION_AMOUNT = (float) REGIMENT_ABSORPTION_AMOUNT.get().doubleValue();
+
+        // ===== 水手菠菜 =====
+        sailor_spinach.STRENGTH_DURATION_TICKS = SAILOR_STRENGTH_DURATION_TICKS.get();
+        sailor_spinach.REGEN_DURATION_TICKS = SAILOR_REGEN_DURATION_TICKS.get();
+
+        // ===== 诡异八音盒 =====
+        MusicBoxEvent.SHIELD_AMOUNT = MUSIC_SHIELD_AMOUNT.get();
+        MusicBoxEvent.DEATH_DELAY_TICKS = MUSIC_DEATH_DELAY_TICKS.get();
+
         // ===== 星辉大剑 =====
         starlight_greatsword.MAX_CHARGE = STAR_MAX_CHARGE.get();
         starlight_greatsword.CHARGE_INTERVAL_TICKS = STAR_CHARGE_INTERVAL_TICKS.get();
@@ -783,5 +964,30 @@ public class Config {
         // ===== 机器爪刃 =====
         machine_claw.COMBO_DAMAGE_PER_HIT = CLAW_COMBO_DAMAGE_PER_HIT.get();
         machine_claw.COMBO_TIMEOUT_TICKS = CLAW_COMBO_TIMEOUT_TICKS.get();
+
+        // ===== 火腿大棒 =====
+        ham_club.FOOD_PER_ATTACK = HAM_FOOD_PER_ATTACK.get();
+
+        // ===== 女武神头盔 =====
+        valkyrie_helmet.EXTRA_DEFENSE = VALKYRIE_EXTRA_DEFENSE.get();
+        valkyrie_helmet.DAMAGE_BONUS = VALKYRIE_DAMAGE_BONUS.get();
+
+        // ===== 猎人血清 =====
+        hunter_serum.SKILL_DURATION_TICKS = SERUM_SKILL_DURATION_TICKS.get();
+        hunter_serum.SKILL_COOLDOWN_TICKS = SERUM_SKILL_COOLDOWN_TICKS.get();
+        hunter_serum.HIGHLIGHT_RADIUS = SERUM_HIGHLIGHT_RADIUS.get();
+        hunter_serum.POTION_LEVEL_BONUS = SERUM_POTION_LEVEL_BONUS.get();
+        hunter_serum.ARMOR_PEN_RATIO = (float) SERUM_ARMOR_PEN_RATIO.get().doubleValue();
+        hunter_serum.TOUGHNESS_PEN_RATIO = (float) SERUM_TOUGHNESS_PEN_RATIO.get().doubleValue();
+
+        // ===== 怪物残灰 =====
+        MonsterAshEvent.BASE_DROP_CHANCE = ASH_BASE_DROP_CHANCE.get();
+        MonsterAshEvent.SERUM_DROP_CHANCE = ASH_SERUM_DROP_CHANCE.get();
+        MonsterAshEvent.DROP_COUNT = ASH_DROP_COUNT.get();
+
+        // ===== 血脉碎片 =====
+        BloodShardEvent.BASE_DROP_CHANCE = BLOOD_SHARD_BASE_DROP_CHANCE.get();
+        BloodShardEvent.SERUM_DROP_CHANCE = BLOOD_SHARD_SERUM_DROP_CHANCE.get();
+        BloodShardEvent.DROP_COUNT = BLOOD_SHARD_DROP_COUNT.get();
     }
 }

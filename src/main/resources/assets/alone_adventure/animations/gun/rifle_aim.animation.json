@@ -1,0 +1,15 @@
+{
+  "format_version": "1.8.0",
+  "animations": {
+    "rifle_aim": {
+      "loop": true,
+      "animation_length": 2.0,
+      "bones": {
+        "root": {
+          "rotation": { "0.0": [0, 0, 0], "1.0": [0.4, 0.4, 0], "2.0": [0, 0, 0] },
+          "position": { "0.0": [0, 1.5, 1], "1.0": [0, 1.7, 1], "2.0": [0, 1.5, 1] }
+        }
+      }
+    }
+  }
+}

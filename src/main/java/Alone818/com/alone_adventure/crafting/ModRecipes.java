@@ -20,6 +20,11 @@ public class ModRecipes {
                     () -> new InjectionRecipe.Serializer() {
                     });
 
+    public static final RegistryObject<RecipeSerializer<InjectionMixRecipe>> INJECTION_MIX =
+            SERIALIZERS.register("injection_mix_recipe",
+                    () -> new InjectionMixRecipe.Serializer() {
+                    });
+
     public static void register(IEventBus eventBus) {
         SERIALIZERS.register(eventBus);
     }

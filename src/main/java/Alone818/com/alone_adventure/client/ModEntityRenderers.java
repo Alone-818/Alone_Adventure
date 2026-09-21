@@ -24,5 +24,14 @@ public final class ModEntityRenderers {
     public static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(ModEntities.INK_BLADE.get(),
                 ctx -> new ThrownItemRenderer<>(ctx, 1.0F, false));
+        // 投掷电击器放电装置：同款投掷物渲染器（渲染弹体携带的物品模型）
+        event.registerEntityRenderer(ModEntities.SHOCK_DEVICE.get(),
+                ctx -> new ThrownItemRenderer<>(ctx, 1.0F, false));
+        // 连队团旗：原地立旗的自定义渲染器（渲染一面原版红旗）
+        event.registerEntityRenderer(ModEntities.REGIMENT_BANNER.get(),
+                RegimentBannerRenderer::new);
+        // 通用枪械子弹：小尺寸投掷物渲染器（渲染弹药物品模型）
+        event.registerEntityRenderer(ModEntities.BULLET.get(),
+                ctx -> new ThrownItemRenderer<>(ctx, 0.35F, true));
     }
 }

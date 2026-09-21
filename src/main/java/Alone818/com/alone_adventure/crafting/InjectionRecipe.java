@@ -16,6 +16,7 @@ import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import Alone818.com.alone_adventure.Items.injection_template;
@@ -26,9 +27,13 @@ import Alone818.com.alone_adventure.init.ModItems;
  *
  * 形状自由匹配：任意位置放
  *   1 瓶瓶装药水（任意含效果药水，含喷溅/滞留）
- * + 1 萤石粉
+ * + 1 怪物残灰
  * + 2 空针管
- * → 2 个针剂（效果时长减半 0.5，使用时间为药水 × 0.8）
+ * → 2 个针剂（效果时长为药水 × 0.8，使用时间为药水 × 0.5）
+ *
+ * 按“格子数”匹配而非堆叠数量：每个非空格子不论放多少个都只算 1 份材料，
+ * 因为每次合成固定从每个非空格子消耗 1 个物品（原版 ResultSlot 规则）。
+ * 所以残灰整堆放一格即可，空针管分放在两个格子里（各放任意数量）。
  *
  * 药水瓶会退回一个玻璃瓶（合成余物）。
  */
@@ -41,25 +46,28 @@ public class InjectionRecipe extends CustomRecipe {
     @Override
     public boolean matches(CraftingContainer inv, Level level) {
         int potion = 0;
-        int glowstone = 0;
+        int ash = 0;
         int empty = 0;
 
         for (int i = 0; i < inv.getContainerSize(); i++) {
             ItemStack stack = inv.getItem(i);
             if (stack.isEmpty()) continue;
 
+            // 每个非空格子只算 1 份材料，堆叠数量不限：
+            // 每次合成从每个非空格子消耗 1 个物品（原版规则），
+            // 按“至少一份”的格子数匹配即可保证消耗与产出对得上。
             if (stack.getItem() instanceof PotionItem
                     && !PotionUtils.getMobEffects(stack).isEmpty()) {
                 potion++;
-            } else if (stack.is(Items.GLOWSTONE_DUST)) {
-                glowstone += stack.getCount();
+            } else if (stack.is(ModItems.MONSTER_ASH.get())) {
+                ash++;
             } else if (stack.is(ModItems.INJECTION_EMPTY.get())) {
-                empty += stack.getCount();
+                empty++;
             } else {
                 return false; // 存在其他物品则不匹配
             }
         }
-        return potion == 1 && glowstone == 1 && empty == 2;
+        return potion == 1 && ash == 1 && empty == 2;
     }
 
     @Override

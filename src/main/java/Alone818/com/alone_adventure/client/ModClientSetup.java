@@ -9,7 +9,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.client.settings.KeyConflictContext;
@@ -29,6 +28,9 @@ import org.lwjgl.glfw.GLFW;
  * 1. 招架之盾：玩家正在使用（举盾）→ blocking = 1.0 → 切换到 parryshield_blocking.json
  * 2. 动力剑：堆栈 NBT 中超频结束时刻未到 → overclock = 1.0 → 切换到 powersword_light.json
  * 3. 链锯剑：正在使用（右键扫射/超频激活中）→ overclock = 1.0 → 切换到 chainsawsword_overclock.json
+ *
+ * 枪械（双持举枪等）已改走 GeckoLib 模型管线（GunGeoRenderer / GunGeoModel），
+ * 不再使用原版模型 overrides 谓词。
  */
 @Mod.EventBusSubscriber(modid = Alone_adventure.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public final class ModClientSetup {
@@ -43,10 +45,28 @@ public final class ModClientSetup {
             GLFW.GLFW_KEY_R,
             "key.categories.alone_adventure");
 
+    /** 枪械装填按键（默认 R；持枪时 R 优先装填而非饰品技能，见 ClientInputHandler 的让位守卫） */
+    public static final KeyMapping GUN_RELOAD_KEY = new KeyMapping(
+            "key.alone_adventure.gun_reload",
+            KeyConflictContext.IN_GAME,
+            InputConstants.Type.KEYSYM,
+            GLFW.GLFW_KEY_R,
+            "key.categories.alone_adventure");
+
+    /** 枪械切换弹药按键（默认 G，主手枪支持多种弹药时循环切换） */
+    public static final KeyMapping GUN_SWITCH_AMMO_KEY = new KeyMapping(
+            "key.alone_adventure.gun_switch_ammo",
+            KeyConflictContext.IN_GAME,
+            InputConstants.Type.KEYSYM,
+            GLFW.GLFW_KEY_G,
+            "key.categories.alone_adventure");
+
     /** 注册按键绑定（模组事件总线） */
     @SubscribeEvent
     public static void onRegisterKeys(RegisterKeyMappingsEvent event) {
         event.register(EAGLE_SKILL_KEY);
+        event.register(GUN_RELOAD_KEY);
+        event.register(GUN_SWITCH_AMMO_KEY);
     }
 
     /** 举盾状态属性名，需与 parryshield.json 中 overrides 的键完全一致 */

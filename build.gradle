@@ -150,6 +150,9 @@ repositories {
 
     maven { url = "https://api.modrinth.com/maven" }
 
+    // GeckoLib(枪械 Blockbench 模型/动画运行时)
+    maven { url = "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/" }
+
 }
 
 dependencies {
@@ -160,6 +163,8 @@ dependencies {
     // then special handling is done to allow a setup of a vanilla dependency without the use of an external repository.
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     implementation fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}")
+    // GeckoLib:Blockbench(基岩格式)模型与动画,按 <物品id>_<行为>.animation.json 逐行为文件驱动枪械动画
+    implementation fg.deobf("software.bernie.geckolib:geckolib-forge-${minecraft_version}:${geckolib_version}")
     runtimeOnly fg.deobf( "maven.modrinth:jade:11.13.2+forge")
     // Example mod dependency with JEI - using fg.deobf() ensures the dependency is remapped to your development mappings
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime

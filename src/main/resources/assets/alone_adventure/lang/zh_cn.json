@@ -12,7 +12,7 @@
 
   "item.alone_adventure.bleedingshield": "流血护盾",
   "item.alone_adventure.bleedingshield.tooltip.desc": "由鲜血凝结而成的护盾，血液仍在试图侵蚀持有者。",
-  "item.alone_adventure.bleedingshield.tooltip.toughness_desc": "每减少 2 点护甲或每减少 1 点生命，转化为 1 点护甲韧性",
+  "item.alone_adventure.bleedingshield.tooltip.toughness_desc": "减少 20% 最大生命值，同时获得 +30% 护甲加成",
 
   "item.alone_adventure.adaptive_flesh": "自适应血肉",
   "item.alone_adventure.adaptive_flesh.tooltip.desc": "一块不断蠕动的活体组织，似乎在与你的伤痛一同学习。",
@@ -103,6 +103,19 @@
   "item.alone_adventure.ink_blade.tooltip.blades_left": "剩余刀刃：%s/%s",
   "entity.alone_adventure.ink_blade_projectile": "墨制刀刃飞刃",
 
+  "item.alone_adventure.shock_device": "投掷电击器",
+  "item.alone_adventure.shock_device.tooltip.desc": "一台便携的放电装置，掷出后迸发电弧，靠近者皆遭电噬。",
+  "item.alone_adventure.shock_device.tooltip.throw_desc": "右键掷出（弹道同雪球）：飞行途中即开始放电，命中后固定原地继续放电 5 秒，投掷冷却 0.5 秒",
+  "item.alone_adventure.shock_device.tooltip.shock_desc": "电击：每 0.1 秒对半径 4 格内的所有生物造成 0.5 点伤害（不伤投掷者、无击退），命中附加缓慢 I（1.5 秒），累计最高 25 点",
+  "entity.alone_adventure.shock_device_projectile": "投掷电击器",
+
+  "item.alone_adventure.regiment_banner": "连队团旗",
+  "item.alone_adventure.regiment_banner.tooltip.desc": "承载着连队荣誉的战旗，插下它，士兵们便有了不肯退让的理由。",
+  "item.alone_adventure.regiment_banner.tooltip.use_desc": "右键在原地插旗（持续 30 秒）：半径 8 格内的玩家获得抗性 II 与耐力 I，插旗冷却 120 秒",
+  "item.alone_adventure.regiment_banner.tooltip.absorption_desc": "首次进入军旗范围的玩家补足 10 点黄心（每面军旗对每名玩家只生效一次）",
+  "item.alone_adventure.regiment_banner.tooltip.repair_desc": "耐久 8 次，耗尽损毁；可在铁砧中用金锭修复（每锭回复 2 点）；不可堆叠、无法附魔",
+  "entity.alone_adventure.regiment_banner": "连队团旗",
+
   "item.alone_adventure.sealed_throne": "封印王座",
   "item.alone_adventure.sealed_throne.tooltip.desc": "一座凝固了星辉的王座，佩戴者将逐步汲取其中的光。",
   "item.alone_adventure.sealed_throne.tooltip.star_desc": "星辉每 5 秒回复 1 点，上限 12 点",
@@ -126,17 +139,85 @@
   "item.alone_adventure.charging_core.tooltip.skill_desc": "主动技能（默认键 R）：切换到下一形态并释放当前形态的充能，冷却 5 秒",
   "item.alone_adventure.charging_core.tooltip.cooldown_left": "技能冷却剩余：%d 秒",
 
+  "item.alone_adventure.hunter_serum": "猎人血清",
+  "item.alone_adventure.hunter_serum.tooltip.desc": "一瓶注入了掠食者本能的浑浊血清，开启后世界褪为黑白，猎物无处遁形。",
+  "item.alone_adventure.hunter_serum.tooltip.passive_desc": "被动：使用针剂时，获得的药水效果等级 +1，且时长可与现有同类效果叠加",
+  "item.alone_adventure.hunter_serum.tooltip.skill_desc": "主动技能（默认键 R）：猎人视野——视角变为黑白，高亮范围内的生物（红）、凋落物（蓝）与容器（黄）（穿墙可见，仅本人可见），持续期间攻击无视 40% 护甲与 20% 护甲韧性，持续 15 秒，冷却 60 秒",
+  "item.alone_adventure.hunter_serum.tooltip.cooldown_left": "技能冷却剩余：%d 秒",
+
+  "item.alone_adventure.quest_contract": "任务契约",
+  "item.alone_adventure.quest_contract.tooltip.desc": "记录持有者试炼的契约饰品——完成全部任务后，可作为合成材料",
+  "quest.alone_adventure.quest_contract.kill_zombie": "击杀僵尸 ×10",
+  "quest.alone_adventure.quest_contract.collect_beetroot": "收集金甜菜根 ×3",
+  "tooltip.alone_adventure.quest.material_ready": "✔ 契约达成——现可作为合成材料",
+  "tooltip.alone_adventure.quest.material_locked": "✘ 完成全部任务后，方可作为合成材料",
+  "message.alone_adventure.quest.task_done": "任务完成：%s",
+  "message.alone_adventure.quest.all_done": "契约达成！该物品现可作为合成材料",
+  "message.alone_adventure.quest.kill_progress": "任务进度：%s（%d/%d）",
+
   "effect.alone_adventure.vulnerability": "易伤",
   "effect.alone_adventure.laceration": "撕裂",
   "effect.alone_adventure.endurance": "耐力",
   "effect.alone_adventure.calamity": "灾厄",
   "item.alone_adventure.golden_beetroot": "金甜菜根",
   "tooltip.alone_adventure.golden_beetroot": "食用给予耐力 I 60 秒，也可用于酿造耐力药水",
+
+  "item.alone_adventure.sailor_spinach": "水手菠菜",
+  "tooltip.alone_adventure.sailor_spinach": "食用回复 4 点饱食度与 8 点饱和度，并给予力量 II（30 秒）与生命恢复 II（10 秒）",
   "item.alone_adventure.injection_empty": "空针管",
   "item.alone_adventure.injection_empty.tooltip": "用于合成药水针剂的空针管",
   "item.alone_adventure.injection_syringe": "药水针剂",
   "tooltip.alone_adventure.injection_template.empty": "此针剂无效果（请先将药水放进合成台）",
   "tooltip.alone_adventure.injection_template.header": "药水针剂（效果时长 0.8 倍，0.5 倍使用时间）",
+
+  "item.alone_adventure.monster_ash": "怪物残灰",
+  "item.alone_adventure.monster_ash.tooltip.desc": "击杀敌对生物后残留的灰烬（不受抢夺影响；佩戴猎人血清时概率更高）",
+
+  "item.alone_adventure.blood_shard": "血脉碎片",
+  "item.alone_adventure.blood_shard.tooltip.desc": "击杀敌对生物后溢出的血脉（不受抢夺影响；佩戴猎人血清时概率更高）",
+
+  "item.alone_adventure.first_aid_kit": "急救包",
+  "item.alone_adventure.first_aid_kit.tooltip.desc": "使用后立即回复最大生命值的 60%，冷却 120 秒（共 3 次耐久；不可堆叠、无法附魔）",
+
+  "item.alone_adventure.eerie_music_box": "诡异八音盒",
+  "item.alone_adventure.eerie_music_box.tooltip.desc": "一只不知疲倦的八音盒，旋律很美，代价很贵。",
+  "item.alone_adventure.eerie_music_box.tooltip.use_desc": "右键使用：立即获得 90 点护盾，1:1 抵消受到的最终伤害，持续到耗尽或死亡",
+  "item.alone_adventure.eerie_music_box.tooltip.curse_desc": "诅咒：60秒后旋律停止，你将立刻死亡——不死图腾、护盾与致命伤害免疫饰品都无法豁免，重登也无法逃避",
+  "gui.alone_adventure.eerie_music_box.used": "诡异的旋律开始转动……",
+  "gui.alone_adventure.eerie_music_box.warning": "§c八音盒的旋律即将停止……",
+  "gui.alone_adventure.eerie_music_box.bar": "八音盒护盾：%s 点 ｜ %s 秒后生命将被收走",
+
+
+  "item.alone_adventure.long_bullet": "长子弹",
+  "item.alone_adventure.shotgun_shell": "霰弹",
+  "item.alone_adventure.short_bullet": "短子弹",
+  "item.alone_adventure.crossbow_bolt": "弩箭弹药",
+  "item.alone_adventure.ammo.tooltip.desc": "枪械弹药",
+
+  "item.alone_adventure.rifle": "步枪",
+  "item.alone_adventure.shotgun": "霰弹枪",
+  "item.alone_adventure.pistol": "手枪",
+  "entity.alone_adventure.bullet": "子弹",
+
+  "item.alone_adventure.gun.tooltip.usage": "左键开火 / 右键瞄准（散布减半）/ R 或潜行右键装填 / G 切换弹药",
+  "item.alone_adventure.gun.tooltip.dual": "双持枪械时按住左键交替开火（射速每把枪独立计算）",
+
+  "gun.alone_adventure.stat.line1": "子弹伤害 %s ｜ 弹速 %s ｜ 弹丸数 %s",
+  "gun.alone_adventure.stat.line2": "%s ｜ 射速 %s 秒 ｜ 后坐力 %s° ｜ 偏移 ±%s°/±%s°",
+  "gun.alone_adventure.stat.line3": "弹夹 %s ｜ 装填 %s（%s 秒）｜ 弹药 %s",
+  "gun.alone_adventure.stat.line4": "穿透 %s ｜ 反弹 %s ｜ 击退 %s ｜ 有效射程 %s 格 ｜ 瞄准 %s×",
+  "gun.alone_adventure.stat.line5": "改装槽位 %s",
+  "gun.alone_adventure.stat.ammo": "弹药：%s/%s（%s）",
+  "gun.alone_adventure.stat.ammo_types": "弹药切换：%s（共 %s 种，G 键循环）",
+  "gun.alone_adventure.fire_mode.manual": "手动",
+  "gun.alone_adventure.fire_mode.semi_auto": "半自动",
+  "gun.alone_adventure.reload_type.magazine": "弹夹装填",
+  "gun.alone_adventure.reload_type.per_bullet": "逐发装填",
+  "gun.alone_adventure.handedness.one_handed": "持枪方式：单手（可双持）",
+  "gun.alone_adventure.handedness.two_handed": "持枪方式：双手（仅主手可用）",
+  "gui.alone_adventure.gun.no_ammo": "§c背包里没有可用的弹药",
+  "gui.alone_adventure.gun.reloading": "§e装填中……",
+  "gui.alone_adventure.gun.ammo_switched": "§b弹药切换：%s",
 
   "item.minecraft.potion.effect.endurance": "耐力药水",
   "item.minecraft.splash_potion.effect.endurance": "喷溅型耐力药水",
@@ -159,6 +240,8 @@
   "item.alone_adventure.imperial_eagle.tooltip.cooldown_left": "技能冷却剩余：%d 秒",
 
   "key.alone_adventure.curio_skill": "饰品主动技能",
+  "key.alone_adventure.gun_reload": "枪械装填",
+  "key.alone_adventure.gun_switch_ammo": "枪械切换弹药",
   "key.categories.alone_adventure": "孤独冒险",
 
   "item.alone_adventure.starlight_greatsword": "星辉大剑",
@@ -178,8 +261,17 @@
   "item.alone_adventure.machine_claw.tooltip.combo_desc": "连击：基础伤害 3；每次命中实体使后续攻击 +1 伤害，2 秒内未命中（含挥空）则加成清零",
   "item.alone_adventure.machine_claw.tooltip.combo": "连击：%s 层（下次 +%s 伤害）",
 
+  "item.alone_adventure.ham_club": "火腿大棒",
+  "item.alone_adventure.ham_club.tooltip.desc": "一整只风干火腿，边打边吃，越战越饱。",
+  "item.alone_adventure.ham_club.tooltip.food_desc": "每次攻击回复 3 点饱食度；耐久（32）耗尽后原地变为骨头",
+
+  "item.alone_adventure.valkyrie_helmet": "女武神头盔",
+  "item.alone_adventure.valkyrie_helmet.tooltip.desc": "绘有双翼的皮头盔，仿佛有女武神在耳边低语。",
+  "item.alone_adventure.valkyrie_helmet.tooltip.effect_desc": "皮革头盔防御力 +2（共 3 点）；佩戴时造成伤害 +10%",
+
   "subtitle.alone_adventure.skill_ready.imperial_eagle": "§a帝国天鹰：主动技能已就绪",
   "subtitle.alone_adventure.skill_ready.broken_mask": "§a破损面具：主动技能已就绪",
   "subtitle.alone_adventure.skill_ready.binding_bandage": "§a紧缚绷带：主动技能已就绪",
-  "subtitle.alone_adventure.skill_ready.sealed_throne": "§a封印王座：主动技能已就绪"
+  "subtitle.alone_adventure.skill_ready.sealed_throne": "§a封印王座：主动技能已就绪",
+  "subtitle.alone_adventure.skill_ready.hunter_serum": "§a猎人血清：主动技能已就绪"
 }

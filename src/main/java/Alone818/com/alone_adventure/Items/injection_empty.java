@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * 空针管 - 用于合成药水针剂
  *
- * 合成配方：瓶装药水 + 萤石粉 + 2 个空针管 → 2 个针剂
+ * 合成配方：瓶装药水 + 怪物残灰 + 2 个空针管 → 2 个针剂
  */
 public class injection_empty extends Item {
 

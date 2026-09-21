@@ -1,7 +1,10 @@
 package Alone818.com.alone_adventure.init;
 
 import Alone818.com.alone_adventure.Alone_adventure;
+import Alone818.com.alone_adventure.Items.BulletProjectile;
 import Alone818.com.alone_adventure.Items.InkBladeProjectile;
+import Alone818.com.alone_adventure.Items.RegimentBannerEntity;
+import Alone818.com.alone_adventure.Items.ShockDeviceProjectile;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -22,6 +25,37 @@ public class ModEntities {
                             .clientTrackingRange(4)
                             .updateInterval(10)
                             .build("ink_blade_projectile"));
+
+    // 投掷电击器放电装置弹体
+    public static final RegistryObject<EntityType<ShockDeviceProjectile>> SHOCK_DEVICE =
+            ENTITIES.register("shock_device_projectile",
+                    () -> EntityType.Builder.<ShockDeviceProjectile>of(
+                                    ShockDeviceProjectile::new, MobCategory.MISC)
+                            .sized(0.25F, 0.25F)
+                            .clientTrackingRange(4)
+                            .updateInterval(10)
+                            .build("shock_device_projectile"));
+
+    // 连队团旗的旗子实体（静态、不可交互，仅承载光环与渲染）
+    public static final RegistryObject<EntityType<RegimentBannerEntity>> REGIMENT_BANNER =
+            ENTITIES.register("regiment_banner",
+                    () -> EntityType.Builder.<RegimentBannerEntity>of(
+                                    RegimentBannerEntity::new, MobCategory.MISC)
+                            .sized(0.5F, 1.8F)
+                            .clientTrackingRange(8)
+                            .updateInterval(10)
+                            .fireImmune()
+                            .build("regiment_banner"));
+
+    // 通用枪械的子弹实体（高速直线弹道，可穿透/衰减）
+    public static final RegistryObject<EntityType<BulletProjectile>> BULLET =
+            ENTITIES.register("bullet",
+                    () -> EntityType.Builder.<BulletProjectile>of(
+                                    BulletProjectile::new, MobCategory.MISC)
+                            .sized(0.15F, 0.15F)
+                            .clientTrackingRange(6)
+                            .updateInterval(1)
+                            .build("bullet"));
 
     public static void register(IEventBus eventBus) {
         ENTITIES.register(eventBus);

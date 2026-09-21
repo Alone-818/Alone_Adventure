@@ -12,7 +12,7 @@
 
   "item.alone_adventure.bleedingshield": "Bleeding Shield",
   "item.alone_adventure.bleedingshield.tooltip.desc": "A shield forged from congealed blood, the blood still seeks to erode its wielder.",
-  "item.alone_adventure.bleedingshield.tooltip.toughness_desc": "Every 2 armor points or 1 health point sacrificed converts to 1 armor toughness",
+  "item.alone_adventure.bleedingshield.tooltip.toughness_desc": "Reduces max health by 20%, grants +30% armor",
 
   "item.alone_adventure.adaptive_flesh": "Adaptive Flesh",
   "item.alone_adventure.adaptive_flesh.tooltip.desc": "A squirming piece of living tissue that seems to learn alongside your pain.",
@@ -96,6 +96,19 @@
   "item.alone_adventure.ink_blade.tooltip.blades_left": "Blades left: %s/%s",
   "entity.alone_adventure.ink_blade_projectile": "Ink Blade",
 
+  "item.alone_adventure.shock_device": "Throwable Shock Device",
+  "item.alone_adventure.shock_device.tooltip.desc": "A portable discharge device; once thrown, it crackles with arcs that bite anything nearby.",
+  "item.alone_adventure.shock_device.tooltip.throw_desc": "Right-click to throw (snowball trajectory): discharges while in flight, anchors in place on impact and keeps discharging for 5s; 0.5s throw cooldown",
+  "item.alone_adventure.shock_device.tooltip.shock_desc": "Shock: deals 1 damage every 0.1s to all creatures within 4 blocks (spares the thrower), up to 50 damage in total; hit targets also gain Slowness I (1.5s)",
+  "entity.alone_adventure.shock_device_projectile": "Throwable Shock Device",
+
+  "item.alone_adventure.regiment_banner": "Regimental Banner",
+  "item.alone_adventure.regiment_banner.tooltip.desc": "A company standard bearing the regiment's honor; plant it, and the line holds.",
+  "item.alone_adventure.regiment_banner.tooltip.use_desc": "Right-click to plant it where you stand (30s): players within 8 blocks gain Resistance II and Endurance I; 120s cooldown",
+  "item.alone_adventure.regiment_banner.tooltip.absorption_desc": "Players entering the banner's range are topped up to 10 absorption points (once per player per banner)",
+  "item.alone_adventure.regiment_banner.tooltip.repair_desc": "8 uses per durability, breaks when depleted; repairable with gold ingots in an anvil (2 points per ingot); not stackable, cannot be enchanted",
+  "entity.alone_adventure.regiment_banner": "Regimental Banner",
+
   "item.alone_adventure.sealed_throne": "Sealed Throne",
   "item.alone_adventure.sealed_throne.tooltip.desc": "A throne crystallized from starlight; its wearer will gradually draw forth its radiance.",
   "item.alone_adventure.sealed_throne.tooltip.star_desc": "Starlight regens 1 per 5s, max 12",
@@ -119,6 +132,12 @@
   "item.alone_adventure.charging_core.tooltip.skill_desc": "Active skill (default key R): switch to the next form and release its charge, 5s cooldown",
   "item.alone_adventure.charging_core.tooltip.cooldown_left": "Skill cooldown: %d seconds remaining",
 
+  "item.alone_adventure.hunter_serum": "Hunter Serum",
+  "item.alone_adventure.hunter_serum.tooltip.desc": "A murky serum charged with predator instinct; when drawn, the world fades to gray and nothing stays hidden.",
+  "item.alone_adventure.hunter_serum.tooltip.passive_desc": "Passive: effects gained from syringes come with +1 level, and their duration stacks with existing effects of the same kind",
+  "item.alone_adventure.hunter_serum.tooltip.skill_desc": "Active skill (default key R): Hunter Vision -- the view turns grayscale, highlighting creatures (red), dropped items (blue) and containers (yellow) in range (visible through walls, only to you); while active, attacks ignore 40% of the target's armor and 20% of its toughness; lasts 15s, 60s cooldown",
+  "item.alone_adventure.hunter_serum.tooltip.cooldown_left": "Skill cooldown: %d seconds remaining",
+
   "item.minecraft.potion.effect.endurance": "Potion of Endurance",
   "item.minecraft.splash_potion.effect.endurance": "Splash Potion of Endurance",
   "item.minecraft.lingering_potion.effect.endurance": "Lingering Potion of Endurance",
@@ -137,11 +156,73 @@
   "effect.alone_adventure.endurance": "Endurance",
   "item.alone_adventure.golden_beetroot": "Golden Beetroot",
   "tooltip.alone_adventure.golden_beetroot": "Grants Endurance I for 60 seconds when eaten, also used to brew Endurance Potion",
+
+  "item.alone_adventure.quest_contract": "Quest Contract",
+  "item.alone_adventure.quest_contract.tooltip.desc": "A contract curio recording its holder's trials - usable as a crafting material once all tasks are complete",
+  "quest.alone_adventure.quest_contract.kill_zombie": "Slay Zombies x10",
+  "quest.alone_adventure.quest_contract.collect_beetroot": "Gather Golden Beetroot x3",
+  "tooltip.alone_adventure.quest.material_ready": "✔ Contract fulfilled - now usable as a crafting material",
+  "tooltip.alone_adventure.quest.material_locked": "✘ Complete all tasks before using as a crafting material",
+  "message.alone_adventure.quest.task_done": "Task complete: %s",
+  "message.alone_adventure.quest.all_done": "Contract fulfilled! This item is now usable as a crafting material",
+  "message.alone_adventure.quest.kill_progress": "Task progress: %s (%d/%d)",
+
+  "item.alone_adventure.sailor_spinach": "Sailor's Spinach",
+  "tooltip.alone_adventure.sailor_spinach": "Restores 4 hunger and 8 saturation when eaten, and grants Strength II (30s) and Regeneration II (10s)",
   "item.alone_adventure.injection_empty": "Empty Syringe",
   "item.alone_adventure.injection_empty.tooltip": "An empty syringe used to craft potion syringes",
   "item.alone_adventure.injection_syringe": "Potion Syringe",
   "tooltip.alone_adventure.injection_template.empty": "This syringe has no effects (place a potion in the crafting grid)",
   "tooltip.alone_adventure.injection_template.header": "Potion syringe (duration 0.8x, 0.5x use time)",
+
+  "item.alone_adventure.monster_ash": "Monster Ash",
+  "item.alone_adventure.monster_ash.tooltip.desc": "Ash left behind by slain hostile creatures (unaffected by Looting; drops more plentifully with Hunter Serum worn)",
+
+  "item.alone_adventure.blood_shard": "Blood Shard",
+  "item.alone_adventure.blood_shard.tooltip.desc": "Blood essence left after slaying hostile creatures (unaffected by Looting; higher drop rate with Hunter Serum worn)",
+
+  "item.alone_adventure.first_aid_kit": "First Aid Kit",
+  "item.alone_adventure.first_aid_kit.tooltip.desc": "Instantly restores 60% of max health, 120s cooldown per use (3 uses; not stackable, cannot be enchanted)",
+
+  "item.alone_adventure.eerie_music_box": "Eerie Music Box",
+  "item.alone_adventure.eerie_music_box.tooltip.desc": "A tireless little music box; the melody is beautiful, and the price is steep.",
+  "item.alone_adventure.eerie_music_box.tooltip.use_desc": "Right-click to use: instantly gain 90 shield points that absorb incoming final damage 1:1, lasting until depleted or death",
+  "item.alone_adventure.eerie_music_box.tooltip.curse_desc": "Curse: in 60 seconds the melody ends and you die instantly -- totems, shields and fatal-damage immunity trinkets cannot save you, and relogging won't help",
+  "gui.alone_adventure.eerie_music_box.used": "The eerie melody begins to turn...",
+  "gui.alone_adventure.eerie_music_box.warning": "§cThe music box is about to stop...",
+  "gui.alone_adventure.eerie_music_box.bar": "Music Box Shield: %s points ｜ your life will be claimed in %s seconds",
+
+
+  "item.alone_adventure.long_bullet": "Long Bullet",
+  "item.alone_adventure.shotgun_shell": "Shotgun Shell",
+  "item.alone_adventure.short_bullet": "Short Bullet",
+  "item.alone_adventure.crossbow_bolt": "Crossbow Bolt",
+  "item.alone_adventure.ammo.tooltip.desc": "Firearm ammunition",
+
+  "item.alone_adventure.rifle": "Rifle",
+  "item.alone_adventure.shotgun": "Shotgun",
+  "item.alone_adventure.pistol": "Pistol",
+  "entity.alone_adventure.bullet": "Bullet",
+
+  "item.alone_adventure.gun.tooltip.usage": "Left-click to fire / Right-click to aim (halves spread) / Press R (or Sneak + Right-click) to reload / Press G to switch ammo",
+  "item.alone_adventure.gun.tooltip.dual": "While dual-wielding guns, hold Left-click to fire alternately (fire rate tracked per gun)",
+
+  "gun.alone_adventure.stat.line1": "Bullet damage %s | Speed %s | Pellets %s",
+  "gun.alone_adventure.stat.line2": "%s | Rate %ss | Recoil %s° | Spread ±%s°/±%s°",
+  "gun.alone_adventure.stat.line3": "Magazine %s | Reload %s (%ss) | Ammo %s",
+  "gun.alone_adventure.stat.line4": "Penetration %s | Ricochet %s | Knockback %s | Range %s blocks | Aim %sx",
+  "gun.alone_adventure.stat.line5": "Mod slots %s",
+  "gun.alone_adventure.stat.ammo": "Ammo: %s/%s (%s)",
+  "gun.alone_adventure.stat.ammo_types": "Ammo selection: %s (%s types, cycle with G)",
+  "gun.alone_adventure.fire_mode.manual": "Manual",
+  "gun.alone_adventure.fire_mode.semi_auto": "Semi-auto",
+  "gun.alone_adventure.reload_type.magazine": "Magazine reload",
+  "gun.alone_adventure.reload_type.per_bullet": "Per-bullet reload",
+  "gun.alone_adventure.handedness.one_handed": "Grip: One-handed (dual-wieldable)",
+  "gun.alone_adventure.handedness.two_handed": "Grip: Two-handed (main hand only)",
+  "gui.alone_adventure.gun.no_ammo": "§cNo usable ammunition in inventory",
+  "gui.alone_adventure.gun.reloading": "§eReloading...",
+  "gui.alone_adventure.gun.ammo_switched": "§bAmmo switched: %s",
 
   "item.alone_adventure.imperial_eagle": "Imperial Eagle",
   "item.alone_adventure.imperial_eagle.tooltip.desc": "The two-headed eagle emblem of the Imperium, symbolizing glory and immortality.",
@@ -151,6 +232,8 @@
   "item.alone_adventure.imperial_eagle.tooltip.cooldown_left": "Skill cooldown: %d seconds remaining",
 
   "key.alone_adventure.curio_skill": "Curio Active Skill",
+  "key.alone_adventure.gun_reload": "Gun Reload",
+  "key.alone_adventure.gun_switch_ammo": "Switch Gun Ammo",
   "key.categories.alone_adventure": "Alone Adventure",
 
   "item.alone_adventure.starlight_greatsword": "Starlight Greatsword",
@@ -170,8 +253,17 @@
   "item.alone_adventure.machine_claw.tooltip.combo_desc": "Combo: base damage 3; each landed hit adds +1 damage to subsequent attacks; resets if no hit lands within 2 seconds (misses included)",
   "item.alone_adventure.machine_claw.tooltip.combo": "Combo: %s hits (+%s damage next)",
 
+  "item.alone_adventure.ham_club": "Ham Club",
+  "item.alone_adventure.ham_club.tooltip.desc": "A whole cured ham; fight on and stay fed.",
+  "item.alone_adventure.ham_club.tooltip.food_desc": "Each attack restores 3 food; turns into a bone when its 32 durability runs out",
+
+  "item.alone_adventure.valkyrie_helmet": "Valkyrie Helmet",
+  "item.alone_adventure.valkyrie_helmet.tooltip.desc": "A winged leather helm; a valkyrie whispers at your ear.",
+  "item.alone_adventure.valkyrie_helmet.tooltip.effect_desc": "Leather helmet defense +2 (3 total); +10% damage dealt while worn",
+
   "subtitle.alone_adventure.skill_ready.imperial_eagle": "§aImperial Eagle: active skill ready",
   "subtitle.alone_adventure.skill_ready.broken_mask": "§aBroken Mask: active skill ready",
   "subtitle.alone_adventure.skill_ready.binding_bandage": "§aBinding Bandage: active skill ready",
-  "subtitle.alone_adventure.skill_ready.sealed_throne": "§aSealed Throne: active skill ready"
+  "subtitle.alone_adventure.skill_ready.sealed_throne": "§aSealed Throne: active skill ready",
+  "subtitle.alone_adventure.skill_ready.hunter_serum": "§aHunter Serum: active skill ready"
 }

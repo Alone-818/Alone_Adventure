@@ -67,3 +67,9 @@ mandatory=false
 versionRange="[5.0.9.0, )"
 ordering="NONE"
 side="BOTH"
+[[dependencies."${mod_id}"]]
+modId="geckolib"
+mandatory=true
+versionRange="[4.8,)"
+ordering="NONE"
+side="BOTH"
