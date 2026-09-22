@@ -213,6 +213,7 @@
   "gun.alone_adventure.stat.ammo_types": "弹药切换：%s（共 %s 种，G 键循环）",
   "gun.alone_adventure.fire_mode.manual": "手动",
   "gun.alone_adventure.fire_mode.semi_auto": "半自动",
+  "gun.alone_adventure.fire_mode.full_auto": "全自动",
   "gun.alone_adventure.reload_type.magazine": "弹夹装填",
   "gun.alone_adventure.reload_type.per_bullet": "逐发装填",
   "gun.alone_adventure.handedness.one_handed": "持枪方式：单手（可双持）",
