@@ -59,8 +59,6 @@ public class Config {
 
     private static ForgeConfigSpec.DoubleValue BLEEDING_ARMOR_REDUCTION_RATIO;
     private static ForgeConfigSpec.DoubleValue BLEEDING_HEALTH_REDUCTION_RATIO;
-    private static ForgeConfigSpec.DoubleValue BLEEDING_ARMOR_PER_TOUGHNESS;
-    private static ForgeConfigSpec.DoubleValue BLEEDING_HEALTH_PER_TOUGHNESS;
 
     private static ForgeConfigSpec.IntValue NIGHT_HEAL_INTERVAL_TICKS;
     private static ForgeConfigSpec.DoubleValue NIGHT_BONUS_PER_BRIGHTNESS;
