@@ -81,7 +81,7 @@
   "item.alone_adventure.chainsawsword": "Chainsaw Sword",
   "item.alone_adventure.chainsawsword.tooltip.desc": "A mysterious imperial weapon from 39 millennia in the future, relying on serrated teeth to cut through foes.",
   "item.alone_adventure.chainsawsword.tooltip.tear_desc": "Tear: Normal hits stack 4 levels, sweep hits have a 50% chance to stack 2 levels (refreshes on hit). When duration ends, settle once for damage = level × 0.6, then halve the level, re-apply with half level and continue settling until level reaches zero.",
-  "item.alone_adventure.chainsawsword.tooltip.sweep_desc": "Sweep: Right-click to activate (lasts 7s, costs 3 durability, 15s cooldown). During activation, deals 1 damage every 0.2s to entities in front within 6 blocks cone (blocked by obstacles), and stacks 2 Laceration levels on hit (50% chance).",
+  "item.alone_adventure.chainsawsword.tooltip.sweep_desc": "Sweep: Right-click to activate (lasts 7s, costs 3 durability, 15s cooldown). During activation, deals 1 damage every 0.2s to entities in front within 6 blocks cone (blocked by obstacles), and stacks 2 Laceration levels on hit (50% chance). Sweep damage ignores all armor and armor toughness.",
   "item.alone_adventure.chainsawsword.tooltip.sweep_active": "Sweeping: %d seconds remaining",
 
   "item.alone_adventure.painstrike_hammer": "Painstrike Hammer",

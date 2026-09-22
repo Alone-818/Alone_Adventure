@@ -88,7 +88,7 @@
   "item.alone_adventure.chainsawsword": "链锯剑",
   "item.alone_adventure.chainsawsword.tooltip.desc": "来自 39 个千年后的神秘帝国武器，依靠锯齿切割敌人。",
   "item.alone_adventure.chainsawsword.tooltip.tear_desc": "撕裂：普通攻击叠加 4 层，扫射命中有 50% 概率叠加 2 层（命中时刷新持续时间）。持续时间结束时结算一次伤害（等级 × 0.6），然后等级减半，减半后自动重新挂上继续结算，直到等级归零。",
-  "item.alone_adventure.chainsawsword.tooltip.sweep_desc": "扫射：右键激活（持续 7 秒，损耗 3 点耐久，冷却 15 秒）。激活期间每 0.2 秒对前方 6 格锥形范围内的实体造成 1 点伤害（视线会被方块阻挡），并有 50% 概率附加 2 层撕裂。",
+  "item.alone_adventure.chainsawsword.tooltip.sweep_desc": "扫射：右键激活（持续 7 秒，损耗 3 点耐久，冷却 15 秒）。激活期间每 0.2 秒对前方 6 格锥形范围内的实体造成 1 点伤害（视线会被方块阻挡），并有 50% 概率附加 2 层撕裂。扫射伤害无视所有护甲与护甲韧性。",
   "item.alone_adventure.chainsawsword.tooltip.sweep_active": "扫射中：剩余 %d 秒",
 
   "item.alone_adventure.painstrike_hammer": "痛击之锤",

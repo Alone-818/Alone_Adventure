@@ -38,6 +38,8 @@ public final class GunStats {
         MANUAL,
         /** 半自动：每按一次左键开火一次，受射速间隔限制 */
         SEMI_AUTO,
+        /** 全自动：持续按住左键自动连续开火（受射速间隔限制） */
+        FULL_AUTO,
     }
 
     /** 持枪方式 */
