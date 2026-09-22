@@ -8,6 +8,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -118,6 +119,16 @@ public class chainsawsword extends SwordItem {
     // ===== 扫射结算 =====
 
     /**
+     * 获取扫射伤害：基础伤害 × 玩家攻击伤害属性修正。
+     * 使用 magic 伤害源，扫射伤害无视所有护甲与护甲韧性。
+     */
+    private float calculateSlashDamage(Player player) {
+        double attackDamage = player.getAttributeValue(Attributes.ATTACK_DAMAGE);
+        // 链锯剑钻石剑尖：额外伤害 +5（剑本属性），但扫射使用玩家当前属性
+        return (float) (SLASH_DAMAGE * attackDamage*0.2);
+    }
+
+    /**
      * 使用期间的每 tick 结算——扫射核心。
      * 每 {@value #SLASH_INTERVAL_TICKS} tick 对身前扇形（{@value #SLASH_ARC_DEGREES}°、
      * 半径 {@value #SLASH_RANGE} 格）内的所有生物造成 {@value #SLASH_DAMAGE} 点伤害并刷新撕裂。
@@ -152,7 +163,9 @@ public class chainsawsword extends SwordItem {
 
             // 归零无敌帧，使高频低伤真正生效
             target.invulnerableTime = 0;
-            target.hurt(entity.damageSources().playerAttack(player), SLASH_DAMAGE);
+            // 使用 magic 伤害源，扫射伤害无视所有护甲和护甲韧性
+            float damage = calculateSlashDamage(player);
+            target.hurt(entity.damageSources().magic(), damage);
             // 扫射不产生击退：清零水平速度
             target.setDeltaMovement(0, target.getDeltaMovement().y, 0);
             // 命中刷新撕裂

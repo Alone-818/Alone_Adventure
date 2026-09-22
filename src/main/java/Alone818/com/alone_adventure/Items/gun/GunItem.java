@@ -289,7 +289,7 @@ public class GunItem extends Item implements GeoItem {
         CompoundTag tag = stack.getTag();
         if (tag == null || !tag.contains(TAG_RELOAD_START)) return;
 
-        PlayerGunStats bonuses = GunStatRegistry.collect(player);
+        PlayerGunStats bonuses = GunModItems.collectAll(player);
         int reloadTicks = Math.max(1, Math.round(
                 stats.reloadTicks() / Math.max(0.1F, bonuses.reloadSpeedMultiplier)));
         if (level.getGameTime() - tag.getLong(TAG_RELOAD_START) < reloadTicks) return;
@@ -367,7 +367,7 @@ public class GunItem extends Item implements GeoItem {
         if (tag.contains(TAG_RELOAD_START)) return false; // 装填中
         if (!player.getAbilities().instabuild && tag.getInt(TAG_AMMO) <= 0) return false; // 弹尽
 
-        PlayerGunStats bonuses = GunStatRegistry.collect(player);
+        PlayerGunStats bonuses = GunModItems.collectAll(player);
         // 实际生效的弹药（弹夹内已装填的种类）及其激发钩子
         Item ammoType = getEffectiveAmmoItem(stack);
         AmmoItem ammo = ammoType instanceof AmmoItem ammoItem ? ammoItem : null;
@@ -506,6 +506,7 @@ public class GunItem extends Item implements GeoItem {
         return switch (mode) {
             case MANUAL -> Component.translatable("gun.alone_adventure.fire_mode.manual");
             case SEMI_AUTO -> Component.translatable("gun.alone_adventure.fire_mode.semi_auto");
+            case FULL_AUTO -> Component.translatable("gun.alone_adventure.fire_mode.full_auto");
         };
     }
 

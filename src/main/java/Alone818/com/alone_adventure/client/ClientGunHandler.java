@@ -26,7 +26,8 @@ import net.minecraftforge.fml.common.Mod;
  * 因此开火改为在客户端 tick 里轮询攻击键状态。右键<b>只负责瞄准</b>：
  * <ul>
  *   <li>单持枪：按下边沿触发一次开火（半自动）</li>
- *   <li>双持两把枪：<b>按住左键交替开火</b>——每把枪射速独立计算，
+ *   <li>全自动：按住左键持续开火</li>
+ *   <li>双持两把枪：按住左键交替开火——每把枪射速独立计算，
  *       两发之间至少间隔上一把枪射速的一半（同款枪 T：主手 t=0，
  *       副手 t=T/2，主手 t=T……）</li>
  * </ul>
@@ -179,13 +180,19 @@ public final class ClientGunHandler {
             if (now >= Math.max(nextShotAt, readyAt)) {
                 fireDualShot(player, nextFireHand, now);
             }
-        } else if (!dualWielding && attackDown && !attackWasDown
-                && !player.isSpectator() && mainGun) {
-            // 单持：按下边沿触发一次开火（半自动）
-            //（第三人称挥手反馈由服务端 tryFire 成功后广播，本地不播——
-            //  本地 player.swing 会让第一人称甩枪，开火表现由 fire 踢枪动画负责）
-            Alone_adventure.NETWORK.sendToServer(new GunFirePacket(InteractionHand.MAIN_HAND));
-            mainFireAt = player.tickCount;
+        } else if (!dualWielding && attackDown && mainGun) {
+            // 射击模式判定：全自动持续开火 / 半自动点击开火
+            if (mainGunItem.getStats().fireMode() == GunStats.FireMode.FULL_AUTO) {
+                // 全自动：按住左键持续开火（服务端有射速冷却验证）
+                Alone_adventure.NETWORK.sendToServer(new GunFirePacket(InteractionHand.MAIN_HAND));
+                mainFireAt = player.tickCount;
+            } else if (!attackWasDown) {
+                // 半自动：按下边沿触发一次开火
+                //（第三人称挥手反馈由服务端 tryFire 成功后广播，本地不播——
+                //  本地 player.swing 会让第一人称甩枪，开火表现由 fire 踢枪动画负责）
+                Alone_adventure.NETWORK.sendToServer(new GunFirePacket(InteractionHand.MAIN_HAND));
+                mainFireAt = player.tickCount;
+            }
         }
 
         if (!dualWielding || !attackDown) {
