@@ -37,7 +37,7 @@ public class QuestEvent {
                     // 佩戴的契约饰品堆栈 NBT 中累加击杀进度
                     ItemStack questStack = QuestItem.getPlayerStack(player, quest);
                     if (!questStack.isEmpty()) {
-                        int now = QuestItem.addKillProgress(questStack, task.id());
+                        int now = kill.addKillProgress(questStack);
                         player.displayClientMessage(kill.progressText(now, questId), true);
                     }
                 }

@@ -74,6 +74,10 @@ public class QuestItem extends Item implements ICurioItem {
     public static final String TAG_QUEST = "Quest";
     /** NBT 标签：击杀进度（questId#taskId → progress） */
     public static final String TAG_KILL_PROGRESS = "KillProgress";
+    /** NBT 标签：收集进度（questId#taskId → progress），存于物品堆栈 NBT */
+    public static final String TAG_COLLECT_PROGRESS = "CollectProgress";
+    /** 玩家持久 NBT 下的击杀进度根标签 */
+    public static final String TAG_PROGRESS_ROOT = "AloneQuest";
 
     /** 评估节流间隔（tick） */
     private static final int EVAL_INTERVAL_TICKS = 20;
@@ -145,13 +149,14 @@ public class QuestItem extends Item implements ICurioItem {
 
     /** 右键点击：消耗副手材料，统计任务进度。
      * 佩戴契约饰品在主手，所需材料在副手，右键点击完成材料提交。
+     * 优先级最高：仅当副手物品与任务要求的收集物品匹配时才消耗。
      */
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         if (level.isClientSide) return InteractionResultHolder.pass(player.getItemInHand(hand));
 
         ItemStack questStack = player.getItemInHand(hand);
-        if (!(questStack.getItem() instanceof QuestItem)) return InteractionResultHolder.pass(questStack);
+        if (!(questStack.getItem() instanceof QuestItem questItem)) return InteractionResultHolder.pass(questStack);
 
         // 获取副手中的物品（作为材料）
         ItemStack offhandStack = player.getItemInHand(InteractionHand.OFF_HAND);
@@ -161,17 +166,23 @@ public class QuestItem extends Item implements ICurioItem {
         CompoundTag quest = tag.getCompound(TAG_QUEST);
         boolean anyProgress = false;
 
-        for (Task task : tasks) {
+        for (Task task : questItem.tasks) {
             if (quest.getBoolean(task.id())) continue; // 已完成的任务跳过
 
             if (task instanceof CollectTask collect && collect.item == offhandStack.getItem()) {
-                int have = player.getInventory().countItem(collect.item);
-                if (have > 0) {
-                    offhandStack.shrink(1);
-                    anyProgress = true;
-                }
+                // 消耗副手材料
+                offhandStack.shrink(1);
+                // 累计进度到物品堆栈 NBT（每个契约饰品独立）
+                int now = collect.submitProgress(questStack, task.id());
+                anyProgress = true;
+                // 显示提交进度
+                player.displayClientMessage(Component.translatable("message.alone_adventure.quest.submitted_progress",
+                        task.title(questItem.questId()), now, collect.count), true);
             }
         }
+
+        // 提交后检查全部任务是否完成，打上完成标记
+        checkAllDone((ServerPlayer) player, questStack);
 
         if (anyProgress) {
             player.displayClientMessage(Component.translatable("message.alone_adventure.quest.submitted"), true);
@@ -204,7 +215,7 @@ public class QuestItem extends Item implements ICurioItem {
         }
     }
 
-    /** 收集任务：仅在佩戴契约饰品时，背包中持有指定物品 N 个即完成（可回退：花掉后标记自动摘除） */
+    /** 收集任务：右键点击提交指定材料，进度存于物品堆栈 NBT 中，每个契约饰品独立 */
     public static final class CollectTask extends Task {
 
         private final Item item;
@@ -221,9 +232,33 @@ public class QuestItem extends Item implements ICurioItem {
             return new CollectTask(id, item.asItem(), count);
         }
 
+        /**
+         * 提交一次收集材料，累加进度到物品堆栈 NBT。
+         * 进度存储在佩戴的契约饰品上，每个饰品独立记录。
+         */
+        public int submitProgress(ItemStack questStack, String taskId) {
+            CompoundTag tag = questStack.getOrCreateTag();
+            CompoundTag collectProgress = tag.getCompound(TAG_COLLECT_PROGRESS);
+
+            int now = collectProgress.getInt(taskId) + 1;
+            collectProgress.putInt(taskId, now);
+            tag.put(TAG_COLLECT_PROGRESS, collectProgress);
+
+            return now;
+        }
+
+        /** 从物品堆栈 NBT 读取收集进度 */
+        public static int getCollectProgress(ItemStack stack, String taskId) {
+            CompoundTag collectProgress = stack.getOrCreateTag().getCompound(TAG_COLLECT_PROGRESS);
+            return collectProgress.getInt(taskId);
+        }
+
         @Override
         public boolean test(ServerPlayer player, String questId, Item owningQuestItem) {
-            return player.getInventory().countItem(item) >= count;
+            // 读取物品堆栈 NBT 中的收集进度
+            ItemStack stack = getPlayerStack(player, owningQuestItem);
+            if (stack.isEmpty()) return false;
+            return getCollectProgress(stack, id()) >= count;
         }
     }
 
@@ -267,6 +302,11 @@ public class QuestItem extends Item implements ICurioItem {
             if (stack.isEmpty()) return false;
             return killProgress(stack, id()) >= count;
         }
+
+        /** 累加击杀进度到物品堆栈 NBT */
+        public int addKillProgress(ItemStack stack) {
+            return QuestItem.addKillProgress(stack, id());
+        }
     }
 
     /** 击杀目标（实体类型或类型标签，二选一） */
@@ -305,17 +345,34 @@ public class QuestItem extends Item implements ICurioItem {
     }
 
     /**
-     * 重估全部任务：逐任务写堆栈 NBT 标记（随物品同步，tooltip 直接可读），
-     * 全部完成时打上 {@value #TAG_DONE}（材料解锁）并播报；
-     * 进度回退（收集材料花掉）时标记自愈摘除。
+     * 重估全部任务：此方法现在为空实现，因为所有任务进度更新都通过手动右键提交完成
+     * 评估间隔仍然保留，但不再执行任何任务状态检测
      */
     private void evaluate(ServerPlayer player, ItemStack stack) {
+        checkAllDone(player, stack);
+    }
+
+    /**
+     * 提交后检查所有任务是否已完成，若全部完成则打上完成标记并播报
+     */
+    private void checkAllDone(ServerPlayer player, ItemStack stack) {
         CompoundTag tag = stack.getOrCreateTag();
         CompoundTag quest = tag.getCompound(TAG_QUEST);
         boolean all = true;
 
         for (Task task : tasks) {
-            boolean done = task.test(player, questId(), this);
+            // 根据任务类型分别检查完成状态
+            boolean done;
+            if (task instanceof CollectTask collect) {
+                // 收集任务：从物品堆栈 NBT 读取进度
+                done = CollectTask.getCollectProgress(stack, task.id()) >= collect.count;
+            } else if (task instanceof KillTask kill) {
+                // 击杀任务：从物品堆栈 NBT 读取进度
+                done = killProgress(stack, task.id()) >= kill.count;
+            } else {
+                done = false;
+            }
+
             if (done != quest.getBoolean(task.id())) {
                 quest.putBoolean(task.id(), done);
                 if (done) {
