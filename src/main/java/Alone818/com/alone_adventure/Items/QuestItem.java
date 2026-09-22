@@ -40,14 +40,14 @@ import java.util.List;
  *   <li><b>契约饰品</b>——实现 {@link ICurioItem},自动可佩戴到契约槽
  *       （需把注册名加入 {@code data/curios/tags/items/contract.json}）</li>
  *   <li><b>任务载体</b>——构造时给定任务列表（{@link KillTask} 击杀计数 /
- *       {@link CollectTask} 收集判定），任务进度存在玩家持久 NBT
- *       （跨死亡、跨重登录），完成状态逐任务标记到<b>堆栈 NBT</b>（随物品同步）</li>
+ *       {@link CollectTask} 收集判定），任务进度存于<b>物品堆栈 NBT</b>，
+ *       每个契约饰品独立记录各自的进度，换掉后进度留在原物品上</li>
  *   <li><b>合成材料</b>——<b>全部任务完成后</b>堆栈打上 {@value #TAG_DONE} 标记，
  *       此时（且仅此时）可被配方用作材料；未完成的物品在配方里不被接受</li>
  * </ol>
  *
  * <b>任务判定与自愈</b>：仅在契约槽佩戴时，每 {@value #EVAL_INTERVAL_TICKS} tick 服务端重估一次：
- * 收集类任务可回退（材料花掉后标记自动摘除），击杀进度持久累计不回退。
+ * 收集类任务可回退（材料花掉后标记自动摘除），击杀进度随物品堆栈 NBT 独立记录。
  * 物品离开玩家（箱子/掉落）后保持最后状态。
  *
  * <b>材料提交</b>——右键点击：将材料（副手）消耗后统计任务进度。
@@ -63,9 +63,8 @@ import java.util.List;
  * }
  * }</pre>
  *
- * <b>节省内存的设计</b>：无能力系统、无额外网络包——击杀进度是玩家持久 NBT 里
- * 的 int，完成状态是堆栈 NBT 的 byte；注册表仅一份任务列表（不可变），
- * 评估按固定间隔节流。
+ * <b>设计</b>：击杀进度存储在物品堆栈 NBT 中，每个契约饰品实例独立。
+ * 换掉契约饰品后，原物品的击杀进度保持不变，新饰品从零开始。
  */
 public class QuestItem extends Item implements ICurioItem {
 
@@ -73,8 +72,8 @@ public class QuestItem extends Item implements ICurioItem {
     public static final String TAG_DONE = "QuestDone";
     /** NBT 标签：各任务完成状态（任务 id → 1b） */
     public static final String TAG_QUEST = "Quest";
-    /** 玩家持久 NBT（PlayerPersisted）下的击杀进度根标签 */
-    public static final String TAG_PROGRESS_ROOT = "AloneQuest";
+    /** NBT 标签：击杀进度（questId#taskId → progress） */
+    public static final String TAG_KILL_PROGRESS = "KillProgress";
 
     /** 评估节流间隔（tick） */
     private static final int EVAL_INTERVAL_TICKS = 20;
@@ -196,7 +195,7 @@ public class QuestItem extends Item implements ICurioItem {
         }
 
         /** 服务端判定任务是否达成（questId = 所属任务物品的注册名） */
-        public abstract boolean test(ServerPlayer player, String questId);
+        public abstract boolean test(ServerPlayer player, String questId, Item owningQuestItem);
 
         /** 展示标题（键：quest.<modid>.<questId>.<id>） */
         public Component title(String questId) {
@@ -223,12 +222,12 @@ public class QuestItem extends Item implements ICurioItem {
         }
 
         @Override
-        public boolean test(ServerPlayer player, String questId) {
+        public boolean test(ServerPlayer player, String questId, Item owningQuestItem) {
             return player.getInventory().countItem(item) >= count;
         }
     }
 
-    /** 击杀任务：佩戴契约饰品期间击杀目标 ×N；进度持久累计（QuestEvent 结算，不回退） */
+/** 击杀任务：佩戴契约饰品期间击杀目标 ×N；进度存储在物品堆栈 NBT 中，每个饰品独立 */
     public static final class KillTask extends Task {
 
         private final EntityTypeHolder target;
@@ -262,8 +261,11 @@ public class QuestItem extends Item implements ICurioItem {
         }
 
         @Override
-        public boolean test(ServerPlayer player, String questId) {
-            return killProgress(player, questId, id()) >= count;
+        public boolean test(ServerPlayer player, String questId, Item owningQuestItem) {
+            // 通过契约饰品实例获取对应的堆栈，读取 NBT 中的击杀进度
+            ItemStack stack = getPlayerStack(player, owningQuestItem);
+            if (stack.isEmpty()) return false;
+            return killProgress(stack, id()) >= count;
         }
     }
 
@@ -313,7 +315,7 @@ public class QuestItem extends Item implements ICurioItem {
         boolean all = true;
 
         for (Task task : tasks) {
-            boolean done = task.test(player, questId());
+            boolean done = task.test(player, questId(), this);
             if (done != quest.getBoolean(task.id())) {
                 quest.putBoolean(task.id(), done);
                 if (done) {
@@ -343,28 +345,35 @@ public class QuestItem extends Item implements ICurioItem {
         }
     }
 
-    // ===== 击杀进度存取（玩家持久 NBT，跨死亡/重登录） =====
+    // ===== 击杀进度存取（物品堆栈 NBT，换饰品即重置） =====
 
-    /** 读取指定任务物品/任务的击杀进度 */
+    /** 从物品堆栈 NBT 读取击杀进度 */
     public static int killProgress(ServerPlayer player, String questId, String taskId) {
-        return player.getPersistentData().getCompound(Player.PERSISTED_NBT_TAG)
-                .getCompound(TAG_PROGRESS_ROOT)
-                .getCompound(questId)
-                .getInt(taskId);
+        // 此方法不再使用，仅保留接口兼容
+        return 0;
     }
 
-    /** 击杀进度 +1 并落盘，返回累加后的值（QuestEvent 调用） */
-    public static int addKillProgress(ServerPlayer player, String questId, String taskId) {
-        CompoundTag persisted = player.getPersistentData().getCompound(Player.PERSISTED_NBT_TAG);
-        CompoundTag root = persisted.getCompound(TAG_PROGRESS_ROOT);
-        CompoundTag perQuest = root.getCompound(questId);
+    /** 从物品堆栈 NBT 读取击杀进度（传入栈） */
+    public static int killProgress(ItemStack stack, String taskId) {
+        CompoundTag killProgressTag = stack.getOrCreateTag().getCompound(TAG_KILL_PROGRESS);
+        return killProgressTag.getInt(taskId);
+    }
 
-        int now = perQuest.getInt(taskId) + 1;
-        perQuest.putInt(taskId, now);
-        root.put(questId, perQuest);
-        persisted.put(TAG_PROGRESS_ROOT, root);
-        player.getPersistentData().put(Player.PERSISTED_NBT_TAG, persisted);
+    /** 在物品堆栈 NBT 中累加击杀进度 */
+    public static int addKillProgress(ItemStack stack, String taskId) {
+        CompoundTag tag = stack.getOrCreateTag();
+        CompoundTag killProgressTag = tag.getCompound(TAG_KILL_PROGRESS);
+
+        int now = killProgressTag.getInt(taskId) + 1;
+        killProgressTag.putInt(taskId, now);
+        tag.put(TAG_KILL_PROGRESS, killProgressTag);
+
         return now;
+    }
+
+    /** 测试击杀任务达成：读取 NBT 中的进度 */
+    public static boolean killTaskDone(ItemStack stack, String taskId, int requiredCount) {
+        return killProgress(stack, taskId) >= requiredCount;
     }
 
     // ===== 展示 =====

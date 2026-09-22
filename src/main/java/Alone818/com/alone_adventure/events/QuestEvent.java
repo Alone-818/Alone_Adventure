@@ -34,8 +34,12 @@ public class QuestEvent {
             String questId = quest.questId();
             for (QuestItem.Task task : quest.getTasks()) {
                 if (task instanceof QuestItem.KillTask kill && kill.matchesKill(victim)) {
-                    int now = QuestItem.addKillProgress(player, questId, task.id());
-                    player.displayClientMessage(kill.progressText(now, questId), true);
+                    // 佩戴的契约饰品堆栈 NBT 中累加击杀进度
+                    ItemStack questStack = QuestItem.getPlayerStack(player, quest);
+                    if (!questStack.isEmpty()) {
+                        int now = QuestItem.addKillProgress(questStack, task.id());
+                        player.displayClientMessage(kill.progressText(now, questId), true);
+                    }
                 }
             }
         }
