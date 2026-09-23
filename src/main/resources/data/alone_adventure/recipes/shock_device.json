@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " G ",
+    "GBG",
+    " G "
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:lightning_rod"
+    },
+    "B": {
+      "item": "minecraft:snowball"
+    }
+  },
+  "result": {
+    "item": "alone_adventure:shock_device",
+    "count": 4
+  }
+}

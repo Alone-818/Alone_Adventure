@@ -3,9 +3,11 @@ package Alone818.com.alone_adventure.Items.contract;
 import Alone818.com.alone_adventure.Alone_adventure;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -23,6 +25,8 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.crafting.PartialNBTIngredient;
 import org.jetbrains.annotations.Nullable;
 import top.theillusivec4.curios.api.CuriosApi;
@@ -31,6 +35,7 @@ import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 任务物品模板 —— 可佩戴为契约饰品 + 完成任务后解锁的合成材料。
@@ -78,6 +83,21 @@ public class QuestItem extends Item implements ICurioItem {
     public static final String TAG_COLLECT_PROGRESS = "CollectProgress";
     /** 玩家持久 NBT 下的击杀进度根标签 */
     public static final String TAG_PROGRESS_ROOT = "AloneQuest";
+    /** NBT 标签：坐标任务进度（questId#taskId -> "axis:value:done"） */
+    public static final String TAG_POSITION_PROGRESS = "PositionProgress";
+    /** NBT 标签：群系任务进度（questId#taskId -> "biome_name:done"） */
+    public static final String TAG_BIOME_PROGRESS = "BiomeProgress";
+
+    /** 坐标轴类型 */
+    public enum AxisType {
+        X, Y, Z
+    }
+
+    /** 坐标任务模式：任意轴到达指定值即可完成 */
+    public record PositionCondition(AxisType axis, int target) {}
+
+    /** 群系条件：到达指定群系即可完成 */
+    public record BiomeCondition(String biomeName) {}
 
     /** 评估节流间隔（tick） */
     private static final int EVAL_INTERVAL_TICKS = 20;
@@ -353,9 +373,10 @@ public class QuestItem extends Item implements ICurioItem {
     }
 
     /**
-     * 提交后检查所有任务是否已完成，若全部完成则打上完成标记并播报
+     * 检查所有任务是否已完成，若全部完成则打上完成标记并播报。
+     * 此方法公开供外部调用（如 QuestEvent 中的位置/群系任务触发）。
      */
-    private void checkAllDone(ServerPlayer player, ItemStack stack) {
+    public void checkAllDone(ServerPlayer player, ItemStack stack) {
         CompoundTag tag = stack.getOrCreateTag();
         CompoundTag quest = tag.getCompound(TAG_QUEST);
         boolean all = true;
@@ -369,6 +390,12 @@ public class QuestItem extends Item implements ICurioItem {
             } else if (task instanceof KillTask kill) {
                 // 击杀任务：从物品堆栈 NBT 读取进度
                 done = killProgress(stack, task.id()) >= kill.count;
+            } else if (task instanceof PositionTask posTask) {
+                // 坐标任务：从 NBT 中读取是否已达成
+                done = PositionTask.isPositionDone(stack, task.id());
+            } else if (task instanceof BiomeTask biomeTask) {
+                // 群系任务：从 NBT 中读取是否已达成
+                done = BiomeTask.isBiomeDone(stack, task.id());
             } else {
                 done = false;
             }
@@ -431,6 +458,158 @@ public class QuestItem extends Item implements ICurioItem {
     /** 测试击杀任务达成：读取 NBT 中的进度 */
     public static boolean killTaskDone(ItemStack stack, String taskId, int requiredCount) {
         return killProgress(stack, taskId) >= requiredCount;
+    }
+
+    // ===== 坐标轴到达任务：玩家到达 X/Y/Z 轴指定数值即完成 =====
+
+    /**
+     * 坐标轴到达任务：玩家移动到指定轴的指定坐标值即视为完成一次。
+     * 进度存储在物品堆栈 NBT 中，每个契约饰品独立。
+     * 支持任意轴到达指定值即可完成（通过 axis 配置）。
+     */
+    public static final class PositionTask extends Task {
+
+        private final AxisType axis;
+        private final int target;
+
+        private PositionTask(String id, AxisType axis, int target) {
+            super(id);
+            this.axis = axis;
+            this.target = target;
+        }
+
+        /** {@code QuestItem.PositionTask.of("reach_x_100", AxisType.X, 100)} */
+        public static PositionTask of(String id, AxisType axis, int target) {
+            return new PositionTask(id, axis, target);
+        }
+
+        /** {@code QuestItem.PositionTask.ofAnyAxis("reach_100", 100)} */
+        public static PositionTask ofAnyAxis(String id, int target) {
+            return new PositionTask(id, null, target);
+        }
+
+        /** 获取任务对应的轴（null 表示任意轴） */
+        public AxisType getAxis() {
+            return axis;
+        }
+
+        /** 获取目标坐标值 */
+        public int getTarget() {
+            return target;
+        }
+
+        /** 检测坐标条件是否满足 */
+        public boolean checkPosition(ServerPlayer player) {
+            Vec3 pos = player.position();
+            if (axis == null) {
+                // 任意轴到达目标值即完成
+                return (int) Math.abs(pos.x) == target ||
+                       (int) Math.abs(pos.y) == target ||
+                       (int) Math.abs(pos.z) == target;
+            }
+            return switch (axis) {
+                case X -> (int) pos.x == target;
+                case Y -> (int) pos.y == target;
+                case Z -> (int) pos.z == target;
+            };
+        }
+
+        /** 标记该坐标任务已完成（存储到物品堆栈 NBT） */
+        public void markDone(ItemStack questStack, String taskId) {
+            CompoundTag tag = questStack.getOrCreateTag();
+            CompoundTag posProgress = tag.getCompound(TAG_POSITION_PROGRESS);
+            posProgress.putBoolean(taskId, true);
+            tag.put(TAG_POSITION_PROGRESS, posProgress);
+        }
+
+        /** 从物品堆栈 NBT 读取坐标任务完成状态 */
+        public static boolean isPositionDone(ItemStack stack, String taskId) {
+            CompoundTag posProgress = stack.getOrCreateTag().getCompound(TAG_POSITION_PROGRESS);
+            return posProgress.getBoolean(taskId);
+        }
+
+        @Override
+        public boolean test(ServerPlayer player, String questId, Item owningQuestItem) {
+            ItemStack stack = getPlayerStack(player, owningQuestItem);
+            if (stack.isEmpty()) return false;
+            // 先检查 NBT 中是否已标记完成
+            if (isPositionDone(stack, id())) return true;
+            // 检测坐标是否满足条件
+            boolean satisfied = checkPosition(player);
+            if (satisfied) {
+                markDone(stack, id());
+            }
+            return satisfied;
+        }
+    }
+
+    // ===== 到达群系任务：玩家到达指定群系即完成 =====
+
+    /**
+     * 到达群系任务：玩家进入指定的群系即视为完成一次。
+     * 进度存储在物品堆栈 NBT 中，每个契约饰品独立。
+     */
+    public static final class BiomeTask extends Task {
+
+        private final String biomeName;
+
+        private BiomeTask(String id, String biomeName) {
+            super(id);
+            this.biomeName = biomeName;
+        }
+
+        /** {@code QuestItem.BiomeTask.of("reach_plains", "minecraft:plains")} */
+        public static BiomeTask of(String id, String biomeName) {
+            return new BiomeTask(id, biomeName);
+        }
+
+        /** 获取目标群系名称 */
+        public String getBiomeName() {
+            return biomeName;
+        }
+
+        /** 检测玩家当前是否位于指定群系 */
+        public boolean checkBiome(ServerPlayer player) {
+            Level level = player.level();
+            if (level instanceof ServerLevel serverLevel) {
+                Vec3 pos = player.position();
+                // 使用 getBiome 获取生物群系持有者
+                net.minecraft.core.Holder<net.minecraft.world.level.biome.Biome> biomeHolder = serverLevel.getBiome(BlockPos.containing(pos.x, pos.y, pos.z));
+                if (biomeHolder != null) {
+                    Biome biomeKey = biomeHolder.get();
+                    return biomeKey != null && biomeKey.toString().equals(biomeName);
+                }
+            }
+            return false;
+        }
+
+        /** 标记该群系任务已完成（存储到物品堆栈 NBT） */
+        public void markDone(ItemStack questStack, String taskId) {
+            CompoundTag tag = questStack.getOrCreateTag();
+            CompoundTag biomeProgress = tag.getCompound(TAG_BIOME_PROGRESS);
+            biomeProgress.putBoolean(taskId, true);
+            tag.put(TAG_BIOME_PROGRESS, biomeProgress);
+        }
+
+        /** 从物品堆栈 NBT 读取群系任务完成状态 */
+        public static boolean isBiomeDone(ItemStack stack, String taskId) {
+            CompoundTag biomeProgress = stack.getOrCreateTag().getCompound(TAG_BIOME_PROGRESS);
+            return biomeProgress.getBoolean(taskId);
+        }
+
+        @Override
+        public boolean test(ServerPlayer player, String questId, Item owningQuestItem) {
+            ItemStack stack = getPlayerStack(player, owningQuestItem);
+            if (stack.isEmpty()) return false;
+            // 先检查 NBT 中是否已标记完成
+            if (isBiomeDone(stack, id())) return true;
+            // 检测是否到达指定群系
+            boolean reached = checkBiome(player);
+            if (reached) {
+                markDone(stack, id());
+            }
+            return reached;
+        }
     }
 
     // ===== 展示 =====

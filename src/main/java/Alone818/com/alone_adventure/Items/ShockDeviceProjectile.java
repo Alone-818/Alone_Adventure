@@ -35,8 +35,8 @@ import net.minecraft.world.phys.Vec3;
 public class ShockDeviceProjectile extends ThrowableItemProjectile {
 
     // 以下数值为默认值，可由 Config（alone_adventure-common.toml）覆盖
-    /** 电击间隔：每 0.1 秒（2 tick）放电一次，即每秒 10 次 */
-    public static int SHOCK_INTERVAL_TICKS = 2;
+    /** 电击间隔：每 0.2 秒（4 tick）放电一次，即每秒 5 次 */
+    public static int SHOCK_INTERVAL_TICKS = 4;
     /** 每次电击的伤害（点） */
     public static float SHOCK_DAMAGE = 0.5F;
     /** 电击半径（格） */

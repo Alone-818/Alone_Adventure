@@ -106,7 +106,7 @@
   "item.alone_adventure.shock_device": "投掷电击器",
   "item.alone_adventure.shock_device.tooltip.desc": "一台便携的放电装置，掷出后迸发电弧，靠近者皆遭电噬。",
   "item.alone_adventure.shock_device.tooltip.throw_desc": "右键掷出（弹道同雪球）：飞行途中即开始放电，命中后固定原地继续放电 5 秒，投掷冷却 0.5 秒",
-  "item.alone_adventure.shock_device.tooltip.shock_desc": "电击：每 0.1 秒对半径 4 格内的所有生物造成 0.5 点伤害（不伤投掷者、无击退），命中附加缓慢 I（1.5 秒），累计最高 25 点",
+  "item.alone_adventure.shock_device.tooltip.shock_desc": "电击：每 0.2 秒对半径 4 格内的所有生物造成 0.5 点伤害（不伤投掷者、无击退），命中附加缓慢 I（1.5 秒），累计最高 25 点",
   "entity.alone_adventure.shock_device_projectile": "投掷电击器",
 
   "item.alone_adventure.regiment_banner": "连队团旗",

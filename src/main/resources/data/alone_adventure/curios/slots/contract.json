@@ -1,6 +1,6 @@
 {
   "replace": true,
   "size": 1,
-  "icon": "curios:slot/empty_contract_slot",
+  "icon":"alone_adventure:slot/empty_contract_slot",
   "entities": ["player"]
 }
