@@ -27,5 +27,7 @@ public class injection_empty extends Item {
     public void appendHoverText(ItemStack stack, Level level, List<Component> tooltip, TooltipFlag flag) {
         tooltip.add(Component.translatable("tooltip.alone_adventure.injection_empty")
                 .withStyle(ChatFormatting.GRAY));
+        tooltip.add(Component.translatable("tooltip.alone_adventure.injection_empty.use")
+                .withStyle(ChatFormatting.GRAY));
     }
 }

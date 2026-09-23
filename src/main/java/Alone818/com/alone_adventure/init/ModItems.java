@@ -121,7 +121,7 @@ public class ModItems {
     // ===== 道具物品 =====
     public static final RegistryObject<Item> INJECTION_EMPTY =
             ITEMS.register("injection_empty",
-                    () -> new Item(new Item.Properties().stacksTo(16)));
+                    () -> new injection_empty(new Item.Properties().stacksTo(16)));
 
     // 药水针剂：效果完全相同的针剂（NBT 一致）可堆叠至 4 个
     public static final RegistryObject<Item> INJECTION_SYRINGE =

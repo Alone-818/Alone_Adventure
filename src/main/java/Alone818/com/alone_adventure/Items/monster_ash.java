@@ -29,5 +29,7 @@ public class monster_ash extends Item {
                                 List<Component> tooltip, TooltipFlag flag) {
         tooltip.add(Component.translatable("item.alone_adventure.monster_ash.tooltip.desc")
                 .withStyle(ChatFormatting.GRAY));
+        tooltip.add(Component.translatable("item.alone_adventure.monster_ash.tooltip.use")
+                .withStyle(ChatFormatting.GRAY));
     }
 }

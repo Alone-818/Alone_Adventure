@@ -29,5 +29,7 @@ public class blood_shard extends Item {
                                 List<Component> tooltip, TooltipFlag flag) {
         tooltip.add(Component.translatable("item.alone_adventure.blood_shard.tooltip.desc")
                 .withStyle(ChatFormatting.RED));
+        tooltip.add(Component.translatable("item.alone_adventure.blood_shard.tooltip.use")
+                .withStyle(ChatFormatting.RED));
     }
 }

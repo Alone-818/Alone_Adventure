@@ -290,5 +290,9 @@
   "message.alone_adventure.quest.submitted": "材料已提交，任务进度已更新",
   "message.alone_adventure.quest.position_done": "坐标任务达成：%s",
   "message.alone_adventure.quest.biome_done": "群系任务达成：%s",
-  "message.alone_adventure.quest.submitted_progress": "已提交 %s（%d/%d）"
+  "message.alone_adventure.quest.submitted_progress": "已提交 %s（%d/%d）",
+  "item.alone_adventure.monster_ash.tooltip.use": "将两瓶针剂混合时加入以提升药水等级，代价是降低持续时间",
+  "item.alone_adventure.blood_shard.tooltip.use": "将两瓶针剂混合时加入以提升药水持续时间",
+  "tooltip.alone_adventure.injection_empty": "用于合成药水针剂的空针管",
+  "tooltip.alone_adventure.injection_empty.use": "将一瓶药水与2个空针剂，1个怪物残灰混合以制作针剂"
 }
