@@ -288,5 +288,7 @@
   "message.alone_adventure.quest.all_done": "契约达成！该物品现可作为合成材料",
   "message.alone_adventure.quest.kill_progress": "任务进度：%s（%d/%d）",
   "message.alone_adventure.quest.submitted": "材料已提交，任务进度已更新",
+  "message.alone_adventure.quest.position_done": "坐标任务达成：%s",
+  "message.alone_adventure.quest.biome_done": "群系任务达成：%s",
   "message.alone_adventure.quest.submitted_progress": "已提交 %s（%d/%d）"
 }

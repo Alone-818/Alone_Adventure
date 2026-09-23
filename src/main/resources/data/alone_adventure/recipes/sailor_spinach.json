@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "GDG",
+    "GAG",
+    "GDG"
+  ],
+  "key": {
+    "D": {
+      "item": "minecraft:blaze_powder"
+    },
+    "A": {
+      "item": "minecraft:iron_ingot"
+    },
+    "G": {
+      "tag": "forge:crops"
+    }
+  },
+  "result": {
+    "item": "alone_adventure:sailor_spinach",
+    "count": 1
+  }
+}

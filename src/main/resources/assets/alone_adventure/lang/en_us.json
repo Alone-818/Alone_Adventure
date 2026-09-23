@@ -167,6 +167,8 @@
   "message.alone_adventure.quest.all_done": "Contract fulfilled! This item is now usable as a crafting material",
   "message.alone_adventure.quest.kill_progress": "Task progress: %s (%d/%d)",
   "message.alone_adventure.quest.submitted": "Materials submitted, quest progress updated",
+  "message.alone_adventure.quest.position_done": "Position task achieved: %s",
+  "message.alone_adventure.quest.biome_done": "Biome task achieved: %s",
 
   "item.alone_adventure.sailor_spinach": "Sailor's Spinach",
   "tooltip.alone_adventure.sailor_spinach": "Restores 4 hunger and 8 saturation when eaten, and grants Strength II (30s) and Regeneration II (10s)",
@@ -281,3 +283,8 @@
   "message.alone_adventure.quest.submitted": "Materials submitted, quest progress updated",
   "message.alone_adventure.quest.submitted_progress": "Submitted %s (%d/%d)"
 }
+
+// ===== 新增翻译 =====
+
+  "message.alone_adventure.quest.position_done": "Position task achieved: %s",
+  "message.alone_adventure.quest.biome_done": "Biome task achieved: %s"

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "GDG",
+    "GAG",
+    "GDG"
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:soul_touch"
+    },
+    "D": {
+      "item": "minecraft:note_block"
+    },
+    "A": {
+      "item": "minecraft:ender_eye"
+    }
+  },
+  "result": {
+    "item": "alone_adventure:eerie_music_box",
+    "count": 1
+  }
+}
