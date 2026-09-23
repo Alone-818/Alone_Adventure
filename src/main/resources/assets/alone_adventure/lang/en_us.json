@@ -266,5 +266,18 @@
   "subtitle.alone_adventure.skill_ready.broken_mask": "§aBroken Mask: active skill ready",
   "subtitle.alone_adventure.skill_ready.binding_bandage": "§aBinding Bandage: active skill ready",
   "subtitle.alone_adventure.skill_ready.sealed_throne": "§aSealed Throne: active skill ready",
-  "subtitle.alone_adventure.skill_ready.hunter_serum": "§aHunter Serum: active skill ready"
+  "subtitle.alone_adventure.skill_ready.hunter_serum": "§aHunter Serum: active skill ready",
+
+  "item.alone_adventure.resurrection_contract": "Resurrection Contract",
+  "item.alone_adventure.resurrection_contract.tooltip.desc": "A contract curio with the power to resurrect - active when worn as a curio. Complete all tasks to unlock as a crafting material. Right-click with materials in offhand to submit progress.",
+  "quest.alone_adventure.resurrection_contract.kill_evoker": "Slay Evokers x2",
+  "quest.alone_adventure.resurrection_contract.collect_golden_apple": "Submit Golden Apples x16",
+  "quest.alone_adventure.resurrection_contract.collect_totem": "Submit Totems of Undying x2",
+  "tooltip.alone_adventure.quest.material_ready": "✔ Contract fulfilled - now usable as a crafting material",
+  "tooltip.alone_adventure.quest.material_locked": "✘ Complete all tasks before using as a crafting material",
+  "message.alone_adventure.quest.task_done": "Task complete: %s",
+  "message.alone_adventure.quest.all_done": "Contract fulfilled! This item is now usable as a crafting material",
+  "message.alone_adventure.quest.kill_progress": "Task progress: %s (%d/%d)",
+  "message.alone_adventure.quest.submitted": "Materials submitted, quest progress updated",
+  "message.alone_adventure.quest.submitted_progress": "Submitted %s (%d/%d)"
 }

@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "GDG",
+    "GAG",
+    "GDG"
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:diamond"
+    },
+    "D": {
+      "item": "minecraft:golden_apple"
+    },
+    "A":   {
+         "type": "forge:partial_nbt",
+         "item": "alone_adventure:resurrection_contract",
+         "nbt": "{QuestDone:1b}"
+       }
+  },
+  "result": {
+    "item": "alone_adventure:dragon_power",
+    "count": 1
+  }
+}

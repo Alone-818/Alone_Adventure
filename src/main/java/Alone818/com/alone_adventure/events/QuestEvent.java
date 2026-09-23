@@ -1,7 +1,7 @@
 package Alone818.com.alone_adventure.events;
 
 import Alone818.com.alone_adventure.Alone_adventure;
-import Alone818.com.alone_adventure.Items.QuestItem;
+import Alone818.com.alone_adventure.Items.contract.QuestItem;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;

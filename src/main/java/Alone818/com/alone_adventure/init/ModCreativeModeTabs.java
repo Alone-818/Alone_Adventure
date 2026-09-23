@@ -73,7 +73,7 @@ public class ModCreativeModeTabs {
                                 output.accept(new ItemStack(ModItems.CHARGING_CORE.get()));
                                 output.accept(new ItemStack(ModItems.HUNTER_SERUM.get()));
                                 // 任务物品（模板实例）：完成全部任务后可作为合成材料
-                                output.accept(new ItemStack(ModItems.QUEST_CONTRACT.get()));
+                                output.accept(new ItemStack(ModItems.RESURRECTION_CONTRACT.get()));
                             })
                             .build());
 

@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "GDG",
+    "AEA",
+    "GDG"
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:diamond"
+    },
+    "D": {
+      "item": "minecraft:golden_apple"
+    },
+    "E": {
+      "item": "minecraft:ender_eye"
+    },
+    "A": {
+      "item": "minecraft:gold_block"
+    }
+  },
+  "result":   {
+     "type": "forge:partial_nbt",
+    "item": "alone_adventure:resurrection_contract",
+      "cout": 1
+ }
+}

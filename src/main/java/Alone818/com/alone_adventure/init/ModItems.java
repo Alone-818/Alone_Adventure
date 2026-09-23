@@ -3,12 +3,8 @@ package Alone818.com.alone_adventure.init;
 import Alone818.com.alone_adventure.Alone_adventure;
 import Alone818.com.alone_adventure.Curios.*;
 import Alone818.com.alone_adventure.Items.*;
+import Alone818.com.alone_adventure.Items.contract.*;
 import Alone818.com.alone_adventure.Items.gun.*;
-import Alone818.com.alone_adventure.init.ModEffects;
-import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
@@ -46,8 +42,6 @@ public class ModItems {
             ITEMS.register("imperial_eagle", imperial_eagle::new);
 
     // 破帽：+7护甲/+20%生命/+3韧性；攻击20%概率施加易伤
-
-    // 破损面具：+7护甲/+20%生命/+3韧性；攻击20%概率施加易伤，易伤被消耗时获得力量并回复固定生命
     public static final RegistryObject<Item> BROKEN_MASK =
             ITEMS.register("broken_mask", broken_mask::new);
 
@@ -186,7 +180,6 @@ public class ModItems {
                     () -> new golden_beetroot(new Item.Properties()
                             .food(new FoodProperties.Builder()
                                     .nutrition(6).saturationMod(1.2F)
-                                    // 直接吃也给予耐力 I 60 秒（1200 tick）
                                     .effect(() -> new MobEffectInstance(ModEffects.ENDURANCE.get(), 1200), 1.0F)
                                     .alwaysEat()
                                     .build())));
@@ -197,7 +190,6 @@ public class ModItems {
                     () -> new sailor_spinach(new Item.Properties()
                             .food(new FoodProperties.Builder()
                                     .nutrition(4)
-                                    // 饱和度 = 营养 4 × 系数 1.0 × 2 = 8 点
                                     .saturationMod(1.0F)
                                     .effect(() -> new MobEffectInstance(
                                             MobEffects.DAMAGE_BOOST,
@@ -208,14 +200,19 @@ public class ModItems {
                                     .alwaysEat()
                                     .build())));
 
-    // 任务契约：任务物品模板实例——可佩戴为契约饰品；
-    // 击杀僵尸 ×10 + 收集金甜菜根 ×3 全部完成后，才可作为合成材料（NBT QuestDone 门控）
-    public static final RegistryObject<Item> QUEST_CONTRACT =
+    // ===== 任务契约 =====
+    // 旧版任务契约：击杀僵尸 x10 + 收集金甜菜根 x3
+   /* public static final RegistryObject<Item> QUEST_CONTRACT =
             ITEMS.register("quest_contract",
                     () -> new QuestItem(new Item.Properties()
                                     .stacksTo(1).rarity(net.minecraft.world.item.Rarity.UNCOMMON),
                             QuestItem.KillTask.of("kill_zombie", EntityType.ZOMBIE, 10),
                             QuestItem.CollectTask.of("collect_beetroot", GOLDEN_BEETROOT.get(), 3)));
+*/
+    // 复生契约：以唤魔者之力换取复活之约
+    // 任务：击杀唤魔者 x2 + 提交金苹果 x16 + 提交不死图腾 x2 + 击杀幻魔者 x1
+    public static final RegistryObject<Item> RESURRECTION_CONTRACT =
+            ITEMS.register("resurrection_contract", resurrection_contract::new);
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

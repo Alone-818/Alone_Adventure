@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "GDG",
+    "FAF",
+    "GDG"
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:diamond_block"
+    },
+    "D": {
+      "item": "minecraft:golden_apple"
+    },
+    "F": {
+      "item": "minecraft:totem_of_undying"
+    },
+    "A":   {
+         "type": "forge:partial_nbt",
+         "item": "alone_adventure:resurrection_contract",
+         "nbt": "{QuestDone:1b}"
+       }
+  },
+  "result": {
+    "item": "alone_adventure:survival_whimper",
+    "count": 1
+  }
+}

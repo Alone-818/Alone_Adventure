@@ -1,7 +1,7 @@
 package Alone818.com.alone_adventure.client;
 
 import Alone818.com.alone_adventure.Alone_adventure;
-import Alone818.com.alone_adventure.Items.QuestItem;
+import Alone818.com.alone_adventure.Items.contract.QuestItem;
 import Alone818.com.alone_adventure.init.ModItems;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
@@ -44,7 +44,7 @@ public class ModJEIModule implements IModPlugin {
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
         // "已完成"契约（QuestDone=1b）—— JEI 运行时加入物品变体，作为可搜索的合成材料
-        ItemStack doneContract = new ItemStack(ModItems.QUEST_CONTRACT.get());
+        ItemStack doneContract = new ItemStack(ModItems.RESURRECTION_CONTRACT.get());
         doneContract.getOrCreateTag().putBoolean(QuestItem.TAG_DONE, true);
         registration.getIngredientManager()
                 .addIngredientsAtRuntime(VanillaTypes.ITEM_STACK, List.of(doneContract));

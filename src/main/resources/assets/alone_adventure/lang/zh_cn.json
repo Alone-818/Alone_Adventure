@@ -276,5 +276,17 @@
   "subtitle.alone_adventure.skill_ready.broken_mask": "§a破损面具：主动技能已就绪",
   "subtitle.alone_adventure.skill_ready.binding_bandage": "§a紧缚绷带：主动技能已就绪",
   "subtitle.alone_adventure.skill_ready.sealed_throne": "§a封印王座：主动技能已就绪",
-  "subtitle.alone_adventure.skill_ready.hunter_serum": "§a猎人血清：主动技能已就绪"
+  "subtitle.alone_adventure.skill_ready.hunter_serum": "§a猎人血清：主动技能已就绪",
+  "item.alone_adventure.resurrection_contract": "复生契约",
+  "item.alone_adventure.resurrection_contract.tooltip.desc": "以唤魔者之力换取复活之约的契约饰品——佩戴时生效，完成全部任务后可作为合成材料。右键副手消耗材料提交进度。",
+  "quest.alone_adventure.resurrection_contract.kill_evoker": "击杀唤魔者 ×2",
+  "quest.alone_adventure.resurrection_contract.collect_golden_apple": "提交金苹果 ×16",
+  "quest.alone_adventure.resurrection_contract.collect_totem": "提交不死图腾 ×2",
+  "tooltip.alone_adventure.quest.material_ready": "✔ 契约达成——现可作为合成材料",
+  "tooltip.alone_adventure.quest.material_locked": "✘ 完成全部任务后，方可作为合成材料",
+  "message.alone_adventure.quest.task_done": "任务完成：%s",
+  "message.alone_adventure.quest.all_done": "契约达成！该物品现可作为合成材料",
+  "message.alone_adventure.quest.kill_progress": "任务进度：%s（%d/%d）",
+  "message.alone_adventure.quest.submitted": "材料已提交，任务进度已更新",
+  "message.alone_adventure.quest.submitted_progress": "已提交 %s（%d/%d）"
 }

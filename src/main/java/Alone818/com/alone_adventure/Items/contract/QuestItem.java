@@ -1,4 +1,4 @@
-package Alone818.com.alone_adventure.Items;
+package Alone818.com.alone_adventure.Items.contract;
 
 import Alone818.com.alone_adventure.Alone_adventure;
 import net.minecraft.ChatFormatting;
@@ -58,7 +58,7 @@ import java.util.List;
  * <pre>{@code
  * {
  *   "type": "forge:partial_nbt",
- *   "item": "alone_adventure:quest_contract",
+ *   "item": "alone_adventure:resurrection_contract",
  *   "nbt": "{QuestDone:1b}"
  * }
  * }</pre>
@@ -70,11 +70,11 @@ public class QuestItem extends Item implements ICurioItem {
 
     /** NBT 标签：全部任务完成（= 可作为合成材料） */
     public static final String TAG_DONE = "QuestDone";
-    /** NBT 标签：各任务完成状态（任务 id → 1b） */
+    /** NBT 标签：各任务完成状态（任务 id -> 1b） */
     public static final String TAG_QUEST = "Quest";
-    /** NBT 标签：击杀进度（questId#taskId → progress） */
+    /** NBT 标签：击杀进度（questId#taskId -> progress） */
     public static final String TAG_KILL_PROGRESS = "KillProgress";
-    /** NBT 标签：收集进度（questId#taskId → progress），存于物品堆栈 NBT */
+    /** NBT 标签：收集进度（questId#taskId -> progress），存于物品堆栈 NBT */
     public static final String TAG_COLLECT_PROGRESS = "CollectProgress";
     /** 玩家持久 NBT 下的击杀进度根标签 */
     public static final String TAG_PROGRESS_ROOT = "AloneQuest";
@@ -262,7 +262,7 @@ public class QuestItem extends Item implements ICurioItem {
         }
     }
 
-/** 击杀任务：佩戴契约饰品期间击杀目标 ×N；进度存储在物品堆栈 NBT 中，每个饰品独立 */
+    /** 击杀任务：佩戴契约饰品期间击杀目标 ×N；进度存储在物品堆栈 NBT 中，每个饰品独立 */
     public static final class KillTask extends Task {
 
         private final EntityTypeHolder target;

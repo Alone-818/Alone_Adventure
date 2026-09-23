@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "GGG",
+    "DBD",
+    "GGG"
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:paper"
+    },
+    "B": {
+      "item": "minecraft:golden_apple"
+    },
+    "D": {
+      "item": "minecraft:glistering_melon_slice"
+    }
+  },
+  "result": {
+    "item": "alone_adventure:first_aid_kit",
+    "count": 1
+  }
+}
