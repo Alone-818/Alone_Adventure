@@ -80,3 +80,6 @@ mandatory=false
 versionRange="[15.0.0,)"
 ordering="AFTER"
 side="CLIENT"
+
+[[mixins]]
+config="alone_adventure.mixins.json"
