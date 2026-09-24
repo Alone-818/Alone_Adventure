@@ -1,0 +1,25 @@
+{
+	"format_version": "1.21.11",
+	"credit": "Made with Blockbench",
+	"parent": "alone_adventure:item/assaultshield",
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [88, 35, -50],
+			"translation": [1, -1.5, 0]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [-82, -15, -129],
+			"translation": [1, -1.5, 0]
+		},
+		"firstperson_righthand": {
+			"rotation": [0, 90, 0],
+			"translation": [-0.75, -6, 0],
+			"scale": [1.25, 1.25, 1.25]
+		},
+		"firstperson_lefthand": {
+			"rotation": [0, 90, 0],
+			"translation": [-0.75, -6, 0],
+			"scale": [1.25, 1.25, 1.25]
+		}
+	}
+}

@@ -3,8 +3,20 @@ package Alone818.com.alone_adventure.init;
 import Alone818.com.alone_adventure.Alone_adventure;
 import Alone818.com.alone_adventure.Curios.*;
 import Alone818.com.alone_adventure.Items.*;
+import Alone818.com.alone_adventure.Items.bullet.*;
 import Alone818.com.alone_adventure.Items.contract.*;
-import Alone818.com.alone_adventure.Items.gun.*;
+import Alone818.com.alone_adventure.Items.bullet.crossbow_bolt;
+import Alone818.com.alone_adventure.Items.bullet.long_bullet;
+import Alone818.com.alone_adventure.Items.bullet.long_bullet_armor_piercing;
+import Alone818.com.alone_adventure.Items.bullet.long_bullet_dum;
+import Alone818.com.alone_adventure.Items.bullet.long_bullet_explosive;
+import Alone818.com.alone_adventure.Items.bullet.long_bullet_poison;
+import Alone818.com.alone_adventure.Items.gun.rifle;
+import Alone818.com.alone_adventure.Items.gun.shotgun;
+import Alone818.com.alone_adventure.Items.bullet.shotgun_shell;
+import Alone818.com.alone_adventure.Items.short_bullet;
+import Alone818.com.alone_adventure.Items.gun.pistol;
+import Alone818.com.alone_adventure.Items.gun.heavy_revolver;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
@@ -104,7 +116,8 @@ public class ModItems {
     // ===== 巨大镰刀 =====
     public static final RegistryObject<Item> REAPER_SCYTHE =
             ITEMS.register("reaper_scythe", reaper_scythe::new);
-
+    public static final RegistryObject<Item> ASSAULT_SHIELD =
+            ITEMS.register("assaultshield", assaultshield::new);
     // 机器爪刃：高攻速连击武器（远古科技机器人部件）；连续命中实体每次 +1 伤害，
     // 2 秒内未命中（含挥空）则加成清零
     public static final RegistryObject<Item> MACHINE_CLAW =
@@ -145,7 +158,11 @@ public class ModItems {
             ITEMS.register("eerie_music_box", eerie_music_box::new);
 
     // ===== 枪械 =====
-
+// 通用子弹实体渲染物品
+// 仅用于 BulletProjectile 的统一外观，不作为实际弹药使用
+    public static final RegistryObject<Item> BULLET =
+            ITEMS.register("bullet",
+                    () -> new Item(new Item.Properties()));
     // 弹药：长子弹（步枪用，高威力远射程）
     public static final RegistryObject<Item> LONG_BULLET =
             ITEMS.register("long_bullet", long_bullet::new);
@@ -157,6 +174,68 @@ public class ModItems {
     // 弹药：短子弹（手枪用，低威力快射速）
     public static final RegistryObject<Item> SHORT_BULLET =
             ITEMS.register("short_bullet", short_bullet::new);
+    // 短子弹-达姆：命中施加 Laceration VIII，持续 4 秒
+    public static final RegistryObject<Item> SHORT_BULLET_DUM =
+            ITEMS.register(
+                    "short_bullet_dum",
+                    short_bullet_dum::new
+            );
+
+    // 短子弹-爆炸：命中实体/方块产生爆炸，爆炸不伤害生物
+    public static final RegistryObject<Item> SHORT_BULLET_EXPLOSIVE =
+            ITEMS.register(
+                    "short_bullet_explosive",
+                    short_bullet_explosive::new
+            );
+
+    // 短子弹-硬币：每次额外 +9 弹丸，散布 ×2，射程 ×0.1
+    public static final RegistryObject<Item> SHORT_BULLET_COIN =
+            ITEMS.register(
+                    "short_bullet_coin",
+                    short_bullet_coin::new
+            );
+
+    // 短子弹-中毒：伤害 ×0.3，命中 Poison III 10 秒
+    public static final RegistryObject<Item> SHORT_BULLET_POISON =
+            ITEMS.register(
+                    "short_bullet_poison",
+                    short_bullet_poison::new
+            );
+
+    // 短子弹-穿甲：额外造成 目标护甲值 ×0.5 的无视护甲伤害
+    public static final RegistryObject<Item> SHORT_BULLET_ARMOR_PIERCING =
+            ITEMS.register(
+                    "short_bullet_armor_piercing",
+                    short_bullet_armor_piercing::new
+            );
+
+    // 长子弹-达姆：命中施加 Laceration X，持续 6 秒
+    public static final RegistryObject<Item> LONG_BULLET_DUM =
+            ITEMS.register(
+                    "long_bullet_dum",
+                    long_bullet_dum::new
+            );
+
+    // 长子弹-爆炸：命中实体/方块产生爆炸，爆炸不伤害生物
+    public static final RegistryObject<Item> LONG_BULLET_EXPLOSIVE =
+            ITEMS.register(
+                    "long_bullet_explosive",
+                    long_bullet_explosive::new
+            );
+
+    // 长子弹-中毒：伤害 ×0.3，命中 Poison III 10 秒
+    public static final RegistryObject<Item> LONG_BULLET_POISON =
+            ITEMS.register(
+                    "long_bullet_poison",
+                    long_bullet_poison::new
+            );
+
+    // 长子弹-穿甲：额外造成 目标护甲值 ×0.5 的无视护甲伤害
+    public static final RegistryObject<Item> LONG_BULLET_ARMOR_PIERCING =
+            ITEMS.register(
+                    "long_bullet_armor_piercing",
+                    long_bullet_armor_piercing::new
+            );
 
     // 弹药：弩箭弹药（步枪可切换装填的箭形弹药）
     public static final RegistryObject<Item> CROSSBOW_BOLT =
@@ -173,6 +252,10 @@ public class ModItems {
     // 手枪：单手速射模板（短子弹，半自动，可双持）
     public static final RegistryObject<Item> PISTOL =
             ITEMS.register("pistol", pistol::new);
+
+    // 重型左轮：双手逐发装填（短子弹，6发弹夹，高后坐力小扩散）
+    public static final RegistryObject<Item> HEAVY_REVOLVER =
+            ITEMS.register("heavy_revolver", heavy_revolver::new);
 
     // 金甜菜根：8 金粒围绕甜菜根合成；食用给予耐力，也是耐力药水的酿造原料
     public static final RegistryObject<Item> GOLDEN_BEETROOT =
@@ -200,6 +283,13 @@ public class ModItems {
                                     .alwaysEat()
                                     .build())));
 
+    public static final RegistryObject<Item> AMMO_BOX =
+            ITEMS.register(
+                    "ammo_box",
+                    () -> new AmmoBoxItem(
+                            new Item.Properties()
+                    )
+            );
     // ===== 任务契约 =====
     // 旧版任务契约：击杀僵尸 x10 + 收集金甜菜根 x3
    /* public static final RegistryObject<Item> QUEST_CONTRACT =

@@ -198,6 +198,9 @@
   "item.alone_adventure.rifle": "Rifle",
   "item.alone_adventure.shotgun": "Shotgun",
   "item.alone_adventure.pistol": "Pistol",
+  "item.alone_adventure.heavy_revolver": "Heavy Revolver",
+  "item.alone_adventure.heavy_revolver.tooltip.desc": "A powerful double-action revolver with a 6-round cylinder. Slow to fire but deals heavy damage with great accuracy.",
+  "item.alone_adventure.heavy_revolver.tooltip.usage": "Left-click to fire / Right-click to aim / R or sneak-right-click to reload (per-bullet) / G to switch ammo",
   "entity.alone_adventure.bullet": "Bullet",
 
   "item.alone_adventure.gun.tooltip.usage": "Left-click to fire / Right-click to aim (spread halved) / R or sneak-right-click to reload / G to switch ammo",
@@ -293,5 +296,43 @@
   "item.alone_adventure.monster_ash.tooltip.use": "Add when mixing two injections to increase the potion level, at the cost of reducing the duration",
   "item.alone_adventure.blood_shard.tooltip.use": "Add when mixing two injections to increase the potion's duration",
   "tooltip.alone_adventure.injection_empty": "An empty syringe used to craft potion injections",
-  "tooltip.alone_adventure.injection_empty.use": "Mix one potion with 2 empty syringes and 1 Monster Ash to craft an injection"
+  "tooltip.alone_adventure.injection_empty.use": "Mix one potion with 2 empty syringes and 1 Monster Ash to craft an injection",
+  "item.alone_adventure.assaultshield": "Assault Shield",
+  "item.alone_adventure.assaultshield.tooltip.desc": "A shield designed for rapid assaults and breakthroughs",
+  "item.alone_adventure.assaultshield.tooltip.dash": "Right Click: Raise the shield and charge forward",
+  "item.alone_adventure.assaultshield.tooltip.invincible": "Completely invincible during the charge",
+  "item.alone_adventure.short_bullet_dum": "Short Bullet - Dum-Dum",
+  "item.alone_adventure.short_bullet_explosive": "Short Bullet - Explosive",
+  "item.alone_adventure.short_bullet_coin": "Short Bullet - Coin",
+  "item.alone_adventure.short_bullet_poison": "Short Bullet - Poison",
+  "item.alone_adventure.short_bullet_armor_piercing": "Short Bullet - Armor Piercing",
+  "item.alone_adventure.long_bullet_dum": "Long Bullet - Dum-Dum",
+  "item.alone_adventure.long_bullet_explosive": "Long Bullet - Explosive",
+  "item.alone_adventure.long_bullet_poison": "Long Bullet - Poison",
+  "item.alone_adventure.long_bullet_armor_piercing": "Long Bullet - Armor Piercing",
+  "item.alone_adventure.ammo_box": "Ammo Box",
+
+  "item.alone_adventure.ammo_box.tooltip": "An ammo box used to resupply firearm ammunition",
+  "item.alone_adventure.ammo_box.tooltip.place": "Right-click a block: Place the ammo box",
+  "item.alone_adventure.ammo_box.tooltip.place_air": "Right-click the air: Place the ammo box in front of you",
+  "item.alone_adventure.ammo_box.tooltip.capacity": "Initial capacity: 32",
+  "item.alone_adventure.ammo_box.tooltip.lifetime": "Lifetime: 60 seconds",
+  "item.alone_adventure.ammo_box.tooltip.usage": "Hold a gun and right-click: Resupply ammunition",
+
+  "gui.alone_adventure.ammo_box.empty": "There is not enough ammunition in the ammo box.",
+  "gui.alone_adventure.ammo_box.inventory_full": "Your inventory does not have enough space.",
+  "gui.alone_adventure.ammo_box.refilled": "Consume Inventory %2$s. Ammo box remaining: %3$s",
+
+  "gui.alone_adventure.ammo_box.not_gun": "You must be holding a gun to use the ammo box.",
+  "gui.alone_adventure.ammo_box.no_ammo": "The current gun has no available ammunition type.",
+  "gui.alone_adventure.ammo_box.not_enough": "The ammo box does not have enough ammunition.",
+  "gui.alone_adventure.ammo_box.success": "Ammunition resupplied.",
+  "gui.alone_adventure.ammo_box.disappeared": "The ammo box has disappeared.",
+  "gui.alone_adventure.ammo_box.depleted": "The ammo box has been depleted.",
+
+  "entity.alone_adventure.ammo_box": "Ammo Box",
+  "entity.alone_adventure.ammo_box_display": "Ammo Box %1$s/%2$s",
+  "entity.alone_adventure.ammo_box_ammo": "Ammo: %s/%s",
+  "entity.alone_adventure.ammo_box_time": "Time Remaining: %ss"
+
 }

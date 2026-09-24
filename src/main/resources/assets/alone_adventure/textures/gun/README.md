@@ -6,4 +6,4 @@
 
 现有占位引用：
 - `prototype_gun.png` —— 原型枪械（物品图标与枪体贴图）
-- `bullet.png` —— 通用子弹
+- `../item/bullet.png` —— 通用子弹

@@ -5,6 +5,7 @@ import Alone818.com.alone_adventure.Items.BulletProjectile;
 import Alone818.com.alone_adventure.Items.InkBladeProjectile;
 import Alone818.com.alone_adventure.Items.RegimentBannerEntity;
 import Alone818.com.alone_adventure.Items.ShockDeviceProjectile;
+import Alone818.com.alone_adventure.entity.AmmoBoxEntity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -56,6 +57,25 @@ public class ModEntities {
                             .clientTrackingRange(6)
                             .updateInterval(1)
                             .build("bullet"));
+    public static final RegistryObject<EntityType<AmmoBoxEntity>> AMMO_BOX =
+            ENTITIES.register(
+                    "ammo_box",
+                    () -> EntityType.Builder
+                            .of(
+                                    AmmoBoxEntity::new,
+                                    MobCategory.MISC
+                            )
+                            .sized(
+                                    0.25F,
+                                    0.25F
+                            )
+                            .clientTrackingRange(64)
+                            .updateInterval(1)
+                            .build(
+                                    Alone_adventure.MODID
+                                            + ":ammo_box"
+                            )
+            );
 
     public static void register(IEventBus eventBus) {
         ENTITIES.register(eventBus);

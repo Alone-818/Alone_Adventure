@@ -1,5 +1,6 @@
-package Alone818.com.alone_adventure.Items.gun;
+package Alone818.com.alone_adventure.Items.bullet;
 
+import Alone818.com.alone_adventure.Items.gun.AmmoItem;
 import net.minecraft.world.item.Rarity;
 
 /**

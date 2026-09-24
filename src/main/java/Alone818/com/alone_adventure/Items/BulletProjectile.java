@@ -142,8 +142,7 @@ public class BulletProjectile extends ThrowableItemProjectile {
 
     @Override
     protected Item getDefaultItem() {
-        // 旧档兜底：正常情况下开火时已 setItem 为对应弹药
-        return ModItems.SHORT_BULLET.get();
+        return ModItems.BULLET.get();
     }
 
     /** 子弹直线飞行：无重力 */
@@ -169,84 +168,262 @@ public class BulletProjectile extends ThrowableItemProjectile {
     protected boolean canHitEntity(Entity target) {
         return super.canHitEntity(target) && !pierced.hasHit(target.getId());
     }
-
-    /** 命中实体：结算伤害、击退与穿透 */
     @Override
     protected void onHitEntity(EntityHitResult result) {
-        if (level().isClientSide) return;
+        if (level().isClientSide) {
+            return;
+        }
 
-        Entity hit = result.getEntity();
-        // 击中钩子：回调来源枪械与弹药（伤害结算前，damage 为经射程衰减后的值）
+        Entity hit =
+                result.getEntity();
+
+        float actualDamage =
+                damageAt();
+
+        // =========================================================
+        // 枪械自身命中钩子
+        // =========================================================
+
         if (level() instanceof ServerLevel serverLevel) {
+
             if (sourceGun != null) {
-                sourceGun.onBulletHitEntity(serverLevel, this, hit, damageAt());
-            }
-            if (ammoItem instanceof AmmoItem ammo) {
-                ammo.onBulletHit(serverLevel, this, hit, damageAt());
+
+                sourceGun.onBulletHitEntity(
+                        serverLevel,
+                        this,
+                        hit,
+                        actualDamage
+                );
             }
         }
-        // 归零无敌帧：保证霰弹的多颗弹丸与连续射击每发都结算（与链锯剑扫射一致）
+
+        // =========================================================
+        // 归零目标无敌帧
+        // =========================================================
+
         if (hit instanceof LivingEntity living) {
             living.invulnerableTime = 0;
         }
-        hit.hurt(damageSources().thrown(this, getOwner()), damageAt());
 
-        // 击退：沿弹道方向推动目标（对玩家需额外发送速度包）
-        if (knockback > 0) {
-            Vec3 dir = getDeltaMovement().normalize();
-            hit.push(dir.x * knockback, 0.1D * knockback + 0.05D, dir.z * knockback);
-            if (hit instanceof ServerPlayer serverPlayer) {
-                serverPlayer.connection.send(new ClientboundSetEntityMotionPacket(serverPlayer));
+        // =========================================================
+        // 子弹基础伤害
+        // =========================================================
+
+        hit.hurt(
+                damageSources().thrown(
+                        this,
+                        getOwner()
+                ),
+                actualDamage
+        );
+
+        // =========================================================
+        // 特殊弹药效果
+        //
+        // 放在基础伤害之后。
+        //
+        // 这样穿甲弹追加伤害时可以再次清除
+        // invulnerableTime，不会被上一段伤害的
+        // 无敌帧挡掉。
+        // =========================================================
+
+        if (level() instanceof ServerLevel serverLevel) {
+
+            if (ammoItem instanceof AmmoItem ammo) {
+
+                ammo.onBulletHit(
+                        serverLevel,
+                        this,
+                        hit,
+                        actualDamage
+                );
             }
         }
 
-        // 命中反馈
-        if (level() instanceof ServerLevel server) {
-            server.sendParticles(ParticleTypes.CRIT,
-                    hit.getX(), hit.getY() + hit.getBbHeight() * 0.5D, hit.getZ(),
-                    5, 0.15D, 0.2D, 0.15D, 0.08D);
-        }
-        level().playSound(null, getX(), getY(), getZ(),
-                SoundEvents.ARROW_HIT_PLAYER, SoundSource.PLAYERS, 0.3F, 1.6F);
+        // =========================================================
+        // 击退
+        // =========================================================
 
-        // 穿透结算：已命中实体数超过穿透能力则停止
-        pierced.record(hit.getId());
-        if (pierced.exhausted(penetration)) {
+        if (knockback > 0) {
+
+            Vec3 dir =
+                    getDeltaMovement()
+                            .normalize();
+
+            hit.push(
+                    dir.x * knockback,
+                    0.1D * knockback + 0.05D,
+                    dir.z * knockback
+            );
+
+            if (hit instanceof ServerPlayer serverPlayer) {
+
+                serverPlayer.connection.send(
+                        new ClientboundSetEntityMotionPacket(
+                                serverPlayer
+                        )
+                );
+            }
+        }
+
+        // =========================================================
+        // 命中粒子
+        // =========================================================
+
+        if (level() instanceof ServerLevel server) {
+
+            server.sendParticles(
+                    ParticleTypes.CRIT,
+                    hit.getX(),
+                    hit.getY()
+                            + hit.getBbHeight() * 0.5D,
+                    hit.getZ(),
+                    5,
+                    0.15D,
+                    0.2D,
+                    0.15D,
+                    0.08D
+            );
+        }
+
+        level().playSound(
+                null,
+                getX(),
+                getY(),
+                getZ(),
+                SoundEvents.ARROW_HIT_PLAYER,
+                SoundSource.PLAYERS,
+                0.3F,
+                1.6F
+        );
+
+        // =========================================================
+        // 穿透
+        // =========================================================
+
+        pierced.record(
+                hit.getId()
+        );
+
+        if (pierced.exhausted(
+                penetration
+        )) {
+
             discard();
         }
     }
 
-    /**
-     * 命中方块：仍有反弹余量则按命中面镜面反射继续飞行（{@link Ricochet#applyBounce}，
-     * 入射角 = 反射角 + 位置回退到命中面外），耗尽后弹着点火花并消失。
-     * 反弹段<b>双端执行</b>：纯确定性向量运算，客户端本地模拟同一轨迹，
-     * 数值经 {@link #DATA_RICOCHET} 随 spawn 数据一次性下发，无持续同步开销。
-     */
     @Override
     protected void onHitBlock(BlockHitResult result) {
-        if (getBouncesLeft() > 0 && Ricochet.applyBounce(this, result, RICOCHET_ENERGY)) {
-            this.entityData.set(DATA_RICOCHET, getBouncesLeft() - 1);
+
+        // =========================================================
+        // 特殊弹药：方块命中钩子
+        // =========================================================
+
+        if (!level().isClientSide
+                && level() instanceof ServerLevel serverLevel
+                && ammoItem instanceof AmmoItem ammo) {
+
+            boolean handled = ammo.onBulletHitBlock(
+                    serverLevel,
+                    this,
+                    result
+            );
+
+            /*
+             * true：
+             * 特殊弹药已经完全处理这次方块命中。
+             *
+             * false：
+             * 继续使用普通子弹的反弹 / 消失逻辑。
+             */
+            if (handled) {
+                return;
+            }
+        }
+
+        // =========================================================
+        // 普通子弹反弹
+        // =========================================================
+
+        if (getBouncesLeft() > 0
+                && Ricochet.applyBounce(
+                this,
+                result,
+                RICOCHET_ENERGY)) {
+
+            this.entityData.set(
+                    DATA_RICOCHET,
+                    getBouncesLeft() - 1
+            );
+
             if (!level().isClientSide) {
-                level().playSound(null, getX(), getY(), getZ(),
-                        SoundEvents.ARROW_HIT, SoundSource.PLAYERS, 0.3F, 2.2F);
+
+                level().playSound(
+                        null,
+                        getX(),
+                        getY(),
+                        getZ(),
+                        SoundEvents.ARROW_HIT,
+                        SoundSource.PLAYERS,
+                        0.3F,
+                        2.2F
+                );
+
                 if (level() instanceof ServerLevel server) {
-                    server.sendParticles(ParticleTypes.CRIT,
-                            getX(), getY(), getZ(), 3, 0.1D, 0.1D, 0.1D, 0.05D);
+
+                    server.sendParticles(
+                            ParticleTypes.CRIT,
+                            getX(),
+                            getY(),
+                            getZ(),
+                            3,
+                            0.1D,
+                            0.1D,
+                            0.1D,
+                            0.05D
+                    );
                 }
             }
+
             return;
         }
+
+        // =========================================================
+        // 普通子弹最终消失
+        // =========================================================
+
         if (!level().isClientSide) {
+
             if (level() instanceof ServerLevel server) {
-                server.sendParticles(ParticleTypes.SMOKE,
-                        getX(), getY(), getZ(), 4, 0.05D, 0.05D, 0.05D, 0.01D);
+
+                server.sendParticles(
+                        ParticleTypes.SMOKE,
+                        getX(),
+                        getY(),
+                        getZ(),
+                        4,
+                        0.05D,
+                        0.05D,
+                        0.05D,
+                        0.01D
+                );
             }
-            level().playSound(null, getX(), getY(), getZ(),
-                    SoundEvents.ARROW_HIT, SoundSource.PLAYERS, 0.4F, 1.8F);
+
+            level().playSound(
+                    null,
+                    getX(),
+                    getY(),
+                    getZ(),
+                    SoundEvents.ARROW_HIT,
+                    SoundSource.PLAYERS,
+                    0.4F,
+                    1.8F
+            );
+
             discard();
         }
     }
-
     /** 按飞行距离结算伤害：射程内全额，超出后线性衰减，最低 25% */
     private float damageAt() {
         if (startPos == null) return damage;

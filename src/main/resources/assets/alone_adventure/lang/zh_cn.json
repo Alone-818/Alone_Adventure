@@ -199,6 +199,9 @@
   "item.alone_adventure.rifle": "步枪",
   "item.alone_adventure.shotgun": "霰弹枪",
   "item.alone_adventure.pistol": "手枪",
+  "item.alone_adventure.heavy_revolver": "重型左轮",
+  "item.alone_adventure.heavy_revolver.tooltip.desc": "一把威力巨大的双动左轮手枪，拥有6发弹夹。射击速度较慢但伤害极高，精准度也很好。",
+  "item.alone_adventure.heavy_revolver.tooltip.usage": "左键开火 / 右键瞄准 / R 或潜行右键逐发装填 / G 切换弹药",
   "entity.alone_adventure.bullet": "子弹",
 
   "item.alone_adventure.gun.tooltip.usage": "左键开火 / 右键瞄准（散布减半）/ R 或潜行右键装填 / G 切换弹药",
@@ -294,5 +297,46 @@
   "item.alone_adventure.monster_ash.tooltip.use": "将两瓶针剂混合时加入以提升药水等级，代价是降低持续时间",
   "item.alone_adventure.blood_shard.tooltip.use": "将两瓶针剂混合时加入以提升药水持续时间",
   "tooltip.alone_adventure.injection_empty": "用于合成药水针剂的空针管",
-  "tooltip.alone_adventure.injection_empty.use": "将一瓶药水与2个空针剂，1个怪物残灰混合以制作针剂"
+  "tooltip.alone_adventure.injection_empty.use": "将一瓶药水与2个空针剂，1个怪物残灰混合以制作针剂",
+
+  "item.alone_adventure.assaultshield": "突击盾",
+  "item.alone_adventure.assaultshield.tooltip.desc": "用于快速突破敌阵的突击盾",
+  "item.alone_adventure.assaultshield.tooltip.dash": "右键：举盾并向前冲刺",
+  "item.alone_adventure.assaultshield.tooltip.invincible": "冲刺期间完全无敌",
+
+  "item.alone_adventure.short_bullet_dum": "短子弹-达姆",
+  "item.alone_adventure.short_bullet_explosive": "短子弹-爆炸",
+  "item.alone_adventure.short_bullet_coin": "短子弹-硬币",
+  "item.alone_adventure.short_bullet_poison": "短子弹-中毒",
+  "item.alone_adventure.short_bullet_armor_piercing": "短子弹-穿甲",
+  "item.alone_adventure.long_bullet_dum": "长子弹-达姆",
+  "item.alone_adventure.long_bullet_explosive": "长子弹-爆炸",
+  "item.alone_adventure.long_bullet_poison": "长子弹-中毒",
+  "item.alone_adventure.long_bullet_armor_piercing": "长子弹-穿甲",
+  "item.alone_adventure.long_bullet_armor_piercing": "长子弹-穿甲",
+  "item.alone_adventure.ammo_box": "弹药箱",
+
+  "item.alone_adventure.ammo_box.tooltip": "用于补充枪械弹药的弹药箱",
+  "item.alone_adventure.ammo_box.tooltip.place": "右键方块：放置弹药箱",
+    "item.alone_adventure.ammo_box.tooltip.place_air": "右键空气：在前方放置弹药箱",
+    "item.alone_adventure.ammo_box.tooltip.capacity": "初始库存：32",
+    "item.alone_adventure.ammo_box.tooltip.lifetime": "存在时间：60秒",
+    "item.alone_adventure.ammo_box.tooltip.usage": "手持枪械右键弹药箱：补充对应弹药",
+
+    "gui.alone_adventure.ammo_box.empty": "弹药箱中的弹药不足。",
+    "gui.alone_adventure.ammo_box.inventory_full": "你的背包没有足够的空间。",
+    "gui.alone_adventure.ammo_box.refilled": "消耗库存 × %2$s，弹药箱剩余库存：%3$s",
+
+    "gui.alone_adventure.ammo_box.not_gun": "只有手持枪械时才能使用弹药箱。",
+    "gui.alone_adventure.ammo_box.no_ammo": "当前枪械没有可用的弹药类型。",
+    "gui.alone_adventure.ammo_box.not_enough": "弹药箱库存不足。",
+    "gui.alone_adventure.ammo_box.success": "弹药补充成功。",
+    "gui.alone_adventure.ammo_box.disappeared": "弹药箱已消失。",
+    "gui.alone_adventure.ammo_box.depleted": "弹药箱已经耗尽。",
+
+  "entity.alone_adventure.ammo_box": "弹药箱",
+  "entity.alone_adventure.ammo_box_ammo": "弹药：%s/%s",
+  "entity.alone_adventure.ammo_box_time": "剩余时间：%ss"
+
+
 }

@@ -28,6 +28,7 @@ import Alone818.com.alone_adventure.Items.ShockDeviceProjectile;
 import Alone818.com.alone_adventure.Items.valkyrie_helmet;
 import Alone818.com.alone_adventure.Items.reaper_scythe;
 import Alone818.com.alone_adventure.Items.starlight_greatsword;
+import Alone818.com.alone_adventure.Items.assaultshield;
 import Alone818.com.alone_adventure.events.*;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -59,6 +60,10 @@ public class Config {
 
     private static ForgeConfigSpec.DoubleValue BLEEDING_ARMOR_REDUCTION_RATIO;
     private static ForgeConfigSpec.DoubleValue BLEEDING_HEALTH_REDUCTION_RATIO;
+    // ===== 突击盾 =====
+    private static ForgeConfigSpec.IntValue ASSAULT_DASH_COOLDOWN_TICKS;
+    private static ForgeConfigSpec.DoubleValue ASSAULT_DASH_DISTANCE;
+    private static ForgeConfigSpec.IntValue ASSAULT_DASH_DURATION_TICKS;
 
     private static ForgeConfigSpec.IntValue NIGHT_HEAL_INTERVAL_TICKS;
     private static ForgeConfigSpec.DoubleValue NIGHT_BONUS_PER_BRIGHTNESS;
@@ -275,7 +280,25 @@ public class Config {
                 .comment("致命伤害免疫冷却（tick，3600 = 3 分钟）")
                 .defineInRange("cooldownTicks", 3600, 0, MAX_TICKS);
         BUILDER.pop();
+        // ===== 突击盾 =====
+        BUILDER.push("assaultshield");
 
+        ASSAULT_DASH_COOLDOWN_TICKS = BUILDER
+                .comment("突击盾冲刺冷却（tick，140 = 7 秒）")
+                .defineInRange("dashCooldownTicks", 140, 0, MAX_TICKS
+                );
+
+        ASSAULT_DASH_DISTANCE = BUILDER
+                .comment("突击盾单次冲刺距离（格），默认 7 格")
+                .defineInRange("dashDistance", 7.0, 0.1, 128.0
+                );
+
+        ASSAULT_DASH_DURATION_TICKS = BUILDER
+                .comment("突击盾冲刺持续时间（tick，10 = 0.5 秒）")
+                .defineInRange("dashDurationTicks", 10, 1, MAX_TICKS
+                );
+
+        BUILDER.pop();
         // ===== 龙胤之力 =====
         BUILDER.push("dragon_power");
         DRAGON_COOLDOWN_TICKS = BUILDER
@@ -875,7 +898,13 @@ public class Config {
         charging_core.Form.FROST.layerTicks = CORE_FROST_LAYER_TICKS.get();
         charging_core.Form.DARK.maxLayers = CORE_DARK_MAX_LAYERS.get();
         charging_core.Form.DARK.layerTicks = CORE_DARK_LAYER_TICKS.get();
-
+        // ===== 招架之盾 =====
+        parryshield.PARRY_WINDOW_TICKS = PARRY_WINDOW_TICKS.get();
+        parryshield.PARRY_REFLECT_RATIO = (float) PARRY_REFLECT_RATIO.get().doubleValue();
+        parryshield.WEAKNESS_DURATION_TICKS = PARRY_WEAKNESS_DURATION_TICKS.get();
+        parryshield.WEAKNESS_AMPLIFIER = PARRY_WEAKNESS_AMPLIFIER.get();
+        parryshield.LONG_BLOCK_ABSORB = (float) PARRY_LONG_BLOCK_ABSORB.get().doubleValue();
+        parryshield.PARRY_COOLDOWN_TICKS = PARRY_COOLDOWN_TICKS.get();
         // ===== 动力剑 =====
         powersword.ARMOR_PENALTY_THRESHOLD = SWORD_ARMOR_PENALTY_THRESHOLD.get();
         powersword.ARMOR_TOUGHNESS_THRESHOLD = SWORD_ARMOR_TOUGHNESS_THRESHOLD.get();

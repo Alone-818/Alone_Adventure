@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "alone_adventure:gun/short_bullet"
+    "layer0": "alone_adventure:gun/bullet"
   }
 }
