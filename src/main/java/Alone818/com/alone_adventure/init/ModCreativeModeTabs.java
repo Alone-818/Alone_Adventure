@@ -346,6 +346,25 @@ public class ModCreativeModeTabs {
                                         );
                                         // 弹药箱
                                         output.accept(new ItemStack(ModItems.AMMO_BOX.get()));
+
+                                        // =================================================
+                                        // 枪械改装件
+                                        // =================================================
+
+                                        // 重型枪管
+                                        output.accept(
+                                                new ItemStack(
+                                                        ModModificationItems.HEAVY_BARREL.get()
+                                                )
+                                        );
+
+                                        // 追踪改件
+                                        output.accept(
+                                                new ItemStack(
+                                                        ModModificationItems.TRACKING_UPGRADE.get()
+                                                )
+                                        );
+
                                         // 急救包
                                         output.accept(
                                                 new ItemStack(

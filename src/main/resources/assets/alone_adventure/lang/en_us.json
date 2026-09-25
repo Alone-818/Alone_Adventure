@@ -210,7 +210,7 @@
   "gun.alone_adventure.stat.line2": "%s | Fire Rate %s s | Recoil %s° | Spread ±%s°/±%s°",
   "gun.alone_adventure.stat.line3": "Magazine %s | Reload %s (%s s) | Ammo %s",
   "gun.alone_adventure.stat.line4": "Penetration %s | Ricochet %s | Knockback %s | Effective Range %s blocks | Aim %s×",
-  "gun.alone_adventure.stat.line5": "Mod Slots %s",
+  "gun.alone_adventure.stat.line5": "Modification Slots: %s/%s",
   "gun.alone_adventure.stat.ammo": "Ammo: %s/%s (%s)",
   "gun.alone_adventure.stat.ammo_types": "Ammo Switch: %s (%s types total, press G to cycle)",
   "gun.alone_adventure.fire_mode.manual": "Manual",
@@ -387,5 +387,38 @@
   "quest.alone_adventure.tower_contract.reach_high_place": "Reach any location above Y level 200",
   "quest.alone_adventure.tower_contract.kill_wither": "Kill Wither ×1",
   "quest.alone_adventure.tower_contract.collect_monster_ash": "Submit Monster Ash ×8",
-  "quest.alone_adventure.tower_contract.collect_blood_shard": "Submit Blood Shards ×8"
+  "quest.alone_adventure.tower_contract.collect_blood_shard": "Submit Blood Shards ×8",
+
+  "item.alone_adventure.heavy_barrel": "Heavy Barrel",
+  "item.alone_adventure.tracking_upgrade": "Tracking Modification",
+
+  "tooltip.alone_adventure.heavy_barrel": "Reinforces the barrel, greatly increasing single-shot damage at the cost of a much slower firing speed.",
+  "tooltip.alone_adventure.heavy_barrel.damage": "Damage: +100%",
+  "tooltip.alone_adventure.heavy_barrel.fire_rate": "Fire Interval: +200%",
+  "tooltip.alone_adventure.heavy_barrel.type": "Attribute Modification",
+
+  "tooltip.alone_adventure.tracking_upgrade": "Installs a tracking module that allows fired bullets to automatically track targets.",
+  "tooltip.alone_adventure.tracking_upgrade.effect": "Bullet: Automatic Tracking",
+  "tooltip.alone_adventure.tracking_upgrade.type": "Behavior Modification",
+
+  "tooltip.alone_adventure.gun_modification": "Gun Modification",
+  "tooltip.alone_adventure.modification_type": "Modification Type: %s",
+  "tooltip.alone_adventure.modification_slots": "Modification Slots: %s/%s",
+
+  "tooltip.alone_adventure.modification_type.attribute": "Attribute",
+  "tooltip.alone_adventure.modification_type.behavior": "Behavior",
+
+  "tooltip.alone_adventure.install": "Can be installed on guns",
+  "tooltip.alone_adventure.no_slots": "This gun has no available modification slots",
+  "tooltip.alone_adventure.already_installed": "This modification is already installed",
+  "tooltip.alone_adventure.modification_success": "Modification installed",
+  "tooltip.alone_adventure.modification_removed": "All modifications removed",
+
+  "container.repair": "Gun Modification",
+  "container.grindstone": "Remove Modifications",
+
+  "gui.alone_adventure.modification.cost": "Modification Cost: 3 Levels",
+  "gui.alone_adventure.modification.slot": "Consumes 1 Modification Slot",
+  "gui.alone_adventure.modification.install": "Install Modification",
+  "gui.alone_adventure.modification.remove": "Remove All Modifications"
 }

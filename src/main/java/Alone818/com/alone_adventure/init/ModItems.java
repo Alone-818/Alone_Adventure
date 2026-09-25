@@ -18,6 +18,8 @@ import Alone818.com.alone_adventure.Items.bullet.shotgun_shell;
 import Alone818.com.alone_adventure.Items.short_bullet;
 import Alone818.com.alone_adventure.Items.gun.pistol;
 import Alone818.com.alone_adventure.Items.gun.heavy_revolver;
+import Alone818.com.alone_adventure.Items.gun.GunStats;
+import Alone818.com.alone_adventure.Items.gun.GunUpgradeItem;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
@@ -261,6 +263,7 @@ public class ModItems {
     // 重型左轮：双手逐发装填（短子弹，6发弹夹，高后坐力小扩散）
     public static final RegistryObject<Item> HEAVY_REVOLVER =
             ITEMS.register("heavy_revolver", heavy_revolver::new);
+
 
     // 金甜菜根：8 金粒围绕甜菜根合成；食用给予耐力，也是耐力药水的酿造原料
     public static final RegistryObject<Item> GOLDEN_BEETROOT =

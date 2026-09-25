@@ -149,13 +149,6 @@
   "item.alone_adventure.quest_contract.tooltip.desc": "记录持有者试炼的契约饰品——佩戴时生效，完成全部任务后可作为合成材料。右键副手消耗材料提交进度。",
   "quest.alone_adventure.quest_contract.kill_zombie": "击杀僵尸 ×10",
   "quest.alone_adventure.quest_contract.collect_beetroot": "收集金甜菜根 ×3",
-  "tooltip.alone_adventure.quest.material_ready": "✔ 契约达成——现可作为合成材料",
-  "tooltip.alone_adventure.quest.material_locked": "✘ 完成全部任务后，方可作为合成材料",
-  "message.alone_adventure.quest.task_done": "任务完成：%s",
-  "message.alone_adventure.quest.all_done": "契约达成！该物品现可作为合成材料",
-  "message.alone_adventure.quest.kill_progress": "任务进度：%s（%d/%d）",
-  "message.alone_adventure.quest.submitted": "材料已提交，任务进度已更新",
-  "message.alone_adventure.quest.submitted_progress": "已提交 %s（%d/%d）",
 
   "effect.alone_adventure.vulnerability": "易伤",
   "effect.alone_adventure.laceration": "撕裂",
@@ -211,7 +204,7 @@
   "gun.alone_adventure.stat.line2": "%s ｜ 射速 %s 秒 ｜ 后坐力 %s° ｜ 偏移 ±%s°/±%s°",
   "gun.alone_adventure.stat.line3": "弹夹 %s ｜ 装填 %s（%s 秒）｜ 弹药 %s",
   "gun.alone_adventure.stat.line4": "穿透 %s ｜ 反弹 %s ｜ 击退 %s ｜ 有效射程 %s 格 ｜ 瞄准 %s×",
-  "gun.alone_adventure.stat.line5": "改装槽位 %s",
+  "gun.alone_adventure.stat.line5": "改装槽：%s/%s",
   "gun.alone_adventure.stat.ammo": "弹药：%s/%s（%s）",
   "gun.alone_adventure.stat.ammo_types": "弹药切换：%s（共 %s 种，G 键循环）",
   "gun.alone_adventure.fire_mode.manual": "手动",
@@ -313,7 +306,6 @@
   "item.alone_adventure.long_bullet_explosive": "长子弹-爆炸",
   "item.alone_adventure.long_bullet_poison": "长子弹-中毒",
   "item.alone_adventure.long_bullet_armor_piercing": "长子弹-穿甲",
-  "item.alone_adventure.long_bullet_armor_piercing": "长子弹-穿甲",
   "item.alone_adventure.ammo_box": "弹药箱",
 
   "item.alone_adventure.ammo_box.tooltip": "用于补充枪械弹药的弹药箱",
@@ -382,5 +374,38 @@
   "quest.alone_adventure.tower_contract.reach_high_place": "到达任意地点 Y轴超过200",
   "quest.alone_adventure.tower_contract.kill_wither": "击杀凋零 ×1",
   "quest.alone_adventure.tower_contract.collect_monster_ash": "提交怪物残灰 ×8",
-  "quest.alone_adventure.tower_contract.collect_blood_shard": "提交血脉碎片 ×8"
+  "quest.alone_adventure.tower_contract.collect_blood_shard": "提交血脉碎片 ×8",
+
+  "item.alone_adventure.heavy_barrel": "重型枪管",
+  "item.alone_adventure.tracking_upgrade": "追踪改件",
+
+  "tooltip.alone_adventure.heavy_barrel": "强化枪管结构，大幅提升单发威力，但会显著降低射击速度。",
+  "tooltip.alone_adventure.heavy_barrel.damage": "伤害：+100%",
+  "tooltip.alone_adventure.heavy_barrel.fire_rate": "射击间隔：+200%",
+  "tooltip.alone_adventure.heavy_barrel.type": "属性改装",
+
+  "tooltip.alone_adventure.tracking_upgrade": "安装追踪模块，使发射出的子弹能够自动追踪目标。",
+  "tooltip.alone_adventure.tracking_upgrade.effect": "子弹：自动追踪目标",
+  "tooltip.alone_adventure.tracking_upgrade.type": "行为改装",
+
+  "tooltip.alone_adventure.gun_modification": "枪械改装件",
+  "tooltip.alone_adventure.modification_type": "改装类型：%s",
+  "tooltip.alone_adventure.modification_slots": "改装槽：%s/%s",
+
+  "tooltip.alone_adventure.modification_type.attribute": "属性",
+  "tooltip.alone_adventure.modification_type.behavior": "行为",
+
+  "tooltip.alone_adventure.install": "可安装于枪械",
+  "tooltip.alone_adventure.no_slots": "该枪械没有可用的改装槽",
+  "tooltip.alone_adventure.already_installed": "该改装件已经安装",
+  "tooltip.alone_adventure.modification_success": "改装成功",
+  "tooltip.alone_adventure.modification_removed": "已移除全部改装",
+
+  "container.repair": "枪械改装",
+  "container.grindstone": "拆卸改装",
+
+  "gui.alone_adventure.modification.cost": "改装消耗：3级经验",
+  "gui.alone_adventure.modification.slot": "消耗1个改装槽",
+  "gui.alone_adventure.modification.install": "安装改装件",
+  "gui.alone_adventure.modification.remove": "移除全部改装"
 }

@@ -110,6 +110,11 @@ public class GunItem extends Item implements GeoItem {
         return stats;
     }
 
+    /** 获取指定枪械物品堆栈实际生效的属性（包含已安装改装件）。 */
+    public GunStats getStats(ItemStack stack) {
+        return GunUpgradeManager.getEffectiveStats(this, stack);
+    }
+
     /**
      * 判断指定手是否可以使用这把枪。
      *
@@ -900,6 +905,9 @@ public class GunItem extends Item implements GeoItem {
             ItemStack stack
     ) {
 
+        // 当前枪械实际属性：基础属性 + 已安装改装件。
+        GunStats currentStats = getStats(stack);
+
         // =====================================================
         // 双手枪只能主手
         // =====================================================
@@ -1049,7 +1057,7 @@ public class GunItem extends Item implements GeoItem {
         int bulletCount =
                 Math.max(
                         1,
-                        stats.bulletCount()
+                        currentStats.bulletCount()
                                 + additionalBulletCount
                 );
 
@@ -1095,7 +1103,7 @@ public class GunItem extends Item implements GeoItem {
         float speed =
                 Math.max(
                         0.5F,
-                        stats.bulletSpeed()
+                        currentStats.bulletSpeed()
                                 + bonuses.bulletSpeedBonus
                 );
 
@@ -1115,7 +1123,7 @@ public class GunItem extends Item implements GeoItem {
 
         float bulletDamage =
                 (
-                        stats.damage()
+                        currentStats.damage()
                                 + bonuses.damageBonus
                 )
                         * ammoDamageMultiplier;
@@ -1128,7 +1136,7 @@ public class GunItem extends Item implements GeoItem {
 
         float bulletRange =
                 (
-                        stats.effectiveRange()
+                        currentStats.effectiveRange()
                                 + bonuses.rangeBonus
                 )
                         * ammoRangeMultiplier;
@@ -1161,7 +1169,7 @@ public class GunItem extends Item implements GeoItem {
                                     - 0.5F
                     )
                             * 2.0F
-                            * stats.horizontalOffset()
+                            * currentStats.horizontalOffset()
                             * spreadMul;
 
             // =================================================
@@ -1175,7 +1183,7 @@ public class GunItem extends Item implements GeoItem {
                                     - 0.5F
                     )
                             * 2.0F
-                            * stats.verticalOffset()
+                            * currentStats.verticalOffset()
                             * spreadMul;
 
             // =================================================
@@ -1199,13 +1207,14 @@ public class GunItem extends Item implements GeoItem {
                     this,
                     ammoType,
                     bulletDamage,
-                    stats.penetration()
+                    currentStats.penetration()
                             + bonuses.penetrationBonus,
-                    stats.ricochet()
+                    currentStats.ricochet()
                             + bonuses.ricochetBonus,
-                    stats.knockback()
+                    currentStats.knockback()
                             + bonuses.knockbackBonus,
-                    bulletRange
+                    bulletRange,
+                    GunUpgradeManager.hasTracking(stack)
             );
 
 
@@ -1273,7 +1282,7 @@ public class GunItem extends Item implements GeoItem {
                 Math.max(
                         1,
                         Math.round(
-                                stats.fireRateTicks()
+                                currentStats.fireRateTicks()
                                         / Math.max(
                                         0.1F,
                                         bonuses.fireRateMultiplier
@@ -1382,7 +1391,7 @@ public class GunItem extends Item implements GeoItem {
         // =====================================================
 
         float recoil =
-                stats.recoil()
+                currentStats.recoil()
                         * (
                         1.0F
                                 - Mth.clamp(
@@ -1459,6 +1468,8 @@ public class GunItem extends Item implements GeoItem {
             TooltipFlag flag
     ) {
 
+        GunStats currentStats = getStats(stack);
+
         CompoundTag tag =
                 stack.getTag();
 
@@ -1468,7 +1479,7 @@ public class GunItem extends Item implements GeoItem {
                         : 0;
 
         int typeCount =
-                stats.ammoTypeCount();
+                currentStats.ammoTypeCount();
 
         if (Screen.hasShiftDown()) {
 
@@ -1479,7 +1490,7 @@ public class GunItem extends Item implements GeoItem {
             );
 
             // 双持提示
-            if (stats.handedness()
+            if (currentStats.handedness()
                     == GunStats.Handedness.ONE_HANDED) {
 
                 tooltip.add(
@@ -1492,61 +1503,68 @@ public class GunItem extends Item implements GeoItem {
             tooltip.add(
                     Component.translatable(
                             "gun.alone_adventure.stat.line1",
-                            fmt(stats.damage()),
-                            fmt(stats.bulletSpeed()),
-                            stats.bulletCount()
+                            fmt(currentStats.damage()),
+                            fmt(currentStats.bulletSpeed()),
+                            currentStats.bulletCount()
                     ).withStyle(ChatFormatting.RED)
             );
 
             tooltip.add(
                     Component.translatable(
                             "gun.alone_adventure.stat.line2",
-                            fireModeName(stats.fireMode()),
+                            fireModeName(currentStats.fireMode()),
                             String.format(
                                     "%.2f",
-                                    stats.fireRateTicks() / 20.0D
+                                    currentStats.fireRateTicks() / 20.0D
                             ),
-                            fmt(stats.recoil()),
-                            fmt(stats.horizontalOffset()),
-                            fmt(stats.verticalOffset())
+                            fmt(currentStats.recoil()),
+                            fmt(currentStats.horizontalOffset()),
+                            fmt(currentStats.verticalOffset())
                     ).withStyle(ChatFormatting.YELLOW)
             );
 
             tooltip.add(
                     Component.translatable(
                             "gun.alone_adventure.stat.line3",
-                            stats.magazineSize(),
-                            reloadTypeName(stats.reloadType()),
+                            currentStats.magazineSize(),
+                            reloadTypeName(currentStats.reloadType()),
                             String.format(
                                     "%.1f",
-                                    stats.reloadTicks() / 20.0D
+                                    currentStats.reloadTicks() / 20.0D
                             ),
-                            stats.ammoItem().getDescription()
+                            currentStats.ammoItem().getDescription()
                     ).withStyle(ChatFormatting.BLUE)
             );
 
             tooltip.add(
                     Component.translatable(
                             "gun.alone_adventure.stat.line4",
-                            stats.penetration(),
-                            stats.ricochet(),
-                            fmt(stats.knockback()),
-                            fmt(stats.effectiveRange()),
-                            fmt(stats.aimZoom())
+                            currentStats.penetration(),
+                            currentStats.ricochet(),
+                            fmt(currentStats.knockback()),
+                            fmt(currentStats.effectiveRange()),
+                            fmt(currentStats.aimZoom())
                     ).withStyle(ChatFormatting.GREEN)
             );
+
+            // 改装槽：显示“已使用 / 最大容量”
+            // 最大容量始终取枪械基础属性，安装改装件不会减少总槽位上限。
+            int usedModSlots = GunUpgradeManager.getUsedSlots(stack);
+            int maxModSlots = stats.modSlots();
 
             tooltip.add(
                     Component.translatable(
                             "gun.alone_adventure.stat.line5",
-                            stats.modSlots()
+                            usedModSlots,
+                            maxModSlots
                     ).withStyle(ChatFormatting.GREEN)
             );
+
 
             // 持枪方式
             tooltip.add(
                     handednessName(
-                            stats.handedness()
+                            currentStats.handedness()
                     ).withStyle(ChatFormatting.AQUA)
             );
 
@@ -1586,7 +1604,7 @@ public class GunItem extends Item implements GeoItem {
                 Component.translatable(
                         "gun.alone_adventure.stat.ammo",
                         ammo,
-                        stats.magazineSize(),
+                        currentStats.magazineSize(),
                         getEffectiveAmmoItem(stack)
                                 .getDescription()
                 ).withStyle(
@@ -1694,6 +1712,10 @@ public class GunItem extends Item implements GeoItem {
 
     public int getAmmoBoxAmount(ItemStack stack) {
         return 1;
+    }
+    @Override
+    public boolean canGrindstoneRepair(ItemStack stack) {
+        return !GunUpgradeManager.getInstalledUpgrades(stack).isEmpty();
     }
 }
 

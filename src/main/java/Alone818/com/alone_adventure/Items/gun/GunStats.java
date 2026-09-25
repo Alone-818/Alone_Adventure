@@ -123,6 +123,37 @@ public final class GunStats {
         return new Builder();
     }
 
+    /**
+     * 从现有枪械属性复制一份 Builder。
+     *
+     * 改装件只修改自己负责的属性，其余属性全部保持原值。
+     */
+    public static Builder builder(GunStats base) {
+        Builder builder = new Builder();
+
+        builder.damage = base.damage();
+        builder.bulletSpeed = base.bulletSpeed();
+        builder.bulletCount = base.bulletCount();
+        builder.ammoTypes.addAll(base.ammoTypes);
+        builder.magazineSize = base.magazineSize();
+        builder.horizontalOffset = base.horizontalOffset();
+        builder.verticalOffset = base.verticalOffset();
+        builder.fireMode = base.fireMode();
+        builder.fireRateTicks = base.fireRateTicks();
+        builder.recoil = base.recoil();
+        builder.reloadTicks = base.reloadTicks();
+        builder.reloadType = base.reloadType();
+        builder.penetration = base.penetration();
+        builder.ricochet = base.ricochet();
+        builder.knockback = base.knockback();
+        builder.effectiveRange = base.effectiveRange();
+        builder.modSlots = base.modSlots();
+        builder.handedness = base.handedness();
+        builder.aimZoom = base.aimZoom();
+
+        return builder;
+    }
+
     public float damage() {
         return damage;
     }

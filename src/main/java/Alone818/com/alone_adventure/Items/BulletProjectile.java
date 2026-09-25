@@ -6,6 +6,7 @@ import Alone818.com.alone_adventure.init.ModEntities;
 import Alone818.com.alone_adventure.init.ModItems;
 import Alone818.com.alone_adventure.util.Penetration;
 import Alone818.com.alone_adventure.util.Ricochet;
+import Alone818.com.alone_adventure.util.TargetTracker;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
@@ -59,6 +60,10 @@ public class BulletProjectile extends ThrowableItemProjectile {
     private float knockback = 0.5F;
     /** 有效射程（格） */
     private float effectiveRange = 30.0F;
+    /** 是否启用追踪改件。 */
+    private boolean tracking = false;
+    /** 追踪目标状态。 */
+    private final TargetTracker targetTracker = new TargetTracker();
     /** 出膛位置（射程衰减的距离基准） */
     private Vec3 startPos = null;
     /** 发射本弹的枪械（击中钩子回调用；跨存档按注册名恢复） */
@@ -118,14 +123,20 @@ public class BulletProjectile extends ThrowableItemProjectile {
     /** 开火时写入弹体属性、来源枪械、弹药种类并记录出膛位置（仅服务端调用） */
     public void configure(GunItem sourceGun, Item ammoItem, float damage, int penetration,
                           int ricochet, float knockback, float effectiveRange) {
+        configure(sourceGun, ammoItem, damage, penetration, ricochet, knockback, effectiveRange, false);
+    }
+
+    /** 配置子弹，并指定是否启用追踪。 */
+    public void configure(GunItem sourceGun, Item ammoItem, float damage, int penetration,
+                          int ricochet, float knockback, float effectiveRange, boolean tracking) {
         this.sourceGun = sourceGun;
         this.ammoItem = ammoItem;
         this.damage = damage;
         this.penetration = penetration;
         this.knockback = knockback;
         this.effectiveRange = effectiveRange;
+        this.tracking = tracking;
         this.startPos = position();
-        // 反弹次数走同步数据：configure 在 spawn 前调用，初值随实体数据一次性下发
         this.entityData.set(DATA_RICOCHET, Math.max(0, ricochet));
     }
 
@@ -154,6 +165,32 @@ public class BulletProjectile extends ThrowableItemProjectile {
     @Override
     public void tick() {
         super.tick();
+
+        // 追踪改件：复用现有 TargetTracker，每 2 tick 扫描一次目标，
+        // 服务端调整弹道方向，客户端通过实体运动同步看到追踪轨迹。
+        if (!level().isClientSide && tracking && getOwner() instanceof LivingEntity owner) {
+            LivingEntity target = targetTracker.update(
+                    level(),
+                    position(),
+                    24.0D,
+                    36.0D,
+                    level().getGameTime(),
+                    2L,
+                    owner
+            );
+
+            if (target != null && target.isAlive()) {
+                Vec3 from = getDeltaMovement();
+                double speed = from.length();
+                if (speed > 0.001D) {
+                    Vec3 desired = target.getEyePosition().subtract(position()).normalize().scale(speed);
+                    Vec3 steered = from.scale(0.82D).add(desired.scale(0.18D));
+                    setDeltaMovement(steered);
+                    hasImpulse = true;
+                }
+            }
+        }
+
         // 客户端曳光轨迹
         if (level().isClientSide) {
             level().addParticle(ParticleTypes.CRIT,
@@ -313,39 +350,45 @@ public class BulletProjectile extends ThrowableItemProjectile {
         }
     }
 
+    /**
+     * 命中方块：仍有反弹余量则按命中面镜面反射继续飞行（{@link Ricochet#applyBounce}，
+     * 入射角 = 反射角 + 位置回退到命中面外），耗尽后弹着点火花并消失。
+     * 反弹段<b>双端执行</b>：纯确定性向量运算，客户端本地模拟同一轨迹，
+     * 数值经 {@link #DATA_RICOCHET} 随 spawn 数据一次性下发，无持续同步开销。
+     */
     @Override
     protected void onHitBlock(BlockHitResult result) {
 
-        // =========================================================
-        // 特殊弹药：方块命中钩子
-        // =========================================================
+        /*
+         * 爆炸弹药：
+         * 命中方块也必须触发 AmmoItem 的命中事件。
+         */
+        if (!level().isClientSide && ammoItem instanceof AmmoItem ammo) {
 
-        if (!level().isClientSide
-                && level() instanceof ServerLevel serverLevel
-                && ammoItem instanceof AmmoItem ammo) {
+            if (level() instanceof ServerLevel serverLevel) {
 
-            boolean handled = ammo.onBulletHitBlock(
-                    serverLevel,
-                    this,
-                    result
-            );
+                ammo.onBulletHit(
+                        serverLevel,
+                        this,
+                        null,
+                        damageAt()
+                );
+            }
 
             /*
-             * true：
-             * 特殊弹药已经完全处理这次方块命中。
-             *
-             * false：
-             * 继续使用普通子弹的反弹 / 消失逻辑。
+             * 特种弹药已经处理了命中效果。
+             * 爆炸弹药会在这里直接销毁子弹。
              */
-            if (handled) {
+            if (ammo.getClass().getSimpleName()
+                    .equals("short_bullet_explosive")) {
+
                 return;
             }
         }
 
-        // =========================================================
-        // 普通子弹反弹
-        // =========================================================
-
+        /*
+         * 普通子弹继续执行原来的反弹逻辑。
+         */
         if (getBouncesLeft() > 0
                 && Ricochet.applyBounce(
                 this,
@@ -389,10 +432,6 @@ public class BulletProjectile extends ThrowableItemProjectile {
             return;
         }
 
-        // =========================================================
-        // 普通子弹最终消失
-        // =========================================================
-
         if (!level().isClientSide) {
 
             if (level() instanceof ServerLevel server) {
@@ -424,6 +463,7 @@ public class BulletProjectile extends ThrowableItemProjectile {
             discard();
         }
     }
+
     /** 按飞行距离结算伤害：射程内全额，超出后线性衰减，最低 25% */
     private float damageAt() {
         if (startPos == null) return damage;
@@ -444,6 +484,8 @@ public class BulletProjectile extends ThrowableItemProjectile {
         tag.putInt("BulletRicochet", getBouncesLeft());
         tag.putFloat("BulletKnockback", knockback);
         tag.putFloat("BulletRange", effectiveRange);
+        tag.putBoolean("BulletTracking", tracking);
+        targetTracker.save(tag);
         if (sourceGun != null) {
             ResourceLocation gunId = BuiltInRegistries.ITEM.getKey(sourceGun);
             tag.putString("BulletGun", gunId.toString());
@@ -471,6 +513,8 @@ public class BulletProjectile extends ThrowableItemProjectile {
         this.entityData.set(DATA_RICOCHET, tag.getInt("BulletRicochet"));
         this.knockback = tag.getFloat("BulletKnockback");
         this.effectiveRange = tag.getFloat("BulletRange");
+        this.tracking = tag.getBoolean("BulletTracking");
+        targetTracker.load(tag);
         if (tag.contains("BulletGun")) {
             Item gunItem = BuiltInRegistries.ITEM.get(new ResourceLocation(tag.getString("BulletGun")));
             this.sourceGun = gunItem instanceof GunItem gun ? gun : null;

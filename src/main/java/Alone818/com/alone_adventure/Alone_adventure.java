@@ -1,5 +1,6 @@
 package Alone818.com.alone_adventure;
 
+import Alone818.com.alone_adventure.init.ModModificationItems;
 import Alone818.com.alone_adventure.crafting.EnduranceBrewingRecipe;
 import Alone818.com.alone_adventure.crafting.ModRecipes;
 import Alone818.com.alone_adventure.crafting.PotionUpgradeRecipe;
@@ -74,7 +75,7 @@ public class Alone_adventure {
         ModCreativeModeTabs.register(modEventBus);
         ModRecipes.register(modEventBus);
         ModPotions.register(modEventBus);
-
+        ModModificationItems.ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
         // 饰品数值配置（alone_adventure-common.toml，由 Config 在加载/重载时回填到各饰品静态字段）
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
 
