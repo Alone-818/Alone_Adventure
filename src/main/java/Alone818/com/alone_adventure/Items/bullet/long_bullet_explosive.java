@@ -79,4 +79,8 @@ public class long_bullet_explosive extends AmmoItem {
     public int getAmmoBoxCost() {
         return 3;
     }
+    @Override
+    public int getAmmoBoxAmount() {
+        return 1;
+    }
 }

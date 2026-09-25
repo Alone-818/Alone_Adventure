@@ -56,6 +56,10 @@ public class short_bullet_coin extends AmmoItem {
     }
     @Override
     public int getAmmoBoxCost() {
-        return 4;
+        return 2;
+    }
+    @Override
+    public int getAmmoBoxAmount() {
+        return 1;
     }
 }

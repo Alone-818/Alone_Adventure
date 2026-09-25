@@ -1,0 +1,5 @@
+{
+  "entities": ["player"],
+  "slots": ["trait"],
+  "size":3
+}

@@ -61,6 +61,10 @@ public class long_bullet_dum extends AmmoItem {
 
     @Override
     public int getAmmoBoxCost() {
-        return 3;
+        return 2;
+    }
+    @Override
+    public int getAmmoBoxAmount() {
+        return 1;
     }
 }

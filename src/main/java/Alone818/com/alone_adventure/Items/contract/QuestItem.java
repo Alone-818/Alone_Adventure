@@ -461,88 +461,232 @@ public class QuestItem extends Item implements ICurioItem {
     }
 
     // ===== 坐标轴到达任务：玩家到达 X/Y/Z 轴指定数值即完成 =====
+// ===== 坐标轴到达任务：玩家到达 X/Y/Z 轴指定数值即完成 =====
 
     /**
-     * 坐标轴到达任务：玩家移动到指定轴的指定坐标值即视为完成一次。
-     * 进度存储在物品堆栈 NBT 中，每个契约饰品独立。
-     * 支持任意轴到达指定值即可完成（通过 axis 配置）。
+     * 坐标任务。
+     *
+     * 支持：
+     *
+     * 1. 指定轴：
+     *    PositionTask.of("reach_y_200", AxisType.Y, 200)
+     *
+     * 2. 任意轴：
+     *    PositionTask.of("reach_200", 200)
+     *
+     * 3. 明确使用任意轴：
+     *    PositionTask.ofAnyAxis("reach_200", 200)
+     *
+     * 指定轴时：
+     * X = X 坐标达到目标
+     * Y = Y 坐标达到目标
+     * Z = Z 坐标达到目标
+     *
+     * 任意轴时：
+     * X / Y / Z 任意一个轴达到目标即可。
      */
     public static final class PositionTask extends Task {
 
+        /** null = 任意轴 */
         private final AxisType axis;
+
+        /** 目标坐标 */
         private final int target;
 
-        private PositionTask(String id, AxisType axis, int target) {
+        private PositionTask(
+                String id,
+                AxisType axis,
+                int target
+        ) {
             super(id);
             this.axis = axis;
             this.target = target;
         }
 
-        /** {@code QuestItem.PositionTask.of("reach_x_100", AxisType.X, 100)} */
-        public static PositionTask of(String id, AxisType axis, int target) {
-            return new PositionTask(id, axis, target);
+        /**
+         * 指定坐标轴。
+         *
+         * 例如：
+         *
+         * PositionTask.of(
+         *     "reach_y_200",
+         *     AxisType.Y,
+         *     200
+         * )
+         */
+        public static PositionTask of(
+                String id,
+                AxisType axis,
+                int target
+        ) {
+            return new PositionTask(
+                    id,
+                    axis,
+                    target
+            );
         }
 
-        /** {@code QuestItem.PositionTask.ofAnyAxis("reach_100", 100)} */
-        public static PositionTask ofAnyAxis(String id, int target) {
-            return new PositionTask(id, null, target);
+        /**
+         * 任意坐标轴。
+         *
+         * X / Y / Z 任意一个达到目标即可。
+         *
+         * 例如：
+         *
+         * PositionTask.of(
+         *     "reach_200",
+         *     200
+         * )
+         */
+        public static PositionTask of(
+                String id,
+                int target
+        ) {
+            return new PositionTask(
+                    id,
+                    null,
+                    target
+            );
         }
 
-        /** 获取任务对应的轴（null 表示任意轴） */
+        /**
+         * 任意坐标轴。
+         *
+         * 与 of(String, int) 相同。
+         */
+        public static PositionTask ofAnyAxis(
+                String id,
+                int target
+        ) {
+            return new PositionTask(
+                    id,
+                    null,
+                    target
+            );
+        }
+
+        /** 获取任务对应的轴 */
         public AxisType getAxis() {
             return axis;
         }
 
-        /** 获取目标坐标值 */
+        /** 获取目标坐标 */
         public int getTarget() {
             return target;
         }
 
-        /** 检测坐标条件是否满足 */
+        /**
+         * 检测玩家当前位置是否满足条件。
+         *
+         * 注意：
+         * 这里使用 >=，因此：
+         *
+         * Y = 200     -> 完成
+         * Y = 201     -> 完成
+         * Y = 250     -> 完成
+         *
+         * 不会出现必须刚好站在 200 的问题。
+         */
         public boolean checkPosition(ServerPlayer player) {
+
             Vec3 pos = player.position();
+
             if (axis == null) {
-                // 任意轴到达目标值即完成
-                return (int) Math.abs(pos.x) == target ||
-                       (int) Math.abs(pos.y) == target ||
-                       (int) Math.abs(pos.z) == target;
+
+                // 任意轴达到目标即可
+                return
+                        pos.x >= target
+                                || pos.y >= target
+                                || pos.z >= target;
             }
+
             return switch (axis) {
-                case X -> (int) pos.x == target;
-                case Y -> (int) pos.y == target;
-                case Z -> (int) pos.z == target;
+
+                case X -> pos.x >= target;
+
+                case Y -> pos.y >= target;
+
+                case Z -> pos.z >= target;
             };
         }
 
-        /** 标记该坐标任务已完成（存储到物品堆栈 NBT） */
-        public void markDone(ItemStack questStack, String taskId) {
-            CompoundTag tag = questStack.getOrCreateTag();
-            CompoundTag posProgress = tag.getCompound(TAG_POSITION_PROGRESS);
-            posProgress.putBoolean(taskId, true);
-            tag.put(TAG_POSITION_PROGRESS, posProgress);
+        /**
+         * 标记坐标任务完成。
+         */
+        public void markDone(
+                ItemStack questStack,
+                String taskId
+        ) {
+
+            CompoundTag tag =
+                    questStack.getOrCreateTag();
+
+            CompoundTag posProgress =
+                    tag.getCompound(TAG_POSITION_PROGRESS);
+
+            posProgress.putBoolean(
+                    taskId,
+                    true
+            );
+
+            tag.put(
+                    TAG_POSITION_PROGRESS,
+                    posProgress
+            );
         }
 
-        /** 从物品堆栈 NBT 读取坐标任务完成状态 */
-        public static boolean isPositionDone(ItemStack stack, String taskId) {
-            CompoundTag posProgress = stack.getOrCreateTag().getCompound(TAG_POSITION_PROGRESS);
+        /**
+         * 判断坐标任务是否已经完成。
+         */
+        public static boolean isPositionDone(
+                ItemStack stack,
+                String taskId
+        ) {
+
+            CompoundTag posProgress =
+                    stack.getOrCreateTag()
+                            .getCompound(TAG_POSITION_PROGRESS);
+
             return posProgress.getBoolean(taskId);
         }
 
         @Override
-        public boolean test(ServerPlayer player, String questId, Item owningQuestItem) {
-            ItemStack stack = getPlayerStack(player, owningQuestItem);
-            if (stack.isEmpty()) return false;
-            // 先检查 NBT 中是否已标记完成
-            if (isPositionDone(stack, id())) return true;
-            // 检测坐标是否满足条件
-            boolean satisfied = checkPosition(player);
-            if (satisfied) {
-                markDone(stack, id());
+        public boolean test(
+                ServerPlayer player,
+                String questId,
+                Item owningQuestItem
+        ) {
+
+            ItemStack stack =
+                    getPlayerStack(
+                            player,
+                            owningQuestItem
+                    );
+
+            if (stack.isEmpty()) {
+                return false;
             }
+
+            // 已完成就永久保持完成
+            if (isPositionDone(stack, id())) {
+                return true;
+            }
+
+            // 检查当前坐标
+            boolean satisfied =
+                    checkPosition(player);
+
+            if (satisfied) {
+
+                markDone(
+                        stack,
+                        id()
+                );
+            }
+
             return satisfied;
         }
     }
-
     // ===== 到达群系任务：玩家到达指定群系即完成 =====
 
     /**

@@ -3,8 +3,8 @@
 	"credit": "Made with Blockbench",
 	"texture_size": [32, 32],
 	"textures": {
-		"0": "alone_adventure:item/first_aid_kit",
-		"particle": "alone_adventure:item/first_aid_kit"
+		"0": "alone_adventure:item/ammo_box",
+		"particle": "alone_adventure:item/ammo_box"
 	},
 	"elements": [
 		{

@@ -51,16 +51,16 @@ public class assaultshield extends ShieldItem {
      * 冲刺冷却。
      *
      * 默认：
-     * 140 tick = 7 秒
+     * 60 tick = 3 秒
      */
-    public static int DASH_COOLDOWN_TICKS = 140;
+    public static int DASH_COOLDOWN_TICKS = 60;
 
     /**
      * 单次冲刺距离。
      *
-     * 默认 7 格。
+     * 默认 20 格。
      */
-    public static double DASH_DISTANCE = 7.0D;
+    public static double DASH_DISTANCE = 20.0D;
 
     /**
      * 冲刺持续时间。

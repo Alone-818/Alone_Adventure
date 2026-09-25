@@ -66,4 +66,8 @@ public class short_bullet_armor_piercing extends AmmoItem {
     public int getAmmoBoxCost() {
         return 2;
     }
+    @Override
+    public int getAmmoBoxAmount() {
+        return 1;
+    }
 }

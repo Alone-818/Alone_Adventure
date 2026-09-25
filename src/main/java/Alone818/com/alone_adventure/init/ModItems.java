@@ -2,6 +2,7 @@ package Alone818.com.alone_adventure.init;
 
 import Alone818.com.alone_adventure.Alone_adventure;
 import Alone818.com.alone_adventure.Curios.*;
+import Alone818.com.alone_adventure.Curios.gun.SingleActionRapidFire;
 import Alone818.com.alone_adventure.Items.*;
 import Alone818.com.alone_adventure.Items.bullet.*;
 import Alone818.com.alone_adventure.Items.contract.*;
@@ -81,7 +82,11 @@ public class ModItems {
     // 高亮范围内生物/凋落物（发光）与容器（白色线框），仅本人可见
     public static final RegistryObject<Item> HUNTER_SERUM =
             ITEMS.register("hunter_serum", hunter_serum::new);
-
+    public static final RegistryObject<Item> SINGLE_ACTION_RAPID_FIRE =
+            ITEMS.register(
+                    "single_action_rapid_fire",
+                    () -> new SingleActionRapidFire()
+            );
     // ===== 装备物品 =====
     public static final RegistryObject<Item> PARRYSHIELD =
             ITEMS.register("parryshield", parryshield::new);
@@ -303,6 +308,12 @@ public class ModItems {
     // 任务：击杀唤魔者 x2 + 提交金苹果 x16 + 提交不死图腾 x2 + 击杀幻魔者 x1
     public static final RegistryObject<Item> RESURRECTION_CONTRACT =
             ITEMS.register("resurrection_contract", resurrection_contract::new);
+
+    public static final RegistryObject<Item> TOWER_CONTRACT =
+            ITEMS.register("tower_contract", tower_contract::new);
+
+    public static final RegistryObject<Item> BATTLE_CONTRACT =
+            ITEMS.register("battle_contract", battle_contract::new);
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

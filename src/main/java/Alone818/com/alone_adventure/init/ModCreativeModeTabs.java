@@ -206,7 +206,11 @@ public class ModCreativeModeTabs {
                                                         ModItems.NIGHT_CONTRACT.get()
                                                 )
                                         );
-
+                                        output.accept(
+                                                new ItemStack(
+                                                        ModItems.SINGLE_ACTION_RAPID_FIRE.get()
+                                                )
+                                        );
                                         output.accept(
                                                 new ItemStack(
                                                         ModItems.SURVIVAL_WHIMPER.get()
@@ -271,6 +275,16 @@ public class ModCreativeModeTabs {
                                         output.accept(
                                                 new ItemStack(
                                                         ModItems.RESURRECTION_CONTRACT.get()
+                                                )
+                                        );
+                                        output.accept(
+                                                new ItemStack(
+                                                        ModItems.BATTLE_CONTRACT.get()
+                                                )
+                                        );
+                                        output.accept(
+                                                new ItemStack(
+                                                        ModItems.TOWER_CONTRACT.get()
                                                 )
                                         );
                                     }

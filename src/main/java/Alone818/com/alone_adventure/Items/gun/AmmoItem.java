@@ -196,4 +196,8 @@ public class AmmoItem extends Item {
     public int getAmmoBoxCost() {
         return 1;
     }
-}
+
+
+    public int getAmmoBoxAmount() {
+        return 1;
+    }}

@@ -333,6 +333,59 @@
   "entity.alone_adventure.ammo_box": "Ammo Box",
   "entity.alone_adventure.ammo_box_display": "Ammo Box %1$s/%2$s",
   "entity.alone_adventure.ammo_box_ammo": "Ammo: %s/%s",
-  "entity.alone_adventure.ammo_box_time": "Time Remaining: %ss"
+  "entity.alone_adventure.ammo_box_time": "Time Remaining: %ss",
+  "curios.identifier.trait": "Trait",
+  "curios.slot.trait": "Trait Slot",
 
+
+  "item.alone_adventure.single_action_rapid_fire": "Single Action Rapid Fire",
+  "item.alone_adventure.single_action_rapid_fire.tooltip": "Single Action Rapid Fire",
+  "item.alone_adventure.single_action_rapid_fire.description": "§7Gun Enhancement Trait",
+
+
+  "attribute.alone_adventure.reload_speed": "Reload Speed",
+  "attribute.alone_adventure.fire_rate": "Fire Rate",
+  "attribute.alone_adventure.spread": "Spread",
+  "attribute.alone_adventure.damage": "Damage",
+  "attribute.alone_adventure.bullet_speed": "Bullet Speed",
+  "attribute.alone_adventure.recoil": "Recoil",
+  "attribute.alone_adventure.critical_chance": "Critical Chance",
+  "attribute.alone_adventure.critical_damage": "Critical Damage",
+
+  "curios.modifiers.trait": "When wearing trait:",
+
+  "modifier.alone_adventure.reload_speed.plus": "Reload Speed",
+  "modifier.alone_adventure.reload_speed.minus": "Reload Speed",
+
+  "modifier.alone_adventure.fire_rate.plus": "Fire Rate",
+  "modifier.alone_adventure.fire_rate.minus": "Fire Rate",
+
+  "modifier.alone_adventure.spread.plus": "Spread",
+  "modifier.alone_adventure.spread.minus": "Spread",
+
+  "modifier.alone_adventure.damage.plus": "Damage",
+  "modifier.alone_adventure.damage.minus": "Damage",
+
+  "modifier.alone_adventure.bullet_speed.plus": "Bullet Speed",
+  "modifier.alone_adventure.bullet_speed.minus": "Bullet Speed",
+
+  "modifier.alone_adventure.recoil.plus": "Recoil",
+  "modifier.alone_adventure.recoil.minus": "Recoil",
+
+  "trait.alone_adventure.single_action_rapid_fire": "Single Action Rapid Fire",
+  "trait.alone_adventure.single_action_rapid_fire.description":
+  "§7Increases weapon operation speed but reduces stability",
+  "item.alone_adventure.battle_contract": "Combat Contract",
+  "item.alone_adventure.battle_contract.tooltip.desc": "A contract recording battle trials. Wear it to activate quests. Completing all quests allows it to be used as a crafting material.",
+  "quest.alone_adventure.battle_contract.kill_zombie": "Kill Zombies ×20",
+  "quest.alone_adventure.battle_contract.kill_skeleton": "Kill Skeletons ×10",
+  "quest.alone_adventure.battle_contract.kill_creeper": "Kill Creepers ×5",
+
+
+  "item.alone_adventure.tower_contract": "Tower Contract",
+  "item.alone_adventure.tower_contract.tooltip.desc": "A contract that challenges the heights above the world. Reach the sky and defeat the Wither to complete it.",
+  "quest.alone_adventure.tower_contract.reach_high_place": "Reach any location above Y level 200",
+  "quest.alone_adventure.tower_contract.kill_wither": "Kill Wither ×1",
+  "quest.alone_adventure.tower_contract.collect_monster_ash": "Submit Monster Ash ×8",
+  "quest.alone_adventure.tower_contract.collect_blood_shard": "Submit Blood Shards ×8"
 }

@@ -1,39 +1,36 @@
 package Alone818.com.alone_adventure.client;
 
 import Alone818.com.alone_adventure.Items.gun.GunItem;
-
 import Alone818.com.alone_adventure.Items.gun.GunStats;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
-
 import net.minecraftforge.registries.ForgeRegistries;
 
-import software.bernie.geckolib.core.animation.Animation;
 import software.bernie.geckolib.core.animation.AnimationState;
 import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.core.object.PlayState;
 
 /**
- * 枪械 GeckoLib 动画控制器。
+ * 枪械动画辅助类。
  *
- * 动画：
- * fire   - 开火
- * reload - 装填
- * aim    - 瞄准
- * run    - 奔跑
- * idle   - 待机
+ * 重要：
  *
- * fire 使用 GeckoLib Triggerable Animation。
- * reload 支持 ClientGunHandler.markReload() 本地触发。
+ * FIRE 不再通过 ClientGunHandler 的：
+ *
+ * mainFireAt
+ * offFireAt
+ *
+ * 判断。
+ *
+ * 真正成功开火后，由 GunItem.tryFire()
+ * 直接对“当前 ItemStack 的 GeckoLib 实例”
+ * 触发 fire。
  */
 public final class GunItemAnimation {
-
-    // =========================================================
-    // 动画名称
-    // =========================================================
 
     public static final String FIRE = "fire";
     public static final String RELOAD = "reload";
@@ -41,53 +38,94 @@ public final class GunItemAnimation {
     public static final String RUN = "run";
     public static final String IDLE = "idle";
 
-    // =========================================================
-    // 动画时间
-    // =========================================================
-
-    /**
-     * reload 动画最长持续时间。
-     *
-     * Blockbench 中你的 reload 是 1.5 秒：
-     *
-     * 1.5 × 20 = 30 tick
-     *
-     * 留 2 tick 余量。
-     */
     private static final int RELOAD_ANIMATION_TICKS = 32;
 
-    /**
-     * ClientGunHandler 按 R 时，
-     * 会调用：
-     *
-     * GunItemAnimation.markReload(player.tickCount);
-     *
-     * 这里记录客户端本地的 reload 动画结束时间。
-     */
-    private static int reloadMarkedUntil = -1;
+    private static int mainReloadUntil = -1;
+    private static int offReloadUntil = -1;
 
     private GunItemAnimation() {
     }
 
     // =========================================================
-    // Reload 本地标记
+    // Reload
     // =========================================================
 
     /**
-     * 客户端开始装填时调用。
+     * 标记主手 / 副手开始 reload。
      *
-     * 这个方法是给 ClientGunHandler 使用的。
+     * 这里只作为客户端提前显示 reload 的辅助状态。
+     *
+     * 真正的 reload 状态仍然以 ItemStack NBT 为准。
      */
-    public static void markReload(int tick) {
+    public static void markReload(
+            int tick,
+            InteractionHand hand
+    ) {
 
-        reloadMarkedUntil =
+        int until =
                 tick + RELOAD_ANIMATION_TICKS;
+
+        if (hand == InteractionHand.MAIN_HAND) {
+
+            mainReloadUntil = until;
+
+        } else {
+
+            offReloadUntil = until;
+        }
+    }
+
+    /**
+     * 兼容旧代码。
+     *
+     * 默认主手。
+     */
+    public static void markReload(
+            int tick
+    ) {
+
+        markReload(
+                tick,
+                InteractionHand.MAIN_HAND
+        );
+    }
+
+    /**
+     * 取消指定手的客户端 reload 标记。
+     */
+    public static void cancelReload(
+            InteractionHand hand
+    ) {
+
+        if (hand == InteractionHand.MAIN_HAND) {
+
+            mainReloadUntil = -1;
+
+        } else {
+
+            offReloadUntil = -1;
+        }
     }
 
     // =========================================================
-    // GeckoLib 动画主处理
+    // GeckoLib Controller
     // =========================================================
 
+    /**
+     * 普通行为 Controller。
+     *
+     * 这里负责：
+     *
+     * reload
+     * aim
+     * run
+     * idle
+     *
+     * FIRE 不在这里判断。
+     *
+     * FIRE 是 GeckoLib triggerable animation，
+     * 由 GunItem.tryFire() 在服务器确认成功开火后直接触发。
+     */
     public static <T extends GunItem> PlayState handle(
             AnimationState<T> state
     ) {
@@ -99,22 +137,12 @@ public final class GunItemAnimation {
             return PlayState.STOP;
         }
 
-        // =====================================================
-        // 找当前玩家正在显示的枪
-        // =====================================================
+        T gun =
+                state.getAnimatable();
 
-        ItemStack stack =
-                getCurrentGunStack(player);
-
-        if (stack.isEmpty()
-                || !(stack.getItem() instanceof GunItem gun)) {
-
+        if (gun == null) {
             return PlayState.STOP;
         }
-
-        // =====================================================
-        // 获取枪械注册名
-        // =====================================================
 
         ResourceLocation itemId =
                 ForgeRegistries.ITEMS.getKey(gun);
@@ -127,167 +155,175 @@ public final class GunItemAnimation {
                 itemId.getPath();
 
         // =====================================================
+        // 找到当前这个 GunItem 对应的 ItemStack
+        // =====================================================
+
+        ItemStack mainStack =
+                player.getMainHandItem();
+
+        ItemStack offStack =
+                player.getOffhandItem();
+
+        boolean mainMatch =
+                mainStack.getItem() == gun;
+
+        boolean offMatch =
+                offStack.getItem() == gun;
+
+        if (!mainMatch && !offMatch) {
+            return PlayState.STOP;
+        }
+
+        // =====================================================
         // Reload
         // =====================================================
 
-        /*
-         * Reload 有两种检测方式：
-         *
-         * 1. ClientGunHandler.markReload()
-         * 2. 服务端同步到 ItemStack 的 TAG_RELOAD_START
-         *
-         * 这样按 R 后不会因为服务器同步稍慢而出现动画延迟。
-         */
-        boolean reloading =
-                player.tickCount <= reloadMarkedUntil;
+        boolean mainReload =
+                mainMatch
+                        && isReloading(
+                        InteractionHand.MAIN_HAND,
+                        mainStack,
+                        player.tickCount
+                );
 
-        CompoundTag tag =
-                stack.getTag();
+        boolean offReload =
+                offMatch
+                        && isReloading(
+                        InteractionHand.OFF_HAND,
+                        offStack,
+                        player.tickCount
+                );
 
-        if (tag != null
-                && tag.contains(GunItem.TAG_RELOAD_START)) {
+        if (mainReload || offReload) {
 
-            reloading = true;
-        }
+            if (GunGeoModel.resolveAnimation(
+                    gunId,
+                    RELOAD
+            ) != null) {
 
-        if (reloading) {
-
-            Animation reload =
-                    GunGeoModel.resolveAnimation(
-                            gunId,
-                            RELOAD
-                    );
-
-            if (reload != null) {
-
-                state.getController()
-                        .setAnimation(
-                                RawAnimation.begin()
-                                        .thenPlay(RELOAD)
-                        );
+                state.getController().setAnimation(
+                        RawAnimation.begin()
+                                .thenPlay(RELOAD)
+                );
 
                 return PlayState.CONTINUE;
             }
         }
 
         // =====================================================
-        // Aim
+        // AIM
         // =====================================================
 
         boolean aiming =
                 player.isUsingItem()
-                        && player.getUseItem().getItem()
-                        instanceof GunItem;
+                        && player.getUseItem()
+                        .getItem() == gun;
 
         if (aiming) {
 
-            Animation aim =
-                    GunGeoModel.resolveAnimation(
-                            gunId,
-                            AIM
-                    );
+            if (GunGeoModel.resolveAnimation(
+                    gunId,
+                    AIM
+            ) != null) {
 
-            if (aim != null) {
-
-                state.getController()
-                        .setAnimation(
-                                RawAnimation.begin()
-                                        .thenLoop(AIM)
-                        );
+                state.getController().setAnimation(
+                        RawAnimation.begin()
+                                .thenPlay(AIM)
+                );
 
                 return PlayState.CONTINUE;
             }
         }
 
         // =====================================================
-        // Run
+        // RUN
         // =====================================================
 
         if (player.isSprinting()) {
 
-            Animation run =
-                    GunGeoModel.resolveAnimation(
-                            gunId,
-                            RUN
-                    );
+            if (GunGeoModel.resolveAnimation(
+                    gunId,
+                    RUN
+            ) != null) {
 
-            if (run != null) {
-
-                state.getController()
-                        .setAnimation(
-                                RawAnimation.begin()
-                                        .thenLoop(RUN)
-                        );
+                state.getController().setAnimation(
+                        RawAnimation.begin()
+                                .thenLoop(RUN)
+                );
 
                 return PlayState.CONTINUE;
             }
         }
 
         // =====================================================
-        // Idle
+        // IDLE
         // =====================================================
 
-        Animation idle =
-                GunGeoModel.resolveAnimation(
-                        gunId,
-                        IDLE
-                );
+        if (GunGeoModel.resolveAnimation(
+                gunId,
+                IDLE
+        ) != null) {
 
-        if (idle != null) {
-
-            state.getController()
-                    .setAnimation(
-                            RawAnimation.begin()
-                                    .thenLoop(IDLE)
-                    );
+            state.getController().setAnimation(
+                    RawAnimation.begin()
+                            .thenLoop(IDLE)
+            );
 
             return PlayState.CONTINUE;
         }
-
-        // =====================================================
-        // 没有动画
-        // =====================================================
 
         return PlayState.STOP;
     }
 
     // =========================================================
-    // 获取当前枪械
+    // Reload 状态
     // =========================================================
 
-    private static ItemStack getCurrentGunStack(
-            LocalPlayer player
+    private static boolean isReloading(
+            InteractionHand hand,
+            ItemStack stack,
+            int currentTick
     ) {
 
-        /*
-         * 主手优先。
-         */
-        ItemStack main =
-                player.getMainHandItem();
+        boolean marked;
 
-        if (main.getItem() instanceof GunItem) {
-            return main;
+        if (hand == InteractionHand.MAIN_HAND) {
+
+            marked =
+                    currentTick <= mainReloadUntil;
+
+        } else {
+
+            marked =
+                    currentTick <= offReloadUntil;
+        }
+
+        if (marked) {
+            return true;
         }
 
         /*
-         * 主手不是枪时检查副手。
+         * 服务器同步过来的真正 reload 状态。
          */
-        ItemStack off =
-                player.getOffhandItem();
+        if (stack.hasTag()
+                && stack.getTag().contains(
+                GunItem.TAG_RELOAD_START
+        )) {
 
-        if (off.getItem() instanceof GunItem) {
-            return off;
+            return true;
         }
 
-        return ItemStack.EMPTY;
+        return false;
     }
 
     // =========================================================
-    // 双持判断
+    // 双持
     // =========================================================
+
     public static boolean isDualWield(
             ItemStack stack
     ) {
+
         LocalPlayer player =
                 Minecraft.getInstance().player;
 
@@ -301,25 +337,24 @@ public final class GunItemAnimation {
         ItemStack off =
                 player.getOffhandItem();
 
-        /*
-         * 主手和副手都必须是枪。
-         */
-        if (!(main.getItem() instanceof GunItem mainGun)) {
+        if (!(main.getItem()
+                instanceof GunItem mainGun)) {
+
             return false;
         }
 
-        if (!(off.getItem() instanceof GunItem offGun)) {
+        if (!(off.getItem()
+                instanceof GunItem offGun)) {
+
             return false;
         }
 
-        /*
-         * 两把枪都必须是单手枪。
-         *
-         * ONE_HANDED = 可以双持
-         * TWO_HANDED = 不能双持
-         */
-        return mainGun.getStats().handedness()
+        return mainGun.getStats()
+                .handedness()
                 == GunStats.Handedness.ONE_HANDED
-                && offGun.getStats().handedness()
+
+                && offGun.getStats()
+                .handedness()
                 == GunStats.Handedness.ONE_HANDED;
-    }}
+    }
+}

@@ -63,4 +63,8 @@ public class long_bullet_poison extends AmmoItem {
     public int getAmmoBoxCost() {
         return 2;
     }
+    @Override
+    public int getAmmoBoxAmount() {
+        return 1;
+    }
 }

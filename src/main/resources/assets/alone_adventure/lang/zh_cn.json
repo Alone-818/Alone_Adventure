@@ -336,7 +336,51 @@
 
   "entity.alone_adventure.ammo_box": "弹药箱",
   "entity.alone_adventure.ammo_box_ammo": "弹药：%s/%s",
-  "entity.alone_adventure.ammo_box_time": "剩余时间：%ss"
+  "entity.alone_adventure.ammo_box_time": "剩余时间：%ss",
+
+  "curios.identifier.trait": "特质",
+  "curios.slot.trait": "特质槽",
+  "curios.modifiers.trait": "佩戴特质时：",
 
 
+  "item.alone_adventure.single_action_rapid_fire": "单动速射",
+  "item.alone_adventure.single_action_rapid_fire.tooltip": "单动速射",
+  "item.alone_adventure.single_action_rapid_fire.description": "§7枪械强化特质",
+
+
+  "modifier.alone_adventure.reload_speed.plus": "装填速度",
+  "modifier.alone_adventure.reload_speed.minus": "装填速度",
+
+  "modifier.alone_adventure.fire_rate.plus": "开火速度",
+  "modifier.alone_adventure.fire_rate.minus": "开火速度",
+
+  "modifier.alone_adventure.spread.plus": "扩散",
+  "modifier.alone_adventure.spread.minus": "扩散",
+
+  "modifier.alone_adventure.damage.plus": "伤害",
+  "modifier.alone_adventure.damage.minus": "伤害",
+
+  "modifier.alone_adventure.bullet_speed.plus": "子弹速度",
+  "modifier.alone_adventure.bullet_speed.minus": "子弹速度",
+
+  "modifier.alone_adventure.recoil.plus": "后坐力",
+  "modifier.alone_adventure.recoil.minus": "后坐力",
+
+
+  "trait.alone_adventure.single_action_rapid_fire": "单动速射",
+  "trait.alone_adventure.single_action_rapid_fire.description":
+  "§7提高枪械操作速度，但降低射击稳定性",
+  "item.alone_adventure.battle_contract": "战斗契约",
+  "item.alone_adventure.battle_contract.tooltip.desc": "记录战斗试炼的契约饰品——佩戴时生效，完成全部任务后可作为合成材料。",
+  "quest.alone_adventure.battle_contract.kill_zombie": "击杀僵尸 ×20",
+  "quest.alone_adventure.battle_contract.kill_skeleton": "击杀骷髅 ×10",
+  "quest.alone_adventure.battle_contract.kill_creeper": "击杀苦力怕 ×5",
+
+
+  "item.alone_adventure.tower_contract": "高塔契约",
+  "item.alone_adventure.tower_contract.tooltip.desc": "挑战高塔顶端的契约，只有踏入天空之上的领域并击败凋零才能完成。",
+  "quest.alone_adventure.tower_contract.reach_high_place": "到达任意地点 Y轴超过200",
+  "quest.alone_adventure.tower_contract.kill_wither": "击杀凋零 ×1",
+  "quest.alone_adventure.tower_contract.collect_monster_ash": "提交怪物残灰 ×8",
+  "quest.alone_adventure.tower_contract.collect_blood_shard": "提交血脉碎片 ×8"
 }

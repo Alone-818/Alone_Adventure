@@ -424,12 +424,17 @@ public class AmmoBoxEntity extends Entity {
         /*
          * 创建弹药。
          */
+        int giveAmount =
+                gun.getAmmoBoxAmount(
+                        heldStack
+                );
+
+
         ItemStack ammoStack =
                 new ItemStack(
                         ammoType,
-                        cost
+                        giveAmount
                 );
-
         /*
          * =====================================================
          * 背包放不下

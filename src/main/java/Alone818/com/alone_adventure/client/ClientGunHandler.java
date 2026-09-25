@@ -6,11 +6,13 @@ import Alone818.com.alone_adventure.Items.gun.GunStats;
 import Alone818.com.alone_adventure.network.GunFirePacket;
 import Alone818.com.alone_adventure.network.GunReloadPacket;
 import Alone818.com.alone_adventure.network.GunSwitchAmmoPacket;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
+
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ComputeFovModifierEvent;
 import net.minecraftforge.client.event.InputEvent;
@@ -21,15 +23,20 @@ import net.minecraftforge.fml.common.Mod;
 /**
  * 枪械客户端事件处理。
  *
- * 设计原则：
+ * 注意：
  *
- * 1. NBT 与动画状态完全解耦。
- * 2. 全自动严格按照 fireRateTicks 开火。
- * 3. 半自动只在左键按下边沿开火。
- * 4. reload 是一次性客户端动画事件。
- * 5. fire 是一次性客户端动画事件。
- * 6. 不调用 player.swing()，避免原版挥手覆盖 GeckoLib。
- * 7. ItemStack NBT 更新不会刷新枪械 equip 动画。
+ * ClientGunHandler 只负责：
+ *
+ * - 左键输入
+ * - 双持开火排程
+ * - 半自动 / 全自动
+ * - 后坐力
+ * - reload / ammo switch 按键
+ *
+ * 不负责 GeckoLib fire 动画。
+ *
+ * fire 动画由 GunItem.tryFire() 在服务器真正成功
+ * 生成子弹之后，对具体 ItemStack 直接触发。
  */
 @Mod.EventBusSubscriber(
         modid = Alone_adventure.MODID,
@@ -41,50 +48,37 @@ public final class ClientGunHandler {
     // 后坐力
     // =========================================================
 
-    private static final float RECOIL_APPLY_RATE = 0.6F;
-    private static final float RECOIL_MIN_STEP = 0.05F;
+    private static final float RECOIL_APPLY_RATE =
+            0.6F;
 
-    private static float recoilPending = 0.0F;
+    private static final float RECOIL_MIN_STEP =
+            0.05F;
+
+    private static float recoilPending =
+            0.0F;
 
     // =========================================================
-    // 左键状态
+    // 左键
     // =========================================================
 
-    private static boolean attackWasDown = false;
+    private static boolean attackWasDown =
+            false;
 
     // =========================================================
     // 双持排程
     // =========================================================
 
-    private static InteractionHand nextFireHand = InteractionHand.MAIN_HAND;
+    private static InteractionHand nextFireHand =
+            InteractionHand.MAIN_HAND;
 
-    private static long mainReadyAt = 0L;
-    private static long offhandReadyAt = 0L;
+    private static long mainReadyAt =
+            0L;
 
-    private static long nextShotAt = 0L;
+    private static long offhandReadyAt =
+            0L;
 
-    // =========================================================
-    // 开火动画事件
-    //
-    // 注意：
-    // 这些时间戳只在真正发送 GunFirePacket 时更新。
-    // NBT 更新不会修改这里。
-    // =========================================================
-
-    private static long mainFireAt = Long.MIN_VALUE;
-    private static long offFireAt = Long.MIN_VALUE;
-
-    // =========================================================
-    // 开火事件序号
-    //
-    // 时间戳解决“什么时候开火”。
-    // serial 解决“这是第几次开火事件”。
-    //
-    // 即使连续两次事件发生在同一个 tick，也不会丢失。
-    // =========================================================
-
-    private static long mainFireSerial = 0L;
-    private static long offFireSerial = 0L;
+    private static long nextShotAt =
+            0L;
 
     private ClientGunHandler() {
     }
@@ -94,68 +88,14 @@ public final class ClientGunHandler {
     // =========================================================
 
     /**
-     * 服务端确认开火后，由 GunRecoilPacket 调用。
+     * 服务端 GunRecoilPacket 调用。
      */
-    public static void enqueueRecoil(float degrees) {
-        recoilPending += degrees;
-    }
-
-    // =========================================================
-    // 开火事件访问接口
-    // =========================================================
-
-    public static float ticksSinceFire(
-            InteractionHand hand,
-            float now
+    public static void enqueueRecoil(
+            float degrees
     ) {
-        long at = getLastFireAt(hand);
 
-        if (at == Long.MIN_VALUE) {
-            return Float.MAX_VALUE;
-        }
-
-        return now - at;
-    }
-
-    public static long getLastFireAt(
-            InteractionHand hand
-    ) {
-        return hand == InteractionHand.MAIN_HAND
-                ? mainFireAt
-                : offFireAt;
-    }
-
-    /**
-     * 获取指定手的开火事件序号。
-     */
-    public static long getFireSerial(
-            InteractionHand hand
-    ) {
-        return hand == InteractionHand.MAIN_HAND
-                ? mainFireSerial
-                : offFireSerial;
-    }
-
-    /**
-     * 获取最近一次开火事件序号。
-     *
-     * 双持情况下只用于判断是否出现新的 fire 事件。
-     */
-    public static long getLatestFireSerial() {
-        return Math.max(
-                mainFireSerial,
-                offFireSerial
-        );
-    }
-
-    /**
-     * 获取最近一次开火时间。
-     */
-    public static long getLatestFireAt() {
-        return Math.max(
-                mainFireAt,
-                offFireAt
-        );
+        recoilPending +=
+                degrees;
     }
 
     // =========================================================
@@ -174,32 +114,24 @@ public final class ClientGunHandler {
         LocalPlayer player =
                 Minecraft.getInstance().player;
 
-        if (player == null || player.isSpectator()) {
+        if (player == null
+                || player.isSpectator()) {
+
             return;
         }
 
         ItemStack main =
                 player.getMainHandItem();
 
-        if (main.getItem() instanceof GunItem) {
+        if (main.getItem()
+                instanceof GunItem) {
 
-            /*
-             * 枪械完全接管左键。
-             *
-             * 不允许 vanilla 执行：
-             *
-             * - 攻击
-             * - 挥手
-             * - 挖方块
-             */
             event.setCanceled(true);
         }
     }
 
     // =========================================================
-    // R：装填
-    //
-    // G：切换弹药
+    // R / G
     // =========================================================
 
     @SubscribeEvent
@@ -219,26 +151,27 @@ public final class ClientGunHandler {
             if (player != null
                     && !player.isSpectator()
                     && (
-                    player.getMainHandItem().getItem()
+                    player.getMainHandItem()
+                            .getItem()
                             instanceof GunItem
+
                             ||
-                            player.getOffhandItem().getItem()
+
+                            player.getOffhandItem()
+                                    .getItem()
                                     instanceof GunItem
             )) {
 
                 /*
-                 * 这里只记录“客户端动画事件”。
+                 * 这里只作为客户端提前显示 reload。
                  *
-                 * 不读取 NBT。
-                 * 不等待服务器修改 NBT。
+                 * 真正的 reload 仍然交给服务器。
                  */
                 GunItemAnimation.markReload(
-                        player.tickCount
+                        player.tickCount,
+                        InteractionHand.MAIN_HAND
                 );
 
-                /*
-                 * 真正的弹药修改交给服务端。
-                 */
                 Alone_adventure.NETWORK.sendToServer(
                         new GunReloadPacket()
                 );
@@ -257,7 +190,8 @@ public final class ClientGunHandler {
             if (player != null
                     && !player.isSpectator()
                     && player.getMainHandItem()
-                    .getItem() instanceof GunItem) {
+                    .getItem()
+                    instanceof GunItem) {
 
                 Alone_adventure.NETWORK.sendToServer(
                         new GunSwitchAmmoPacket()
@@ -275,7 +209,9 @@ public final class ClientGunHandler {
             TickEvent.ClientTickEvent event
     ) {
 
-        if (event.phase != TickEvent.Phase.END) {
+        if (event.phase
+                != TickEvent.Phase.END) {
+
             return;
         }
 
@@ -286,30 +222,28 @@ public final class ClientGunHandler {
                 mc.player;
 
         // =====================================================
-        // 没有玩家
+        // 玩家不存在
         // =====================================================
 
         if (player == null) {
 
-            recoilPending = 0.0F;
+            recoilPending =
+                    0.0F;
 
-            attackWasDown = false;
+            attackWasDown =
+                    false;
 
             nextFireHand =
                     InteractionHand.MAIN_HAND;
 
-            mainReadyAt = 0L;
-            offhandReadyAt = 0L;
-            nextShotAt = 0L;
+            mainReadyAt =
+                    0L;
 
-            mainFireAt =
-                    Long.MIN_VALUE;
+            offhandReadyAt =
+                    0L;
 
-            offFireAt =
-                    Long.MIN_VALUE;
-
-            mainFireSerial = 0L;
-            offFireSerial = 0L;
+            nextShotAt =
+                    0L;
 
             return;
         }
@@ -320,14 +254,15 @@ public final class ClientGunHandler {
 
         if (recoilPending > 0.005F) {
 
-            float step = Math.min(
-                    Math.max(
+            float step =
+                    Math.min(
+                            Math.max(
+                                    recoilPending
+                                            * RECOIL_APPLY_RATE,
+                                    RECOIL_MIN_STEP
+                            ),
                             recoilPending
-                                    * RECOIL_APPLY_RATE,
-                            RECOIL_MIN_STEP
-                    ),
-                    recoilPending
-            );
+                    );
 
             float oldPitch =
                     player.getXRot();
@@ -341,7 +276,8 @@ public final class ClientGunHandler {
             );
 
             float applied =
-                    oldPitch - player.getXRot();
+                    oldPitch
+                            - player.getXRot();
 
             recoilPending -=
                     Math.min(
@@ -362,22 +298,24 @@ public final class ClientGunHandler {
                         && mc.options.keyAttack.isDown();
 
         // =====================================================
-        // 主手枪
+        // 主手
         // =====================================================
 
         GunItem mainGunItem =
                 player.getMainHandItem()
-                        .getItem() instanceof GunItem mainGun
+                        .getItem()
+                        instanceof GunItem mainGun
                         ? mainGun
                         : null;
 
         // =====================================================
-        // 副手枪
+        // 副手
         // =====================================================
 
         GunItem offGunItem =
                 player.getOffhandItem()
-                        .getItem() instanceof GunItem offGun
+                        .getItem()
+                        instanceof GunItem offGun
                         ? offGun
                         : null;
 
@@ -404,7 +342,8 @@ public final class ClientGunHandler {
         // 双持开火
         // =====================================================
 
-        if (dualWielding && attackDown) {
+        if (dualWielding
+                && attackDown) {
 
             long now =
                     player.tickCount;
@@ -454,14 +393,11 @@ public final class ClientGunHandler {
                 int interval =
                         Math.max(
                                 1,
-                                mainGunItem.getStats()
+                                mainGunItem
+                                        .getStats()
                                         .fireRateTicks()
                         );
 
-                /*
-                 * 只有真正到下一发时间，
-                 * 才产生一次 fire 事件。
-                 */
                 if (now >= mainReadyAt) {
 
                     Alone_adventure.NETWORK.sendToServer(
@@ -470,19 +406,6 @@ public final class ClientGunHandler {
                             )
                     );
 
-                    /*
-                     * 记录真正的一发。
-                     */
-                    mainFireAt = now;
-
-                    /*
-                     * fire serial +1。
-                     */
-                    mainFireSerial++;
-
-                    /*
-                     * 排程下一发。
-                     */
                     mainReadyAt =
                             now + interval;
                 }
@@ -503,41 +426,38 @@ public final class ClientGunHandler {
                         )
                 );
 
-                /*
-                 * 记录真正的一发。
-                 */
-                mainFireAt = now;
-
-                /*
-                 * 产生新的 fire 事件。
-                 */
-                mainFireSerial++;
-
                 mainReadyAt =
                         now + Math.max(
                                 1,
-                                mainGunItem.getStats()
+                                mainGunItem
+                                        .getStats()
                                         .fireRateTicks()
                         );
             }
         }
 
         // =====================================================
-        // 松开左键 / 离开双持
+        // 松开左键 / 结束双持
         // =====================================================
 
-        if (!dualWielding || !attackDown) {
+        if (!dualWielding
+                || !attackDown) {
 
             nextFireHand =
                     InteractionHand.MAIN_HAND;
 
-            mainReadyAt = 0L;
-            offhandReadyAt = 0L;
-            nextShotAt = 0L;
+            mainReadyAt =
+                    0L;
+
+            offhandReadyAt =
+                    0L;
+
+            nextShotAt =
+                    0L;
         }
 
         // =====================================================
-        // 保存本 tick 左键状态
+        // 保存左键状态
         // =====================================================
 
         attackWasDown =
@@ -561,19 +481,22 @@ public final class ClientGunHandler {
 
         if (!(stack.getItem()
                 instanceof GunItem gun)) {
+
             return;
         }
 
         // =====================================================
-        // 发送开火包
+        // 发送真正的开火请求
         // =====================================================
 
         Alone_adventure.NETWORK.sendToServer(
-                new GunFirePacket(hand)
+                new GunFirePacket(
+                        hand
+                )
         );
 
         // =====================================================
-        // fireRate
+        // 射速
         // =====================================================
 
         int interval =
@@ -584,32 +507,23 @@ public final class ClientGunHandler {
                 );
 
         // =====================================================
-        // 记录动画事件
+        // 当前手下一次可以开火
         // =====================================================
 
-        if (hand == InteractionHand.MAIN_HAND) {
+        if (hand
+                == InteractionHand.MAIN_HAND) {
 
             mainReadyAt =
                     now + interval;
-
-            mainFireAt =
-                    now;
-
-            mainFireSerial++;
 
         } else {
 
             offhandReadyAt =
                     now + interval;
-
-            offFireAt =
-                    now;
-
-            offFireSerial++;
         }
 
         // =====================================================
-        // 双持交替
+        // 双持交替间隔
         // =====================================================
 
         nextShotAt =
@@ -618,6 +532,10 @@ public final class ClientGunHandler {
                         interval / 2
                 );
 
+        // =====================================================
+        // 切换下一只手
+        // =====================================================
+
         nextFireHand =
                 hand == InteractionHand.MAIN_HAND
                         ? InteractionHand.OFF_HAND
@@ -625,7 +543,7 @@ public final class ClientGunHandler {
     }
 
     // =========================================================
-    // 右键瞄准
+    // FOV
     // =========================================================
 
     @SubscribeEvent
@@ -638,11 +556,13 @@ public final class ClientGunHandler {
 
         if (player == null
                 || !player.isUsingItem()) {
+
             return;
         }
 
         if (player.getUseItem()
-                .getItem() instanceof GunItem gun) {
+                .getItem()
+                instanceof GunItem gun) {
 
             float zoom =
                     Math.max(

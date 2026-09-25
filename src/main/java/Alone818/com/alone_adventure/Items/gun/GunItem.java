@@ -166,22 +166,24 @@ public class GunItem extends Item implements GeoItem {
     public void registerControllers(
             AnimatableManager.ControllerRegistrar registrar
     ) {
+
         registrar.add(
                 new AnimationController<>(
                         this,
                         "behavior",
                         0,
-                        state -> GunItemAnimation.handle(state)
+                        GunItemAnimation::handle
                 )
                         .setAnimationSpeed(0.8D)
                         .triggerableAnim(
-                                "fire",
+                                GunItemAnimation.FIRE,
                                 RawAnimation.begin()
-                                        .thenPlay("fire")
+                                        .thenPlay(
+                                                GunItemAnimation.FIRE
+                                        )
                         )
         );
     }
-
     /** 客户端注册 GeckoLib 渲染器 */
     @Override
     public void initializeClient(
@@ -923,12 +925,17 @@ public class GunItem extends Item implements GeoItem {
             return false;
         }
 
-        // =====================================================
-        // 装填中不能开火
-        // =====================================================
+// =========================================================
+// 开火优先级高于装填
+// =========================================================
+//
+// 如果正在装填：
+// 直接取消装填，然后允许立即开火。
+// =========================================================
 
         if (tag.contains(TAG_RELOAD_START)) {
-            return false;
+
+            tag.remove(TAG_RELOAD_START);
         }
 
         // =====================================================
@@ -1292,24 +1299,6 @@ public class GunItem extends Item implements GeoItem {
                 0.55F
         );
 
-        // =====================================================
-        // GeckoLib 开火动画
-        //
-        // 只有真正成功开火才触发。
-        // =====================================================
-
-        if (level instanceof ServerLevel server) {
-
-            triggerAnim(
-                    player,
-                    GeoItem.getOrAssignId(
-                            stack,
-                            server
-                    ),
-                    "behavior",
-                    "fire"
-            );
-        }
 
         // =====================================================
         // 枪口粒子
@@ -1410,17 +1399,54 @@ public class GunItem extends Item implements GeoItem {
             );
         }
 
-        // =====================================================
-        // 枪械自身开火钩子
-        // =====================================================
+// =====================================================
+// 枪械自身开火钩子
+// =====================================================
 
         onFire(
                 player,
                 stack
         );
 
-        return true;
-    }
+// =====================================================
+// GeckoLib：只触发真正成功开火的 ItemStack
+// =====================================================
+//
+// 注意：
+//
+// stack 是 tryFire() 当前实际操作的 ItemStack。
+//
+//
+// 因此：
+//
+// 主手枪 A 成功
+//     -> A 的 instanceId
+//     -> A fire
+//
+// 副手枪 B 成功
+//     -> B 的 instanceId
+//     -> B fire
+//
+// 两把枪即使是同一种 GunItem，也不会共用这个动画实例。
+// =====================================================
+
+        if (level instanceof ServerLevel serverLevel) {
+
+            long stackId =
+                    GeoItem.getOrAssignId(
+                            stack,
+                            serverLevel
+                    );
+
+            triggerAnim(
+                    player,
+                    stackId,
+                    "behavior",
+                    GunItemAnimation.FIRE
+            );
+        }
+
+        return true;}
     // =========================================================
     // Tooltip
     // =========================================================
@@ -1663,6 +1689,10 @@ public class GunItem extends Item implements GeoItem {
             );
         }
 
+        return 1;
+    }
+
+    public int getAmmoBoxAmount(ItemStack stack) {
         return 1;
     }
 }
