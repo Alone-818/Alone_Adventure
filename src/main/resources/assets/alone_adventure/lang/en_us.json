@@ -191,8 +191,16 @@
 
   "item.alone_adventure.long_bullet": "Long Bullet",
   "item.alone_adventure.shotgun_shell": "Shotgun Shell",
+  "item.alone_adventure.shotgun_shell_dum": "Shotgun Shell - Dum-Dum",
+  "item.alone_adventure.shotgun_shell_explosive": "Shotgun Shell - Explosive",
+  "item.alone_adventure.shotgun_shell_poison": "Shotgun Shell - Poison",
+  "item.alone_adventure.shotgun_shell_armor_piercing": "Shotgun Shell - Armor Piercing",
+  "item.alone_adventure.shotgun_shell_coin": "Shotgun Shell - Coin",
   "item.alone_adventure.short_bullet": "Short Bullet",
   "item.alone_adventure.crossbow_bolt": "Crossbow Bolt",
+  "item.alone_adventure.crossbow_bolt_explosive": "Crossbow Bolt - Explosive",
+  "item.alone_adventure.crossbow_bolt_poison": "Crossbow Bolt - Poison",
+  "item.alone_adventure.crossbow_bolt_armor_piercing": "Crossbow Bolt - Armor Piercing",
   "item.alone_adventure.ammo.tooltip.desc": "Gun ammunition",
 
   "item.alone_adventure.rifle": "Rifle",
@@ -420,5 +428,15 @@
   "gui.alone_adventure.modification.cost": "Modification Cost: 3 Levels",
   "gui.alone_adventure.modification.slot": "Consumes 1 Modification Slot",
   "gui.alone_adventure.modification.install": "Install Modification",
-  "gui.alone_adventure.modification.remove": "Remove All Modifications"
+  "gui.alone_adventure.modification.remove": "Remove All Modifications",
+  "item.alone_adventure.magazine_pressure": "Magazine Pressure",
+  "trait.alone_adventure.magazine_pressure.description": "The more ammunition remaining in the magazine, the higher the gun's damage.",
+  "trait.alone_adventure.magazine_pressure.effect": "Damage multiplier scales with magazine ammo: 60% ~ 200%.",
+
+  "item.alone_adventure.single_shot_amplifier": "Single Shot Amplifier",
+  "tooltip.alone_adventure.single_shot_amplifier": "Transforms the firearm into a powerful single-shot weapon.",
+  "tooltip.alone_adventure.single_shot_amplifier.desc": "Sacrifices magazine capacity for extremely high single-shot damage.",
+  "tooltip.alone_adventure.single_shot_amplifier.damage": "Damage +15% for each magazine capacity lost",
+  "tooltip.alone_adventure.single_shot_amplifier.fire_rate": "Reload Speed +100%",
+  "tooltip.alone_adventure.single_shot_amplifier.effect": "Magazine capacity is fixed at 1"
 }

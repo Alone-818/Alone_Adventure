@@ -5,94 +5,377 @@ import net.minecraft.nbt.CompoundTag;
 import java.util.Arrays;
 
 /**
- * 穿透算法 —— 服务于攻击穿透类物品（穿透子弹、贯穿长矛等）。
+ * 穿透算法 —— 服务于攻击穿透类物品。
  *
- * <b>节省内存的设计</b>：
+ * <p>
+ * 适用于：
+ * </p>
  * <ul>
- *   <li>命中记录用<b>原始 int 数组</b>（实体 ID，每实体 4 字节），
- *       而非 {@code Set<UUID>}（每实体 32+ 字节 UUID 对象 + 哈希表项开销，10 倍以上差距）；</li>
- *   <li>穿透命中的实体数天然很少（个位数），线性查找比哈希更快；数组按需扩容（翻倍）；</li>
- *   <li>无静态状态，记录随宿主实体存在；持久化用单个 IntArray NBT 标签</li>
+ *     <li>穿透子弹</li>
+ *     <li>贯穿长矛</li>
+ *     <li>穿透法术</li>
+ *     <li>其他需要记录已命中实体的攻击实体</li>
  * </ul>
  *
- * 注意：实体 ID（{@code Entity#getId()}）是会话内唯一的世界序号，
- * 适合短命投射物；跨存档不保证一致（重载后记录作废，投射物通常活不过一次存档，可忽略）。
+ * <p>
+ * 设计目标：
+ * </p>
+ * <ul>
+ *     <li>不使用 UUID，降低内存占用</li>
+ *     <li>不使用 HashSet，避免哈希表额外开销</li>
+ *     <li>使用原始 int[] 保存 Entity#getId()</li>
+ *     <li>命中数量通常较少，因此使用线性搜索</li>
+ *     <li>数组只在容量不足时扩容</li>
+ *     <li>无静态状态</li>
+ * </ul>
  *
- * 典型用法（投射物每 tick）：
- * <pre>{@code
- * // 命中判定：跳过已穿透过的实体
- * if (!hitRecord.hasHit(target.getId())) {
- *     hitRecord.record(target.getId());
- *     float damage = baseDamage * hitRecord.damageFactor(0.2F, 0.3F); // 每穿透衰减
- *     target.hurt(source, damage);
- *     if (hitRecord.exhausted(maxPenetration)) discard();
- * }
- * }</pre>
+ * <p>
+ * Entity#getId() 是当前世界会话中的实体 ID，
+ * 对于短生命周期投射物非常适合。
+ * </p>
  */
 public final class Penetration {
 
-    /** NBT 键：已命中实体 ID 数组 */
+    /**
+     * NBT：已命中的实体 ID。
+     */
     public static final String TAG_HITS = "PenHits";
+
+    /**
+     * 初始容量。
+     *
+     * <p>
+     * 大多数子弹只会穿透少量实体，
+     * 8 个槽位已经足够覆盖绝大多数情况。
+     * </p>
+     */
+    private static final int INITIAL_CAPACITY = 8;
+
+    /**
+     * 最大安全穿透记录数量。
+     *
+     * <p>
+     * 防止恶意或异常 NBT 导致超大数组分配。
+     * </p>
+     */
+    private static final int MAX_RECORDS = 1024;
 
     private Penetration() {
     }
 
-    /** 一次穿透攻击的命中记录（原始 int 数组，省内存） */
+    /**
+     * 一次穿透攻击的命中记录。
+     *
+     * <p>
+     * 使用原始 int 数组保存实体 ID。
+     * </p>
+     */
     public static final class Record {
 
-        /** 已命中实体 ID（容量随需翻倍，初始 8） */
-        private int[] hitIds = new int[8];
-        /** 有效长度 */
+        /**
+         * 已命中的实体 ID。
+         */
+        private int[] hitIds =
+                new int[INITIAL_CAPACITY];
+
+        /**
+         * 当前有效数量。
+         */
         private int size = 0;
 
-        /** 该实体是否已被本次穿透命中过 */
+        /**
+         * 判断实体是否已经被本次攻击命中过。
+         *
+         * @param entityId 实体 ID
+         * @return 是否已经命中
+         */
         public boolean hasHit(int entityId) {
-            for (int i = 0; i < size; ++i) {
-                if (hitIds[i] == entityId) return true;
+
+            /*
+             * 线性搜索。
+             *
+             * 穿透实体通常只有个位数，
+             * 这里比 HashSet 更轻量。
+             */
+            for (int i = 0; i < size; i++) {
+
+                if (hitIds[i] == entityId) {
+                    return true;
+                }
             }
+
             return false;
         }
 
-        /** 记录一次命中（已记录过则忽略） */
+        /**
+         * 记录一次命中。
+         *
+         * <p>
+         * 已经记录过的实体不会重复加入。
+         * </p>
+         *
+         * @param entityId 实体 ID
+         */
         public void record(int entityId) {
-            if (hasHit(entityId)) return;
-            if (size == hitIds.length) {
-                hitIds = Arrays.copyOf(hitIds, size * 2);
+
+            /*
+             * 防止同一个实体重复记录。
+             */
+            if (hasHit(entityId)) {
+                return;
             }
-            hitIds[size++] = entityId;
+
+            /*
+             * 防止异常数据无限扩容。
+             */
+            if (size >= MAX_RECORDS) {
+                return;
+            }
+
+            /*
+             * 容量不足时扩容。
+             */
+            if (size >= hitIds.length) {
+
+                int newCapacity =
+                        Math.min(
+                                MAX_RECORDS,
+                                hitIds.length << 1
+                        );
+
+                /*
+                 * 理论上不会发生，
+                 * 但防止容量已经达到最大值。
+                 */
+                if (newCapacity <= hitIds.length) {
+                    return;
+                }
+
+                hitIds =
+                        Arrays.copyOf(
+                                hitIds,
+                                newCapacity
+                        );
+            }
+
+            hitIds[size++] =
+                    entityId;
         }
 
-        /** 已命中实体数 */
+        /**
+         * 当前已经命中的实体数量。
+         *
+         * @return 命中数量
+         */
         public int count() {
             return size;
         }
 
         /**
-         * 是否已耗尽穿透能力：已命中实体数超过可穿透实体数
-         * （maxPenetration = 0 时首个实体即耗尽，即命中即停）。
+         * 判断穿透能力是否已经耗尽。
+         *
+         * <p>
+         * 语义保持原设计：
+         * </p>
+         *
+         * <pre>
+         * maxPenetration = 0
+         * 第一个实体命中后 size = 1
+         * 1 > 0
+         * 因此命中后结束。
+         * </pre>
+         *
+         * <p>
+         * 例如：
+         * </p>
+         *
+         * <pre>
+         * maxPenetration = 2
+         *
+         * 第 1 个实体：继续
+         * 第 2 个实体：继续
+         * 第 3 个实体：结束
+         * </pre>
+         *
+         * @param maxPenetration 最大可穿透实体数量
+         * @return 是否已经耗尽
          */
-        public boolean exhausted(int maxPenetration) {
+        public boolean exhausted(
+                int maxPenetration
+        ) {
+
             return size > maxPenetration;
         }
 
         /**
-         * 穿透伤害衰减：已命中 n 个实体后的伤害倍率。
-         * 每穿透一个实体 −decayPerHit（0.2 = 每个目标伤害 -20%），最低保留 minFactor。
+         * 计算当前穿透后的伤害倍率。
+         *
+         * <p>
+         * 每命中一个实体，
+         * 伤害降低 decayPerHit。
+         * </p>
+         *
+         * @param decayPerHit 每次穿透后的伤害衰减
+         * @param minFactor 最低伤害倍率
+         * @return 当前伤害倍率
          */
-        public float damageFactor(float decayPerHit, float minFactor) {
-            return Math.max(minFactor, 1.0F - size * decayPerHit);
+        public float damageFactor(
+                float decayPerHit,
+                float minFactor
+        ) {
+
+            /*
+             * 防止传入非法参数。
+             */
+            decayPerHit =
+                    Math.max(
+                            0.0F,
+                            decayPerHit
+                    );
+
+            minFactor =
+                    Math.max(
+                            0.0F,
+                            Math.min(
+                                    1.0F,
+                                    minFactor
+                            )
+                    );
+
+            return Math.max(
+                    minFactor,
+                    1.0F
+                            - size * decayPerHit
+            );
         }
 
-        /** 持久化到宿主 NBT */
-        public void save(CompoundTag tag) {
-            tag.putIntArray(TAG_HITS, Arrays.copyOf(hitIds, size));
+        /**
+         * 清空命中记录。
+         *
+         * <p>
+         * 保留数组容量，避免重新分配内存。
+         * </p>
+         */
+        public void clear() {
+
+            /*
+             * 不需要 new 新数组。
+             *
+             * 只需要清空有效长度即可。
+             */
+            size = 0;
         }
 
-        /** 从宿主 NBT 恢复（缺键时为空记录） */
-        public void load(CompoundTag tag) {
-            int[] loaded = tag.getIntArray(TAG_HITS);
-            hitIds = Arrays.copyOf(loaded, Math.max(8, loaded.length));
-            size = loaded.length;
+        /**
+         * 将命中记录保存到 NBT。
+         */
+        public void save(
+                CompoundTag tag
+        ) {
+
+            /*
+             * 没有命中记录时直接保存空数组。
+             */
+            if (size <= 0) {
+
+                tag.putIntArray(
+                        TAG_HITS,
+                        new int[0]
+                );
+
+                return;
+            }
+
+            /*
+             * 只保存有效区域，
+             * 不保存数组剩余容量。
+             */
+            tag.putIntArray(
+                    TAG_HITS,
+                    Arrays.copyOf(
+                            hitIds,
+                            size
+                    )
+            );
+        }
+
+        /**
+         * 从 NBT 恢复命中记录。
+         *
+         * <p>
+         * 会限制最大读取数量，
+         * 防止异常 NBT 造成超大内存分配。
+         * </p>
+         */
+        public void load(
+                CompoundTag tag
+        ) {
+
+            int[] loaded =
+                    tag.getIntArray(
+                            TAG_HITS
+                    );
+
+            /*
+             * 没有数据。
+             */
+            if (loaded.length == 0) {
+
+                size = 0;
+
+                if (hitIds.length
+                        != INITIAL_CAPACITY) {
+
+                    hitIds =
+                            new int[
+                                    INITIAL_CAPACITY
+                                    ];
+                }
+
+                return;
+            }
+
+            /*
+             * 限制最大读取数量。
+             */
+            int loadedSize =
+                    Math.min(
+                            loaded.length,
+                            MAX_RECORDS
+                    );
+
+            /*
+             * 至少保留初始容量。
+             */
+            int capacity =
+                    Math.max(
+                            INITIAL_CAPACITY,
+                            loadedSize
+                    );
+
+            /*
+             * 如果现有数组足够，
+             * 直接复用。
+             */
+            if (hitIds.length < capacity) {
+
+                hitIds =
+                        new int[capacity];
+            }
+
+            /*
+             * 复制有效数据。
+             */
+            System.arraycopy(
+                    loaded,
+                    0,
+                    hitIds,
+                    0,
+                    loadedSize
+            );
+
+            size =
+                    loadedSize;
         }
     }
 }

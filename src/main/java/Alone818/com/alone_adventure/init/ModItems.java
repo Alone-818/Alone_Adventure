@@ -2,6 +2,7 @@ package Alone818.com.alone_adventure.init;
 
 import Alone818.com.alone_adventure.Alone_adventure;
 import Alone818.com.alone_adventure.Curios.*;
+import Alone818.com.alone_adventure.Curios.gun.MagazinePressure;
 import Alone818.com.alone_adventure.Curios.gun.SingleActionRapidFire;
 import Alone818.com.alone_adventure.Items.*;
 import Alone818.com.alone_adventure.Items.bullet.*;
@@ -87,7 +88,12 @@ public class ModItems {
     public static final RegistryObject<Item> SINGLE_ACTION_RAPID_FIRE =
             ITEMS.register(
                     "single_action_rapid_fire",
-                    () -> new SingleActionRapidFire()
+                    () -> new SingleActionRapidFire());
+    public static final RegistryObject<Item> MAGAZINE_PRESSURE =
+            ITEMS.register(
+                    "magazine_pressure",
+                    MagazinePressure::new
+
             );
     // ===== 装备物品 =====
     public static final RegistryObject<Item> PARRYSHIELD =
@@ -241,12 +247,35 @@ public class ModItems {
     public static final RegistryObject<Item> LONG_BULLET_ARMOR_PIERCING =
             ITEMS.register(
                     "long_bullet_armor_piercing",
-                    long_bullet_armor_piercing::new
+                    shotgun_shell_armor_piercing::new
+            );
+    public static final RegistryObject<Item> SHOTGUN_SHELL_DUM =
+            ITEMS.register(
+                    "shotgun_shell_dum",
+                    shotgun_shell_dum::new
+            );
+    public static final RegistryObject<Item> SHOTGUN_SHELL_EXPLOSIVE =
+            ITEMS.register(
+                    "shotgun_shell_explosive",
+                    shotgun_shell_explosive::new
+            );
+    public static final RegistryObject<Item> SHOTGUN_SHELL_POISON =
+            ITEMS.register(
+                    "shotgun_shell_poison",
+                    shotgun_shell_poison::new
             );
 
     // 弹药：弩箭弹药（步枪可切换装填的箭形弹药）
     public static final RegistryObject<Item> CROSSBOW_BOLT =
             ITEMS.register("crossbow_bolt", crossbow_bolt::new);
+    public static final RegistryObject<Item> CROSSBOW_BOLT_EXPLOSIVE =
+            ITEMS.register("crossbow_bolt_explosive", crossbow_bolt_explosive::new);
+    public static final RegistryObject<Item> CROSSBOW_BOLT_POISON =
+            ITEMS.register("crossbow_bolt_poison", crossbow_bolt_poison::new);
+    public static final RegistryObject<Item> CROSSBOW_BOLT_ARMOR_PIERCING =
+            ITEMS.register("crossbow_bolt_armor_piercing", crossbow_bolt_armor_piercing::new);
+    public static final RegistryObject<Item> CROSSBOW_BOLT_DUM =
+            ITEMS.register("crossbow_bolt_dum", crossbow_bolt_dum::new);
 
     // 步枪：双手长枪模板（长子弹/弩箭弹药，G 键切换弹种）
     public static final RegistryObject<Item> RIFLE =

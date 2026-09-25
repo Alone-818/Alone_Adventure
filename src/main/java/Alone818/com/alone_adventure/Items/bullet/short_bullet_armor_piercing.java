@@ -14,7 +14,7 @@ public class short_bullet_armor_piercing extends AmmoItem {
      *
      * 额外伤害 = 护甲值 × 0.5
      */
-    private static final float ARMOR_DAMAGE_RATIO = 0.5F;
+    private static final float ARMOR_DAMAGE_RATIO = 0.3F;
 
     public short_bullet_armor_piercing() {
         super(new Properties());

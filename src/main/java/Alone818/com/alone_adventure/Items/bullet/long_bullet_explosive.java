@@ -16,7 +16,7 @@ public class long_bullet_explosive extends AmmoItem {
     private static final String EXPLOSION_TRIGGERED =
             "ExplosionTriggered";
 
-    private static final float EXPLOSION_POWER = 1.2F;
+    private static final float EXPLOSION_POWER = 1.5F;
 
     public long_bullet_explosive() {
         super(new Properties());

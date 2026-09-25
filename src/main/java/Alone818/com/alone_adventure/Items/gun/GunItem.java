@@ -1,6 +1,7 @@
 package Alone818.com.alone_adventure.Items.gun;
 
 import Alone818.com.alone_adventure.Alone_adventure;
+import Alone818.com.alone_adventure.Items.gun.GunAccessoryDamageCalculator;
 import Alone818.com.alone_adventure.Items.BulletProjectile;
 import Alone818.com.alone_adventure.client.GunGeoRenderer;
 import Alone818.com.alone_adventure.client.GunItemAnimation;
@@ -553,10 +554,10 @@ public class GunItem extends Item implements GeoItem {
         if (tag.contains(TAG_RELOAD_START)) {
             return;
         }
+        GunStats currentStats = getStats(stack);
 
-        // 弹夹已满
         if (tag.getInt(TAG_AMMO)
-                >= stats.magazineSize()) {
+                >= currentStats.magazineSize()) {
             return;
         }
 
@@ -624,20 +625,15 @@ public class GunItem extends Item implements GeoItem {
             return;
         }
 
+        GunStats currentStats = getStats(stack);
+
         PlayerGunStats bonuses =
                 GunModItems.collectAll(player);
 
-        /*
-         * 每发子弹所需的装填时间。
-         *
-         * 例如：
-         * reloadTicks = 20
-         * 就是每装一发需要 1 秒。
-         */
         int reloadTicks = Math.max(
                 1,
                 Math.round(
-                        stats.reloadTicks()
+                        currentStats.reloadTicks()
                                 / Math.max(
                                 0.1F,
                                 bonuses.reloadSpeedMultiplier
@@ -663,7 +659,7 @@ public class GunItem extends Item implements GeoItem {
                 tag.getInt(TAG_AMMO);
 
         int magazineSize =
-                stats.magazineSize();
+                currentStats.magazineSize();
 
         /*
          * 已经满弹。
@@ -1121,13 +1117,38 @@ public class GunItem extends Item implements GeoItem {
         // (基础伤害 + 玩家加成) * 0.3
         // =====================================================
 
+        // =====================================================
+// =====================================================
+// 枪械饰品伤害倍率
+// =====================================================
+//
+// 所有会影响枪械伤害的饰品统一从这里计算。
+// 例如：
+//     弹夹掌控
+//     其他伤害饰品
+//     后续新增的枪械饰品
+//
+// GunItem 不直接处理具体饰品。
+// =====================================================
+
+        float accessoryDamageMultiplier =
+                GunAccessoryDamageCalculator.getDamageMultiplier(
+                        player,
+                        stack,
+                        currentStats
+                );
+
+// =====================================================
+// 最终子弹伤害
+// =====================================================
+
         float bulletDamage =
                 (
                         currentStats.damage()
                                 + bonuses.damageBonus
                 )
-                        * ammoDamageMultiplier;
-
+                        * ammoDamageMultiplier
+                        * accessoryDamageMultiplier;
         // =====================================================
         // 最终射程
         //

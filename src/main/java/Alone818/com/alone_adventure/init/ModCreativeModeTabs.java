@@ -287,6 +287,11 @@ public class ModCreativeModeTabs {
                                                         ModItems.TOWER_CONTRACT.get()
                                                 )
                                         );
+                                        output.accept(
+                                                new ItemStack(
+                                                        ModItems.MAGAZINE_PRESSURE.get()
+                                                )
+                                        );
                                     }
                             )
 
@@ -350,7 +355,11 @@ public class ModCreativeModeTabs {
                                         // =================================================
                                         // 枪械改装件
                                         // =================================================
-
+                                        output.accept(
+                                                new ItemStack(
+                                                        ModModificationItems.SINGLE_SHOT_AMPLIFIER.get()
+                                                )
+                                        );
                                         // 重型枪管
                                         output.accept(
                                                 new ItemStack(
@@ -488,6 +497,42 @@ public class ModCreativeModeTabs {
                                                         ModItems.LONG_BULLET_ARMOR_PIERCING.get()
                                                 )
                                         );
+                                        output.accept(
+                                                new ItemStack(
+                                                        ModItems.SHOTGUN_SHELL_POISON.get()
+                                                )
+                                        );
+                                        output.accept(
+                                                new ItemStack(
+                                                        ModItems.SHOTGUN_SHELL_DUM.get()
+                                                )
+                                        );
+                                        output.accept(
+                                                new ItemStack(
+                                                        ModItems.SHOTGUN_SHELL_EXPLOSIVE.get()
+                                                )
+                                        );
+                                        output.accept(
+                                                new ItemStack(
+                                                        ModItems.CROSSBOW_BOLT_EXPLOSIVE.get()
+                                                )
+                                        );
+                                        output.accept(
+                                                new ItemStack(
+                                                        ModItems.CROSSBOW_BOLT_DUM.get()
+                                                )
+                                        );
+                                        output.accept(
+                                                new ItemStack(
+                                                        ModItems.CROSSBOW_BOLT_ARMOR_PIERCING.get()
+                                                )
+                                        );
+                                        output.accept(
+                                                new ItemStack(
+                                                        ModItems.CROSSBOW_BOLT_POISON.get()
+                                                )
+                                        );
+
                                     }
                             )
 

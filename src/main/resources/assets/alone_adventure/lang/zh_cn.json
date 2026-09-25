@@ -185,8 +185,16 @@
 
   "item.alone_adventure.long_bullet": "长子弹",
   "item.alone_adventure.shotgun_shell": "霰弹",
+  "item.alone_adventure.shotgun_shell_dum": "霰弹-达姆",
+  "item.alone_adventure.shotgun_shell_explosive": "霰弹-爆炸",
+  "item.alone_adventure.shotgun_shell_poison": "霰弹-中毒",
+  "item.alone_adventure.shotgun_shell_armor_piercing": "霰弹-穿甲",
+  "item.alone_adventure.shotgun_shell_coin": "霰弹-硬币",
   "item.alone_adventure.short_bullet": "短子弹",
   "item.alone_adventure.crossbow_bolt": "弩箭弹药",
+  "item.alone_adventure.crossbow_bolt_explosive": "弩箭-爆炸",
+  "item.alone_adventure.crossbow_bolt_poison": "弩箭-中毒",
+  "item.alone_adventure.crossbow_bolt_armor_piercing": "弩箭-穿甲",
   "item.alone_adventure.ammo.tooltip.desc": "枪械弹药",
 
   "item.alone_adventure.rifle": "步枪",
@@ -407,5 +415,15 @@
   "gui.alone_adventure.modification.cost": "改装消耗：3级经验",
   "gui.alone_adventure.modification.slot": "消耗1个改装槽",
   "gui.alone_adventure.modification.install": "安装改装件",
-  "gui.alone_adventure.modification.remove": "移除全部改装"
+  "gui.alone_adventure.modification.remove": "移除全部改装",
+  "item.alone_adventure.magazine_pressure": "弹匣掌控",
+  "trait.alone_adventure.magazine_pressure.description": "弹匣中的子弹越充足，枪械造成的伤害越高。",
+  "trait.alone_adventure.magazine_pressure.effect": "当前弹匣子弹比例决定伤害倍率：60% ~ 200%。",
+
+  "item.alone_adventure.single_shot_amplifier": "单发强化",
+  "tooltip.alone_adventure.single_shot_amplifier": "将枪械改造成高威力单发武器。",
+  "tooltip.alone_adventure.single_shot_amplifier.desc": "牺牲弹匣容量换取极高的单发伤害。",
+  "tooltip.alone_adventure.single_shot_amplifier.damage": "每减少1发弹容量，伤害 +15%",
+  "tooltip.alone_adventure.single_shot_amplifier.fire_rate": "装填速度 +100%",
+  "tooltip.alone_adventure.single_shot_amplifier.effect": "弹匣容量固定为 1 发"
 }

@@ -51,8 +51,8 @@ public class long_bullet_poison extends AmmoItem {
         living.addEffect(
                 new MobEffectInstance(
                         MobEffects.POISON,
-                        200,
-                        2,
+                        600,
+                        5,
                         false,
                         true,
                         true

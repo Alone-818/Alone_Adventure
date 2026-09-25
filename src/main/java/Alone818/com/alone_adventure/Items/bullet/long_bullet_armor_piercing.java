@@ -9,7 +9,7 @@ import net.minecraft.world.entity.LivingEntity;
 
 public class long_bullet_armor_piercing extends AmmoItem {
 
-    private static final float ARMOR_DAMAGE_RATIO = 0.5F;
+    private static final float ARMOR_DAMAGE_RATIO = 0.4F;
 
     public long_bullet_armor_piercing() {
         super(new Properties());

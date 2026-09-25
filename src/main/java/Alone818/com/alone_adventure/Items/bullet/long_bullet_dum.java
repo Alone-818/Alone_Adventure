@@ -15,8 +15,8 @@ import Alone818.com.alone_adventure.Alone_adventure;
 
 public class long_bullet_dum extends AmmoItem {
 
-    private static final int LACERATION_DURATION = 120; // 6 秒
-    private static final int LACERATION_AMPLIFIER = 9; // 10 级
+    private static final int LACERATION_DURATION = 30; // 6 秒
+    private static final int LACERATION_AMPLIFIER = 11; // 10 级
 
     private static final ResourceLocation LACERATION_ID =
             new ResourceLocation(

@@ -27,10 +27,6 @@ public class ModModificationItems {
      * 效果：
      * 伤害 = 原来的 200%
      * 射击间隔 = 原来的 300%
-     *
-     * 也就是说：
-     * - 伤害 ×2
-     * - 射击速度降低到原来的 1/3
      */
     public static final RegistryObject<Item> HEAVY_BARREL =
             ITEMS.register(
@@ -73,11 +69,117 @@ public class ModModificationItems {
                     )
             );
 
+    /**
+     * =========================================================
+     * 单发强化改件
+     * =========================================================
+     *
+     * 效果：
+     *
+     * 1. 弹匣容量强制变为 1
+     *
+     * 2. 装填速度 +100%
+     *    即装填时间变为原来的 50%
+     *
+     * 3. 根据减少的弹匣容量增加伤害
+     *
+     *    每减少 1 发：
+     *    伤害 +30%
+     *
+     *    公式：
+     *
+     *    原弹容量 = N
+     *
+     *    减少数量 = N - 1
+     *
+     *    最终伤害倍率 =
+     *
+     *    1.0 + (N - 1) × 0.30
+     *
+     *    例如：
+     *
+     *    6 发 -> 1 发
+     *    减少 5 发
+     *
+     *    伤害：
+     *    1 + 5 × 0.30
+     *    = 2.5
+     *
+     *    即伤害 +150%
+     *
+     *    10 发 -> 1 发
+     *    减少 9 发
+     *
+     *    伤害：
+     *    1 + 9 × 0.30
+     *    = 3.7
+     *
+     *    即伤害 +270%
+     */
+    public static final RegistryObject<Item> SINGLE_SHOT_AMPLIFIER =
+            ITEMS.register(
+                    "single_shot_amplifier",
+                    () -> new GunUpgradeItem(
+                            new Item.Properties(),
+
+                            base -> {
+
+                                // 原始弹匣容量
+                                int originalMagazineSize =
+                                        Math.max(
+                                                1,
+                                                base.magazineSize()
+                                        );
+
+                                // 被削减的弹容量
+                                int reducedMagazine =
+                                        Math.max(
+                                                0,
+                                                originalMagazineSize - 1
+                                        );
+
+                                // 每减少 1 发容量，伤害 +20%
+                                float damageMultiplier =
+                                        1.0F
+                                                + reducedMagazine * 0.15F;
+
+                                int newReloadTicks =
+                                        Math.max(
+                                                1,
+                                                Math.round(
+                                                        base.reloadTicks()
+                                                                * 2.0F
+                                                )
+                                        );
+
+                                return GunStats.builder(base)
+
+                                        // 弹匣固定 1 发
+                                        .magazineSize(1)
+
+                                        // 装填速度 +100%
+                                        .reloadTicks(newReloadTicks)
+
+                                        // 根据减少的容量增加伤害
+                                        .damage(
+                                                base.damage()
+                                                        * damageMultiplier
+                                        )
+
+                                        .build();
+                            },
+
+                            false
+                    )
+            );
+
     // =========================================================
     // 注册
     // =========================================================
 
-    public static void register(net.minecraftforge.eventbus.api.IEventBus eventBus) {
+    public static void register(
+            net.minecraftforge.eventbus.api.IEventBus eventBus
+    ) {
         ITEMS.register(eventBus);
     }
 }
