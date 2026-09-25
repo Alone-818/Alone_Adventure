@@ -41,15 +41,15 @@ import java.util.List;
 public class powersword extends SwordItem {
 
     // 基础战斗属性：伤害 8，攻击速度 1.6（剑的默认值；SwordItem 参数为相对基值 4.0 的修饰符）
-    public static final int ATTACK_DAMAGE = 8;
+    public static final int ATTACK_DAMAGE = 12;
     public static final float ATTACK_SPEED = 1.6F;
 
     // 穿甲特性参数（默认值，可由 Config 在 alone_adventure-common.toml 覆盖；基础攻击伤害/攻速在注册期固定，不参与配置）
-    public static int ARMOR_PENALTY_THRESHOLD = 8;  // 护甲值超过此值才计算穿甲伤害
-    public static int ARMOR_TOUGHNESS_THRESHOLD = 6; // 护甲韧性超过此值才计算穿甲伤害
-    public static float ARMOR_PENALTY_MULTIPLIER = 0.3F;
-    public static float ARMOR_TOUGHNESS_MULTIPLIER = 0.5F;
-    public static int MAX_PENALTY_DAMAGE = 10;  // 穿甲伤害上限
+    public static int ARMOR_PENALTY_THRESHOLD = 4;  // 护甲值超过此值才计算穿甲伤害
+    public static int ARMOR_TOUGHNESS_THRESHOLD = 2; // 护甲韧性超过此值才计算穿甲伤害
+    public static float ARMOR_PENALTY_MULTIPLIER = 2F;
+    public static float ARMOR_TOUGHNESS_MULTIPLIER = 1F;
+    public static int MAX_PENALTY_DAMAGE = 20;  // 穿甲伤害上限
 
     // 超频特性参数
     public static int OVERCLOCK_DURATION_TICKS = 260; // 13 秒 * 20 tick/秒

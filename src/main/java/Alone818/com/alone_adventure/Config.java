@@ -505,16 +505,16 @@ public class Config {
         BUILDER.push("powersword");
         SWORD_ARMOR_PENALTY_THRESHOLD = BUILDER
                 .comment("穿甲：护甲值超过该值后开始计算额外伤害")
-                .defineInRange("armorPenaltyThreshold", 8, 0, 1000);
+                .defineInRange("armorPenaltyThreshold", 4, 0, 1000);
         SWORD_ARMOR_TOUGHNESS_THRESHOLD = BUILDER
                 .comment("穿甲：护甲韧性超过该值后开始计算额外伤害")
-                .defineInRange("armorToughnessThreshold", 6, 0, 1000);
+                .defineInRange("armorToughnessThreshold", 2, 0, 1000);
         SWORD_ARMOR_PENALTY_MULTIPLIER = BUILDER
                 .comment("穿甲：每点超出护甲的额外伤害")
-                .defineInRange("armorPenaltyMultiplier", 0.3, 0.0, 100.0);
+                .defineInRange("armorPenaltyMultiplier", 2, 0.0, 100.0);
         SWORD_ARMOR_TOUGHNESS_MULTIPLIER = BUILDER
                 .comment("穿甲：每点超出韧性的额外伤害")
-                .defineInRange("armorToughnessMultiplier", 0.5, 0.0, 100.0);
+                .defineInRange("armorToughnessMultiplier", 1, 0.0, 100.0);
         SWORD_MAX_PENALTY_DAMAGE = BUILDER
                 .comment("穿甲伤害合计上限（点）")
                 .defineInRange("maxPenaltyDamage", 10, 0, 1000);
