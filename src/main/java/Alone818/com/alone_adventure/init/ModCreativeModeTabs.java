@@ -136,7 +136,7 @@ public class ModCreativeModeTabs {
 
                                         output.accept(
                                                 new ItemStack(
-                                                        ModItems.SHOTGUN.get()
+                                                        ModItems.DOUBLE_BARREL_SHOTGUN.get()
                                                 )
                                         );
 

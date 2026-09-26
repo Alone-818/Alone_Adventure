@@ -13,14 +13,9 @@ import Alone818.com.alone_adventure.Items.bullet.long_bullet_armor_piercing;
 import Alone818.com.alone_adventure.Items.bullet.long_bullet_dum;
 import Alone818.com.alone_adventure.Items.bullet.long_bullet_explosive;
 import Alone818.com.alone_adventure.Items.bullet.long_bullet_poison;
-import Alone818.com.alone_adventure.Items.gun.rifle;
-import Alone818.com.alone_adventure.Items.gun.shotgun;
+import Alone818.com.alone_adventure.Items.gun.*;
 import Alone818.com.alone_adventure.Items.bullet.shotgun_shell;
 import Alone818.com.alone_adventure.Items.short_bullet;
-import Alone818.com.alone_adventure.Items.gun.pistol;
-import Alone818.com.alone_adventure.Items.gun.heavy_revolver;
-import Alone818.com.alone_adventure.Items.gun.GunStats;
-import Alone818.com.alone_adventure.Items.gun.GunUpgradeItem;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
@@ -282,8 +277,8 @@ public class ModItems {
             ITEMS.register("rifle", rifle::new);
 
     // 霰弹枪：单手面杀伤模板（霰弹，6 弹丸大散布）
-    public static final RegistryObject<Item> SHOTGUN =
-            ITEMS.register("shotgun", shotgun::new);
+    public static final RegistryObject<Item> DOUBLE_BARREL_SHOTGUN =
+            ITEMS.register("double_barrel_shotgun", double_barrel_shotgun::new);
 
     // 手枪：单手速射模板（短子弹，半自动，可双持）
     public static final RegistryObject<Item> PISTOL =

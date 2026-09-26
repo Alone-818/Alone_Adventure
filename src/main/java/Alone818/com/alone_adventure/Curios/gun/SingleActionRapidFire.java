@@ -69,7 +69,7 @@ public class SingleActionRapidFire
 
         // 装填速度 +30%
 
-        stats.reloadSpeedMultiplier = 2.0F;
+        stats.reloadSpeedMultiplier = 1.2F;
 
 
 
