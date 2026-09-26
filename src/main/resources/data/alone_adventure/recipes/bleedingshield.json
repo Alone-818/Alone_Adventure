@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "ABA",
+    "CDC",
+    "ABA"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:iron_block"
+    },
+    "B": {
+      "item": "minecraft:shroomlight"
+    },
+    "C": {
+      "item": "minecraft:shroomlight"
+    },
+    "D": {
+      "type": "forge:partial_nbt",
+      "item": "alone_adventure:battle_contract",
+      "nbt": "{QuestDone:1b}"
+    }
+  },
+  "result": {
+    "item": "alone_adventure:bleedingshield",
+    "count": 1
+  }
+}

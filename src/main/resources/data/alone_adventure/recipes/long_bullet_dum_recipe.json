@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "combat",
+  "pattern": [
+    "AAA",
+    "ACA",
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "item": "alone_adventure:long_bullet"
+    },
+    "C": {
+      "item": "minecraft:flint_and_steel"
+    }
+  },
+  "result": {
+    "item": "alone_adventure:long_bullet_dum",
+    "count": 4
+  }
+}

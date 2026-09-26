@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "ABA",
+    "CDC",
+    "ABA"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:diamond"
+    },
+    "B": {
+      "item": "minecraft:amethyst_block"
+    },
+    "C": {
+      "item": "minecraft:amethyst_block"
+    },
+    "D": {
+      "type": "forge:partial_nbt",
+      "item": "alone_adventure:battle_contract",
+      "nbt": "{QuestDone:1b}"
+    }
+  },
+  "result": {
+    "item": "alone_adventure:crystalline_heart",
+    "count": 1
+  }
+}

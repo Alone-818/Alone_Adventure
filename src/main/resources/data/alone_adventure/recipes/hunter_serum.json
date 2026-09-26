@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "ABA",
+    "CDC",
+    "ABA"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:blaze_rod"
+    },
+    "B": {
+      "item": "minecraft:emerald"
+    },
+    "C": {
+      "item": "minecraft:emerald"
+    },
+    "D": {
+      "type": "forge:partial_nbt",
+      "item": "alone_adventure:battle_contract",
+      "nbt": "{QuestDone:1b}"
+    }
+  },
+  "result": {
+    "item": "alone_adventure:hunter_serum",
+    "count": 1
+  }
+}

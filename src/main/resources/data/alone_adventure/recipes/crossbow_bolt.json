@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "combat",
+  "ingredients": [
+    {
+      "item": "minecraft:copper_ingot"
+    },
+    {
+      "item": "minecraft:arrow",
+      "count": 3
+    }
+  ],
+  "result": {
+    "item": "alone_adventure:crossbow_bolt",
+    "count": 8
+  }
+}
