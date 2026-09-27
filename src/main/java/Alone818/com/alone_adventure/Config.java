@@ -635,7 +635,7 @@ public class Config {
                 .defineInRange("throwSpeed", 2.5, 0.1, 10.0);
         INK_DAMAGE = BUILDER
                 .comment("飞刃命中伤害（点）")
-                .defineInRange("damage", 3.0, 0.0, 1000.0);
+                .defineInRange("damage", 4.0, 0.0, 1000.0);
         INK_WEAKNESS_DURATION_TICKS = BUILDER
                 .comment("虚弱叠加持续（tick，100 = 5 秒，命中刷新）")
                 .defineInRange("weaknessDurationTicks", 100, 1, MAX_TICKS);

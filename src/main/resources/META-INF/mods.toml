@@ -38,8 +38,18 @@ authors = "${mod_authors}" #optional
 # IMPORTANT NOTE: this is NOT an instruction as to which environments (CLIENT or DEDICATED SERVER) your mod loads on. Your mod should load (and maybe do nothing!) whereever it finds itself.
 #displayTest="MATCH_VERSION" # MATCH_VERSION is the default if nothing is specified (#optional)
 
+logoFile = "mods_icon.png"
 # The description text for the mod (multi line!) (#mandatory)
-description = '''${mod_description}'''
+description = '''
+该模组主要围绕于作者和朋友们玩的一些游戏内容，添加一些新的武器，装备，道具，饰品，以及一些契约。
+依赖 Curios 和 GeckoLib。
+
+契约是模组内制作饰品的主要方式，因此你必须完成契约上的任务以在切石机上获得你选择的饰品。
+这些饰品的机制特点通常与你完成的契约/名称挂钩。
+你可以以自己想要的玩法去体验全部内容：是选择酿造药水制作药剂混合出强力药剂，还是成为赏金猎人，用枪械和子弹武装自己？
+
+本模组处于早期测试阶段，材质使用 AI 制作(因为作者美术一坨)，代码部分使用 AI 制作。
+'''
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
 [[dependencies."${mod_id}"]] #optional
 # the modid of the dependency

@@ -270,7 +270,11 @@ public class ModCreativeModeTabs {
                                                         ModItems.HUNTER_SERUM.get()
                                                 )
                                         );
-
+                                        output.accept(
+                                                new ItemStack(
+                                                        ModItems.MAGAZINE_PRESSURE.get()
+                                                )
+                                        );
                                         // 复生契约
                                         output.accept(
                                                 new ItemStack(
@@ -297,11 +301,7 @@ public class ModCreativeModeTabs {
                                                         ModItems.EVIL_CONTRACT.get()
                                                 )
                                         );
-                                        output.accept(
-                                                new ItemStack(
-                                                        ModItems.MAGAZINE_PRESSURE.get()
-                                                )
-                                        );
+
                                     }
                             )
 
@@ -345,7 +345,11 @@ public class ModCreativeModeTabs {
                                                         ModItems.INJECTION_SYRINGE.get()
                                                 )
                                         );
-
+                                        output.accept(
+                                                new ItemStack(
+                                                        ModItems.GOLDEN_BEETROOT.get()
+                                                )
+                                        );
                                         // 怪物残灰
                                         output.accept(
                                                 new ItemStack(

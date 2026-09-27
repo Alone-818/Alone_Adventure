@@ -28,7 +28,7 @@ public class InkBladeProjectile extends ThrowableItemProjectile {
 
     // 以下数值为默认值，可由 Config（alone_adventure-common.toml）覆盖
     /** 命中伤害 */
-    public static float DAMAGE = 3.0F;
+    public static float DAMAGE = 4.0F;
     /** 虚弱叠加持续时间（5 秒），每次命中刷新 */
     public static int WEAKNESS_DURATION_TICKS = 100;
     /** 虚弱叠加上限：5 级（amplifier 最高 4） */
