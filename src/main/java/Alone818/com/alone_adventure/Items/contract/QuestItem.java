@@ -4,7 +4,9 @@ import Alone818.com.alone_adventure.Alone_adventure;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -715,18 +717,25 @@ public class QuestItem extends Item implements ICurioItem {
         /** 检测玩家当前是否位于指定群系 */
         public boolean checkBiome(ServerPlayer player) {
             Level level = player.level();
-            if (level instanceof ServerLevel serverLevel) {
-                Vec3 pos = player.position();
-                // 使用 getBiome 获取生物群系持有者
-                net.minecraft.core.Holder<net.minecraft.world.level.biome.Biome> biomeHolder = serverLevel.getBiome(BlockPos.containing(pos.x, pos.y, pos.z));
-                if (biomeHolder != null) {
-                    Biome biomeKey = biomeHolder.get();
-                    return biomeKey != null && biomeKey.toString().equals(biomeName);
-                }
-            }
-            return false;
-        }
+            if (!(level instanceof ServerLevel serverLevel)) return false;
 
+            Vec3 pos = player.position();
+            BlockPos blockPos = BlockPos.containing(pos.x, pos.y, pos.z);
+
+            // 1) 取当前位置的群系 Holder
+            Holder<Biome> biomeHolder = serverLevel.getBiome(blockPos);
+
+            // 2) 通过注册表反查 ResourceLocation（这是关键）
+            ResourceLocation key = serverLevel.registryAccess()
+                    .registryOrThrow(Registries.BIOME)
+                    .getKey(biomeHolder.value());
+
+            if (key == null) return false;
+
+            // 3) 允许 JSON/配置里写 "plains" 简写，也允许 "minecraft:plains" 全写
+            String target = biomeName.contains(":") ? biomeName : "minecraft:" + biomeName;
+            return key.toString().equals(target);
+        }
         /** 标记该群系任务已完成（存储到物品堆栈 NBT） */
         public void markDone(ItemStack questStack, String taskId) {
             CompoundTag tag = questStack.getOrCreateTag();
@@ -783,9 +792,9 @@ public class QuestItem extends Item implements ICurioItem {
             }
             tooltip.add(isQuestDone(stack)
                     ? Component.translatable("tooltip.alone_adventure.quest.material_ready")
-                            .withStyle(ChatFormatting.GREEN)
+                    .withStyle(ChatFormatting.GREEN)
                     : Component.translatable("tooltip.alone_adventure.quest.material_locked")
-                            .withStyle(ChatFormatting.RED));
+                    .withStyle(ChatFormatting.RED));
         } else {
             tooltip.add(Component.translatable("item.alone_adventure." + questId() + ".tooltip.desc")
                     .withStyle(ChatFormatting.GRAY));

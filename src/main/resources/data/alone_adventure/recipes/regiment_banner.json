@@ -2,28 +2,25 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "pattern": [
-    "ABA",
-    "CDC",
-    "ABA"
+    "DWD",
+    "WBW",
+    "DWD"
   ],
   "key": {
-    "A": {
-      "item": "minecraft:iron_block"
+    "D": {
+      "item": "minecraft:diamond"
+    },
+    "W": {
+      "item": "minecraft:red_wool"
     },
     "B": {
-      "item": "minecraft:shroomlight"
-    },
-    "C": {
-      "item": "minecraft:shroomlight"
-    },
-    "D": {
       "type": "forge:partial_nbt",
       "item": "alone_adventure:battle_contract",
       "nbt": "{QuestDone:1b}"
     }
   },
   "result": {
-    "item": "alone_adventure:bleedingshield",
+    "item": "alone_adventure:regiment_banner",
     "count": 1
   }
 }

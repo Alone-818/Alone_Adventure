@@ -289,6 +289,16 @@ public class ModCreativeModeTabs {
                                         );
                                         output.accept(
                                                 new ItemStack(
+                                                        ModItems.IMPERIAL_CONTRACT.get()
+                                                )
+                                        );
+                                        output.accept(
+                                                new ItemStack(
+                                                        ModItems.EVIL_CONTRACT.get()
+                                                )
+                                        );
+                                        output.accept(
+                                                new ItemStack(
                                                         ModItems.MAGAZINE_PRESSURE.get()
                                                 )
                                         );
@@ -392,6 +402,20 @@ public class ModCreativeModeTabs {
                                         output.accept(
                                                 new ItemStack(
                                                         ModItems.EERIE_MUSIC_BOX.get()
+                                                )
+                                        );
+
+                                        // 枪械构件
+                                        output.accept(
+                                                new ItemStack(
+                                                        ModItems.GUN_PART.get()
+                                                )
+                                        );
+
+                                        // 枪械盒
+                                        output.accept(
+                                                new ItemStack(
+                                                        ModItems.GUN_BOX.get()
                                                 )
                                         );
 

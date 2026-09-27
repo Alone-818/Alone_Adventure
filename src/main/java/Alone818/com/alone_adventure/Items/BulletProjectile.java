@@ -336,113 +336,105 @@ public class BulletProjectile extends ThrowableItemProjectile {
          * 缓慢追踪
          * =====================================================
          */
+        // =========================================================
+// 强力追踪系统
+// =========================================================
+//
+// 搜索范围：32 格
+// 锁定保持：48 格
+// 每 tick 更新
+// 最大转向：12° / tick
+// 移动预测：4 tick
+//
+// 服务端计算，防止客户端修改追踪结果。
+// =========================================================
+
         if (!level().isClientSide
                 && tracking
                 && getOwner() instanceof LivingEntity owner) {
+
+
+            // =====================================================
+            // 获取目标
+            // =====================================================
 
             LivingEntity target =
                     targetTracker.update(
                             level(),
                             position(),
-                            TRACKING_RANGE,
-                            TRACKING_LOSE_RANGE,
+                            32.0D,
+                            48.0D,
                             level().getGameTime(),
-                            TRACKING_SCAN_INTERVAL,
+                            1L,
                             owner
                     );
+
+
+            // =====================================================
+            // 有目标
+            // =====================================================
 
             if (target != null
                     && target.isAlive()) {
 
+
                 Vec3 velocity =
                         getDeltaMovement();
 
-                /*
-                 * 只有正常飞行的子弹才进行追踪。
-                 */
-                if (velocity.lengthSqr()
-                        > 0.0001D) {
 
-                    /*
-                     * 当前速度。
-                     */
-                    double speed =
-                            velocity.length();
+                double speed =
+                        velocity.length();
 
-                    /*
-                     * 记录初始速度。
-                     *
-                     * 如果之前没有记录，
-                     * 就使用当前速度。
-                     */
-                    if (trackingSpeed
-                            <= 0.001D) {
 
-                        trackingSpeed = speed;
-                    }
+                if (speed > 0.001D) {
 
-                    /*
-                     * =================================================
-                     * 目标预测
-                     * =================================================
-                     *
-                     * 只预测 1 tick，
-                     * 不会像导弹一样提前量很大。
-                     */
-                    Vec3 targetPosition =
-                            target.getEyePosition();
 
-                    Vec3 targetVelocity =
-                            target.getDeltaMovement();
+                    // =================================================
+                    // 目标预测
+                    // =================================================
+                    //
+                    // 根据目标当前移动速度提前瞄准。
+                    //
+                    // 4 tick = 0.2 秒。
+                    // =================================================
 
-                    targetPosition =
-                            targetPosition.add(
-                                    targetVelocity.scale(
-                                            TRACKING_PREDICTION
-                                    )
-                            );
+                    Vec3 predictedPosition =
+                            target.getEyePosition()
+                                    .add(
+                                            target.getDeltaMovement()
+                                                    .scale(4.0D)
+                                    );
 
-                    /*
-                     * =================================================
-                     * 缓慢转向
-                     * =================================================
-                     *
-                     * 每 tick 最多只改变 2°。
-                     */
+
+                    // =================================================
+                    // 强力转向
+                    // =================================================
+
                     Vec3 steered =
                             Targeting.steer(
                                     velocity,
                                     position(),
-                                    targetPosition,
-                                    TRACKING_TURN
+                                    predictedPosition,
+                                    12.0F
                             );
 
-                    /*
-                     * 保持原本速度。
-                     *
-                     * 只改变方向，
-                     * 不改变飞行速度。
-                     */
-                    if (steered.lengthSqr()
-                            > 0.0001D) {
 
-                        steered =
-                                steered
-                                        .normalize()
-                                        .scale(
-                                                trackingSpeed
-                                        );
+                    // =================================================
+                    // 应用速度
+                    //
+                    // steer 本身保持原速度大小，
+                    // 所以追踪不会降低子弹初速。
+                    // =================================================
 
-                        setDeltaMovement(
-                                steered
-                        );
+                    setDeltaMovement(
+                            steered
+                    );
 
-                        hasImpulse = true;
-                    }
+
+                    hasImpulse = true;
                 }
             }
         }
-
         /*
          * =====================================================
          * 客户端曳光粒子

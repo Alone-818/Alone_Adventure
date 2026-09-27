@@ -1,0 +1,36 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_completed_contract": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "alone_adventure:tower_contract"
+            ],
+            "nbt": "{QuestDone:1b}"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "alone_adventure:sealed_throne_from_completed_contract"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_completed_contract",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "alone_adventure:sealed_throne_from_completed_contract"
+    ]
+  },
+  "sends_telemetry_event": false
+}

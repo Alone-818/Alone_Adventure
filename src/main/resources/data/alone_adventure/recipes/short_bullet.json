@@ -6,11 +6,20 @@
       "item": "minecraft:gunpowder"
     },
     {
+      "item": "minecraft:gunpowder"
+    },
+    {
+      "item": "minecraft:copper_ingot"
+    },
+    {
+      "item": "minecraft:copper_ingot"
+    },
+    {
       "item": "minecraft:copper_ingot"
     }
   ],
   "result": {
     "item": "alone_adventure:short_bullet",
-    "count": 16
+    "count": 12
   }
 }

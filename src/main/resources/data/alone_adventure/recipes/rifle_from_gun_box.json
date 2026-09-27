@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 1,
+  "ingredient": {
+    "item": "alone_adventure:gun_box"
+  },
+  "result": "alone_adventure:rifle"
+}

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "GA ",
+    "ASA",
+    " AG"
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:diamond"
+    },
+    "A": {
+      "item": "minecraft:iron_ingot"
+    },
+    "S": {
+      "item": "minecraft:quartz"
+    }
+  },
+  "result": {
+    "item": "alone_adventure:gun_part",
+    "count": 1
+  }
+}

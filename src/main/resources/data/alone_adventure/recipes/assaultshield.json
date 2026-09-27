@@ -2,28 +2,28 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "pattern": [
-    "ABA",
-    "CDC",
-    "ABA"
+    "FIF",
+    "SCS",
+    "FIF"
   ],
   "key": {
-    "A": {
-      "item": "minecraft:blaze_rod"
+    "F": {
+      "item": "minecraft:feather"
     },
-    "B": {
-      "item": "minecraft:emerald"
+    "I": {
+      "item": "minecraft:shield"
+    },
+    "S": {
+      "item": "minecraft:shield"
     },
     "C": {
-      "item": "minecraft:emerald"
-    },
-    "D": {
       "type": "forge:partial_nbt",
       "item": "alone_adventure:battle_contract",
       "nbt": "{QuestDone:1b}"
     }
   },
   "result": {
-    "item": "alone_adventure:hunter_serum",
+    "item": "alone_adventure:assaultshield",
     "count": 1
   }
 }

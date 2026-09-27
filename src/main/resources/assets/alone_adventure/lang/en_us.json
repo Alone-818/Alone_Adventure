@@ -441,5 +441,24 @@
   "tooltip.alone_adventure.single_shot_amplifier.desc": "Sacrifices magazine capacity for extremely high single-shot damage.",
   "tooltip.alone_adventure.single_shot_amplifier.damage": "Damage +15% for each magazine capacity lost",
   "tooltip.alone_adventure.single_shot_amplifier.fire_rate": "Reload Speed +100%",
-  "tooltip.alone_adventure.single_shot_amplifier.effect": "Magazine capacity is fixed at 1"
+  "tooltip.alone_adventure.single_shot_amplifier.effect": "Magazine capacity is fixed at 1",
+
+  "item.alone_adventure.imperial_contract": "Imperial Contract",
+  "item.alone_adventure.imperial_contract.tooltip.desc": "A contract signed in blood for the Imperium—active while worn, and can be used as a crafting material after all quests are completed. Right-click with materials in the offhand to submit progress.",
+  "quest.alone_adventure.imperial_contract.kill_zombie_pigman": "Kill Zombified Piglins ×20",
+  "quest.alone_adventure.imperial_contract.kill_warden": "Kill Wardens ×1",
+  "quest.alone_adventure.imperial_contract.reach_desert": "Reach a Desert biome",
+  "quest.alone_adventure.imperial_contract.collect_netherite_scrap": "Submit Netherite Scraps ×4",
+
+  "item.alone_adventure.evil_contract": "Evil Contract",
+  "item.alone_adventure.evil_contract.tooltip.desc": "A contract signed in the blood of villagers—active while worn, and can be used as a crafting material after all quests are completed. Right-click with materials in the offhand to submit progress.",
+  "quest.alone_adventure.evil_contract.kill_villager": "Kill Villagers ×3",
+  "quest.alone_adventure.evil_contract.collect_gold_block": "Submit Gold Blocks ×4",
+  "quest.alone_adventure.evil_contract.collect_diamond_block": "Submit Diamond Blocks ×4",
+  "quest.alone_adventure.evil_contract.collect_bone_block": "Submit Bone Blocks ×16",
+  "quest.alone_adventure.evil_contract.collect_rotten_flesh": "Submit Rotten Flesh ×128",
+
+  "item.alone_adventure.gun_part": "Gun Part",
+  "item.alone_adventure.gun_box": "Gun Box",
+  "item.alone_adventure.gun_box": "Gun Box"
 }

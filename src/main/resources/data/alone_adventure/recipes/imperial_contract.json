@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " # ",
+    "#X#",
+    " # "
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:gold_ingot"
+    },
+    "X": {
+      "type": "forge:partial_nbt",
+      "item": "alone_adventure:battle_contract",
+      "nbt": "{QuestDone:1b}"
+    }
+  },
+  "result": {
+    "item": "alone_adventure:imperial_contract",
+    "count": 1
+  }
+}

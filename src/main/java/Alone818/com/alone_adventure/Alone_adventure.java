@@ -1,5 +1,6 @@
 package Alone818.com.alone_adventure;
 
+import Alone818.com.alone_adventure.datagen.ModRecipeProvider;
 import Alone818.com.alone_adventure.init.ModModificationItems;
 import Alone818.com.alone_adventure.crafting.EnduranceBrewingRecipe;
 import Alone818.com.alone_adventure.crafting.ModRecipes;
@@ -19,6 +20,7 @@ import Alone818.com.alone_adventure.network.HunterVisionPacket;
 import Alone818.com.alone_adventure.network.ReviveEffectPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -81,11 +83,16 @@ public class Alone_adventure {
 
 
 
-
+        modEventBus.addListener(this::gatherData);
         modEventBus.addListener(this::commonSetup);
         MinecraftForge.EVENT_BUS.register(this);
     }
-
+    private void gatherData(GatherDataEvent event) {
+        event.getGenerator().addProvider(
+                event.includeServer(),
+                new ModRecipeProvider(event.getGenerator().getPackOutput())
+        );
+    }
     private void commonSetup(final FMLCommonSetupEvent event) {
         registerPackets();
         // 酿造配方：金甜菜根 → 耐力药水；萤石 → 强效；红石 → 延长

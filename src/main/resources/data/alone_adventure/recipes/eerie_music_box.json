@@ -2,19 +2,16 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "pattern": [
-    "GDG",
-    "GAG",
-    "GDG"
+    " W ",
+    "WCW",
+    " W "
   ],
   "key": {
-    "G": {
-      "item": "minecraft:soul_torch"
+    "W": {
+      "item": "minecraft:nether_wart"
     },
-    "D": {
+    "C": {
       "item": "minecraft:note_block"
-    },
-    "A": {
-      "item": "minecraft:ender_eye"
     }
   },
   "result": {

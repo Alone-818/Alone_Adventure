@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PDP",
+    "DGD",
+    "PDP"
+  ],
+  "key": {
+    "P": { "item": "minecraft:iron_ingot" },
+    "D": { "item": "minecraft:netherite_scrap" },
+    "G": { "item": "alone_adventure:gun_part" }
+  },
+  "result": {
+    "item": "alone_adventure:single_shot_amplifier",
+    "count": 1
+  }
+}

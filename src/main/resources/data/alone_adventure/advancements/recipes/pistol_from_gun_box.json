@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_gun_box": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "alone_adventure:gun_box"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "alone_adventure:pistol_from_gun_box"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_gun_box",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "alone_adventure:pistol_from_gun_box"
+    ]
+  },
+  "sends_telemetry_event": false
+}

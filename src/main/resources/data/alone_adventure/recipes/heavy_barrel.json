@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PDP",
+    "DGD",
+    "PDP"
+  ],
+  "key": {
+    "P": { "item": "minecraft:blaze_rod" },
+    "D": { "item": "minecraft:diamond" },
+    "G": { "item": "alone_adventure:gun_part" }
+  },
+  "result": {
+    "item": "alone_adventure:heavy_barrel",
+    "count": 1
+  }
+}

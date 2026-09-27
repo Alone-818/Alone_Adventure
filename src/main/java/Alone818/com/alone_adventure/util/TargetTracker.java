@@ -4,10 +4,20 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+
 import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
+
+/**
+ * 子弹目标追踪器。
+ *
+ * 每颗子弹独立保存自己的目标 UUID。
+ *
+ * 不使用静态 Map。
+ * 不保存实体强引用。
+ */
 public final class TargetTracker {
 
     public static final String TAG_TARGET =
@@ -16,11 +26,18 @@ public final class TargetTracker {
     public static final String TAG_NEXT_SCAN =
             "TrackNextScan";
 
+
     @Nullable
     private UUID targetId;
 
+
     private long nextScanAt =
             Long.MIN_VALUE;
+
+
+    // =========================================================
+    // 更新目标
+    // =========================================================
 
     @Nullable
     public LivingEntity update(
@@ -33,11 +50,14 @@ public final class TargetTracker {
             @Nullable LivingEntity ignore
     ) {
 
+
         LivingEntity current = null;
 
-        /*
-         * 获取当前锁定目标。
-         */
+
+        // =====================================================
+        // 获取当前目标
+        // =====================================================
+
         if (targetId != null) {
 
             current =
@@ -47,9 +67,11 @@ public final class TargetTracker {
                     );
         }
 
-        /*
-         * 当前目标是否还有效。
-         */
+
+        // =====================================================
+        // 当前目标是否有效
+        // =====================================================
+
         boolean currentValid =
                 current != null
                         && current.isAlive()
@@ -58,62 +80,82 @@ public final class TargetTracker {
                 )
                         <= loseRange * loseRange;
 
-        /*
-         * 还没到扫描时间。
-         *
-         * 直接保持当前目标。
-         */
-        if (gameTime < nextScanAt) {
 
-            return currentValid
-                    ? current
-                    : null;
+        // =====================================================
+        // 每 tick 扫描
+        // =====================================================
+
+        if (gameTime >= nextScanAt) {
+
+            nextScanAt =
+                    gameTime
+                            + Math.max(
+                            1L,
+                            scanIntervalTicks
+                    );
+
+
+            LivingEntity found =
+                    Targeting.findTarget(
+                            level,
+                            center,
+                            scanRadius,
+                            ignore
+                    );
+
+
+            // -------------------------------------------------
+            // 找到新目标
+            // -------------------------------------------------
+
+            if (found != null) {
+
+                targetId =
+                        found.getUUID();
+
+                return found;
+            }
+
+
+            // -------------------------------------------------
+            // 没找到新目标
+            //
+            // 但旧目标仍然有效
+            // -------------------------------------------------
+
+            if (currentValid) {
+
+                return current;
+            }
+
+
+            // -------------------------------------------------
+            // 完全丢失
+            // -------------------------------------------------
+
+            targetId = null;
+
+            return null;
         }
 
-        /*
-         * 下一次扫描。
-         */
-        nextScanAt =
-                gameTime
-                        + Math.max(
-                        1L,
-                        scanIntervalTicks
-                );
 
-        /*
-         * 如果当前目标还有效，
-         * 不重新换目标。
-         *
-         * 这样追踪会更加稳定。
-         */
+        // =====================================================
+        // 非扫描 tick
+        // =====================================================
+
         if (currentValid) {
+
             return current;
         }
 
-        /*
-         * 当前目标已经丢失，
-         * 才寻找新目标。
-         */
-        LivingEntity found =
-                Targeting.findTarget(
-                        level,
-                        center,
-                        scanRadius,
-                        ignore
-                );
-
-        if (found != null) {
-
-            targetId =
-                    found.getUUID();
-
-            return found;
-        }
-
-        targetId = null;
 
         return null;
     }
+
+
+    // =========================================================
+    // 查看当前目标
+    // =========================================================
 
     @Nullable
     public LivingEntity peek(
@@ -124,11 +166,13 @@ public final class TargetTracker {
             return null;
         }
 
+
         LivingEntity target =
                 Targeting.resolve(
                         level,
                         targetId
                 );
+
 
         if (target == null
                 || !target.isAlive()) {
@@ -136,20 +180,37 @@ public final class TargetTracker {
             return null;
         }
 
+
         return target;
     }
+
+
+    // =========================================================
+    // 清除目标
+    // =========================================================
 
     public void clear() {
 
         targetId = null;
+
         nextScanAt =
                 Long.MIN_VALUE;
     }
+
+
+    // =========================================================
+    // 是否存在目标
+    // =========================================================
 
     public boolean hasTarget() {
 
         return targetId != null;
     }
+
+
+    // =========================================================
+    // 保存
+    // =========================================================
 
     public void save(
             CompoundTag tag
@@ -163,8 +224,8 @@ public final class TargetTracker {
             );
         }
 
-        if (nextScanAt
-                != Long.MIN_VALUE) {
+
+        if (nextScanAt != Long.MIN_VALUE) {
 
             tag.putLong(
                     TAG_NEXT_SCAN,
@@ -172,6 +233,11 @@ public final class TargetTracker {
             );
         }
     }
+
+
+    // =========================================================
+    // 加载
+    // =========================================================
 
     public void load(
             CompoundTag tag
@@ -181,6 +247,7 @@ public final class TargetTracker {
                 tag.hasUUID(TAG_TARGET)
                         ? tag.getUUID(TAG_TARGET)
                         : null;
+
 
         nextScanAt =
                 tag.contains(TAG_NEXT_SCAN)

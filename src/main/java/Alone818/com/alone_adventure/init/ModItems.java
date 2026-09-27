@@ -7,6 +7,7 @@ import Alone818.com.alone_adventure.Curios.gun.SingleActionRapidFire;
 import Alone818.com.alone_adventure.Items.*;
 import Alone818.com.alone_adventure.Items.bullet.*;
 import Alone818.com.alone_adventure.Items.contract.*;
+// evil_contract 已导入
 import Alone818.com.alone_adventure.Items.bullet.crossbow_bolt;
 import Alone818.com.alone_adventure.Items.bullet.long_bullet;
 import Alone818.com.alone_adventure.Items.bullet.long_bullet_armor_piercing;
@@ -90,6 +91,15 @@ public class ModItems {
                     MagazinePressure::new
 
             );
+
+    // 枪械构件：用于枪械升级的合成材料
+    public static final RegistryObject<Item> GUN_PART =
+            ITEMS.register("gun_part", gun_part::new);
+
+    // 枪械盒：8 个枪械构件 + 末影之眼合成
+    public static final RegistryObject<Item> GUN_BOX =
+            ITEMS.register("gun_box", gun_box::new);
+
     // ===== 装备物品 =====
     public static final RegistryObject<Item> PARRYSHIELD =
             ITEMS.register("parryshield", parryshield::new);
@@ -341,6 +351,14 @@ public class ModItems {
 
     public static final RegistryObject<Item> BATTLE_CONTRACT =
             ITEMS.register("battle_contract", battle_contract::new);
+
+    // 帝国契约：击杀僵尸猪人 x20 + 坚守者 x1 + 到达沙漠群系 + 提交下界合金碎片 x4
+    public static final RegistryObject<Item> IMPERIAL_CONTRACT =
+            ITEMS.register("imperial_contract", imperial_contract::new);
+
+    // 邪恶契约：击杀村民 x3 + 提交金块 x4 + 钻石块 x4 + 骨块 x16 + 腐肉 x128
+    public static final RegistryObject<Item> EVIL_CONTRACT =
+            ITEMS.register("evil_contract", evil_contract::new);
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

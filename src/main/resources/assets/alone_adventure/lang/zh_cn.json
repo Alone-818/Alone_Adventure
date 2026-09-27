@@ -428,5 +428,33 @@
   "tooltip.alone_adventure.single_shot_amplifier.desc": "牺牲弹匣容量换取极高的单发伤害。",
   "tooltip.alone_adventure.single_shot_amplifier.damage": "每减少1发弹容量，伤害 +15%",
   "tooltip.alone_adventure.single_shot_amplifier.fire_rate": "装填速度 +100%",
-  "tooltip.alone_adventure.single_shot_amplifier.effect": "弹匣容量固定为 1 发"
+  "tooltip.alone_adventure.single_shot_amplifier.effect": "弹匣容量固定为 1 发",
+
+  "item.alone_adventure.imperial_contract": "帝国契约",
+  "item.alone_adventure.imperial_contract.tooltip.desc": "一份以鲜血签署的帝国契约——佩戴时生效，完成全部任务后可作为合成材料。右键副手消耗材料提交进度。",
+  "quest.alone_adventure.imperial_contract.kill_zombie_pigman": "击杀僵尸猪人 ×20",
+  "quest.alone_adventure.imperial_contract.kill_warden": "击杀坚守者 ×1",
+  "quest.alone_adventure.imperial_contract.reach_desert": "到达沙漠群系",
+  "quest.alone_adventure.imperial_contract.collect_netherite_scrap": "提交下界合金碎片 ×4",
+
+  "item.alone_adventure.evil_contract": "邪恶契约",
+  "item.alone_adventure.evil_contract.tooltip.desc": "一份以村民之血签署的邪恶契约——佩戴时生效，完成全部任务后可作为合成材料。右键副手消耗材料提交进度。",
+  "quest.alone_adventure.evil_contract.kill_villager": "击杀村民 ×3",
+  "quest.alone_adventure.evil_contract.collect_gold_block": "提交金块 ×4",
+  "quest.alone_adventure.evil_contract.collect_diamond_block": "提交钻石块 ×4",
+  "quest.alone_adventure.evil_contract.collect_bone_block": "提交骨块 ×16",
+  "quest.alone_adventure.evil_contract.collect_rotten_flesh": "提交腐肉 ×128",
+
+  "item.alone_adventure.gun_part": "枪械构件",
+  "item.alone_adventure.gun_box": "枪械盒",
+
+  "entity.alone_adventure.ammo_box_display": "Ammo Box %1$s/%2$s",
+  "attribute.alone_adventure.reload_speed": "Reload Speed",
+  "attribute.alone_adventure.fire_rate": "Fire Rate",
+  "attribute.alone_adventure.spread": "Spread",
+  "attribute.alone_adventure.damage": "Damage",
+  "attribute.alone_adventure.bullet_speed": "Bullet Speed",
+  "attribute.alone_adventure.recoil": "Recoil",
+  "attribute.alone_adventure.critical_chance": "Critical Chance",
+  "attribute.alone_adventure.critical_damage": "Critical Damage"
 }

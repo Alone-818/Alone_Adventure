@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 1,
+  "ingredient": {
+    "type": "forge:partial_nbt",
+    "item": "alone_adventure:evil_contract",
+    "nbt": "{QuestDone:1b}"
+  },
+  "result": "alone_adventure:night_contract"
+}

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PDP",
+    "DGD",
+    "PDP"
+  ],
+  "key": {
+    "P": { "item": "minecraft:ender_pearl" },
+    "D": { "item": "minecraft:diamond" },
+    "G": { "item": "alone_adventure:gun_part" }
+  },
+  "result": {
+    "item": "alone_adventure:tracking_upgrade",
+    "count": 1
+  }
+}

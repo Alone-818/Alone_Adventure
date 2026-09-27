@@ -6,11 +6,28 @@
       "item": "minecraft:gunpowder"
     },
     {
+      "item": "minecraft:gunpowder"
+    },
+    {
       "item": "minecraft:copper_ingot"
     },
     {
-      "item": "minecraft:iron_ingot"
+      "item": "minecraft:copper_ingot"
+    },
+    {
+      "item": "minecraft:copper_ingot"
+    },
+
+    {
+      "item": "minecraft:iron_nugget"
+    },
+    {
+      "item": "minecraft:iron_nugget"
+    },
+    {
+      "item": "minecraft:iron_nugget"
     }
+
   ],
   "result": {
     "item": "alone_adventure:shotgun_shell",
