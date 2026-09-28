@@ -33,11 +33,12 @@ public class ModRecipeProvider extends RecipeProvider {
         // 枪械盒 → 枪械
         // =========================================================
 
-        gunBoxRecipe(
-                writer,
-                ModItems.RIFLE.get(),
-                "rifle"
-        );
+        // 步枪已取消注册
+        // gunBoxRecipe(
+        //         writer,
+        //         ModItems.RIFLE.get(),
+        //         "rifle"
+        // );
 
         gunBoxRecipe(
                 writer,

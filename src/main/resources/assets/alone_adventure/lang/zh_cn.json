@@ -98,7 +98,7 @@
 
   "item.alone_adventure.ink_blade": "墨制刀刃",
   "item.alone_adventure.ink_blade.tooltip.desc": "凝聚成刃的墨，掷出即散，又自虚空中缓缓回收。",
-  "item.alone_adventure.ink_blade.tooltip.throw_desc": "右键掷出飞刃：造成 3 点伤害并叠加虚弱（每击 +1 级、最高 5 级，持续 5 秒），投掷冷却 0.15 秒",
+  "item.alone_adventure.ink_blade.tooltip.throw_desc": "右键掷出飞刃：造成 4 点伤害并叠加虚弱（每击 +1 级、最高 5 级，持续 5 秒），投掷冷却 0.15 秒",
   "item.alone_adventure.ink_blade.tooltip.durability_desc": "刀刃由墨凝聚、永不损坏：每掷出一把消耗 1 点耐久，闲置时每 0.5 秒回收 1 点（每秒 2 点）",
   "item.alone_adventure.ink_blade.tooltip.blades_left": "剩余刀刃：%s/%s",
   "entity.alone_adventure.ink_blade_projectile": "墨制刀刃飞刃",

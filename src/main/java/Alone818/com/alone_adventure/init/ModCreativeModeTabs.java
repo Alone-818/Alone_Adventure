@@ -128,12 +128,7 @@ public class ModCreativeModeTabs {
                                         );
 
                                         // 枪械
-                                        output.accept(
-                                                new ItemStack(
-                                                        ModItems.RIFLE.get()
-                                                )
-                                        );
-
+                                        // 步枪已取消注册
                                         output.accept(
                                                 new ItemStack(
                                                         ModItems.DOUBLE_BARREL_SHOTGUN.get()

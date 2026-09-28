@@ -283,8 +283,8 @@ public class ModItems {
             ITEMS.register("crossbow_bolt_dum", crossbow_bolt_dum::new);
 
     // 步枪：双手长枪模板（长子弹/弩箭弹药，G 键切换弹种）
-    public static final RegistryObject<Item> RIFLE =
-            ITEMS.register("rifle", rifle::new);
+    //public static final RegistryObject<Item> RIFLE =
+    //        ITEMS.register("rifle", rifle::new);
 
     // 霰弹枪：单手面杀伤模板（霰弹，6 弹丸大散布）
     public static final RegistryObject<Item> DOUBLE_BARREL_SHOTGUN =
