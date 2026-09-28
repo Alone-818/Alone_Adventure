@@ -1,22 +1,27 @@
 package Alone818.com.alone_adventure.init;
 
 import Alone818.com.alone_adventure.Alone_adventure;
-import Alone818.com.alone_adventure.Curios.*;
+import Alone818.com.alone_adventure.Curios.ImperialCurios.imperial_eagle;
 import Alone818.com.alone_adventure.Curios.gun.MagazinePressure;
 import Alone818.com.alone_adventure.Curios.gun.SingleActionRapidFire;
-import Alone818.com.alone_adventure.Items.*;
+import Alone818.com.alone_adventure.Curios.miscCurios.*;
+import Alone818.com.alone_adventure.Curios.towerCurios.*;
+import Alone818.com.alone_adventure.Items.ImperialItems.chainsawsword;
+import Alone818.com.alone_adventure.Items.ImperialItems.powersword;
+import Alone818.com.alone_adventure.Items.ImperialItems.regiment_banner;
 import Alone818.com.alone_adventure.Items.bullet.*;
 import Alone818.com.alone_adventure.Items.contract.*;
 // evil_contract 已导入
 import Alone818.com.alone_adventure.Items.bullet.crossbow_bolt;
 import Alone818.com.alone_adventure.Items.bullet.long_bullet;
-import Alone818.com.alone_adventure.Items.bullet.long_bullet_armor_piercing;
 import Alone818.com.alone_adventure.Items.bullet.long_bullet_dum;
 import Alone818.com.alone_adventure.Items.bullet.long_bullet_explosive;
 import Alone818.com.alone_adventure.Items.bullet.long_bullet_poison;
 import Alone818.com.alone_adventure.Items.gun.*;
 import Alone818.com.alone_adventure.Items.bullet.shotgun_shell;
-import Alone818.com.alone_adventure.Items.short_bullet;
+import Alone818.com.alone_adventure.Items.hunterItems.*;
+import Alone818.com.alone_adventure.Items.miscItems.*;
+import Alone818.com.alone_adventure.Items.towerItems.*;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
@@ -324,7 +329,11 @@ public class ModItems {
                                             sailor_spinach.REGEN_DURATION_TICKS, 1), 1.0F)
                                     .alwaysEat()
                                     .build())));
+    public static final RegistryObject<Item> BANRUO_SOUP =
+            ITEMS.register(
+                    "banruo_soup", banruo_soup::new
 
+            );
     public static final RegistryObject<Item> AMMO_BOX =
             ITEMS.register(
                     "ammo_box",

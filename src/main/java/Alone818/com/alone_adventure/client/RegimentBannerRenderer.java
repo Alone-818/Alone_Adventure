@@ -1,6 +1,6 @@
 package Alone818.com.alone_adventure.client;
 
-import Alone818.com.alone_adventure.Items.RegimentBannerEntity;
+import Alone818.com.alone_adventure.Items.ImperialItems.RegimentBannerEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;

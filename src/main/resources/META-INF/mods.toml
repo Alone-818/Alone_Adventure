@@ -38,7 +38,7 @@ authors = "${mod_authors}" #optional
 # IMPORTANT NOTE: this is NOT an instruction as to which environments (CLIENT or DEDICATED SERVER) your mod loads on. Your mod should load (and maybe do nothing!) whereever it finds itself.
 #displayTest="MATCH_VERSION" # MATCH_VERSION is the default if nothing is specified (#optional)
 
-logoFile = "alone_adventure.png"
+logoFile = "mods_icon.png"
 # The description text for the mod (multi line!) (#mandatory)
 description = '''
 This mod mainly revolves around some game content the author and friends play, adding new weapons, equipment, items, accessories, and some contracts.

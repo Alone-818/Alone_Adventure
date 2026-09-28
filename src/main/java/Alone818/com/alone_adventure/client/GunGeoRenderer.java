@@ -58,52 +58,26 @@ public class GunGeoRenderer
         }
 
         // =====================================================
-        // 左手镜像
+        // GeckoLib 原生 left_hand / right_hand 渲染
+        //
+        // GeoItemRenderer 内部已根据 context 自动处理：
+        //   - left_hand / thirdperson_lefthand / firstperson_lefthand
+        //     → 使用模型中的 "left_hand" 部分
+        //   - right_hand / thirdperson_righthand / firstperson_righthand
+        //     → 使用模型中的 "right_hand" 部分
+        //
+        // 无需手动 Z 轴翻转，GeckoLib 会自动调用正确的
+        // 渲染逻辑（包括对左手模型的镜像处理）。
         // =====================================================
 
-        if (isLeftArm(context)) {
-
-            poseStack.pushPose();
-
-            poseStack.scale(
-                    1.0F,
-                    1.0F,
-                    -1.0F
-            );
-
-            super.renderByItem(
-                    stack,
-                    context,
-                    poseStack,
-                    buffer,
-                    packedLight,
-                    packedOverlay
-            );
-
-            poseStack.popPose();
-
-        } else {
-
-            super.renderByItem(
-                    stack,
-                    context,
-                    poseStack,
-                    buffer,
-                    packedLight,
-                    packedOverlay
-            );
-        }
-    }
-
-    private static boolean isLeftArm(
-            ItemDisplayContext context
-    ) {
-
-        return context
-                == ItemDisplayContext.FIRST_PERSON_LEFT_HAND
-
-                || context
-                == ItemDisplayContext.THIRD_PERSON_LEFT_HAND;
+        super.renderByItem(
+                stack,
+                context,
+                poseStack,
+                buffer,
+                packedLight,
+                packedOverlay
+        );
     }
 
     // =========================================================

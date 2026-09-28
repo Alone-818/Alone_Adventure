@@ -126,6 +126,11 @@ public class ModCreativeModeTabs {
                                                         ModItems.HAM_CLUB.get()
                                                 )
                                         );
+                                        output.accept(
+                                                new ItemStack(
+                                                        ModItems.BANRUO_SOUP.get()
+                                                )
+                                        );
 
                                         // 枪械
                                         // 步枪已取消注册

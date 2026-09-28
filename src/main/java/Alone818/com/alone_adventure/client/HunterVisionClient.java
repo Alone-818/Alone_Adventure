@@ -1,7 +1,7 @@
 package Alone818.com.alone_adventure.client;
 
 import Alone818.com.alone_adventure.Alone_adventure;
-import Alone818.com.alone_adventure.Curios.hunter_serum;
+import Alone818.com.alone_adventure.Curios.miscCurios.hunter_serum;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;

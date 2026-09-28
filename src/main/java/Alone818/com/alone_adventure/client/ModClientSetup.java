@@ -1,11 +1,10 @@
 package Alone818.com.alone_adventure.client;
 
 import Alone818.com.alone_adventure.Alone_adventure;
-import Alone818.com.alone_adventure.Items.powersword;
+import Alone818.com.alone_adventure.Items.ImperialItems.powersword;
 import Alone818.com.alone_adventure.init.ModItems;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;

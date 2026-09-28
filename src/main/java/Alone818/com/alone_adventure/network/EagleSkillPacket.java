@@ -1,12 +1,12 @@
 package Alone818.com.alone_adventure.network;
 
-import Alone818.com.alone_adventure.Curios.binding_bandage;
-import Alone818.com.alone_adventure.Curios.broken_mask;
-import Alone818.com.alone_adventure.Curios.charging_core;
-import Alone818.com.alone_adventure.Curios.hunter_serum;
-import Alone818.com.alone_adventure.Curios.imperial_eagle;
-import Alone818.com.alone_adventure.Curios.necromancer_ledger;
-import Alone818.com.alone_adventure.Curios.sealed_throne;
+import Alone818.com.alone_adventure.Curios.towerCurios.binding_bandage;
+import Alone818.com.alone_adventure.Curios.towerCurios.broken_mask;
+import Alone818.com.alone_adventure.Curios.towerCurios.charging_core;
+import Alone818.com.alone_adventure.Curios.miscCurios.hunter_serum;
+import Alone818.com.alone_adventure.Curios.ImperialCurios.imperial_eagle;
+import Alone818.com.alone_adventure.Curios.towerCurios.necromancer_ledger;
+import Alone818.com.alone_adventure.Curios.towerCurios.sealed_throne;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;

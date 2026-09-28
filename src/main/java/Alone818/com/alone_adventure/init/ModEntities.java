@@ -1,10 +1,10 @@
 package Alone818.com.alone_adventure.init;
 
 import Alone818.com.alone_adventure.Alone_adventure;
-import Alone818.com.alone_adventure.Items.BulletProjectile;
-import Alone818.com.alone_adventure.Items.InkBladeProjectile;
-import Alone818.com.alone_adventure.Items.RegimentBannerEntity;
-import Alone818.com.alone_adventure.Items.ShockDeviceProjectile;
+import Alone818.com.alone_adventure.Items.gun.BulletProjectile;
+import Alone818.com.alone_adventure.Items.towerItems.InkBladeProjectile;
+import Alone818.com.alone_adventure.Items.ImperialItems.RegimentBannerEntity;
+import Alone818.com.alone_adventure.Items.hunterItems.ShockDeviceProjectile;
 import Alone818.com.alone_adventure.entity.AmmoBoxEntity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;

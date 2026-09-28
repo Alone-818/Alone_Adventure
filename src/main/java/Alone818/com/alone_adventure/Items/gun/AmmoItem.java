@@ -1,7 +1,5 @@
 package Alone818.com.alone_adventure.Items.gun;
 
-import Alone818.com.alone_adventure.Items.BulletProjectile;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;

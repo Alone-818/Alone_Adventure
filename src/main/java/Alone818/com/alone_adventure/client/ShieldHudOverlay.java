@@ -1,9 +1,9 @@
 package Alone818.com.alone_adventure.client;
 
 import Alone818.com.alone_adventure.Alone_adventure;
-import Alone818.com.alone_adventure.Curios.binding_bandage;
-import Alone818.com.alone_adventure.Curios.crystalline_heart;
-import Alone818.com.alone_adventure.Curios.sealed_throne;
+import Alone818.com.alone_adventure.Curios.towerCurios.binding_bandage;
+import Alone818.com.alone_adventure.Curios.miscCurios.crystalline_heart;
+import Alone818.com.alone_adventure.Curios.towerCurios.sealed_throne;
 import Alone818.com.alone_adventure.init.ModItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;

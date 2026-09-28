@@ -1,5 +1,6 @@
 package Alone818.com.alone_adventure.Effects;
 
+import Alone818.com.alone_adventure.events.ImperialEvent.WeaponAttackEvent;
 import Alone818.com.alone_adventure.init.ModEffects;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -18,7 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * 并在效果彻底消失后以减半的等级重新挂上，循环结算直到等级归零。
  *
  * 等级代表撕裂的层数。重新挂上的等级结算在
- * {@link Alone818.com.alone_adventure.events.WeaponAttackEvent#onLivingTick} 驱动的
+ * {@link WeaponAttackEvent#onLivingTick} 驱动的
  * {@link #tryReapply} 中完成。
  */
 public class LacerationEffect extends MobEffect {

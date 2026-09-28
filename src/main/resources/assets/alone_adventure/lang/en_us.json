@@ -10,9 +10,9 @@
   "item.alone_adventure.crystalline_heart.tooltip.heal_desc": "After taking damage, regenerate 1 shield every 10 seconds",
   "item.alone_adventure.crystalline_heart.tooltip.armor_bonus": "Higher armor and armor toughness increase shield cap and recovery speed",
 
-  "item.alone_adventure.bleedingshield": "Bleeding Shield",
-  "item.alone_adventure.bleedingshield.tooltip.desc": "A shield condensed from blood; the blood still tries to erode its wielder.",
-  "item.alone_adventure.bleedingshield.tooltip.toughness_desc": "Reduces max health by 20%, but grants +30% armor bonus",
+  "item.alone_adventure.bleeding_shield": "Bleeding Shield",
+  "item.alone_adventure.bleeding_shield.tooltip.desc": "A shield condensed from blood; the blood still tries to erode its wielder.",
+  "item.alone_adventure.bleeding_shield.tooltip.toughness_desc": "Reduces max health by 20%, but grants +30% armor bonus",
 
   "item.alone_adventure.adaptive_flesh": "Adaptive Flesh",
   "item.alone_adventure.adaptive_flesh.tooltip.desc": "A piece of constantly writhing living tissue, seemingly learning alongside your pain.",
@@ -98,7 +98,7 @@
 
   "item.alone_adventure.ink_blade": "Ink Blade",
   "item.alone_adventure.ink_blade.tooltip.desc": "Ink condensed into a blade; thrown, it scatters, then slowly returns from the void.",
-  "item.alone_adventure.ink_blade.tooltip.throw_desc": "Right-click to throw a flying blade: deals 3 damage and applies Weakness (+1 level per hit, max 5 levels, lasts 5 seconds), throw cooldown 0.15 seconds",
+  "item.alone_adventure.ink_blade.tooltip.throw_desc": "Right-click to throw a flying blade: deals 4 damage and applies Weakness (+1 level per hit, max 5 levels, lasts 5 seconds), throw cooldown 0.15 seconds",
   "item.alone_adventure.ink_blade.tooltip.durability_desc": "The blade is condensed from ink and never breaks: each thrown blade costs 1 durability, and while idle recovers 1 point every 0.5 seconds (2 per second)",
   "item.alone_adventure.ink_blade.tooltip.blades_left": "Blades remaining: %s/%s",
   "entity.alone_adventure.ink_blade_projectile": "Ink Blade Projectile",
@@ -107,7 +107,7 @@
   "item.alone_adventure.shock_device.tooltip.desc": "A portable electric discharge device. Once thrown, it bursts with arcs, shocking all who come near.",
   "item.alone_adventure.shock_device.tooltip.throw_desc": "Right-click to throw (trajectory like a snowball): begins discharging in flight, and after hitting, stays in place and continues discharging for 5 seconds; throw cooldown 0.5 seconds",
   "item.alone_adventure.shock_device.tooltip.shock_desc": "Shock: every 0.2 seconds deal 0.5 damage to all creatures within a 4-block radius (does not harm the thrower, no knockback), hits apply Slowness I (1.5 seconds), up to 25 total damage",
-  "entity.alone_adventure.shock_device_projectile": "Shock Device",
+  "entity.alone_adventure.shock_device_projectile": "Shock Device Projectile",
 
   "item.alone_adventure.regiment_banner": "Regiment Banner",
   "item.alone_adventure.regiment_banner.tooltip.desc": "A battle flag carrying the honor of a regiment. Plant it, and soldiers have a reason not to retreat.",
@@ -133,7 +133,7 @@
   "item.alone_adventure.charging_core.form.thunder": "Thunder Form",
   "item.alone_adventure.charging_core.form.frost": "Frost Form",
   "item.alone_adventure.charging_core.form.dark": "Dark Form",
-  "item.alone_adventure.charging_core.tooltip.thunder_desc": "Thunder Form: max 6 layers, each layer charges for 10 seconds; attacks deal extra damage equal to layers ×5%; switch release: Strength (layers +1) for 15 seconds",
+  "item.alone_adventure.charging_core.tooltip.thunder_desc": "Thunder Form: max 6 layers, each layer charges for 10 seconds; attacks deal extra damage equal to layers ×5%; switch release: Strength (layers+1) for 15 seconds",
   "item.alone_adventure.charging_core.tooltip.frost_desc": "Frost Form: max 10 layers, each layer charges for 15 seconds; gain armor equal to layers and armor toughness equal to layers/2; switch release: absorption hearts equal to layers (1:1 stacking)",
   "item.alone_adventure.charging_core.tooltip.dark_desc": "Dark Form: max 5 layers, each layer charges for 30 seconds; no effect normally; switch release: next attack deals extra damage equal to layers ×8",
   "item.alone_adventure.charging_core.tooltip.skill_desc": "Active skill (default key R): switch to the next form and release the current form's charge, cooldown 5 seconds",
@@ -149,13 +149,6 @@
   "item.alone_adventure.quest_contract.tooltip.desc": "A contract trinket that records the wearer's trials—active while worn, and can be used as a crafting material after all quests are completed. Right-click with materials in the offhand to submit progress.",
   "quest.alone_adventure.quest_contract.kill_zombie": "Kill Zombies ×10",
   "quest.alone_adventure.quest_contract.collect_beetroot": "Collect Golden Beetroot ×3",
-  "tooltip.alone_adventure.quest.material_ready": "✔ Contract complete—can now be used as a crafting material",
-  "tooltip.alone_adventure.quest.material_locked": "✘ Complete all quests before it can be used as a crafting material",
-  "message.alone_adventure.quest.task_done": "Quest complete: %s",
-  "message.alone_adventure.quest.all_done": "Contract complete! This item can now be used as a crafting material",
-  "message.alone_adventure.quest.kill_progress": "Quest progress: %s (%d/%d)",
-  "message.alone_adventure.quest.submitted": "Materials submitted, quest progress updated",
-  "message.alone_adventure.quest.submitted_progress": "Submitted %s (%d/%d)",
 
   "effect.alone_adventure.vulnerability": "Vulnerability",
   "effect.alone_adventure.laceration": "Laceration",
@@ -174,9 +167,11 @@
 
   "item.alone_adventure.monster_ash": "Monster Ash",
   "item.alone_adventure.monster_ash.tooltip.desc": "Ash left after killing hostile creatures (unaffected by Looting; higher chance when wearing Hunter Serum)",
+  "item.alone_adventure.monster_ash.tooltip.use": "Add when mixing two injections to increase the potion level, at the cost of reducing the duration",
 
   "item.alone_adventure.blood_shard": "Blood Shard",
   "item.alone_adventure.blood_shard.tooltip.desc": "Blood overflowing after killing hostile creatures (unaffected by Looting; higher chance when wearing Hunter Serum)",
+  "item.alone_adventure.blood_shard.tooltip.use": "Add when mixing two injections to increase the potion's duration",
 
   "item.alone_adventure.first_aid_kit": "First Aid Kit",
   "item.alone_adventure.first_aid_kit.tooltip.desc": "On use, immediately restore 60% of max health, cooldown 120 seconds (3 durability uses total; does not stack, cannot be enchanted)",
@@ -201,6 +196,7 @@
   "item.alone_adventure.crossbow_bolt_explosive": "Crossbow Bolt - Explosive",
   "item.alone_adventure.crossbow_bolt_poison": "Crossbow Bolt - Poison",
   "item.alone_adventure.crossbow_bolt_armor_piercing": "Crossbow Bolt - Armor Piercing",
+  "item.alone_adventure.crossbow_bolt_dum": "Crossbow Bolt - Tear",
   "item.alone_adventure.ammo.tooltip.desc": "Gun ammunition",
 
   "item.alone_adventure.rifle": "Rifle",
@@ -290,6 +286,7 @@
   "subtitle.alone_adventure.skill_ready.binding_bandage": "§aBinding Bandage: Active skill ready",
   "subtitle.alone_adventure.skill_ready.sealed_throne": "§aSealed Throne: Active skill ready",
   "subtitle.alone_adventure.skill_ready.hunter_serum": "§aHunter Serum: Active skill ready",
+
   "item.alone_adventure.resurrection_contract": "Resurrection Contract",
   "item.alone_adventure.resurrection_contract.tooltip.desc": "A contract trinket that trades Evoker power for a pact of resurrection—active while worn, and can be used as a crafting material after all quests are completed. Right-click with materials in the offhand to submit progress.",
   "quest.alone_adventure.resurrection_contract.kill_evoker": "Kill Evokers ×2",
@@ -304,14 +301,12 @@
   "message.alone_adventure.quest.position_done": "Position quest complete: %s",
   "message.alone_adventure.quest.biome_done": "Biome quest complete: %s",
   "message.alone_adventure.quest.submitted_progress": "Submitted %s (%d/%d)",
-  "item.alone_adventure.monster_ash.tooltip.use": "Add when mixing two injections to increase the potion level, at the cost of reducing the duration",
-  "item.alone_adventure.blood_shard.tooltip.use": "Add when mixing two injections to increase the potion's duration",
-  "tooltip.alone_adventure.injection_empty": "An empty syringe used to craft potion injections",
-  "tooltip.alone_adventure.injection_empty.use": "Mix one potion with 2 empty syringes and 1 Monster Ash to craft an injection",
+
   "item.alone_adventure.assaultshield": "Assault Shield",
   "item.alone_adventure.assaultshield.tooltip.desc": "A shield designed for rapid assaults and breakthroughs",
   "item.alone_adventure.assaultshield.tooltip.dash": "Right Click: Raise the shield and charge forward",
   "item.alone_adventure.assaultshield.tooltip.invincible": "Completely invincible during the charge",
+
   "item.alone_adventure.short_bullet_dum": "Short Bullet - Dum-Dum",
   "item.alone_adventure.short_bullet_explosive": "Short Bullet - Explosive",
   "item.alone_adventure.short_bullet_coin": "Short Bullet - Coin",
@@ -345,14 +340,13 @@
   "entity.alone_adventure.ammo_box_display": "Ammo Box %1$s/%2$s",
   "entity.alone_adventure.ammo_box_ammo": "Ammo: %s/%s",
   "entity.alone_adventure.ammo_box_time": "Time Remaining: %ss",
+
   "curios.identifier.trait": "Trait",
   "curios.slot.trait": "Trait Slot",
-
 
   "item.alone_adventure.single_action_rapid_fire": "Single Action Rapid Fire",
   "item.alone_adventure.single_action_rapid_fire.tooltip": "Single Action Rapid Fire",
   "item.alone_adventure.single_action_rapid_fire.description": "§7Gun Enhancement Trait",
-
 
   "attribute.alone_adventure.reload_speed": "Reload Speed",
   "attribute.alone_adventure.fire_rate": "Fire Rate",
@@ -386,12 +380,14 @@
   "trait.alone_adventure.single_action_rapid_fire": "Single Action Rapid Fire",
   "trait.alone_adventure.single_action_rapid_fire.description":
   "§7Increases weapon operation speed but reduces stability",
+
   "item.alone_adventure.battle_contract": "Combat Contract",
   "item.alone_adventure.battle_contract.tooltip.desc": "A contract recording battle trials. Wear it to activate quests. Completing all quests allows it to be used as a crafting material.",
+  "item.alone_adventure.banruo_soup": "Banruo Soup",
+  "item.alone_adventure.banruo_soup.tooltip.desc": "A secret elixir obtained in exchange for a completed battle contract. Drinking it grants Confusion I, Strength (level determined by stack count), and Haste; from the 3rd sip onward it automatically triggers Rampage — every 5 ticks it deals 0.2× the player's attack damage to monsters within a 3-block radius, lasting 60 seconds with a 15-second cooldown.",
   "quest.alone_adventure.battle_contract.kill_zombie": "Kill Zombies ×20",
   "quest.alone_adventure.battle_contract.kill_skeleton": "Kill Skeletons ×10",
   "quest.alone_adventure.battle_contract.kill_creeper": "Kill Creepers ×5",
-
 
   "item.alone_adventure.tower_contract": "Tower Contract",
   "item.alone_adventure.tower_contract.tooltip.desc": "A contract that challenges the heights above the world. Reach the sky and defeat the Wither to complete it.",
@@ -432,6 +428,7 @@
   "gui.alone_adventure.modification.slot": "Consumes 1 Modification Slot",
   "gui.alone_adventure.modification.install": "Install Modification",
   "gui.alone_adventure.modification.remove": "Remove All Modifications",
+
   "item.alone_adventure.magazine_pressure": "Magazine Pressure",
   "trait.alone_adventure.magazine_pressure.description": "The more ammunition remaining in the magazine, the higher the gun's damage.",
   "trait.alone_adventure.magazine_pressure.effect": "Damage multiplier scales with magazine ammo: 60% ~ 200%.",
@@ -459,6 +456,5 @@
   "quest.alone_adventure.evil_contract.collect_rotten_flesh": "Submit Rotten Flesh ×128",
 
   "item.alone_adventure.gun_part": "Gun Part",
-  "item.alone_adventure.gun_box": "Gun Box",
   "item.alone_adventure.gun_box": "Gun Box"
 }

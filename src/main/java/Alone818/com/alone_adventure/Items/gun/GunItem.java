@@ -1,8 +1,6 @@
 package Alone818.com.alone_adventure.Items.gun;
 
 import Alone818.com.alone_adventure.Alone_adventure;
-import Alone818.com.alone_adventure.Items.gun.GunAccessoryDamageCalculator;
-import Alone818.com.alone_adventure.Items.BulletProjectile;
 import Alone818.com.alone_adventure.client.GunGeoRenderer;
 import Alone818.com.alone_adventure.client.GunItemAnimation;
 import Alone818.com.alone_adventure.init.ModEntities;
@@ -35,7 +33,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
-import net.minecraftforge.network.NetworkDirection;
 
 import net.minecraftforge.network.PacketDistributor;
 import org.jetbrains.annotations.Nullable;

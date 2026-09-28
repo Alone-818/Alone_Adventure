@@ -195,6 +195,7 @@
   "item.alone_adventure.crossbow_bolt_explosive": "弩箭-爆炸",
   "item.alone_adventure.crossbow_bolt_poison": "弩箭-中毒",
   "item.alone_adventure.crossbow_bolt_armor_piercing": "弩箭-穿甲",
+  "item.alone_adventure.crossbow_bolt_dum": "弩箭-撕裂",
   "item.alone_adventure.ammo.tooltip.desc": "枪械弹药",
 
   "item.alone_adventure.rifle": "步枪",
@@ -375,6 +376,9 @@
   "§7提高枪械操作速度，但降低射击稳定性",
   "item.alone_adventure.battle_contract": "战斗契约",
   "item.alone_adventure.battle_contract.tooltip.desc": "记录战斗试炼的契约饰品——佩戴时生效，完成全部任务后可作为合成材料。",
+
+  "item.alone_adventure.banruo_soup": "般若汤",
+  "item.alone_adventure.banruo_soup.tooltip.desc": "一碗以完成战斗契约换取的秘药。饮用后获得反胃 I、力量（层数决定等级）与急迫；第 3 口起自动进入爆回——每 5 tick 对周围 3 格怪物造成玩家攻击力 ×0.2 的范围伤害，持续 60 秒，冷却 15 秒。",
   "quest.alone_adventure.battle_contract.kill_zombie": "击杀僵尸 ×20",
   "quest.alone_adventure.battle_contract.kill_skeleton": "击杀骷髅 ×10",
   "quest.alone_adventure.battle_contract.kill_creeper": "击杀苦力怕 ×5",

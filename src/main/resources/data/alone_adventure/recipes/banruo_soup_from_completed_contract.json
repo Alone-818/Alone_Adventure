@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "NWF",
+    "WBN",
+    "PFP"
+  ],
+  "key": {
+    "N": {
+      "item": "minecraft:nether_wart"
+    },
+    "W": {
+      "item": "minecraft:wheat"
+    },
+    "F": {
+      "item": "minecraft:blaze_powder"
+    },
+    "P": {
+      "item": "minecraft:potato"
+    },
+    "B": {
+      "type": "forge:partial_nbt",
+      "item": "alone_adventure:battle_contract",
+      "nbt": "{QuestDone:1b}"
+    }
+  },
+  "result": {
+    "item": "alone_adventure:banruo_soup",
+    "count": 1
+  }
+}

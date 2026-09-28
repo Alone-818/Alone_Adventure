@@ -16,10 +16,9 @@ import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import Alone818.com.alone_adventure.Items.injection_template;
+import Alone818.com.alone_adventure.Items.hunterItems.injection_template;
 import Alone818.com.alone_adventure.init.ModItems;
 
 /**

@@ -1,7 +1,7 @@
 package Alone818.com.alone_adventure.Items.bullet;
 
 import Alone818.com.alone_adventure.Alone_adventure;
-import Alone818.com.alone_adventure.Items.BulletProjectile;
+import Alone818.com.alone_adventure.Items.gun.BulletProjectile;
 import Alone818.com.alone_adventure.Items.gun.AmmoItem;
 
 import net.minecraft.resources.ResourceLocation;
