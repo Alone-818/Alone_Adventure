@@ -2,7 +2,7 @@
   "required": true,
   "minVersion": "0.8",
   "package": "Alone818.com.alone_adventure.mixin",
-  "compatibilityLevel": "JAVA_8",
+  "compatibilityLevel": "JAVA_17",
   "refmap": "alone_adventure.refmap.json",
   "mixins": [
     "FoodDataMixin",
