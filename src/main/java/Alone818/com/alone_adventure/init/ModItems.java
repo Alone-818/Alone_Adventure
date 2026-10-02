@@ -10,6 +10,7 @@ import Alone818.com.alone_adventure.Items.ImperialItems.chainsawsword;
 import Alone818.com.alone_adventure.Items.ImperialItems.decapitation_axe;
 import Alone818.com.alone_adventure.Items.ImperialItems.powersword;
 import Alone818.com.alone_adventure.Items.ImperialItems.regiment_banner;
+import Alone818.com.alone_adventure.Items.armor.GeoArmorItem;
 import Alone818.com.alone_adventure.Items.bullet.*;
 import Alone818.com.alone_adventure.Items.contract.*;
 // evil_contract 已导入
@@ -26,6 +27,8 @@ import Alone818.com.alone_adventure.Items.towerItems.*;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;

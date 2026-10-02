@@ -1,5 +1,6 @@
 package Alone818.com.alone_adventure;
 
+import Alone818.com.alone_adventure.armor.GeoArmorRegistry;
 import Alone818.com.alone_adventure.datagen.ModRecipeProvider;
 import Alone818.com.alone_adventure.init.*;
 import Alone818.com.alone_adventure.crafting.ModRecipes;
@@ -105,6 +106,9 @@ public class Alone_adventure {
         ModRecipes.register(modEventBus);
 
         ModPotions.register(modEventBus);
+        ModGeoArmorItems.ITEMS.register(modEventBus);
+
+        GeoArmorRegistry.register();
 
 
         ModModificationItems.ITEMS.register(modEventBus);
