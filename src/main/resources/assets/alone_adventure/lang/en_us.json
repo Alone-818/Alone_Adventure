@@ -474,5 +474,7 @@
   "item.minecraft.splash_potion.effect.resistance_strong": "Splash Potion of Resistance II",
   "item.minecraft.lingering_potion.effect.resistance_strong": "Lingering Potion of Resistance II",
 
-  "effect.alone_adventure.endurance": "Endurance"
+  "effect.alone_adventure.endurance": "Endurance",
+  "item.alone_adventure.decapitation_axe": "Decapitation Axe",
+  "tooltip.alone_adventure.decapitation_axe": "§7Always cuts off the head of killed creatures"
 }

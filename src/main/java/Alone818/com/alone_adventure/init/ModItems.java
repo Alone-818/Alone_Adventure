@@ -7,6 +7,7 @@ import Alone818.com.alone_adventure.Curios.gun.SingleActionRapidFire;
 import Alone818.com.alone_adventure.Curios.miscCurios.*;
 import Alone818.com.alone_adventure.Curios.towerCurios.*;
 import Alone818.com.alone_adventure.Items.ImperialItems.chainsawsword;
+import Alone818.com.alone_adventure.Items.ImperialItems.decapitation_axe;
 import Alone818.com.alone_adventure.Items.ImperialItems.powersword;
 import Alone818.com.alone_adventure.Items.ImperialItems.regiment_banner;
 import Alone818.com.alone_adventure.Items.bullet.*;
@@ -114,7 +115,12 @@ public class ModItems {
 
     public static final RegistryObject<Item> CHAINSAW_SWORD =
             ITEMS.register("chainsawsword", chainsawsword::new);
-
+    // 斩首斧：10伤害/0.2攻速；击杀生物必掉对应头颅
+    public static final RegistryObject<Item> DECAPITATION_AXE =
+            ITEMS.register(
+                    "decapitation_axe",
+                    decapitation_axe::new
+            );
     public static final RegistryObject<Item> PAINSTRIKE_HAMMER =
             ITEMS.register("painstrike_hammer", painstrike_hammer::new);
 

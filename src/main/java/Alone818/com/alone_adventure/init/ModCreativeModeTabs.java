@@ -70,7 +70,11 @@ public class ModCreativeModeTabs {
                                                         ModItems.CHAINSAW_SWORD.get()
                                                 )
                                         );
-
+                                        output.accept(
+                                                new ItemStack(
+                                                        ModItems.DECAPITATION_AXE.get()
+                                                )
+                                        );
                                         // 武器：痛击之锤
                                         output.accept(
                                                 new ItemStack(

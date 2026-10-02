@@ -475,5 +475,8 @@
 
   "item.minecraft.potion.effect.resistance_strong": "强效抗性药水",
   "item.minecraft.splash_potion.effect.resistance_strong": "喷溅型强效抗性药水",
-  "item.minecraft.lingering_potion.effect.resistance_strong": "滞留型强效抗性药水"
+  "item.minecraft.lingering_potion.effect.resistance_strong": "滞留型强效抗性药水",
+
+  "item.alone_adventure.decapitation_axe": "斩首斧",
+  "tooltip.alone_adventure.decapitation_axe": "§7击杀生物时必定斩下其头颅"
 }
