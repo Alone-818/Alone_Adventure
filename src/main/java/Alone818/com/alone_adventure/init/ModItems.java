@@ -356,8 +356,8 @@ public class ModItems {
                             QuestItem.KillTask.of("kill_zombie", EntityType.ZOMBIE, 10),
                             QuestItem.CollectTask.of("collect_beetroot", GOLDEN_BEETROOT.get(), 3)));
 */
-    // 复生契约：以唤魔者之力换取复活之约
-    // 任务：击杀唤魔者 x2 + 提交金苹果 x16 + 提交不死图腾 x2 + 击杀幻魔者 x1
+    // 复生契约：以黄金供物换取复活之约
+    // 任务：提交金块 x4 + 提交金苹果 x16 + 提交不死图腾 x2
     public static final RegistryObject<Item> RESURRECTION_CONTRACT =
             ITEMS.register("resurrection_contract", resurrection_contract::new);
 
@@ -367,11 +367,11 @@ public class ModItems {
     public static final RegistryObject<Item> BATTLE_CONTRACT =
             ITEMS.register("battle_contract", battle_contract::new);
 
-    // 帝国契约：击杀僵尸猪人 x20 + 坚守者 x1 + 到达沙漠群系 + 提交下界合金碎片 x4
+    // 帝国契约：击杀僵尸猪人 x20 + 到达沙漠群系 + 提交下界合金碎片 x4
     public static final RegistryObject<Item> IMPERIAL_CONTRACT =
             ITEMS.register("imperial_contract", imperial_contract::new);
 
-    // 邪恶契约：击杀村民 x3 + 提交金块 x4 + 钻石块 x4 + 骨块 x16 + 腐肉 x128
+    // 邪恶契约：击杀村民 x3 + 提交金块 x1 + 钻石块 x1 + 骨块 x8 + 腐肉 x32
     public static final RegistryObject<Item> EVIL_CONTRACT =
             ITEMS.register("evil_contract", evil_contract::new);
 

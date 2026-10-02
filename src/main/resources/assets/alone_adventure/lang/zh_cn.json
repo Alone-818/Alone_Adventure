@@ -52,13 +52,15 @@
   "item.alone_adventure.broken_mask.tooltip.skill_desc": "主动技能（默认键 R）：半径 8 格内所有实体获得易伤 II（1 分钟）；自身回复生命上限的一半并获得抗性 II（1 分钟），冷却 90 秒",
   "item.alone_adventure.broken_mask.tooltip.cooldown_left": "技能冷却剩余：%s 秒",
 
-  "item.alone_adventure.binding_bandage": "紧缚绷带",
-  "item.alone_adventure.binding_bandage.tooltip.desc": "浸过药草的旧绷带，缠得越紧，人就越不肯倒下。",
-  "item.alone_adventure.binding_bandage.tooltip.passive_desc": "攻击命中时 50% 概率为自己施加耐力 I（3 秒：速度、跳跃提升，饱食度不消耗），不可叠加",
-  "item.alone_adventure.binding_bandage.tooltip.weakness_desc": "攻击带有虚弱效果的目标时，额外造成 虚弱等级×2 点伤害",
-  "item.alone_adventure.binding_bandage.tooltip.active_desc": "主动技能（默认键 R）：获得 1 点护盾（上限 3 点），冷却 45 秒；受伤时护盾抵消伤害并扣除 1 点",
-  "item.alone_adventure.binding_bandage.tooltip.shield": "当前护盾：%s/%s 点",
-  "item.alone_adventure.binding_bandage.tooltip.cooldown_left": "技能冷却剩余：%d 秒",
+
+  "item.alone_adventure.binding_bandage.tooltip.desc": "紧缚绷带",
+  "item.alone_adventure.binding_bandage.tooltip.passive_desc": "攻击命中时有概率获得耐力效果。",
+  "item.alone_adventure.binding_bandage.tooltip.weakness_desc": "攻击虚弱目标时，根据虚弱等级造成额外伤害。",
+  "item.alone_adventure.binding_bandage.tooltip.toxic_desc": "攻击命中有20%概率施加猛毒，可叠加至8级。",
+  "item.alone_adventure.binding_bandage.tooltip.active_desc": "主动技能：获得护盾，并释放猛毒爆发。",
+  "item.alone_adventure.binding_bandage.tooltip.toxic_skill_desc": "释放后对周围敌人施加猛毒。",
+  "item.alone_adventure.binding_bandage.tooltip.shield": "护盾：%s/%s",
+  "item.alone_adventure.binding_bandage.tooltip.cooldown_left": "冷却：%s秒",
 
   "item.alone_adventure.survival_whimper": "求生渴望",
   "item.alone_adventure.survival_whimper.tooltip.desc": "一声不肯死去的呜咽，用最后一口气让你继续站起来。",
@@ -144,11 +146,6 @@
   "item.alone_adventure.hunter_serum.tooltip.passive_desc": "被动：使用针剂时，获得的药水效果等级 +1，且时长可与现有同类效果叠加",
   "item.alone_adventure.hunter_serum.tooltip.skill_desc": "主动技能（默认键 R）：猎人视野——视角变为黑白，高亮范围内的生物（红）、凋落物（蓝）与容器（黄）（穿墙可见，仅本人可见），持续期间攻击无视 40% 护甲与 20% 护甲韧性，持续 15 秒，冷却 60 秒",
   "item.alone_adventure.hunter_serum.tooltip.cooldown_left": "技能冷却剩余：%d 秒",
-
-  "item.alone_adventure.quest_contract": "任务契约",
-  "item.alone_adventure.quest_contract.tooltip.desc": "记录持有者试炼的契约饰品——佩戴时生效，完成全部任务后可作为合成材料。右键副手消耗材料提交进度。",
-  "quest.alone_adventure.quest_contract.kill_zombie": "击杀僵尸 ×10",
-  "quest.alone_adventure.quest_contract.collect_beetroot": "收集金甜菜根 ×3",
 
   "effect.alone_adventure.vulnerability": "易伤",
   "effect.alone_adventure.laceration": "撕裂",
@@ -277,8 +274,8 @@
   "subtitle.alone_adventure.skill_ready.sealed_throne": "§a封印王座：主动技能已就绪",
   "subtitle.alone_adventure.skill_ready.hunter_serum": "§a猎人血清：主动技能已就绪",
   "item.alone_adventure.resurrection_contract": "复生契约",
-  "item.alone_adventure.resurrection_contract.tooltip.desc": "以唤魔者之力换取复活之约的契约饰品——佩戴时生效，完成全部任务后可作为合成材料。右键副手消耗材料提交进度。",
-  "quest.alone_adventure.resurrection_contract.kill_evoker": "击杀唤魔者 ×2",
+  "item.alone_adventure.resurrection_contract.tooltip.desc": "以黄金供物换取复活之约的契约饰品——佩戴时生效，完成全部任务后可作为合成材料。右键副手消耗材料提交进度。",
+  "quest.alone_adventure.resurrection_contract.collect_golden_ingots": "提交金块 ×4",
   "quest.alone_adventure.resurrection_contract.collect_golden_apple": "提交金苹果 ×16",
   "quest.alone_adventure.resurrection_contract.collect_totem": "提交不死图腾 ×2",
   "tooltip.alone_adventure.quest.material_ready": "✔ 契约达成——现可作为合成材料",
@@ -369,16 +366,18 @@
   "item.alone_adventure.battle_contract.tooltip.desc": "记录战斗试炼的契约饰品——佩戴时生效，完成全部任务后可作为合成材料。",
 
   "item.alone_adventure.banruo_soup": "般若汤",
-  "item.alone_adventure.banruo_soup.tooltip.desc": "一碗以完成战斗契约换取的秘药。饮用后获得反胃 I、力量（层数决定等级）与急迫；第 3 口起自动进入爆回——每 5 tick 对周围 3 格怪物造成玩家攻击力 ×0.2 的范围伤害，持续 60 秒，冷却 15 秒。",
-  "quest.alone_adventure.battle_contract.kill_zombie": "击杀僵尸 ×20",
-  "quest.alone_adventure.battle_contract.kill_skeleton": "击杀骷髅 ×10",
+  "item.alone_adventure.banruo_soup.tooltip.desc": "一碗以完成战斗契约换取的秘药，饮用后不会被消耗。获得反胃 I、力量（饮用口数决定等级，最高 IV）与急迫（最高 II）；第 3 口起自动进入爆回——每 5 tick 对周围 3 格怪物造成玩家攻击力 ×0.2 的范围伤害，效果持续 60 秒，饮用冷却 15 秒。",
+  "quest.alone_adventure.battle_contract.kill_zombie": "击杀僵尸 ×10",
+  "quest.alone_adventure.battle_contract.kill_skeleton": "击杀骷髅 ×7",
   "quest.alone_adventure.battle_contract.kill_creeper": "击杀苦力怕 ×5",
 
 
+
+
   "item.alone_adventure.tower_contract": "高塔契约",
-  "item.alone_adventure.tower_contract.tooltip.desc": "挑战高塔顶端的契约，只有踏入天空之上的领域并击败凋零才能完成。",
-  "quest.alone_adventure.tower_contract.reach_high_place": "到达任意地点 Y轴超过200",
-  "quest.alone_adventure.tower_contract.kill_wither": "击杀凋零 ×1",
+  "item.alone_adventure.tower_contract.tooltip.desc": "挑战高塔顶端的契约，只有踏入天空之上的领域并击败凋灵才能完成。",
+  "quest.alone_adventure.tower_contract.reach_high_place": "到达 Y 轴 200 及以上的高空",
+  "quest.alone_adventure.tower_contract.kill_wither": "击杀凋灵 ×1",
   "quest.alone_adventure.tower_contract.collect_monster_ash": "提交怪物残灰 ×8",
   "quest.alone_adventure.tower_contract.collect_blood_shard": "提交血脉碎片 ×8",
 
@@ -428,17 +427,16 @@
   "item.alone_adventure.imperial_contract": "帝国契约",
   "item.alone_adventure.imperial_contract.tooltip.desc": "一份以鲜血签署的帝国契约——佩戴时生效，完成全部任务后可作为合成材料。右键副手消耗材料提交进度。",
   "quest.alone_adventure.imperial_contract.kill_zombie_pigman": "击杀僵尸猪人 ×20",
-  "quest.alone_adventure.imperial_contract.kill_warden": "击杀坚守者 ×1",
   "quest.alone_adventure.imperial_contract.reach_desert": "到达沙漠群系",
   "quest.alone_adventure.imperial_contract.collect_netherite_scrap": "提交下界合金碎片 ×4",
 
   "item.alone_adventure.evil_contract": "邪恶契约",
   "item.alone_adventure.evil_contract.tooltip.desc": "一份以村民之血签署的邪恶契约——佩戴时生效，完成全部任务后可作为合成材料。右键副手消耗材料提交进度。",
   "quest.alone_adventure.evil_contract.kill_villager": "击杀村民 ×3",
-  "quest.alone_adventure.evil_contract.collect_gold_block": "提交金块 ×4",
-  "quest.alone_adventure.evil_contract.collect_diamond_block": "提交钻石块 ×4",
-  "quest.alone_adventure.evil_contract.collect_bone_block": "提交骨块 ×16",
-  "quest.alone_adventure.evil_contract.collect_rotten_flesh": "提交腐肉 ×128",
+  "quest.alone_adventure.evil_contract.collect_gold_block": "提交金块 ×1",
+  "quest.alone_adventure.evil_contract.collect_diamond_block": "提交钻石块 ×1",
+  "quest.alone_adventure.evil_contract.collect_bone_block": "提交骨块 ×8",
+  "quest.alone_adventure.evil_contract.collect_rotten_flesh": "提交腐肉 ×32",
 
   "item.alone_adventure.gun_part": "枪械构件",
   "item.alone_adventure.gun_box": "枪械盒",

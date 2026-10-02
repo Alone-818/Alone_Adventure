@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * 鲜血护盾 - 以自身鲜血换取更强护甲的契约饰品
+ * 流血护盾 - 以自身鲜血换取更强护甲的腰带饰品
  *
  * 佩戴时减少 20% 最大生命值，同时获得 +30% 护甲加成（比例型修饰符，
  * MULTIPLY_TOTAL，实际护甲 = 基础护甲 × 1.3）。
@@ -87,7 +87,7 @@ public class bleedingshield extends Item implements ICurioItem {
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
         if (Screen.hasShiftDown()) {
             tooltip.add(Component.translatable("item.alone_adventure.bleedingshield.tooltip.desc").withStyle(ChatFormatting.RED));
-            tooltip.add(Component.translatable("item.alone_adventure.bleedingshield.tooltip.armor_desc").withStyle(ChatFormatting.GOLD));
+            tooltip.add(Component.translatable("item.alone_adventure.bleedingshield.tooltip.toughness_desc").withStyle(ChatFormatting.GOLD));
         } else {
             tooltip.add(Component.translatable("item.alone_adventure.bleedingshield.tooltip.desc").withStyle(ChatFormatting.RED));
             tooltip.add(Component.translatable("tooltip.alone_adventure.press_shift")

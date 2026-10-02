@@ -12,14 +12,15 @@ import net.minecraft.world.item.Rarity;
  * {
  *   "type": "minecraft:crafting_shaped",
  *   "pattern": [
- *     " D ",
- *     "VNV",
- *     " D "
+ *     " # ",
+ *     "#X#",
+ *     " # "
  *   ],
  *   "key": {
- *     "D": {"item": "minecraft:diamond_block"},
- *     "V": {"item": "minecraft:ravager"},
- *     "N": {"item": "minecraft:nether_star"}
+ *     "#": {"item": "minecraft:diamond"},
+ *     "X": {"type": "forge:partial_nbt",
+ *           "item": "alone_adventure:battle_contract",
+ *           "nbt": "{QuestDone:1b}"}
  *   },
  *   "result": {
  *     "item": "alone_adventure:evil_contract"
@@ -29,10 +30,10 @@ import net.minecraft.world.item.Rarity;
  * <b>完成条件</b>：
  * <ul>
  *   <li>击杀 3 个村民</li>
- *   <li>提交 4 个金块</li>
- *   <li>提交 4 个钻石块</li>
- *   <li>提交 16 个骨块</li>
- *   <li>提交 128 个腐肉</li>
+ *   <li>提交 1 个金块</li>
+ *   <li>提交 1 个钻石块</li>
+ *   <li>提交 8 个骨块</li>
+ *   <li>提交 32 个腐肉</li>
  * </ul>
  *
  * 完成所有任务后，才能作为合成材料使用。
@@ -45,10 +46,10 @@ public class evil_contract extends QuestItem {
                         .rarity(Rarity.EPIC),
                 // 任务列表：击杀村民 x3 + 提交各种材料
                 QuestItem.KillTask.of("kill_villager", EntityType.VILLAGER, 3),
-                QuestItem.CollectTask.of("collect_gold_block", Items.GOLD_BLOCK, 4),
-                QuestItem.CollectTask.of("collect_diamond_block", Items.DIAMOND_BLOCK, 4),
-                QuestItem.CollectTask.of("collect_bone_block", Items.BONE_BLOCK, 16),
-                QuestItem.CollectTask.of("collect_rotten_flesh", Items.ROTTEN_FLESH, 128)
+                QuestItem.CollectTask.of("collect_gold_block", Items.GOLD_BLOCK, 1),
+                QuestItem.CollectTask.of("collect_diamond_block", Items.DIAMOND_BLOCK, 1),
+                QuestItem.CollectTask.of("collect_bone_block", Items.BONE_BLOCK, 8),
+                QuestItem.CollectTask.of("collect_rotten_flesh", Items.ROTTEN_FLESH, 32)
         );
     }
 }

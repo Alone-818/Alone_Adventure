@@ -18,12 +18,6 @@ public class imperial_contract extends QuestItem {
                         20
                 ),
 
-                // 击杀坚守者 x1
-                QuestItem.KillTask.of(
-                        "kill_warden",
-                        EntityType.WARDEN,
-                        1
-                ),
 
                 // 到达沙漠群系
                 QuestItem.BiomeTask.of(
@@ -31,7 +25,7 @@ public class imperial_contract extends QuestItem {
                         "minecraft:desert"
                 ),
 
-                // 提交下届合金碎片 x4
+                // 提交下界合金碎片 x4
                 QuestItem.CollectTask.of(
                         "collect_netherite_scrap",
                         Items.NETHERITE_SCRAP,

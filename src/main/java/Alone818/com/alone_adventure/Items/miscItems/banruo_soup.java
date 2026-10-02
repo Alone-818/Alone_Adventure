@@ -2,6 +2,8 @@ package Alone818.com.alone_adventure.Items.miscItems;
 
 import Alone818.com.alone_adventure.state.BanruoState;
 
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -12,8 +14,12 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class banruo_soup extends Item {
 
@@ -184,5 +190,14 @@ public class banruo_soup extends Item {
          * 所以般若汤不会消耗。
          */
         return stack;
+    }
+
+    /**
+     * 物品提示
+     */
+    @Override
+    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
+        tooltip.add(Component.translatable("item.alone_adventure.banruo_soup.tooltip.desc")
+                .withStyle(ChatFormatting.GRAY));
     }
 }

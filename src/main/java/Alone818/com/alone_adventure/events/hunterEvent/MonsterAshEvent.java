@@ -25,9 +25,9 @@ public class MonsterAshEvent {
 
     // 以下数值为默认值，可由 Config（alone_adventure-common.toml）覆盖
     /** 基础掉落概率（击杀敌对生物） */
-    public static double BASE_DROP_CHANCE = 0.02;
+    public static double BASE_DROP_CHANCE = 0.05;
     /** 佩戴猎人血清时的掉落概率 */
-    public static double SERUM_DROP_CHANCE = 0.05;
+    public static double SERUM_DROP_CHANCE = 0.15;
     /** 掉落数量（始终为 1） */
     public static int DROP_COUNT = 1;
 

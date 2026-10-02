@@ -23,7 +23,7 @@ public class tower_contract extends QuestItem {
                 ),
 
 
-                // 击杀凋零
+                // 击杀凋灵
                 QuestItem.KillTask.of(
                         "kill_wither",
                         EntityType.WITHER,

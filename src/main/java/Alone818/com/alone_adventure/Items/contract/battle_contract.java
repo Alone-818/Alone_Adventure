@@ -15,13 +15,13 @@ public class battle_contract extends QuestItem {
                 QuestItem.KillTask.of(
                         "kill_zombie",
                         EntityType.ZOMBIE,
-                        20
+                        10
                 ),
 
                 QuestItem.KillTask.of(
                         "kill_skeleton",
                         EntityType.SKELETON,
-                        10
+                        7
                 ),
 
                 QuestItem.KillTask.of(

@@ -40,7 +40,11 @@ public class reaper_scythe extends SwordItem {
     public static final int BASE_ATTACK_DAMAGE = 5;
     /** 每击杀一种新生物的攻击伤害加成（默认值，可由 Config 在 alone_adventure-common.toml 覆盖） */
     public static int DAMAGE_PER_NEW_KILL = 2;
+    // 命中后玩家自身受到的伤害
+    private static final float SELF_DAMAGE = 4.0F;
 
+    // 玩家最低保留生命比例
+    private static final float MIN_HEALTH_PERCENT = 0.20F;
     // 用于辨识这个物品独有的伤害修饰符
     private static final UUID BONUS_DAMAGE_UUID = UUID.fromString("b5b8c9d0-2a4e-4f5a-8b3c-9d6e7f8a9b0c");
 
@@ -249,6 +253,69 @@ public class reaper_scythe extends SwordItem {
 
             ensureMending(stack);
         }
+    }
+    /**
+     * 攻击命中时触发
+     *
+     * 镰刀效果：
+     * 1. 正常攻击目标
+     * 2. 玩家自身受到4点伤害
+     * 3. 最低保持20%生命值
+     */
+    @Override
+    public boolean hurtEnemy(
+            ItemStack stack,
+            net.minecraft.world.entity.LivingEntity target,
+            net.minecraft.world.entity.LivingEntity attacker
+    ) {
+
+        // 执行原版攻击
+        boolean result = super.hurtEnemy(
+                stack,
+                target,
+                attacker
+        );
+
+
+        // 只有玩家使用时触发
+        if (attacker instanceof Player player) {
+
+
+            float maxHealth = player.getMaxHealth();
+
+            float currentHealth = player.getHealth();
+
+
+            // 最低保留20%生命
+            float minHealth =
+                    maxHealth * MIN_HEALTH_PERCENT;
+
+
+            // 当前生命超过保护线
+            if (currentHealth > minHealth) {
+
+
+                // 实际扣血量
+                // 防止扣到20%以下
+                float damage = Math.min(
+                        SELF_DAMAGE,
+                        currentHealth - minHealth
+                );
+
+
+                if (damage > 0) {
+
+                    player.hurt(
+                            player.damageSources().generic(),
+                            damage
+                    );
+
+                }
+            }
+        }
+
+
+        return result;
     }
     public static void onKill(Player player, ResourceLocation entityType, ItemStack stack) {
         if (stack.getItem() instanceof reaper_scythe scythe) {
