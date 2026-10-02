@@ -230,17 +230,8 @@
   "gui.alone_adventure.gun.reloading": "§e装填中……",
   "gui.alone_adventure.gun.ammo_switched": "§b弹药切换：%s",
 
-  "item.minecraft.potion.effect.endurance": "耐力药水",
-  "item.minecraft.splash_potion.effect.endurance": "喷溅型耐力药水",
-  "item.minecraft.lingering_potion.effect.endurance": "滞留型耐力药水",
   "item.minecraft.tipped_arrow.effect.endurance": "耐力之箭",
-  "item.minecraft.potion.effect.endurance_long": "耐力药水",
-  "item.minecraft.splash_potion.effect.endurance_long": "喷溅型耐力药水",
-  "item.minecraft.lingering_potion.effect.endurance_long": "滞留型耐力药水",
   "item.minecraft.tipped_arrow.effect.endurance_long": "耐力之箭",
-  "item.minecraft.potion.effect.endurance_strong": "强效耐力药水",
-  "item.minecraft.splash_potion.effect.endurance_strong": "喷溅型强效耐力药水",
-  "item.minecraft.lingering_potion.effect.endurance_strong": "滞留型强效耐力药水",
   "item.minecraft.tipped_arrow.effect.endurance_strong": "强效耐力之箭",
 
   "item.alone_adventure.imperial_eagle": "帝国天鹰",
@@ -460,5 +451,29 @@
   "attribute.alone_adventure.bullet_speed": "Bullet Speed",
   "attribute.alone_adventure.recoil": "Recoil",
   "attribute.alone_adventure.critical_chance": "Critical Chance",
-  "attribute.alone_adventure.critical_damage": "Critical Damage"
+  "attribute.alone_adventure.critical_damage": "Critical Damage",
+
+  "item.minecraft.potion.effect.endurance": "耐力药水",
+  "item.minecraft.splash_potion.effect.endurance": "喷溅型耐力药水",
+  "item.minecraft.lingering_potion.effect.endurance": "滞留型耐力药水",
+
+  "item.minecraft.potion.effect.endurance_long": "延长版耐力药水",
+  "item.minecraft.splash_potion.effect.endurance_long": "喷溅型延长版耐力药水",
+  "item.minecraft.lingering_potion.effect.endurance_long": "滞留型延长版耐力药水",
+
+  "item.minecraft.potion.effect.endurance_strong": "强效耐力药水",
+  "item.minecraft.splash_potion.effect.endurance_strong": "喷溅型强效耐力药水",
+  "item.minecraft.lingering_potion.effect.endurance_strong": "滞留型强效耐力药水",
+
+  "item.minecraft.potion.effect.resistance": "抗性药水",
+  "item.minecraft.splash_potion.effect.resistance": "喷溅型抗性药水",
+  "item.minecraft.lingering_potion.effect.resistance": "滞留型抗性药水",
+
+  "item.minecraft.potion.effect.resistance_long": "延长版抗性药水",
+  "item.minecraft.splash_potion.effect.resistance_long": "喷溅型延长版抗性药水",
+  "item.minecraft.lingering_potion.effect.resistance_long": "滞留型延长版抗性药水",
+
+  "item.minecraft.potion.effect.resistance_strong": "强效抗性药水",
+  "item.minecraft.splash_potion.effect.resistance_strong": "喷溅型强效抗性药水",
+  "item.minecraft.lingering_potion.effect.resistance_strong": "滞留型强效抗性药水"
 }

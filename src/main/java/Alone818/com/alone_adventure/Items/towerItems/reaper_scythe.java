@@ -25,6 +25,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 
 /**
  * 巨大镰刀 - 击杀新生物获得伤害加成
@@ -192,6 +194,62 @@ public class reaper_scythe extends SwordItem {
     /**
      * 处理击杀事件：记录击杀的新种类到物品NBT（每个物品独立记录）
      */
+    /**
+     * 确保这把镰刀自带经验修补 I。
+     *
+     * 如果已经存在经验修补，则不重复修改 NBT。
+     *
+     * 其他附魔不会被删除。
+     */
+    private static void ensureMending(ItemStack stack) {
+
+        if (stack.isEmpty()) {
+            return;
+        }
+
+        int mendingLevel =
+                EnchantmentHelper.getItemEnchantmentLevel(
+                        Enchantments.MENDING,
+                        stack
+                );
+
+        if (mendingLevel > 0) {
+            return;
+        }
+
+        var enchantments =
+                EnchantmentHelper.getEnchantments(stack);
+
+        enchantments.put(
+                Enchantments.MENDING,
+                1
+        );
+
+        EnchantmentHelper.setEnchantments(
+                enchantments,
+                stack
+        );
+    }
+    /**
+     * 物品进入玩家物品栏后自动获得经验修补 I。
+     *
+     * 只在服务端修改，保证附魔数据由服务端同步给客户端。
+     */
+    @Override
+    public void inventoryTick(
+            ItemStack stack,
+            Level level,
+            net.minecraft.world.entity.Entity entity,
+            int slotId,
+            boolean isSelected
+    ) {
+
+        if (!level.isClientSide
+                && entity instanceof Player) {
+
+            ensureMending(stack);
+        }
+    }
     public static void onKill(Player player, ResourceLocation entityType, ItemStack stack) {
         if (stack.getItem() instanceof reaper_scythe scythe) {
             // 检查是否是新种类

@@ -231,17 +231,9 @@
   "gui.alone_adventure.gun.reloading": "§eReloading...",
   "gui.alone_adventure.gun.ammo_switched": "§bAmmo switched: %s",
 
-  "item.minecraft.potion.effect.endurance": "Potion of Endurance",
-  "item.minecraft.splash_potion.effect.endurance": "Splash Potion of Endurance",
-  "item.minecraft.lingering_potion.effect.endurance": "Lingering Potion of Endurance",
+
   "item.minecraft.tipped_arrow.effect.endurance": "Arrow of Endurance",
-  "item.minecraft.potion.effect.endurance_long": "Potion of Endurance",
-  "item.minecraft.splash_potion.effect.endurance_long": "Splash Potion of Endurance",
-  "item.minecraft.lingering_potion.effect.endurance_long": "Lingering Potion of Endurance",
   "item.minecraft.tipped_arrow.effect.endurance_long": "Arrow of Endurance",
-  "item.minecraft.potion.effect.endurance_strong": "Strong Potion of Endurance",
-  "item.minecraft.splash_potion.effect.endurance_strong": "Splash Potion of Strong Endurance",
-  "item.minecraft.lingering_potion.effect.endurance_strong": "Lingering Potion of Strong Endurance",
   "item.minecraft.tipped_arrow.effect.endurance_strong": "Arrow of Strong Endurance",
 
   "item.alone_adventure.imperial_eagle": "Imperial Eagle",
@@ -456,5 +448,31 @@
   "quest.alone_adventure.evil_contract.collect_rotten_flesh": "Submit Rotten Flesh ×128",
 
   "item.alone_adventure.gun_part": "Gun Part",
-  "item.alone_adventure.gun_box": "Gun Box"
+  "item.alone_adventure.gun_box": "Gun Box",
+  "item.minecraft.potion.effect.endurance": "Potion of Endurance",
+  "item.minecraft.splash_potion.effect.endurance": "Splash Potion of Endurance",
+  "item.minecraft.lingering_potion.effect.endurance": "Lingering Potion of Endurance",
+
+  "item.minecraft.potion.effect.endurance_long": "Potion of Endurance (Long)",
+  "item.minecraft.splash_potion.effect.endurance_long": "Splash Potion of Endurance (Long)",
+  "item.minecraft.lingering_potion.effect.endurance_long": "Lingering Potion of Endurance (Long)",
+
+  "item.minecraft.potion.effect.endurance_strong": "Potion of Endurance II",
+  "item.minecraft.splash_potion.effect.endurance_strong": "Splash Potion of Endurance II",
+  "item.minecraft.lingering_potion.effect.endurance_strong": "Lingering Potion of Endurance II",
+
+
+  "item.minecraft.potion.effect.resistance": "Potion of Resistance",
+  "item.minecraft.splash_potion.effect.resistance": "Splash Potion of Resistance",
+  "item.minecraft.lingering_potion.effect.resistance": "Lingering Potion of Resistance",
+
+  "item.minecraft.potion.effect.resistance_long": "Potion of Resistance (Long)",
+  "item.minecraft.splash_potion.effect.resistance_long": "Splash Potion of Resistance (Long)",
+  "item.minecraft.lingering_potion.effect.resistance_long": "Lingering Potion of Resistance (Long)",
+
+  "item.minecraft.potion.effect.resistance_strong": "Potion of Resistance II",
+  "item.minecraft.splash_potion.effect.resistance_strong": "Splash Potion of Resistance II",
+  "item.minecraft.lingering_potion.effect.resistance_strong": "Lingering Potion of Resistance II",
+
+  "effect.alone_adventure.endurance": "Endurance"
 }

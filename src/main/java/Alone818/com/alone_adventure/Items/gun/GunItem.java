@@ -25,10 +25,7 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
@@ -281,6 +278,146 @@ public class GunItem extends Item implements GeoItem {
 
         return getSelectedAmmoItem(stack);
     }
+    public void selectAmmo(
+            ServerPlayer player,
+            ItemStack stack,
+            int index
+    ) {
+
+        GunStats currentStats =
+                getStats(stack);
+
+
+        if (index < 0
+                || index >= currentStats.ammoTypeCount()) {
+            return;
+        }
+
+
+        CompoundTag tag =
+                stack.getOrCreateTag();
+
+
+        /*
+         * 如果正在装填，取消
+         */
+        tag.remove(TAG_RELOAD_START);
+
+
+
+        /*
+         * 退回当前弹匣
+         */
+        int ammo =
+                tag.getInt(TAG_AMMO);
+
+
+        if (ammo > 0
+                && tag.contains(TAG_AMMO_TYPE)) {
+
+
+            Item oldAmmo =
+                    BuiltInRegistries.ITEM.get(
+                            ResourceLocation.parse(
+                                    tag.getString(TAG_AMMO_TYPE)
+                            )
+                    );
+
+
+            if (oldAmmo != Items.AIR
+                    && !player.getAbilities()
+                    .instabuild) {
+
+
+                ItemStack refund =
+                        new ItemStack(
+                                oldAmmo,
+                                ammo
+                        );
+
+
+                if (!player.getInventory()
+                        .add(refund)) {
+
+                    player.drop(
+                            refund,
+                            false
+                    );
+                }
+            }
+        }
+
+
+
+        /*
+         * 清空弹匣
+         */
+        tag.putInt(
+                TAG_AMMO,
+                0
+        );
+
+        tag.remove(TAG_AMMO_TYPE);
+
+
+
+        /*
+         * 设置新弹药
+         */
+        tag.putInt(
+                TAG_AMMO_INDEX,
+                index
+        );
+
+
+
+        Item newAmmo =
+                currentStats.ammoType(index);
+
+
+
+        /*
+         * 自动开始一次正常装填
+         */
+        if (player.getAbilities().instabuild
+                || countAmmo(
+                player,
+                newAmmo
+        ) > 0) {
+
+
+            tag.putLong(
+                    TAG_RELOAD_START,
+                    player.level()
+                            .getGameTime()
+            );
+
+
+            player.level().playSound(
+                    null,
+                    player,
+                    SoundEvents.CROSSBOW_LOADING_START,
+                    SoundSource.PLAYERS,
+                    1.0F,
+                    1.0F
+            );
+
+
+            onReloadStart(
+                    player,
+                    stack
+            );
+        }
+
+
+        player.displayClientMessage(
+                Component.translatable(
+                        "gui.alone_adventure.gun.ammo_switched",
+                        newAmmo.getDescription()
+                ),
+                true
+        );
+    }
     /**
      * 切换弹药类型。
      *
@@ -296,21 +433,37 @@ public class GunItem extends Item implements GeoItem {
      * 切换后不会直接把新弹药塞进弹匣。
      * 而是使用正常的 reloadTicks / ReloadType 装填逻辑。
      */
+    /**
+     * 切换弹药类型。
+     *
+     * 切换逻辑：
+     *
+     * 1. 取消当前装填
+     * 2. 退回当前弹匣剩余弹药
+     * 3. 清空弹匣
+     * 4. 切换下一种弹药类型
+     * 5. 自动开始一次正常装填流程
+     *
+     * 注意：
+     *
+     * 切换后不会立即填充弹药。
+     * 会进入正常 reloadTicks / ReloadType 装填流程。
+     */
     public void switchAmmo(
             ServerPlayer player,
             ItemStack stack
     ) {
 
-        // =========================================================
-        // 只有一种弹药，不需要切换
-        // =========================================================
+        GunStats currentStats = getStats(stack);
 
-        if (stats.ammoTypeCount() <= 1) {
+        // 只有一种弹药，无需切换
+        if (currentStats.ammoTypeCount() <= 1) {
             return;
         }
 
         CompoundTag tag =
                 stack.getOrCreateTag();
+
 
         // =========================================================
         // 取消当前装填
@@ -318,8 +471,9 @@ public class GunItem extends Item implements GeoItem {
 
         tag.remove(TAG_RELOAD_START);
 
+
         // =========================================================
-        // 退回当前弹匣剩余弹药
+        // 退回当前弹匣弹药
         // =========================================================
 
         int currentAmmo =
@@ -328,53 +482,44 @@ public class GunItem extends Item implements GeoItem {
         if (currentAmmo > 0
                 && tag.contains(TAG_AMMO_TYPE)) {
 
-            String ammoId =
-                    tag.getString(TAG_AMMO_TYPE);
-
             Item loadedAmmo =
                     BuiltInRegistries.ITEM.get(
-                            new ResourceLocation(ammoId)
+                            ResourceLocation.parse(
+                                    tag.getString(TAG_AMMO_TYPE)
+                            )
                     );
 
-            // 确认弹药有效
-            if (loadedAmmo
-                    != net.minecraft.world.item.Items.AIR) {
 
-                /*
-                 * 创造模式：
-                 *
-                 * 不需要把弹药退回背包。
-                 *
-                 * 否则切换一次就会凭空增加物品。
-                 */
-                if (!player.getAbilities().instabuild) {
+            if (loadedAmmo != Items.AIR
+                    && !player.getAbilities().instabuild) {
 
-                    ItemStack returnedAmmo =
-                            new ItemStack(
-                                    loadedAmmo,
-                                    currentAmmo
-                            );
 
-                    // 优先放回背包
-                    boolean added =
-                            player.getInventory()
-                                    .add(returnedAmmo);
-
-                    // 背包放不下就掉落
-                    if (!added
-                            && !returnedAmmo.isEmpty()) {
-
-                        player.drop(
-                                returnedAmmo,
-                                false
+                ItemStack returned =
+                        new ItemStack(
+                                loadedAmmo,
+                                currentAmmo
                         );
-                    }
+
+
+                boolean added =
+                        player.getInventory()
+                                .add(returned);
+
+
+                if (!added
+                        && !returned.isEmpty()) {
+
+                    player.drop(
+                            returned,
+                            false
+                    );
                 }
             }
         }
 
+
         // =========================================================
-        // 清空旧弹匣
+        // 清空弹匣
         // =========================================================
 
         tag.putInt(
@@ -384,8 +529,10 @@ public class GunItem extends Item implements GeoItem {
 
         tag.remove(TAG_AMMO_TYPE);
 
+
+
         // =========================================================
-        // 切换到下一种弹药
+        // 切换弹药索引
         // =========================================================
 
         int next =
@@ -393,39 +540,53 @@ public class GunItem extends Item implements GeoItem {
                         getSelectedAmmoIndex(stack)
                                 + 1
                 )
-                        % stats.ammoTypeCount();
+                        % currentStats.ammoTypeCount();
+
 
         tag.putInt(
                 TAG_AMMO_INDEX,
                 next
         );
 
+
         Item newAmmoType =
-                stats.ammoType(next);
+                currentStats.ammoType(next);
+
+
 
         // =========================================================
-        // 开始新的装填
+        // 自动开始重新装填
         // =========================================================
         //
-        // 这里不直接 takeAmmo()。
+        // 不调用 takeAmmo()
         //
-        // 而是让 inventoryTick() 接管装填，
-        // 这样会正常使用：
+        // 交给 inventoryTick()
+        // 保持：
         //
         // reloadTicks
         // reloadSpeedMultiplier
         // ReloadType
+        //
+        // 完整生效
         // =========================================================
 
-        if (player.getAbilities().instabuild
-                || countAmmo(player, newAmmoType) > 0) {
+
+        boolean hasAmmo =
+                player.getAbilities().instabuild
+                        || countAmmo(
+                        player,
+                        newAmmoType
+                ) > 0;
+
+
+        if (hasAmmo) {
 
             tag.putLong(
                     TAG_RELOAD_START,
                     player.level().getGameTime()
             );
 
-            // 装填开始音效
+
             player.level().playSound(
                     null,
                     player,
@@ -435,7 +596,7 @@ public class GunItem extends Item implements GeoItem {
                     1.0F
             );
 
-            // 装填开始钩子
+
             onReloadStart(
                     player,
                     stack
@@ -443,26 +604,23 @@ public class GunItem extends Item implements GeoItem {
 
         } else {
 
-            /*
-             * 没有新弹药。
-             *
-             * 保持空弹匣，
-             * 不进入装填状态。
-             */
             tag.remove(TAG_RELOAD_START);
         }
 
+
+
         // =========================================================
-        // 提示玩家
+        // 提示
         // =========================================================
 
         player.displayClientMessage(
                 Component.translatable(
-                        "gui.alone_adventure.gun.ammo_switched",
-                        newAmmoType.getDescription()
-                ).withStyle(
-                        ChatFormatting.AQUA
-                ),
+                                "gui.alone_adventure.gun.ammo_switched",
+                                newAmmoType.getDescription()
+                        )
+                        .withStyle(
+                                ChatFormatting.AQUA
+                        ),
                 true
         );
     }

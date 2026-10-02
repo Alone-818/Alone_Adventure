@@ -5,7 +5,8 @@ import Alone818.com.alone_adventure.Items.gun.GunItem;
 import Alone818.com.alone_adventure.Items.gun.GunStats;
 import Alone818.com.alone_adventure.network.GunFirePacket;
 import Alone818.com.alone_adventure.network.GunReloadPacket;
-import Alone818.com.alone_adventure.network.GunSwitchAmmoPacket;
+import Alone818.com.alone_adventure.client.screen.AmmoWheelScreen;
+
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -16,6 +17,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ComputeFovModifierEvent;
 import net.minecraftforge.client.event.InputEvent;
+import net.minecraftforge.client.event.RenderGuiOverlayEvent;
+import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -79,6 +82,14 @@ public final class ClientGunHandler {
 
     private static long nextShotAt =
             0L;
+    // =========================================================
+// 弹药轮盘状态
+// =========================================================
+
+    private static boolean ammoWheelOpened = false;
+
+    /** 当前弹药轮盘实例。仅作为 HUD 控制器，不设置 Minecraft Screen。 */
+    private static AmmoWheelScreen ammoWheel = null;
 
     private ClientGunHandler() {
     }
@@ -133,11 +144,16 @@ public final class ClientGunHandler {
     // =========================================================
     // R / G
     // =========================================================
-
     @SubscribeEvent
     public static void onKeyInput(
             InputEvent.Key event
     ) {
+
+
+        Minecraft mc =
+                Minecraft.getInstance();
+
+
 
         // =====================================================
         // R：reload
@@ -145,8 +161,10 @@ public final class ClientGunHandler {
 
         if (ModClientSetup.GUN_RELOAD_KEY.consumeClick()) {
 
+
             LocalPlayer player =
-                    Minecraft.getInstance().player;
+                    mc.player;
+
 
             if (player != null
                     && !player.isSpectator()
@@ -162,39 +180,15 @@ public final class ClientGunHandler {
                                     instanceof GunItem
             )) {
 
-                /*
-                 * 这里只作为客户端提前显示 reload。
-                 *
-                 * 真正的 reload 仍然交给服务器。
-                 */
+
                 GunItemAnimation.markReload(
                         player.tickCount,
                         InteractionHand.MAIN_HAND
                 );
 
+
                 Alone_adventure.NETWORK.sendToServer(
                         new GunReloadPacket()
-                );
-            }
-        }
-
-        // =====================================================
-        // G：切换弹药
-        // =====================================================
-
-        if (ModClientSetup.GUN_SWITCH_AMMO_KEY.consumeClick()) {
-
-            LocalPlayer player =
-                    Minecraft.getInstance().player;
-
-            if (player != null
-                    && !player.isSpectator()
-                    && player.getMainHandItem()
-                    .getItem()
-                    instanceof GunItem) {
-
-                Alone_adventure.NETWORK.sendToServer(
-                        new GunSwitchAmmoPacket()
                 );
             }
         }
@@ -220,8 +214,63 @@ public final class ClientGunHandler {
 
         LocalPlayer player =
                 mc.player;
-
         // =====================================================
+// =====================================================
+        // G：打开 / 保持 / 松开弹药轮盘
+        // =====================================================
+
+        boolean ammoWheelKeyDown =
+                ModClientSetup.GUN_SWITCH_AMMO_KEY.isDown();
+
+        // 按住 G：第一次打开轮盘。这里不调用 mc.setScreen()，
+        // 因而 WASD / Space / Shift 等键盘操作仍然正常。
+        if (player != null
+                && !player.isSpectator()
+                && mc.screen == null
+                && ammoWheelKeyDown
+                && !ammoWheelOpened) {
+
+            ItemStack stack =
+                    player.getMainHandItem();
+
+            if (stack.getItem() instanceof GunItem gun
+                    && gun.getStats(stack).ammoTypeCount() > 1) {
+
+                ammoWheel =
+                        new AmmoWheelScreen(stack);
+
+                ammoWheelOpened = true;
+
+                // 鼠标释放后只控制轮盘，不再旋转第一人称视角。
+                mc.mouseHandler.releaseMouse();
+            }
+        }
+
+        // 轮盘打开期间持续更新鼠标所在圆环扇区。
+        if (ammoWheelOpened
+                && ammoWheel != null
+                && player != null) {
+
+            ammoWheel.tick();
+        }
+
+        // G 松开：确认选择并关闭轮盘。
+        if (ammoWheelOpened
+                && !ammoWheelKeyDown) {
+
+            if (ammoWheel != null) {
+                ammoWheel.confirm();
+            }
+
+            ammoWheel = null;
+            ammoWheelOpened = false;
+
+            // 恢复正常第一人称鼠标。
+            if (mc.screen == null) {
+                mc.mouseHandler.grabMouse();
+            }
+        }
+// =====================================================
         // 玩家不存在
         // =====================================================
 
@@ -244,6 +293,13 @@ public final class ClientGunHandler {
 
             nextShotAt =
                     0L;
+
+            ammoWheel = null;
+            ammoWheelOpened = false;
+
+            if (mc.screen == null) {
+                mc.mouseHandler.grabMouse();
+            }
 
             return;
         }
@@ -294,7 +350,8 @@ public final class ClientGunHandler {
         // =====================================================
 
         boolean attackDown =
-                mc.screen == null
+                !ammoWheelOpened
+                        && mc.screen == null
                         && mc.options.keyAttack.isDown();
 
         // =====================================================
@@ -540,6 +597,37 @@ public final class ClientGunHandler {
                 hand == InteractionHand.MAIN_HAND
                         ? InteractionHand.OFF_HAND
                         : InteractionHand.MAIN_HAND;
+    }
+
+    // =========================================================
+    // 弹药轮盘 HUD 绘制
+    // =========================================================
+
+    @SubscribeEvent
+    public static void onRenderGuiOverlay(
+            RenderGuiOverlayEvent.Post event
+    ) {
+
+        if (!ammoWheelOpened || ammoWheel == null) {
+            return;
+        }
+
+        // 每帧只绘制一次。选择 HOTBAR 作为稳定的 HUD 绘制点。
+        if (!event.getOverlay().id()
+                .equals(VanillaGuiOverlay.HOTBAR.id())) {
+            return;
+        }
+
+        Minecraft mc =
+                Minecraft.getInstance();
+
+        if (mc.player == null) {
+            return;
+        }
+
+        ammoWheel.renderWheel(
+                event.getGuiGraphics()
+        );
     }
 
     // =========================================================
