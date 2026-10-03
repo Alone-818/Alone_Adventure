@@ -6,19 +6,73 @@ import net.minecraft.resources.ResourceLocation;
 import static Alone818.com.alone_adventure.Alone_adventure.MODID;
 
 
+
 public class GeoArmorRegistry {
+
 
 
     public static void register(){
 
+        registerTestArmor();
 
-        registerArmor(
-                "test",
-                "geo/test.geo.json",
-                "textures/armor/test.png",
-                "animations/test.animation.json",
-                false,
-                0xFFFFFF
+    }
+
+
+
+
+
+    private static void registerTestArmor(){
+
+
+
+        GeoArmorConfig test =
+                registerArmor(
+                        "test",
+                        "geo/test.geo.json",
+                        "textures/armor/test_base.png",
+                        "animations/test.animation.json",
+                        true,
+                        0xffffff
+                );
+
+
+
+        // 图案层，不染色
+        test.addLayer(
+
+                new ArmorTextureLayer(
+
+                        new ResourceLocation(
+                                MODID,
+                                "textures/armor/test_pattern.png"
+                        ),
+
+                        LayerType.NORMAL,
+
+                        0xffffff
+
+                )
+
+        );
+
+
+
+        // 染色层
+        test.addLayer(
+
+                new ArmorTextureLayer(
+
+                        new ResourceLocation(
+                                MODID,
+                                "textures/armor/test_dye.png"
+                        ),
+
+                        LayerType.DYE,
+
+                        0xffffff
+
+                )
+
         );
 
 
@@ -26,7 +80,11 @@ public class GeoArmorRegistry {
 
 
 
-    private static void registerArmor(
+
+
+
+
+    private static GeoArmorConfig registerArmor(
             String id,
             String model,
             String texture,
@@ -36,8 +94,7 @@ public class GeoArmorRegistry {
     ){
 
 
-        GeoArmorManager.register(
-
+        GeoArmorConfig config =
                 new GeoArmorConfig(
 
                         id,
@@ -47,27 +104,27 @@ public class GeoArmorRegistry {
                                 model
                         ),
 
-
                         new ResourceLocation(
                                 MODID,
                                 texture
                         ),
-
 
                         new ResourceLocation(
                                 MODID,
                                 animation
                         ),
 
-
                         dyeable,
 
                         defaultColor
 
-                )
+                );
 
-        );
 
+        GeoArmorManager.register(config);
+
+
+        return config;
 
     }
 
