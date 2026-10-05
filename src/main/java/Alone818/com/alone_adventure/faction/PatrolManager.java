@@ -67,13 +67,13 @@ public final class PatrolManager {
     private static final Logger LOGGER =
             LogUtils.getLogger();
 
-    /** 巡逻最短间隔：8 分钟 */
+    /** 巡逻最短间隔：约 5 分 20 秒（原 8 分钟，概率 x1.5） */
     public static final long MIN_INTERVAL_TICKS =
-            9_600L;
+            6_400L;
 
-    /** 巡逻最长间隔：12 分钟 */
+    /** 巡逻最长间隔：8 分钟（原 12 分钟，概率 x1.5） */
     public static final long MAX_INTERVAL_TICKS =
-            14_400L;
+            9_600L;
 
     /**
      * 迟到豁免：到期超过 1 分钟视为离线期间错过，
@@ -301,7 +301,7 @@ public final class PatrolManager {
                 RaidManager.getThreatLevel(playerId);
 
         int count =
-                3 + Math.min(threat, 3);
+                3 + Math.min(threat, 3) * 2;
 
         boolean hostile =
                 RaidManager.isHostileToPlayer(

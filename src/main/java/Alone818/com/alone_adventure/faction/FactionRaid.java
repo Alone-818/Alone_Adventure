@@ -45,7 +45,7 @@ import java.util.UUID;
  *
  * 基础 3 波，最高 7 波
  * （仇恨每超出临界 80 点 +1 波）。
- * 每波生成 2 + 波数 名派系生物，
+  * 每波生成 6 ~ 15 名派系生物（6 + (波数 - 1) x 1.5），
  * 军衔构成由 波次 + 玩家威胁等级 双轴决定
  * （见 pickTier）：
  * 波次推进一阶军衔概率 +25%，
@@ -329,8 +329,11 @@ public class FactionRaid {
         int waveNumber =
                 completedWaves + 1;
 
+        // 第 1 波 6 名，第 7 波 15 名
         int count =
-                2 + waveNumber;
+                6 + Math.round(
+                        (waveNumber - 1) * 1.5F
+                );
 
         int threat =
                 RaidManager.getThreatLevel(
