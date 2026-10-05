@@ -1,6 +1,6 @@
 {
   "replace": true,
-  "size": 1,
+  "size": 3,
   "icon":"alone_adventure:slot/empty_trait_slot",
   "entities": ["player"]
 }

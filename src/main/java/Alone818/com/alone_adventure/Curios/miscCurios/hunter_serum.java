@@ -34,7 +34,7 @@ import java.util.Optional;
  * 主动技能（按键触发，默认 R，与其他主动饰品共用）：
  * - 视角变为黑白：客户端由 HunterVisionClient 加载去色后处理着色器
  * - 视野范围内（半径 {@value #HIGHLIGHT_RADIUS} 格）生物以红色线框高亮、
- *   凋落物蓝色、容器（箱子/木桶/潜影盒等）黄色，均穿墙可见且仅本人可见
+ *   掉落物蓝色、容器（箱子/木桶/潜影盒等）黄色，均穿墙可见且仅本人可见
  * - 视野期间攻击无视目标 {@value #ARMOR_PEN_RATIO} 比例的护甲与
  *   {@value #TOUGHNESS_PEN_RATIO} 比例的护甲韧性（见 HunterSerumEvent）
  * - 持续 {@value #SKILL_DURATION_TICKS} tick，冷却 {@value #SKILL_COOLDOWN_TICKS} tick
@@ -88,7 +88,7 @@ public class hunter_serum extends Item implements ICurioItem {
 
     /**
      * 服务端激活：向客户端发 HunterVisionPacket
-     * （去色着色器 + 生物/凋落物/容器线框高亮），随后进入冷却。
+     * （去色着色器 + 生物/掉落物/容器线框高亮），随后进入冷却。
      */
     public static boolean activateSkill(ServerPlayer player) {
         Optional<SlotResult> curioOpt =

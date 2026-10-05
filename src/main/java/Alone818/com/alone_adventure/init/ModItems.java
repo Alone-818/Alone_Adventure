@@ -97,7 +97,7 @@ public class ModItems {
             ITEMS.register("charging_core", charging_core::new);
 
     // 猎人血清：契约饰品；R 键开启猎人视野——黑暗+黑白视角，
-    // 高亮范围内生物/凋落物（发光）与容器（白色线框），仅本人可见
+    // 高亮范围内生物/掉落物（发光）与容器（白色线框），仅本人可见
     public static final RegistryObject<Item> HUNTER_SERUM =
             ITEMS.register("hunter_serum", hunter_serum::new);
     public static final RegistryObject<Item> SINGLE_ACTION_RAPID_FIRE =
@@ -418,11 +418,11 @@ public class ModItems {
             ITEMS.register("evil_contract", evil_contract::new);
 
     // =========================================================
-    // 派系凋落物
+    // 派系掉落物
     //
     // 每派系一种材料 x 3 个等级（I / II / III），
     // 等级对应派系生物的 MobTier。
-    // 8 个低阶凋落物合成 1 个高阶
+    // 8 个低阶掉落物合成 1 个高阶
     // （配方 JSON 在 data/alone_adventure/recipes）。
     // =========================================================
 
@@ -538,7 +538,7 @@ public class ModItems {
                     )
             );
 
-    /** 全部派系凋落物（派系 x 等级，注册顺序），创造模式物品栏批量展开用 */
+    /** 全部派系掉落物（派系 x 等级，注册顺序），创造模式物品栏批量展开用 */
     public static final List<RegistryObject<Item>> FACTION_DROPS =
             List.of(
                     EMPIRE_INSIGNIA_I,
@@ -555,14 +555,300 @@ public class ModItems {
                     TRIBE_BONE_III
             );
 
+    // =========================================================
+    // 仇恨符
+    //
+    // 每派系 x 3 等级 x 增/减 = 24 个物品。
+    // 用对应派系对应等级的掉落物制作
+    // （配方 JSON 在 data/alone_adventure/recipes）：
+    // I 级符 = 同派系 I 级掉落物
+    // II 级符 = 同派系 II 级掉落物
+    // III 级符 = 同派系 III 级掉落物
+    // 增 / 减各占掉落物网格对角
+    // （其余格放掉落物，区分增减两版）。
+    // =========================================================
+
+    // 帝国仇恨符 I / II / III
+    public static final RegistryObject<Item> EMPIRE_TALISMAN_UP_I =
+            ITEMS.register(
+                    "empire_talisman_up_i",
+                    () -> new hatred_talisman(
+                            ModFactions.EMPIRE,
+                            MobTier.TIER_1,
+                            true
+                    )
+            );
+
+    public static final RegistryObject<Item> EMPIRE_TALISMAN_UP_II =
+            ITEMS.register(
+                    "empire_talisman_up_ii",
+                    () -> new hatred_talisman(
+                            ModFactions.EMPIRE,
+                            MobTier.TIER_2,
+                            true
+                    )
+            );
+
+    public static final RegistryObject<Item> EMPIRE_TALISMAN_UP_III =
+            ITEMS.register(
+                    "empire_talisman_up_iii",
+                    () -> new hatred_talisman(
+                            ModFactions.EMPIRE,
+                            MobTier.TIER_3,
+                            true
+                    )
+            );
+
+    public static final RegistryObject<Item> EMPIRE_TALISMAN_DOWN_I =
+            ITEMS.register(
+                    "empire_talisman_down_i",
+                    () -> new hatred_talisman(
+                            ModFactions.EMPIRE,
+                            MobTier.TIER_1,
+                            false
+                    )
+            );
+
+    public static final RegistryObject<Item> EMPIRE_TALISMAN_DOWN_II =
+            ITEMS.register(
+                    "empire_talisman_down_ii",
+                    () -> new hatred_talisman(
+                            ModFactions.EMPIRE,
+                            MobTier.TIER_2,
+                            false
+                    )
+            );
+
+    public static final RegistryObject<Item> EMPIRE_TALISMAN_DOWN_III =
+            ITEMS.register(
+                    "empire_talisman_down_iii",
+                    () -> new hatred_talisman(
+                            ModFactions.EMPIRE,
+                            MobTier.TIER_3,
+                            false
+                    )
+            );
+
+    // 亡灵仇恨符 I / II / III
+    public static final RegistryObject<Item> UNDEAD_TALISMAN_UP_I =
+            ITEMS.register(
+                    "undead_talisman_up_i",
+                    () -> new hatred_talisman(
+                            ModFactions.UNDEAD,
+                            MobTier.TIER_1,
+                            true
+                    )
+            );
+
+    public static final RegistryObject<Item> UNDEAD_TALISMAN_UP_II =
+            ITEMS.register(
+                    "undead_talisman_up_ii",
+                    () -> new hatred_talisman(
+                            ModFactions.UNDEAD,
+                            MobTier.TIER_2,
+                            true
+                    )
+            );
+
+    public static final RegistryObject<Item> UNDEAD_TALISMAN_UP_III =
+            ITEMS.register(
+                    "undead_talisman_up_iii",
+                    () -> new hatred_talisman(
+                            ModFactions.UNDEAD,
+                            MobTier.TIER_3,
+                            true
+                    )
+            );
+
+    public static final RegistryObject<Item> UNDEAD_TALISMAN_DOWN_I =
+            ITEMS.register(
+                    "undead_talisman_down_i",
+                    () -> new hatred_talisman(
+                            ModFactions.UNDEAD,
+                            MobTier.TIER_1,
+                            false
+                    )
+            );
+
+    public static final RegistryObject<Item> UNDEAD_TALISMAN_DOWN_II =
+            ITEMS.register(
+                    "undead_talisman_down_ii",
+                    () -> new hatred_talisman(
+                            ModFactions.UNDEAD,
+                            MobTier.TIER_2,
+                            false
+                    )
+            );
+
+    public static final RegistryObject<Item> UNDEAD_TALISMAN_DOWN_III =
+            ITEMS.register(
+                    "undead_talisman_down_iii",
+                    () -> new hatred_talisman(
+                            ModFactions.UNDEAD,
+                            MobTier.TIER_3,
+                            false
+                    )
+            );
+
+    // 恶魔仇恨符 I / II / III
+    public static final RegistryObject<Item> DEMON_TALISMAN_UP_I =
+            ITEMS.register(
+                    "demon_talisman_up_i",
+                    () -> new hatred_talisman(
+                            ModFactions.DEMON,
+                            MobTier.TIER_1,
+                            true
+                    )
+            );
+
+    public static final RegistryObject<Item> DEMON_TALISMAN_UP_II =
+            ITEMS.register(
+                    "demon_talisman_up_ii",
+                    () -> new hatred_talisman(
+                            ModFactions.DEMON,
+                            MobTier.TIER_2,
+                            true
+                    )
+            );
+
+    public static final RegistryObject<Item> DEMON_TALISMAN_UP_III =
+            ITEMS.register(
+                    "demon_talisman_up_iii",
+                    () -> new hatred_talisman(
+                            ModFactions.DEMON,
+                            MobTier.TIER_3,
+                            true
+                    )
+            );
+
+    public static final RegistryObject<Item> DEMON_TALISMAN_DOWN_I =
+            ITEMS.register(
+                    "demon_talisman_down_i",
+                    () -> new hatred_talisman(
+                            ModFactions.DEMON,
+                            MobTier.TIER_1,
+                            false
+                    )
+            );
+
+    public static final RegistryObject<Item> DEMON_TALISMAN_DOWN_II =
+            ITEMS.register(
+                    "demon_talisman_down_ii",
+                    () -> new hatred_talisman(
+                            ModFactions.DEMON,
+                            MobTier.TIER_2,
+                            false
+                    )
+            );
+
+    public static final RegistryObject<Item> DEMON_TALISMAN_DOWN_III =
+            ITEMS.register(
+                    "demon_talisman_down_iii",
+                    () -> new hatred_talisman(
+                            ModFactions.DEMON,
+                            MobTier.TIER_3,
+                            false
+                    )
+            );
+
+    // 部落仇恨符 I / II / III
+    public static final RegistryObject<Item> TRIBE_TALISMAN_UP_I =
+            ITEMS.register(
+                    "tribe_talisman_up_i",
+                    () -> new hatred_talisman(
+                            ModFactions.TRIBE,
+                            MobTier.TIER_1,
+                            true
+                    )
+            );
+
+    public static final RegistryObject<Item> TRIBE_TALISMAN_UP_II =
+            ITEMS.register(
+                    "tribe_talisman_up_ii",
+                    () -> new hatred_talisman(
+                            ModFactions.TRIBE,
+                            MobTier.TIER_2,
+                            true
+                    )
+            );
+
+    public static final RegistryObject<Item> TRIBE_TALISMAN_UP_III =
+            ITEMS.register(
+                    "tribe_talisman_up_iii",
+                    () -> new hatred_talisman(
+                            ModFactions.TRIBE,
+                            MobTier.TIER_3,
+                            true
+                    )
+            );
+
+    public static final RegistryObject<Item> TRIBE_TALISMAN_DOWN_I =
+            ITEMS.register(
+                    "tribe_talisman_down_i",
+                    () -> new hatred_talisman(
+                            ModFactions.TRIBE,
+                            MobTier.TIER_1,
+                            false
+                    )
+            );
+
+    public static final RegistryObject<Item> TRIBE_TALISMAN_DOWN_II =
+            ITEMS.register(
+                    "tribe_talisman_down_ii",
+                    () -> new hatred_talisman(
+                            ModFactions.TRIBE,
+                            MobTier.TIER_2,
+                            false
+                    )
+            );
+
+    public static final RegistryObject<Item> TRIBE_TALISMAN_DOWN_III =
+            ITEMS.register(
+                    "tribe_talisman_down_iii",
+                    () -> new hatred_talisman(
+                            ModFactions.TRIBE,
+                            MobTier.TIER_3,
+                            false
+                    )
+            );
+
+    /** 全部仇恨符（派系 x 等级 x 增/减），创造模式物品栏批量展开用 */
+    public static final List<RegistryObject<Item>> FACTION_TALISMANS =
+            List.of(
+                    EMPIRE_TALISMAN_UP_I,
+                    EMPIRE_TALISMAN_UP_II,
+                    EMPIRE_TALISMAN_UP_III,
+                    EMPIRE_TALISMAN_DOWN_I,
+                    EMPIRE_TALISMAN_DOWN_II,
+                    EMPIRE_TALISMAN_DOWN_III,
+                    UNDEAD_TALISMAN_UP_I,
+                    UNDEAD_TALISMAN_UP_II,
+                    UNDEAD_TALISMAN_UP_III,
+                    UNDEAD_TALISMAN_DOWN_I,
+                    UNDEAD_TALISMAN_DOWN_II,
+                    UNDEAD_TALISMAN_DOWN_III,
+                    DEMON_TALISMAN_UP_I,
+                    DEMON_TALISMAN_UP_II,
+                    DEMON_TALISMAN_UP_III,
+                    DEMON_TALISMAN_DOWN_I,
+                    DEMON_TALISMAN_DOWN_II,
+                    DEMON_TALISMAN_DOWN_III,
+                    TRIBE_TALISMAN_UP_I,
+                    TRIBE_TALISMAN_UP_II,
+                    TRIBE_TALISMAN_UP_III,
+                    TRIBE_TALISMAN_DOWN_I,
+                    TRIBE_TALISMAN_DOWN_II,
+                    TRIBE_TALISMAN_DOWN_III
+            );
+
     /**
-     * 查询派系 x 等级对应的凋落物
-     * （派系无对应凋落物时返回 null）。
+     * 查询派系 x 等级对应的掉落物
+     * （派系无对应掉落物时返回 null）。
      *
      * 依赖 FACTION_DROPS 的顺序：
      * 派系为外层（与 ModFactions.all() 一致），
      * 等级为内层（1 ~ 3 级）。
-     * 以后新增派系时记得同步补一组凋落物。
+     * 以后新增派系时记得同步补一组掉落物。
      */
     @Nullable
     public static Item getFactionDrop(
@@ -579,7 +865,7 @@ public class ModItems {
                 int index =
                         f * 3 + tier.getLevel() - 1;
 
-                // 派系没配齐 3 个等级的凋落物
+                // 派系没配齐 3 个等级的掉落物
                 if (index >= FACTION_DROPS.size()) {
                     return null;
                 }

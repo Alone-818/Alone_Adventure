@@ -768,7 +768,7 @@ public class Config {
                 .comment("技能冷却（tick，1200 = 60 秒）")
                 .defineInRange("skillCooldownTicks", 1200, 0, MAX_TICKS);
         SERUM_HIGHLIGHT_RADIUS = BUILDER
-                .comment("高亮半径（格）：生物/凋落物发光与容器线框的生效范围")
+                .comment("高亮半径（格）：生物/掉落物发光与容器线框的生效范围")
                 .defineInRange("highlightRadius", 64, 1, 128);
         SERUM_POTION_LEVEL_BONUS = BUILDER
                 .comment("被动：使用针剂时药水效果等级加成")

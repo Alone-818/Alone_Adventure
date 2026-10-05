@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " A ",
+    "xAx",
+    " A "
+  ],
+  "key": {
+    "x": {
+      "item": "alone_adventure:undead_soul_i"
+    },
+    "A": {
+      "item": "minecraft:bone_meal"
+    }
+  },
+  "result": {
+    "item": "alone_adventure:undead_talisman_down_i",
+    "count": 1
+  }
+}

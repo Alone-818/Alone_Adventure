@@ -28,23 +28,23 @@ public class ModFactions {
                             BossEvent.BossBarColor.YELLOW
                     );
 
-    /** 亡灵：主动攻击玩家，主题淡蓝 #ADD8E6，突袭血条淡蓝 */
+    /** 亡灵：对玩家中立，主题淡蓝 #ADD8E6，突袭血条淡蓝 */
     public static final Faction UNDEAD =
             FactionManager.register(
                             "undead",
                             0xADD8E6,
-                            true
+                            false
                     )
                     .setRaidBarColor(
                             BossEvent.BossBarColor.BLUE
                     );
 
-    /** 恶魔：主动攻击玩家，主题绯红 #DC143C，突袭血条红色 */
+    /** 恶魔：对玩家中立，主题绯红 #DC143C，突袭血条红色 */
     public static final Faction DEMON =
             FactionManager.register(
                             "demon",
                             0xDC143C,
-                            true
+                            false
                     )
                     .setRaidBarColor(
                             BossEvent.BossBarColor.RED

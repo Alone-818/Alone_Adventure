@@ -301,7 +301,7 @@ public final class PatrolManager {
                 RaidManager.getThreatLevel(playerId);
 
         int count =
-                3 + Math.min(threat, 3) * 2;
+                3 + Math.min(threat, 3) * 2 + 1;
 
         boolean hostile =
                 RaidManager.isHostileToPlayer(

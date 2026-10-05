@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " A ",
+    "xAx",
+    " A "
+  ],
+  "key": {
+    "x": {
+      "item": "alone_adventure:empire_insignia_iii"
+    },
+    "A": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "result": {
+    "item": "alone_adventure:empire_talisman_up_iii",
+    "count": 1
+  }
+}

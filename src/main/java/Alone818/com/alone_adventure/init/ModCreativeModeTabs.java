@@ -582,13 +582,24 @@ public class ModCreativeModeTabs {
                                                 )
                                         );
 
-                                        // 派系凋落物（每派系 x 3 等级，I / II / III）
+                                        // 派系掉落物（每派系 x 3 等级，I / II / III）
                                         for (RegistryObject<Item> drop
                                                 : ModItems.FACTION_DROPS) {
 
                                             output.accept(
                                                     new ItemStack(
                                                             drop.get()
+                                                    )
+                                            );
+                                        }
+
+                                        // 仇恨符（派系 x 等级 x 增/减）
+                                        for (RegistryObject<Item> talisman
+                                                : ModItems.FACTION_TALISMANS) {
+
+                                            output.accept(
+                                                    new ItemStack(
+                                                            talisman.get()
                                                     )
                                             );
                                         }

@@ -1,15 +1,12 @@
 {
-    "targets": [ "swap" ],
+    "targets": [
+        "swap"
+    ],
     "passes": [
         {
             "name": "alone_adventure:hunter_vision",
             "intarget": "minecraft:main",
             "outtarget": "swap"
-        },
-        {
-            "name": "blit",
-            "intarget": "swap",
-            "outtarget": "minecraft:main"
         }
     ]
 }

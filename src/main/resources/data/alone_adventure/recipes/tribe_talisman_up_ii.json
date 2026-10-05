@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " A ",
+    "xAx",
+    " A "
+  ],
+  "key": {
+    "x": {
+      "item": "alone_adventure:tribe_bone_ii"
+    },
+    "A": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "result": {
+    "item": "alone_adventure:tribe_talisman_up_ii",
+    "count": 1
+  }
+}

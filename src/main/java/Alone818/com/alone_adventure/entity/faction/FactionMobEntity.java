@@ -186,7 +186,8 @@ public abstract class FactionMobEntity
         applyCombatStats(false);
         setHealth(getMaxHealth());
 
-        LOGGER.info(
+        // 生成不写控制台：自然刷新量大，逐只打印会刷屏
+        LOGGER.debug(
                 "[Faction] spawned {} faction={} rank={} level={}",
                 getType().toShortString(),
                 faction.getId(),

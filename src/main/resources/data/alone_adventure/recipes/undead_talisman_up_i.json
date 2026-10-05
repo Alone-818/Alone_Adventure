@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " A ",
+    "xAx",
+    " A "
+  ],
+  "key": {
+    "x": {
+      "item": "alone_adventure:undead_soul_i"
+    },
+    "A": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "result": {
+    "item": "alone_adventure:undead_talisman_up_i",
+    "count": 1
+  }
+}

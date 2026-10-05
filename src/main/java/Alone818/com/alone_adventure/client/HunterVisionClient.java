@@ -40,7 +40,7 @@ import java.util.List;
  *
  * 激活期间（由 HunterVisionPacket 调用 {@link #activate}）：
  * 1. 黑白视野：加载去色后处理着色器（shaders/post/hunter_vision.json）
- * 2. 生物 + 凋落物：绘制发光级联层（白色描边，穿墙可见）
+ * 2. 生物 + 掉落物：绘制发光级联层（白色描边，穿墙可见）
  * 3. 容器（箱子/木桶/潜影盒等）：保留白色线框高亮，每 20 tick 扫描范围内区块
  *
  * 由于 setGlowingTag 是服务端同步字段，客户端单独调用无效。
@@ -319,12 +319,6 @@ public class HunterVisionClient {
         Minecraft.getInstance().gameRenderer.shutdownEffect();
     }
 
-    /** 点亮一个实体并记账（用于后续绘制发光层） */
-    private static void glow(Entity entity) {
-        if (!GLOWED.contains(entity)) {
-            GLOWED.add(entity);
-        }
-    }
 
     /** 每 tick：倒计时 + 定期重扫容器 */
     @SubscribeEvent
@@ -344,7 +338,7 @@ public class HunterVisionClient {
             return;
         }
 
-        // 生物 / 凋落物走原版发光（每 tick 跟随实体进出视野）
+        // 生物 / 掉落物走原版发光（每 tick 跟随实体进出视野）
         glowEntities(mc);
 
         // 容器每 20 tick 重扫一次（方块不会移动，无需每帧/每 tick）
@@ -353,32 +347,40 @@ public class HunterVisionClient {
         }
     }
 
-    /**
-     * 点亮范围内的生物与凋落物。
-     *
-     * 容器是方块，原版发光机制覆盖不到，
-     * 仍走 renderLevelStage 里的白色线框。
-     */
     private static void glowEntities(Minecraft mc) {
-        double radiusSq = (double) hunter_serum.HIGHLIGHT_RADIUS * hunter_serum.HIGHLIGHT_RADIUS;
+        double radiusSq =
+                (double) hunter_serum.HIGHLIGHT_RADIUS
+                        * hunter_serum.HIGHLIGHT_RADIUS;
 
         for (Entity entity : mc.level.entitiesForRendering()) {
 
             if (entity == mc.player) continue;
 
             boolean isMob = entity instanceof LivingEntity;
-
             boolean isDrop = entity instanceof ItemEntity;
 
             if (!isMob && !isDrop) continue;
 
             if (mc.player.distanceToSqr(entity) > radiusSq) continue;
 
-            glow(entity);
+            entity.setGlowingTag(true);
+            GLOWED.add(entity);
         }
 
-        // 已离开视野 / 已卸载的实体不再点亮
-        GLOWED.removeIf(entity -> entity.isRemoved() || !inRange(mc, entity));
+        // 清除已经离开范围的实体
+        Iterator<Entity> iterator = GLOWED.iterator();
+
+        while (iterator.hasNext()) {
+            Entity entity = iterator.next();
+
+            if (entity.isRemoved()
+                    || entity.level() != mc.level
+                    || mc.player.distanceToSqr(entity) > radiusSq) {
+
+                entity.setGlowingTag(false);
+                iterator.remove();
+            }
+        }
     }
 
     /** 实体是否仍在视野半径内且已加载 */
@@ -406,7 +408,7 @@ public class HunterVisionClient {
         }
     }
 
-    /** 渲染容器线框：生物 / 凋落物已改走原版发光，只有方块容器还靠线框 */
+    /** 渲染容器线框：生物 / 掉落物已改走原版发光，只有方块容器还靠线框 */
     @SubscribeEvent
     public static void onRenderLevelStage(RenderLevelStageEvent event) {
         if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_TRANSLUCENT_BLOCKS) return;

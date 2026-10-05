@@ -17,23 +17,23 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 /**
- * 派系凋落物 - 掉落结算
+ * 派系掉落物 - 掉落结算
  *
  * 被玩家击杀的派系生物按其等级（MobTier）
- * 概率掉落对应派系、对应等级的凋落物：
+ * 概率掉落对应派系、对应等级的掉落物：
  *
- * - 1 级生物：50% 掉落 1 个 I 阶凋落物
- * - 2 级生物：65% 掉落 1 个 II 阶凋落物
- * - 3 级生物：80% 掉落 1 个 III 阶凋落物
+ * - 1 级生物：50% 掉落 1 个 I 阶掉落物
+ * - 2 级生物：65% 掉落 1 个 II 阶掉落物
+ * - 3 级生物：80% 掉落 1 个 III 阶掉落物
  *
  * 规则：
  *
  * - 不受抢夺（Looting）附魔加成影响
  * - 掉落与仇恨结算互相独立：
  *   突袭中冻结的只是仇恨，
- *   突袭里的击杀照常掉落凋落物
+ *   突袭里的击杀照常掉落掉落物
  *
- * 物品与 8 合 1 配方见 ModItems 派系凋落物区块
+ * 物品与 8 合 1 配方见 ModItems 派系掉落物区块
  * 与 data/alone_adventure/recipes。
  */
 @Mod.EventBusSubscriber(modid = Alone_adventure.MODID)
@@ -83,7 +83,7 @@ public class FactionDropEvent {
             return;
         }
 
-        // 对应派系 x 等级的凋落物
+        // 对应派系 x 等级的掉落物
         Item drop =
                 ModItems.getFactionDrop(
                         faction,

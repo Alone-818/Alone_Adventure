@@ -10,7 +10,7 @@ import java.util.function.Supplier;
 
 /**
  * 猎人视野包 —— 服务端激活猎人血清后发给施放者本人的客户端，
- * 由 HunterVisionClient 开启去色着色器并高亮范围内的生物/凋落物/容器。
+ * 由 HunterVisionClient 开启去色着色器并高亮范围内的生物/掉落物/容器。
  * 仅客户端处理（与 ReviveEffectPacket 同款模式）。
  */
 public class HunterVisionPacket {

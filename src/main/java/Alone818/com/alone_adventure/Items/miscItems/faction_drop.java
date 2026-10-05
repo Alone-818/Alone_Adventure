@@ -14,9 +14,9 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 /**
- * 派系凋落物 - 击杀派系生物获得的战利品材料
+ * 派系掉落物 - 击杀派系生物获得的战利品材料
  *
- * 每个派系一种凋落物，各 3 个等级（I / II / III），
+ * 每个派系一种掉落物，各 3 个等级（I / II / III），
  * 对应派系生物的等级（{@link MobTier}）：
  *
  * - 帝国：帝国军衔 I / II / III
@@ -25,11 +25,11 @@ import java.util.List;
  * - 部落：部落兽骨 I / II / III
  *
  * 合成关系（8 合 1）：
- * 8 个低阶凋落物环形摆放 -> 1 个高阶凋落物
+ * 8 个低阶掉落物环形摆放 -> 1 个高阶掉落物
  * （配方见 data/alone_adventure/recipes）。
  *
  * 12 个物品共用本类，派系与等级在注册时传入
- * （见 ModItems 的派系凋落物区块）。
+ * （见 ModItems 的派系掉落物区块）。
  */
 public class faction_drop extends Item {
 

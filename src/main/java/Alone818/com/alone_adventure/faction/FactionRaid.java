@@ -329,9 +329,9 @@ public class FactionRaid {
         int waveNumber =
                 completedWaves + 1;
 
-        // 第 1 波 6 名，第 7 波 15 名
+        // 第 1 波 7 名，第 7 波 16 名
         int count =
-                6 + Math.round(
+                7 + Math.round(
                         (waveNumber - 1) * 1.5F
                 );
 
