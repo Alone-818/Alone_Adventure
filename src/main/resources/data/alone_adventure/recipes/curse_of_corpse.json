@@ -3,7 +3,7 @@
   "count": 1,
   "ingredient": {
     "type": "forge:partial_nbt",
-    "item": "alone_adventure:battle_contract",
+    "item": "alone_adventure:evil_contract",
     "nbt": "{QuestDone:1b}"
   },
   "result": "alone_adventure:curse_of_corpse"
