@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " B ",
+    "BsB",
+    " B "
+  ],
+  "key": {
+    "B": {
+      "tag": "alone_adventure:faction_drops"
+    },
+    "s": {
+      "item": "minecraft:bone"
+    }
+  },
+  "result": {
+    "item": "alone_adventure:provocation_horn",
+    "count": 1
+  }
+}

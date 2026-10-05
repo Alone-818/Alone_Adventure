@@ -664,5 +664,22 @@
 
   "effect.alone_adventure.endurance": "Endurance",
   "item.alone_adventure.decapitation_axe": "Decapitation Axe",
-  "tooltip.alone_adventure.decapitation_axe": "§7Always cuts off the head of killed creatures"
+  "tooltip.alone_adventure.decapitation_axe": "§7Always cuts off the head of killed creatures",
+
+  "item.alone_adventure.curse_of_corpse": "Curse of Corpse",
+  "item.alone_adventure.curse_of_corpse.tooltip.desc": "§4A cursed vestment that infects both wielder and foe with rot with every strike.",
+  "item.alone_adventure.curse_of_corpse.tooltip.debuff_desc": "§cOn hit: apply 1 of {Poison, Slowness, Weakness, Hunger, Confusion} to both target and self for 30 seconds",
+  "item.alone_adventure.curse_of_corpse.tooltip.dmg_desc": "§6Damage increases by 10% per negative effect on the target",
+
+  "item.alone_adventure.thirst_for_blood": "Thirst for Blood",
+  "item.alone_adventure.thirst_for_blood.tooltip.desc": "§4A cursed relic that feeds on blood with every strike.",
+  "item.alone_adventure.thirst_for_blood.tooltip.heal_desc": "§6On hit: restore 50% of damage dealt as health",
+  "item.alone_adventure.thirst_for_blood.tooltip.health_desc": "§7Increases maximum health by 30%",
+  "item.alone_adventure.thirst_for_blood.tooltip.effect_desc": "§cAt >80% health: Weakness III; at <30% health: Haste II",
+
+  "item.alone_adventure.weapon_master": "Weapon Master",
+  "item.alone_adventure.weapon_master.tooltip.desc": "§7A trait relic inherited from ancient warriors — enhances combat abilities when worn.",
+  "item.alone_adventure.weapon_master.tooltip.speed_desc": "§aAttack Speed: +10%",
+  "item.alone_adventure.weapon_master.tooltip.damage_desc": "§cDamage: +20%",
+  "item.alone_adventure.weapon_master.tooltip.double_desc": "§6Double Hit: 10% base chance, +5% per missed trigger, resets on hit"
 }

@@ -12,7 +12,6 @@ import Alone818.com.alone_adventure.Items.ImperialItems.chainsawsword;
 import Alone818.com.alone_adventure.Items.ImperialItems.decapitation_axe;
 import Alone818.com.alone_adventure.Items.ImperialItems.powersword;
 import Alone818.com.alone_adventure.Items.ImperialItems.regiment_banner;
-import Alone818.com.alone_adventure.Items.armor.GeoArmorItem;
 import Alone818.com.alone_adventure.Items.bullet.*;
 import Alone818.com.alone_adventure.Items.contract.*;
 // evil_contract 已导入
@@ -32,8 +31,6 @@ import Alone818.com.alone_adventure.faction.ModFactions;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -916,6 +913,19 @@ public class ModItems {
 
         return eggs;
     }
+
+    // 诅咒之躯：特质槽位饰品；攻击时对目标和自身随机施加中毒/缓慢/虚弱/饥饿/反胃 30s；
+    // 对负面 buff 越多的目标伤害越高，每层 10%
+    public static final RegistryObject<Item> CURSE_OF_CORPSE =
+            ITEMS.register("curse_of_corpse",curse_of_corpse::new);
+
+    // 渴血症：攻击回复 50% 伤害；+30% 最大生命；血量>80% 虚弱 III；血量<30% 急迫 II
+    public static final RegistryObject<Item> THIRST_FOR_BLOOD =
+            ITEMS.register("thirst_for_blood", thirst_for_blood::new);
+
+    // 习武之人：攻击速度 +10%，伤害 +20%，二连击概率（基础 10%，未触发时 +5%，触发后重置）
+    public static final RegistryObject<Item> WEAPON_MASTER =
+            ITEMS.register("weapon_master", weapon_master::new);
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

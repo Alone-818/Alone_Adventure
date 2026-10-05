@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " # ",
+    " B ",
+    " # "
+  ],
+  "key": {
+    "#": {
+      "tag": "alone_adventure:faction_drops"
+    },
+    "B": {
+      "item": "minecraft:book"
+    }
+  },
+  "result": {
+    "item": "alone_adventure:hatred_book",
+    "count": 1
+  }
+}

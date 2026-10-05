@@ -2,6 +2,7 @@ package Alone818.com.alone_adventure.init;
 
 import Alone818.com.alone_adventure.Alone_adventure;
 
+import Alone818.com.alone_adventure.Curios.towerCurios.necromancer_ledger;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -283,6 +284,21 @@ public class ModCreativeModeTabs {
                                         output.accept(
                                                 new ItemStack(
                                                         ModItems.ONE_WITH_GUN.get()
+                                                )
+                                        );
+                                        output.accept(
+                                                new ItemStack(
+                                                        ModItems.THIRST_FOR_BLOOD.get()
+                                                )
+                                        );
+                                        output.accept(
+                                                new ItemStack(
+                                                        ModItems.CURSE_OF_CORPSE.get()
+                                                )
+                                        );
+                                        output.accept(
+                                                new ItemStack(
+                                                        ModItems.WEAPON_MASTER.get()
                                                 )
                                         );
                                         output.accept(

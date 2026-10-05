@@ -669,5 +669,22 @@
   "item.minecraft.lingering_potion.effect.resistance_strong": "滞留型强效抗性药水",
 
   "item.alone_adventure.decapitation_axe": "斩首斧",
-  "tooltip.alone_adventure.decapitation_axe": "§7击杀生物时必定斩下其头颅"
+  "tooltip.alone_adventure.decapitation_axe": "§7击杀生物时必定斩下其头颅",
+
+  "item.alone_adventure.curse_of_corpse": "诅咒之躯",
+  "item.alone_adventure.curse_of_corpse.tooltip.desc": "§4 一件以血肉为祭的特质饰品，每次挥击都将腐朽注入敌我双方。",
+  "item.alone_adventure.curse_of_corpse.tooltip.debuff_desc": "§c 攻击命中：对目标和自身随机施加 {中毒、缓慢、虚弱、饥饿、反胃} 之一，持续 30 秒",
+  "item.alone_adventure.curse_of_corpse.tooltip.dmg_desc": "§6 目标每层负面效果提升 10% 伤害",
+
+  "item.alone_adventure.thirst_for_blood": "渴血症",
+  "item.alone_adventure.thirst_for_blood.tooltip.desc": "§4 一件以血肉为祭的特质饰品，每次挥击都能吸取血液。",
+  "item.alone_adventure.thirst_for_blood.tooltip.heal_desc": "§6 攻击命中：以 50% 的伤害 healing",
+  "item.alone_adventure.thirst_for_blood.tooltip.health_desc": "§7 最大生命值提升 30%",
+  "item.alone_adventure.thirst_for_blood.tooltip.effect_desc": "§c 生命值 >80% 时：虚弱 III；生命值 <30% 时：急迫 II",
+
+  "item.alone_adventure.weapon_master": "习武之人",
+  "item.alone_adventure.weapon_master.tooltip.desc": "§7 一件传承自古代武者特质饰品——佩戴时提升战斗能力。",
+  "item.alone_adventure.weapon_master.tooltip.speed_desc": "§a 攻击速度：+10%",
+  "item.alone_adventure.weapon_master.tooltip.damage_desc": "§c 伤害：+20%",
+  "item.alone_adventure.weapon_master.tooltip.double_desc": "§6 二连击：基础 10% 概率，未触发时每次 +5%，触发后重置"
 }
