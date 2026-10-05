@@ -1,7 +1,8 @@
 package Alone818.com.alone_adventure.Items.gun;
 
+import Alone818.com.alone_adventure.Curios.gun.GrandOpening;
 import Alone818.com.alone_adventure.Curios.gun.MagazinePressure;
-import Alone818.com.alone_adventure.Items.gun.GunStats;
+import Alone818.com.alone_adventure.Curios.gun.OneWithGun;
 
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -75,18 +76,35 @@ public final class GunAccessoryDamageCalculator {
         );
 
         // ====================================================
+        // 人枪合一
+        // ====================================================
+        //
+        // 基础 70%，
+        // 每次开枪命中 +10%（上限 150%），
+        // 空枪 -20%（最低回落到 70%）。
+        //
+        multiplier *= OneWithGun.getDamageMultiplier(
+                player
+        );
+
+        // ====================================================
+        // 盛大开场
+        // ====================================================
+        //
+        // 触发（命中 100% ~ 95% 血量生物）后
+        // 20 秒内伤害基础值 -35%。
+        //
+        multiplier *= GrandOpening.getDamageMultiplier(
+                player
+        );
+
+        // ====================================================
         // 以后其他饰品可以继续写在这里
         // ====================================================
         //
         // 例如：
         //
         // multiplier *= SomeAccessory.getDamageMultiplier(
-        //         player,
-        //         gunStack,
-        //         stats
-        // );
-        //
-        // multiplier *= AnotherAccessory.getDamageMultiplier(
         //         player,
         //         gunStack,
         //         stats

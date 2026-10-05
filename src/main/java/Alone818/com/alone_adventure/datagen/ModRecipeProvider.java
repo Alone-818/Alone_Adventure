@@ -172,6 +172,20 @@ public class ModRecipeProvider extends RecipeProvider {
         completedContractRecipe(
                 writer,
                 ModItems.BATTLE_CONTRACT.get(),
+                ModItems.ONE_WITH_GUN.get(),
+                "one_with_gun"
+        );
+
+        completedContractRecipe(
+                writer,
+                ModItems.BATTLE_CONTRACT.get(),
+                ModItems.GRAND_OPENING.get(),
+                "grand_opening"
+        );
+
+        completedContractRecipe(
+                writer,
+                ModItems.BATTLE_CONTRACT.get(),
                 ModItems.HUNTER_SERUM.get(),
                 "hunter_serum"
         );

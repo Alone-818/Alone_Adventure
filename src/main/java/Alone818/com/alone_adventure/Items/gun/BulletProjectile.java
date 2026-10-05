@@ -1,5 +1,7 @@
 package Alone818.com.alone_adventure.Items.gun;
 
+import Alone818.com.alone_adventure.Curios.gun.GrandOpening;
+import Alone818.com.alone_adventure.Curios.gun.OneWithGun;
 import Alone818.com.alone_adventure.init.ModItems;
 import Alone818.com.alone_adventure.util.Penetration;
 import Alone818.com.alone_adventure.util.Ricochet;
@@ -19,6 +21,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.Entity.RemovalReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
@@ -103,6 +106,30 @@ public class BulletProjectile extends ThrowableItemProjectile {
      */
     private final Penetration.Record pierced =
             new Penetration.Record();
+
+    /**
+     * 人枪合一：这次开枪的编号。
+     *
+     * 0 = 未参与人枪合一追踪。
+     *
+     * 不写入 NBT：区块卸载导致子弹丢失时，
+     * 对应开枪记录由 OneWithGun 按超时静默清理。
+     */
+    private long oneWithGunShot = 0L;
+
+    /**
+     * 获取人枪合一开枪编号。
+     */
+    public long getOneWithGunShot() {
+        return this.oneWithGunShot;
+    }
+
+    /**
+     * 设置人枪合一开枪编号。
+     */
+    public void setOneWithGunShot(long shotId) {
+        this.oneWithGunShot = shotId;
+    }
 
     /**
      * 反弹次数。
@@ -491,6 +518,23 @@ public class BulletProjectile extends ThrowableItemProjectile {
                 damageAt();
 
         /*
+         * 人枪合一：
+         * 这次开枪命中了实体。
+         */
+        OneWithGun.onBulletHitEntity(this);
+
+        /*
+         * 盛大开场：
+         * 在主伤害结算之前判定目标血量比例，
+         * 命中 100% ~ 95% 血量的生物才能触发。
+         */
+        boolean grandOpeningEligible =
+                GrandOpening.canTrigger(
+                        this,
+                        hit
+                );
+
+        /*
          * 枪械命中回调。
          */
         if (level() instanceof ServerLevel serverLevel) {
@@ -524,6 +568,25 @@ public class BulletProjectile extends ThrowableItemProjectile {
                 ),
                 actualDamage
         );
+
+        /*
+         * 盛大开场：
+         * 额外 1200% 伤害
+         * + TNT 范围爆炸（不破坏方块）
+         * + 20 秒弱化窗口。
+         */
+        if (grandOpeningEligible) {
+
+            if (level() instanceof ServerLevel grandLevel) {
+
+                GrandOpening.onTrigger(
+                        grandLevel,
+                        this,
+                        (LivingEntity) hit,
+                        actualDamage
+                );
+            }
+        }
 
         /*
          * 特殊弹药。
@@ -746,6 +809,30 @@ public class BulletProjectile extends ThrowableItemProjectile {
 
             discard();
         }
+    }
+
+    /**
+     * 子弹被移除时结算人枪合一的开枪记录。
+     *
+     * Entity#discard() 和 #setRemoved() 在 Forge 中是 final，
+     * 因此覆盖 remove()：
+     * discard() 内部就是 remove(DISCARDED)，
+     * 所以方块命中、穿透耗尽、寿命到期、
+     * 爆炸弹药自行移除等途径都会走到这里。
+     */
+    @Override
+    public void remove(
+            RemovalReason removalReason
+    ) {
+
+        if (!level().isClientSide) {
+
+            OneWithGun.onBulletDiscarded(this);
+        }
+
+        super.remove(
+                removalReason
+        );
     }
 
     /**

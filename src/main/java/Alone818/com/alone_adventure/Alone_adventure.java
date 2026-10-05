@@ -2,6 +2,7 @@ package Alone818.com.alone_adventure;
 
 import Alone818.com.alone_adventure.armor.GeoArmorRegistry;
 import Alone818.com.alone_adventure.datagen.ModRecipeProvider;
+import Alone818.com.alone_adventure.faction.ModFactions;
 import Alone818.com.alone_adventure.init.*;
 import Alone818.com.alone_adventure.crafting.ModRecipes;
 import Alone818.com.alone_adventure.network.*;
@@ -100,6 +101,14 @@ public class Alone_adventure {
         ModEffects.register(modEventBus);
 
         ModEntities.register(modEventBus);
+
+        // 派系生物系列（士兵 / 弓手 / 法师）
+        ModFactionEntities.register(modEventBus);
+        modEventBus.addListener(ModFactionEntities::registerAttributes);
+        modEventBus.addListener(ModFactionEntities::registerSpawnPlacements);
+
+        // 派系系统：注册派系与生物归属
+        ModFactions.register();
 
         ModCreativeModeTabs.register(modEventBus);
 

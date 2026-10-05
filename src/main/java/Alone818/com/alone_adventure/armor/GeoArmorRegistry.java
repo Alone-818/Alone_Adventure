@@ -12,6 +12,10 @@ public class GeoArmorRegistry {
 
     }
 
+    // =========================================================
+    // Test Armor
+    // =========================================================
+
     private static void registerTestArmor() {
 
         GeoArmorConfig test =
@@ -24,9 +28,9 @@ public class GeoArmorRegistry {
                         0xffffff
                 );
 
-        // =========================================================
+        // =====================================================
         // 染色层
-        // =========================================================
+        // =====================================================
 
         test.addLayer(
                 new ArmorTextureLayer(
@@ -39,34 +43,38 @@ public class GeoArmorRegistry {
                 )
         );
 
-        // =========================================================
+        // =====================================================
         // Pattern 1
-        // =========================================================
+        // =====================================================
 
         test.addPattern(
                 new PatternPreset(
                         "1",
                         new ResourceLocation(
                                 MODID,
-                                "textures/armor/test_patterns/1.png"
+                                "textures/armor/test/test_patterns/1.png"
                         )
                 )
         );
 
-        // =========================================================
+        // =====================================================
         // Pattern 2
-        // =========================================================
+        // =====================================================
 
         test.addPattern(
                 new PatternPreset(
                         "2",
                         new ResourceLocation(
                                 MODID,
-                                "textures/armor/test_patterns/2.png"
+                                "textures/armor/test/test_patterns/2.png"
                         )
                 )
         );
     }
+
+    // =========================================================
+    // Generic GeoArmor Register
+    // =========================================================
 
     private static GeoArmorConfig registerArmor(
             String id,

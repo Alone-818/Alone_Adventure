@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "xxx",
+    "x x",
+    "xxx"
+  ],
+  "key": {
+    "x": {
+      "item": "alone_adventure:undead_soul_ii"
+    }
+  },
+  "result": {
+    "item": "alone_adventure:undead_soul_iii",
+    "count": 1
+  }
+}

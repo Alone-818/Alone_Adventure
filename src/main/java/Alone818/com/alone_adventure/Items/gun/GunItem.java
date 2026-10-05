@@ -1,6 +1,7 @@
 package Alone818.com.alone_adventure.Items.gun;
 
 import Alone818.com.alone_adventure.Alone_adventure;
+import Alone818.com.alone_adventure.Curios.gun.OneWithGun;
 import Alone818.com.alone_adventure.client.GunGeoRenderer;
 import Alone818.com.alone_adventure.client.GunItemAnimation;
 import Alone818.com.alone_adventure.init.ModEntities;
@@ -1199,10 +1200,10 @@ public class GunItem extends Item implements GeoItem {
         // bulletCount = 1
         //
         // 金币弹：
-        // getAdditionalBulletCount() = 9
+        // getAdditionalBulletCount() = 6
         //
         // 最终：
-        // 1 + 9 = 10 发
+        // 1 + 6 = 7 发
         // =====================================================
 
         int bulletCount =
@@ -1210,6 +1211,19 @@ public class GunItem extends Item implements GeoItem {
                         1,
                         currentStats.bulletCount()
                                 + additionalBulletCount
+                );
+
+        // =====================================================
+        // 人枪合一：登记这次开枪
+        //
+        // 这次开枪打出的所有子弹携带同一个编号，
+        // 全部子弹消失后由 OneWithGun 结算命中 / 空枪。
+        // =====================================================
+
+        long oneWithGunShot =
+                OneWithGun.beginShot(
+                        player,
+                        bulletCount
                 );
 
         // =====================================================
@@ -1392,6 +1406,17 @@ public class GunItem extends Item implements GeoItem {
                     bulletRange,
                     GunUpgradeManager.hasTracking(stack)
             );
+
+            // =================================================
+            // 人枪合一：标记这颗子弹属于哪次开枪
+            // =================================================
+
+            if (oneWithGunShot != 0L) {
+
+                bullet.setOneWithGunShot(
+                        oneWithGunShot
+                );
+            }
 
 
 // =================================================

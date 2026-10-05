@@ -11,17 +11,17 @@ public class short_bullet_coin extends AmmoItem {
     }
 
     /**
-     * 每次开火额外 +9 颗。
+     * 每次开火额外 +6 颗。
      *
      * 基础 1 发：
-     * 1 + 9 = 10 发
+     * 1 + 6 = 7 发
      */
     @Override
     public int getAdditionalBulletCount(
             GunItem gun,
             ItemStack gunStack
     ) {
-        return 9;
+        return 6;
     }
 
     /**
@@ -47,12 +47,17 @@ public class short_bullet_coin extends AmmoItem {
     ) {
         return 0.05F;
     }
+    /**
+     * 伤害倍率：0.32。
+     *
+     * 原为 0.4，削到原来的 80%。
+     */
     @Override
     public float getDamageMultiplier(
             GunItem gun,
             ItemStack gunStack
     ) {
-        return 0.4F;
+        return 0.32F;
     }
     @Override
     public int getAmmoBoxCost() {

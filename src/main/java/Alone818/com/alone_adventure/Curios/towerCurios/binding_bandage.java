@@ -1,6 +1,7 @@
 package Alone818.com.alone_adventure.Curios.towerCurios;
 
 import Alone818.com.alone_adventure.events.towerEvent.BandageEvent;
+import Alone818.com.alone_adventure.init.ModEffects;
 import Alone818.com.alone_adventure.init.ModItems;
 
 import net.minecraft.ChatFormatting;
@@ -10,6 +11,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
@@ -36,7 +39,7 @@ import java.util.Optional;
  * 3. 攻击概率叠加猛毒
  *
  * 主动：
- * 生成护盾
+ * 生成护盾，并释放猛毒爆发
  *
  */
 public class binding_bandage extends Item implements ICurioItem {
@@ -212,7 +215,7 @@ public class binding_bandage extends Item implements ICurioItem {
     /**
      * 主动技能：
      *
-     * 获得护盾
+     * 获得护盾，并释放猛毒爆发
      */
     public static boolean activateSkill(ServerPlayer player) {
 
@@ -309,6 +312,57 @@ public class binding_bandage extends Item implements ICurioItem {
                                 stack
                         )
                 );
+
+
+
+
+
+
+
+        /*
+         * 猛毒爆发：
+         *
+         * 对周围敌人施加猛毒
+         * （跳过自身、友方与死亡实体）
+         */
+        List<LivingEntity> nearby =
+                player.level()
+                        .getEntitiesOfClass(
+
+                                LivingEntity.class,
+
+                                player.getBoundingBox()
+                                        .inflate(TOXIC_SKILL_RANGE),
+
+                                entity ->
+                                        entity != player
+                                                &&
+                                                entity.isAlive()
+                                                &&
+                                                !entity.isAlliedTo(player)
+                        );
+
+
+
+        for(LivingEntity entity : nearby){
+
+
+            entity.addEffect(
+                    new MobEffectInstance(
+
+                            ModEffects.TOXIC.get(),
+
+                            TOXIC_SKILL_DURATION,
+
+                            0,
+
+                            false,
+                            true,
+                            true
+                    )
+            );
+        }
+
 
 
 

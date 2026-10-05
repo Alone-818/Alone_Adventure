@@ -2,6 +2,7 @@ package Alone818.com.alone_adventure.client;
 
 import Alone818.com.alone_adventure.Alone_adventure;
 import Alone818.com.alone_adventure.init.ModEntities;
+import Alone818.com.alone_adventure.init.ModFactionEntities;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -60,5 +61,21 @@ public final class ModEntityRenderers {
                 ModEntities.AMMO_BOX.get(),
                 AmmoBoxRenderer::new
         );
+
+        // 派系生物：全部派系 x 职业 x 军衔批量挂渲染器
+        // 贴图路径 faction/<派系id>_<军衔>.png，缺图依次回落职业基础贴图
+        for (ModFactionEntities.FactionMobEntry entry
+                : ModFactionEntities.allEntries()) {
+
+            event.registerEntityRenderer(
+                    entry.getType().get(),
+                    ctx -> new FactionMobRenderer(
+                            ctx,
+                            entry.getFaction().getId(),
+                            entry.getMobClass(),
+                            entry.getTier()
+                    )
+            );
+        }
     }
 }

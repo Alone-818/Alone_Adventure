@@ -2,7 +2,9 @@
   "replace": false,
   "values": [
     "alone_adventure:single_action_rapid_fire",
-    "alone_adventure:magazine_pressure"
+    "alone_adventure:magazine_pressure",
+    "alone_adventure:one_with_gun",
+    "alone_adventure:grand_opening"
 
   ]
 }

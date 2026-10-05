@@ -5,6 +5,7 @@ import Alone818.com.alone_adventure.Alone_adventure;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -279,6 +280,16 @@ public class ModCreativeModeTabs {
                                                         ModItems.MAGAZINE_PRESSURE.get()
                                                 )
                                         );
+                                        output.accept(
+                                                new ItemStack(
+                                                        ModItems.ONE_WITH_GUN.get()
+                                                )
+                                        );
+                                        output.accept(
+                                                new ItemStack(
+                                                        ModItems.GRAND_OPENING.get()
+                                                )
+                                        );
                                         // 复生契约
                                         output.accept(
                                                 new ItemStack(
@@ -369,6 +380,12 @@ public class ModCreativeModeTabs {
                                         );
                                         // 弹药箱
                                         output.accept(new ItemStack(ModItems.AMMO_BOX.get()));
+
+                                        // 仇恨之书
+                                        output.accept(new ItemStack(ModItems.HATRED_BOOK.get()));
+
+                                        // 挑衅号角
+                                        output.accept(new ItemStack(ModItems.PROVOCATION_HORN.get()));
 
                                         // =================================================
                                         // 枪械改装件
@@ -564,6 +581,28 @@ public class ModCreativeModeTabs {
                                                         ModItems.CROSSBOW_BOLT_POISON.get()
                                                 )
                                         );
+
+                                        // 派系凋落物（每派系 x 3 等级，I / II / III）
+                                        for (RegistryObject<Item> drop
+                                                : ModItems.FACTION_DROPS) {
+
+                                            output.accept(
+                                                    new ItemStack(
+                                                            drop.get()
+                                                    )
+                                            );
+                                        }
+
+                                        // 派系生物生成蛋（全部派系 x 职业 x 军衔）
+                                        for (RegistryObject<Item> egg
+                                                : ModItems.FACTION_SPAWN_EGGS) {
+
+                                            output.accept(
+                                                    new ItemStack(
+                                                            egg.get()
+                                                    )
+                                            );
+                                        }
 
                                     }
                             )

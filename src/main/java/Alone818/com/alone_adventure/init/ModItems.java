@@ -2,7 +2,9 @@ package Alone818.com.alone_adventure.init;
 
 import Alone818.com.alone_adventure.Alone_adventure;
 import Alone818.com.alone_adventure.Curios.ImperialCurios.imperial_eagle;
+import Alone818.com.alone_adventure.Curios.gun.GrandOpening;
 import Alone818.com.alone_adventure.Curios.gun.MagazinePressure;
+import Alone818.com.alone_adventure.Curios.gun.OneWithGun;
 import Alone818.com.alone_adventure.Curios.gun.SingleActionRapidFire;
 import Alone818.com.alone_adventure.Curios.miscCurios.*;
 import Alone818.com.alone_adventure.Curios.towerCurios.*;
@@ -24,16 +26,24 @@ import Alone818.com.alone_adventure.Items.bullet.shotgun_shell;
 import Alone818.com.alone_adventure.Items.hunterItems.*;
 import Alone818.com.alone_adventure.Items.miscItems.*;
 import Alone818.com.alone_adventure.Items.towerItems.*;
+import Alone818.com.alone_adventure.faction.Faction;
+import Alone818.com.alone_adventure.faction.MobTier;
+import Alone818.com.alone_adventure.faction.ModFactions;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.Item;
+import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ModItems {
     public static final DeferredRegister<Item> ITEMS =
@@ -99,6 +109,21 @@ public class ModItems {
                     "magazine_pressure",
                     MagazinePressure::new
 
+            );
+
+    // 人枪合一：枪械基础倍率削弱到 70%，每次开枪命中 +10%（上限 150%），空枪 -20%（最低回落到 70%）
+    public static final RegistryObject<Item> ONE_WITH_GUN =
+            ITEMS.register(
+                    "one_with_gun",
+                    OneWithGun::new
+            );
+
+    // 盛大开场：命中 100% ~ 95% 血量生物时额外造成 1200% 伤害并引发爆炸（TNT 范围，不破坏方块），
+    // 随后 20 秒内伤害基础值 -35%
+    public static final RegistryObject<Item> GRAND_OPENING =
+            ITEMS.register(
+                    "grand_opening",
+                    GrandOpening::new
             );
 
     // 枪械构件：用于枪械升级的合成材料
@@ -220,14 +245,14 @@ public class ModItems {
                     short_bullet_explosive::new
             );
 
-    // 短子弹-硬币：每次额外 +9 弹丸，散布 ×2，射程 ×0.1
+    // 短子弹-硬币：每次额外 +6 弹丸，散布 ×2，射程 ×0.05，伤害 ×0.32
     public static final RegistryObject<Item> SHORT_BULLET_COIN =
             ITEMS.register(
                     "short_bullet_coin",
                     short_bullet_coin::new
             );
 
-    // 短子弹-中毒：伤害 ×0.3，命中 Poison III 10 秒
+    // 短子弹-中毒：伤害 ×0.3，命中施加猛毒 III，可叠加（每中一枪 +2 级，上限 VIII，与绷带共用）
     public static final RegistryObject<Item> SHORT_BULLET_POISON =
             ITEMS.register(
                     "short_bullet_poison",
@@ -350,6 +375,20 @@ public class ModItems {
                             new Item.Properties()
                     )
             );
+
+    // 仇恨之书：Shift+右键切换查看派系，右键查看该派系仇恨值与突袭可能性
+    public static final RegistryObject<Item> HATRED_BOOK =
+            ITEMS.register(
+                    "hatred_book",
+                    hatred_book::new
+            );
+
+    // 挑衅号角：右键吹响，无视冷却立刻对仇恨达标的派系发起突袭
+    public static final RegistryObject<Item> PROVOCATION_HORN =
+            ITEMS.register(
+                    "provocation_horn",
+                    provocation_horn::new
+            );
     // ===== 任务契约 =====
     // 旧版任务契约：击杀僵尸 x10 + 收集金甜菜根 x3
    /* public static final RegistryObject<Item> QUEST_CONTRACT =
@@ -377,6 +416,220 @@ public class ModItems {
     // 邪恶契约：击杀村民 x3 + 提交金块 x1 + 钻石块 x1 + 骨块 x8 + 腐肉 x32
     public static final RegistryObject<Item> EVIL_CONTRACT =
             ITEMS.register("evil_contract", evil_contract::new);
+
+    // =========================================================
+    // 派系凋落物
+    //
+    // 每派系一种材料 x 3 个等级（I / II / III），
+    // 等级对应派系生物的 MobTier。
+    // 8 个低阶凋落物合成 1 个高阶
+    // （配方 JSON 在 data/alone_adventure/recipes）。
+    // =========================================================
+
+    // 帝国军衔 I / II / III
+    public static final RegistryObject<Item> EMPIRE_INSIGNIA_I =
+            ITEMS.register(
+                    "empire_insignia_i",
+                    () -> new faction_drop(
+                            ModFactions.EMPIRE,
+                            MobTier.TIER_1
+                    )
+            );
+
+    public static final RegistryObject<Item> EMPIRE_INSIGNIA_II =
+            ITEMS.register(
+                    "empire_insignia_ii",
+                    () -> new faction_drop(
+                            ModFactions.EMPIRE,
+                            MobTier.TIER_2
+                    )
+            );
+
+    public static final RegistryObject<Item> EMPIRE_INSIGNIA_III =
+            ITEMS.register(
+                    "empire_insignia_iii",
+                    () -> new faction_drop(
+                            ModFactions.EMPIRE,
+                            MobTier.TIER_3
+                    )
+            );
+
+    // 亡灵精魄 I / II / III
+    public static final RegistryObject<Item> UNDEAD_SOUL_I =
+            ITEMS.register(
+                    "undead_soul_i",
+                    () -> new faction_drop(
+                            ModFactions.UNDEAD,
+                            MobTier.TIER_1
+                    )
+            );
+
+    public static final RegistryObject<Item> UNDEAD_SOUL_II =
+            ITEMS.register(
+                    "undead_soul_ii",
+                    () -> new faction_drop(
+                            ModFactions.UNDEAD,
+                            MobTier.TIER_2
+                    )
+            );
+
+    public static final RegistryObject<Item> UNDEAD_SOUL_III =
+            ITEMS.register(
+                    "undead_soul_iii",
+                    () -> new faction_drop(
+                            ModFactions.UNDEAD,
+                            MobTier.TIER_3
+                    )
+            );
+
+    // 恶魔鲜血 I / II / III
+    public static final RegistryObject<Item> DEMON_BLOOD_I =
+            ITEMS.register(
+                    "demon_blood_i",
+                    () -> new faction_drop(
+                            ModFactions.DEMON,
+                            MobTier.TIER_1
+                    )
+            );
+
+    public static final RegistryObject<Item> DEMON_BLOOD_II =
+            ITEMS.register(
+                    "demon_blood_ii",
+                    () -> new faction_drop(
+                            ModFactions.DEMON,
+                            MobTier.TIER_2
+                    )
+            );
+
+    public static final RegistryObject<Item> DEMON_BLOOD_III =
+            ITEMS.register(
+                    "demon_blood_iii",
+                    () -> new faction_drop(
+                            ModFactions.DEMON,
+                            MobTier.TIER_3
+                    )
+            );
+
+    // 部落兽骨 I / II / III
+    public static final RegistryObject<Item> TRIBE_BONE_I =
+            ITEMS.register(
+                    "tribe_bone_i",
+                    () -> new faction_drop(
+                            ModFactions.TRIBE,
+                            MobTier.TIER_1
+                    )
+            );
+
+    public static final RegistryObject<Item> TRIBE_BONE_II =
+            ITEMS.register(
+                    "tribe_bone_ii",
+                    () -> new faction_drop(
+                            ModFactions.TRIBE,
+                            MobTier.TIER_2
+                    )
+            );
+
+    public static final RegistryObject<Item> TRIBE_BONE_III =
+            ITEMS.register(
+                    "tribe_bone_iii",
+                    () -> new faction_drop(
+                            ModFactions.TRIBE,
+                            MobTier.TIER_3
+                    )
+            );
+
+    /** 全部派系凋落物（派系 x 等级，注册顺序），创造模式物品栏批量展开用 */
+    public static final List<RegistryObject<Item>> FACTION_DROPS =
+            List.of(
+                    EMPIRE_INSIGNIA_I,
+                    EMPIRE_INSIGNIA_II,
+                    EMPIRE_INSIGNIA_III,
+                    UNDEAD_SOUL_I,
+                    UNDEAD_SOUL_II,
+                    UNDEAD_SOUL_III,
+                    DEMON_BLOOD_I,
+                    DEMON_BLOOD_II,
+                    DEMON_BLOOD_III,
+                    TRIBE_BONE_I,
+                    TRIBE_BONE_II,
+                    TRIBE_BONE_III
+            );
+
+    /**
+     * 查询派系 x 等级对应的凋落物
+     * （派系无对应凋落物时返回 null）。
+     *
+     * 依赖 FACTION_DROPS 的顺序：
+     * 派系为外层（与 ModFactions.all() 一致），
+     * 等级为内层（1 ~ 3 级）。
+     * 以后新增派系时记得同步补一组凋落物。
+     */
+    @Nullable
+    public static Item getFactionDrop(
+            Faction faction,
+            MobTier tier
+    ) {
+
+        Faction[] all = ModFactions.all();
+
+        for (int f = 0; f < all.length; f++) {
+
+            if (all[f] == faction) {
+
+                int index =
+                        f * 3 + tier.getLevel() - 1;
+
+                // 派系没配齐 3 个等级的凋落物
+                if (index >= FACTION_DROPS.size()) {
+                    return null;
+                }
+
+                return FACTION_DROPS
+                        .get(index)
+                        .get();
+            }
+        }
+
+        return null;
+    }
+
+    // =========================================================
+    // 派系生物生成蛋
+    //
+    // 全部派系 x 职业 x 军衔批量注册
+    // （见 ModFactionEntities），
+    // 主色 = 派系色，副色 = 职业军衔色。
+    // =========================================================
+
+    /** 全部派系生物生成蛋（注册顺序），创造模式物品栏批量展开用 */
+    public static final List<RegistryObject<Item>> FACTION_SPAWN_EGGS =
+            registerFactionSpawnEggs();
+
+    private static List<RegistryObject<Item>> registerFactionSpawnEggs() {
+
+        List<RegistryObject<Item>> eggs =
+                new ArrayList<>();
+
+        for (ModFactionEntities.FactionMobEntry entry
+                : ModFactionEntities.allEntries()) {
+
+            eggs.add(
+                    ITEMS.register(
+                            entry.getEntityId()
+                                    + "_spawn_egg",
+                            () -> new ForgeSpawnEggItem(
+                                    () -> entry.getType().get(),
+                                    entry.getFaction().getColor(),
+                                    entry.getMobClass()
+                                            .getEggColor(entry.getTier()),
+                                    new Item.Properties()
+                            )
+                    )
+            );
+        }
+
+        return eggs;
+    }
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

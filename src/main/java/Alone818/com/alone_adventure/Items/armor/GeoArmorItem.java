@@ -16,7 +16,6 @@ import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 
@@ -32,20 +31,43 @@ public class GeoArmorItem
         implements GeoItem, DyeableLeatherItem {
 
     /**
-     * ItemStack 中保存当前图案 ID 的 NBT Key。
+     * ItemStack 中保存当前 Pattern ID 的 NBT Key。
      */
     public static final String PATTERN_TAG =
             "alone_adventure:armor_pattern";
 
+    /**
+     * GeoArmor 注册 ID。
+     */
     private final String geoId;
 
+    /**
+     * Armor 类型。
+     */
     private final ArmorType armorType;
 
+    /**
+     * GeckoLib Animatable Cache。
+     */
     private final AnimatableInstanceCache cache =
             GeckoLibUtil.createInstanceCache(this);
 
+    /**
+     * 当前正在进行穿戴渲染的 ItemStack。
+     *
+     * 注意：
+     *
+     * 这里只给 DynamicGeoArmorRenderer 使用。
+     *
+     * 背包/物品栏不会使用这个变量
+     * 来进行 GeoItemRenderer 渲染。
+     */
     private ItemStack currentStack =
             ItemStack.EMPTY;
+
+    // =========================================================
+    // Constructor
+    // =========================================================
 
     public GeoArmorItem(
             ArmorMaterial material,
@@ -80,23 +102,42 @@ public class GeoArmorItem
     // 基础 GeoArmor
     // =========================================================
 
+    /**
+     * 获取 GeoArmor ID。
+     */
     public String getGeoId() {
         return geoId;
     }
 
+    /**
+     * 获取 ArmorType。
+     */
     public ArmorType getArmorType() {
         return armorType;
     }
 
+    /**
+     * 根据 geoId 获取 GeoArmorConfig。
+     */
     public GeoArmorConfig getConfig() {
         return GeoArmorManager.get(geoId);
     }
 
+    /**
+     * 设置当前正在渲染的 ItemStack。
+     *
+     * 这个方法主要用于：
+     *
+     * DynamicGeoArmorRenderer
+     *
+     * 读取当前装备的染色和 Pattern。
+     */
     public void setCurrentStack(
             ItemStack stack
     ) {
 
         if (stack == null) {
+
             this.currentStack =
                     ItemStack.EMPTY;
 
@@ -106,12 +147,15 @@ public class GeoArmorItem
         this.currentStack = stack;
     }
 
+    /**
+     * 获取当前正在渲染的 ItemStack。
+     */
     public ItemStack getCurrentStack() {
         return currentStack;
     }
 
     // =========================================================
-    // 染色
+    // 染色系统
     // =========================================================
 
     @Override
@@ -122,14 +166,27 @@ public class GeoArmorItem
         GeoArmorConfig config =
                 getConfig();
 
+        /*
+         * 没有 GeoArmorConfig 时，
+         * 默认使用白色。
+         */
         if (config == null) {
             return 0xFFFFFF;
         }
 
+        /*
+         * 不可染色：
+         * 使用配置中的默认颜色。
+         */
         if (!config.dyeable) {
             return config.defaultColor;
         }
 
+        /*
+         * 可染色：
+         * 使用 Minecraft DyeableLeatherItem
+         * 的标准染色系统。
+         */
         return DyeableLeatherItem.super.getColor(stack);
     }
 
@@ -138,7 +195,7 @@ public class GeoArmorItem
     // =========================================================
 
     /**
-     * 获取当前 Pattern ID。
+     * 获取当前 ItemStack 的 Pattern ID。
      *
      * 没有 Pattern 时返回 null。
      */
@@ -175,6 +232,9 @@ public class GeoArmorItem
 
     /**
      * 设置 Pattern。
+     *
+     * 只有 GeoArmorConfig 中已经注册的 Pattern
+     * 才允许写入 ItemStack。
      */
     public void setPattern(
             ItemStack stack,
@@ -187,6 +247,9 @@ public class GeoArmorItem
             return;
         }
 
+        /*
+         * 空 ID = 清除 Pattern。
+         */
         if (patternId == null ||
                 patternId.isEmpty()) {
 
@@ -203,8 +266,7 @@ public class GeoArmorItem
         }
 
         /*
-         * 只有注册过的 Pattern
-         * 才允许写入 ItemStack。
+         * Pattern 必须已经注册。
          */
         if (!config.hasPattern(patternId)) {
             return;
@@ -241,13 +303,17 @@ public class GeoArmorItem
 
         tag.remove(PATTERN_TAG);
 
+        /*
+         * 如果没有其他 NBT，
+         * 删除整个 Tag。
+         */
         if (tag.isEmpty()) {
             stack.setTag(null);
         }
     }
 
     /**
-     * 是否存在 Pattern。
+     * 判断 ItemStack 是否存在 Pattern。
      */
     public boolean hasPattern(
             ItemStack stack
@@ -285,15 +351,15 @@ public class GeoArmorItem
     // =========================================================
 
     /**
-     * 右键切换 Pattern。
+     * 右键循环切换 Pattern。
      *
      * 循环：
      *
      * 无图案
      * ↓
-     * 1
+     * Pattern 1
      * ↓
-     * 2
+     * Pattern 2
      * ↓
      * 无图案
      */
@@ -308,6 +374,10 @@ public class GeoArmorItem
             return;
         }
 
+        /*
+         * 当前没有注册 Pattern，
+         * 不进行任何操作。
+         */
         if (config.patternPresets.isEmpty()) {
             return;
         }
@@ -315,14 +385,10 @@ public class GeoArmorItem
         String currentId =
                 getPatternId(stack);
 
-        /*
-         * 当前没有 Pattern：
-         *
-         * 选择第一个。
-         *
-         * 目前就是：
-         * 1
-         */
+        // -----------------------------------------------------
+        // 无 Pattern → 第一个 Pattern
+        // -----------------------------------------------------
+
         if (currentId == null) {
 
             PatternPreset first =
@@ -336,9 +402,10 @@ public class GeoArmorItem
             return;
         }
 
-        /*
-         * 找到当前 Pattern 在列表中的位置。
-         */
+        // -----------------------------------------------------
+        // 查找当前 Pattern
+        // -----------------------------------------------------
+
         int currentIndex = -1;
 
         for (int i = 0;
@@ -356,11 +423,11 @@ public class GeoArmorItem
             }
         }
 
-        /*
-         * 当前 Pattern 不存在。
-         *
-         * 直接回到第一个。
-         */
+        // -----------------------------------------------------
+        // 当前 Pattern 不存在
+        // → 回到第一个
+        // -----------------------------------------------------
+
         if (currentIndex == -1) {
 
             PatternPreset first =
@@ -374,18 +441,11 @@ public class GeoArmorItem
             return;
         }
 
-        /*
-         * 如果已经是最后一个 Pattern，
-         * 那么下一次回到无图案。
-         *
-         * 当前：
-         *
-         * 2
-         *
-         * ↓
-         *
-         * 无图案
-         */
+        // -----------------------------------------------------
+        // 最后一个 Pattern
+        // → 清除 Pattern
+        // -----------------------------------------------------
+
         if (currentIndex >=
                 config.patternPresets.size() - 1) {
 
@@ -394,9 +454,10 @@ public class GeoArmorItem
             return;
         }
 
-        /*
-         * 否则进入下一个 Pattern。
-         */
+        // -----------------------------------------------------
+        // 进入下一个 Pattern
+        // -----------------------------------------------------
+
         PatternPreset next =
                 config.patternPresets.get(
                         currentIndex + 1
@@ -423,19 +484,13 @@ public class GeoArmorItem
                 player.getItemInHand(hand);
 
         /*
-         * 只在服务端真正修改 NBT。
-         *
-         * 防止客户端和服务端各自修改一次。
+         * 只在服务端修改 Pattern NBT。
          */
         if (!level.isClientSide) {
 
             cyclePattern(stack);
         }
 
-        /*
-         * 告诉 Minecraft：
-         * 这次右键操作已经被物品处理。
-         */
         return InteractionResultHolder.sidedSuccess(
                 stack,
                 level.isClientSide()
@@ -457,6 +512,16 @@ public class GeoArmorItem
     public void registerControllers(
             AnimatableManager.ControllerRegistrar controllers
     ) {
+
+        /*
+         * 当前暂时没有注册动画 Controller。
+         *
+         * 后续如果需要使用：
+         *
+         * test.animation.json
+         *
+         * 可以在这里加入动画 Controller。
+         */
     }
 
     // =========================================================
@@ -471,6 +536,9 @@ public class GeoArmorItem
         consumer.accept(
                 new IClientItemExtensions() {
 
+                    /**
+                     * GeoArmor 穿戴渲染器。
+                     */
                     private DynamicGeoArmorRenderer renderer;
 
                     @Override
@@ -481,13 +549,31 @@ public class GeoArmorItem
                             HumanoidModel<?> original
                     ) {
 
+                        /*
+                         * 每个 Client Extension
+                         * 只创建一个 Renderer。
+                         */
                         if (renderer == null) {
+
                             renderer =
                                     new DynamicGeoArmorRenderer();
                         }
 
+                        /*
+                         * 保存当前装备的 ItemStack。
+                         *
+                         * DynamicGeoArmorRenderer
+                         * 会通过这个 ItemStack
+                         * 读取：
+                         *
+                         * - 染色
+                         * - Pattern
+                         */
                         setCurrentStack(stack);
 
+                        /*
+                         * 准备 GeoArmorRenderer。
+                         */
                         renderer.prepForRender(
                                 entity,
                                 stack,
