@@ -16,7 +16,6 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.OutlineBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
-
 import net.minecraft.resources.ResourceLocation;
 
 import net.minecraft.world.entity.Entity;
@@ -41,34 +40,10 @@ import java.util.List;
 
 
 /**
- * ============================================================
- * 猎人视野客户端
- * ============================================================
+ * Hunter Vision
  *
- * Forge:
- *      1.20.1
- *
- * Forge Version:
- *      47.4.23
- *
- * 功能：
- *
- * 1. 开启猎人视野：
- *      - 屏幕黑白
- *      - 生物白色轮廓
- *      - 掉落物白色轮廓
- *      - 容器白色线框
- *
- * 2. 关闭猎人视野：
- *      - 关闭 Post Shader
- *      - 清空容器高亮
- *
- * 3. 不使用：
- *      Entity#setGlowingTag
- *
- * 因此不会修改实体原本的 Glowing 状态。
- *
- * ============================================================
+ * Minecraft 1.20.1
+ * Forge 47.4.23
  */
 @Mod.EventBusSubscriber(
         modid = Alone_adventure.MODID,
@@ -77,30 +52,20 @@ import java.util.List;
 public class HunterVisionClient {
 
     /*
-     * ========================================================
-     * 猎人视野状态
-     * ========================================================
+     * ============================================================
+     * 状态
+     * ============================================================
      */
 
-    /**
-     * 剩余 Tick。
-     *
-     * 0 = 未开启
-     */
     private static int remainingTicks = 0;
 
 
-    /**
-     * 猎人视野后处理。
-     *
-     * 对应资源：
-     *
-     * assets/
-     *   alone_adventure/
-     *     shaders/
-     *       post/
-     *         hunter_vision.json
+    /*
+     * ============================================================
+     * Shader
+     * ============================================================
      */
+
     private static final ResourceLocation HUNTER_VISION_SHADER =
             new ResourceLocation(
                     Alone_adventure.MODID,
@@ -109,120 +74,60 @@ public class HunterVisionClient {
 
 
     /*
-     * ========================================================
-     * 实体轮廓颜色
-     * ========================================================
-     */
-
-    /**
-     * 生物 / 掉落物轮廓颜色。
-     *
-     * 白色。
-     */
-    private static final int OUTLINE_R = 255;
-    private static final int OUTLINE_G = 255;
-    private static final int OUTLINE_B = 255;
-    private static final int OUTLINE_A = 255;
-
-
-    /*
-     * ========================================================
+     * ============================================================
      * 容器
-     * ========================================================
+     * ============================================================
      */
 
-    /**
-     * 当前范围内发现的容器 AABB。
-     */
     private static final List<AABB> CONTAINER_BOXES =
             new ArrayList<>();
 
 
-    /**
-     * 容器线框颜色。
-     */
     private static final float CONTAINER_R = 1.0F;
     private static final float CONTAINER_G = 1.0F;
     private static final float CONTAINER_B = 1.0F;
     private static final float CONTAINER_A = 0.90F;
 
-
-    /**
-     * 容器线框宽度。
-     *
-     * 不要设置太大。
-     *
-     * 部分显卡对 lineWidth 支持有限。
-     */
     private static final float CONTAINER_LINE_WIDTH = 2.0F;
 
 
     /*
-     * ========================================================
-     * 状态接口
-     * ========================================================
+     * ============================================================
+     * 基础接口
+     * ============================================================
      */
 
-    /**
-     * 判断猎人视野是否开启。
-     */
     public static boolean isActive() {
         return remainingTicks > 0;
     }
 
 
-    /**
-     * 获取剩余 Tick。
-     */
     public static int getRemainingTicks() {
         return remainingTicks;
     }
 
 
     /*
-     * ========================================================
-     * 开启猎人视野
-     * ========================================================
+     * ============================================================
+     * 开启 Hunter Vision
+     * ============================================================
      */
 
-    /**
-     * 开启猎人视野。
-     *
-     * durationTicks：
-     *
-     * 20 Tick = 1 秒。
-     *
-     * 例如：
-     *
-     * activate(20 * 30);
-     *
-     * = 30 秒。
-     */
     public static void activate(int durationTicks) {
 
         Minecraft mc = Minecraft.getInstance();
 
-
-        /*
-         * 客户端世界不存在。
-         */
         if (mc.level == null || mc.player == null) {
             return;
         }
 
 
-        /*
-         * 最少持续 1 Tick。
-         */
         remainingTicks =
                 Math.max(1, durationTicks);
 
 
         /*
-         * 如果当前没有后处理效果，
-         * 才加载猎人视野。
-         *
-         * 防止重复 loadEffect。
+         * 加载黑白 Post Effect。
          */
         if (mc.gameRenderer.currentEffect() == null) {
 
@@ -235,53 +140,35 @@ public class HunterVisionClient {
             } catch (Exception ignored) {
 
                 /*
-                 * Shader 加载失败时：
-                 *
-                 * 不让游戏崩溃。
-                 *
-                 * 实体 Outline 仍然可以工作。
+                 * Shader 加载失败时不让游戏崩溃。
                  */
             }
         }
 
 
         /*
-         * 立即扫描一次容器。
-         *
-         * 不需要等 20 Tick。
+         * 扫描容器。
          */
         scanContainers(mc);
     }
 
 
     /*
-     * ========================================================
-     * 关闭猎人视野
-     * ========================================================
+     * ============================================================
+     * 关闭 Hunter Vision
+     * ============================================================
      */
 
-    /**
-     * 关闭猎人视野。
-     */
     public static void end() {
 
         remainingTicks = 0;
 
-
-        /*
-         * 清除容器。
-         */
         CONTAINER_BOXES.clear();
-
 
         Minecraft mc =
                 Minecraft.getInstance();
 
 
-        /*
-         * 如果存在 Post Effect，
-         * 关闭它。
-         */
         if (mc.gameRenderer.currentEffect() != null) {
 
             try {
@@ -290,46 +177,27 @@ public class HunterVisionClient {
 
             } catch (Exception ignored) {
 
-                /*
-                 * 不让关闭 Shader 的异常
-                 * 影响游戏。
-                 */
             }
         }
     }
 
 
     /*
-     * ========================================================
+     * ============================================================
      * Client Tick
-     * ========================================================
+     * ============================================================
      */
 
-    /**
-     * 客户端 Tick。
-     *
-     * 负责：
-     *
-     * 1. 倒计时
-     * 2. 检查世界
-     * 3. 定期重新扫描容器
-     */
     @SubscribeEvent
     public static void onClientTick(
             TickEvent.ClientTickEvent event
     ) {
 
-        /*
-         * 只在 END 阶段执行。
-         */
         if (event.phase != TickEvent.Phase.END) {
             return;
         }
 
 
-        /*
-         * 没开启。
-         */
         if (remainingTicks <= 0) {
             return;
         }
@@ -339,15 +207,6 @@ public class HunterVisionClient {
                 Minecraft.getInstance();
 
 
-        /*
-         * 玩家或者世界不存在。
-         *
-         * 例如：
-         *
-         * - 回到主菜单
-         * - 切换世界
-         * - 断开服务器
-         */
         if (mc.level == null || mc.player == null) {
 
             end();
@@ -356,15 +215,9 @@ public class HunterVisionClient {
         }
 
 
-        /*
-         * 倒计时。
-         */
         remainingTicks--;
 
 
-        /*
-         * 时间结束。
-         */
         if (remainingTicks <= 0) {
 
             end();
@@ -374,9 +227,7 @@ public class HunterVisionClient {
 
 
         /*
-         * 每秒重新扫描一次容器。
-         *
-         * 20 Tick = 1 秒。
+         * 每 20 tick 扫描一次容器。
          */
         if (mc.player.tickCount % 20 == 0) {
 
@@ -386,29 +237,34 @@ public class HunterVisionClient {
 
 
     /*
-     * ========================================================
-     * 生物 / 掉落物 Outline
-     * ========================================================
+     * ============================================================
+     * Hunter Vision 实体轮廓
+     * ============================================================
+     *
+     * 核心逻辑：
+     *
+     * 1. 找到附近 LivingEntity / ItemEntity
+     * 2. 使用 OutlineBufferSource 渲染轮廓
+     * 3. endOutlineBatch()
+     * 4. LevelRenderer.doEntityOutline()
+     *
+     * 第 4 步非常重要。
+     *
+     * OutlineBufferSource 只是把轮廓写入
+     * Minecraft 的 entity outline framebuffer。
+     *
+     * doEntityOutline() 才会运行 Minecraft
+     * 自己的 entity outline 后处理。
+     * ============================================================
      */
 
-    /**
-     * 绘制猎人视野实体轮廓。
-     *
-     * 使用：
-     *
-     * OutlineBufferSource
-     *
-     * 不使用：
-     *
-     * entity.setGlowingTag(true)
-     */
     @SubscribeEvent
     public static void renderHunterEntities(
             RenderLevelStageEvent event
     ) {
 
         /*
-         * 只在实体渲染完成之后执行。
+         * 必须等实体正常渲染完。
          */
         if (event.getStage()
                 != RenderLevelStageEvent.Stage.AFTER_ENTITIES) {
@@ -417,9 +273,6 @@ public class HunterVisionClient {
         }
 
 
-        /*
-         * 猎人视野没有开启。
-         */
         if (!isActive()) {
             return;
         }
@@ -429,35 +282,40 @@ public class HunterVisionClient {
                 Minecraft.getInstance();
 
 
-        /*
-         * 世界不存在。
-         */
         if (mc.level == null || mc.player == null) {
             return;
         }
 
 
         /*
-         * 高亮范围。
+         * ========================================================
+         * 高亮范围
+         * ========================================================
          */
+
         double radius =
                 hunter_serum.HIGHLIGHT_RADIUS;
-
 
         double radiusSq =
                 radius * radius;
 
 
         /*
-         * Entity Renderer Dispatcher。
+         * ========================================================
+         * Entity Renderer
+         * ========================================================
          */
+
         EntityRenderDispatcher dispatcher =
                 mc.getEntityRenderDispatcher();
 
 
         /*
-         * Minecraft 原版 Outline Buffer。
+         * ========================================================
+         * Outline Buffer
+         * ========================================================
          */
+
         OutlineBufferSource outlineBuffer =
                 mc.renderBuffers()
                         .outlineBufferSource();
@@ -467,16 +325,19 @@ public class HunterVisionClient {
          * 白色轮廓。
          */
         outlineBuffer.setColor(
-                OUTLINE_R,
-                OUTLINE_G,
-                OUTLINE_B,
-                OUTLINE_A
+                255,
+                255,
+                255,
+                255
         );
 
 
         /*
-         * 当前摄像机。
+         * ========================================================
+         * 摄像机
+         * ========================================================
          */
+
         Camera camera =
                 event.getCamera();
 
@@ -485,34 +346,30 @@ public class HunterVisionClient {
                 camera.getPosition();
 
 
-        /*
-         * 当前 PoseStack。
-         */
         PoseStack poseStack =
                 event.getPoseStack();
 
 
-        /*
-         * 当前帧插值。
-         */
         float partialTick =
                 event.getPartialTick();
 
 
         poseStack.pushPose();
 
-
         try {
 
             /*
-             * 遍历客户端当前可渲染实体。
+             * ====================================================
+             * 遍历当前世界实体
+             * ====================================================
              */
+
             for (Entity entity :
                     mc.level.entitiesForRendering()) {
 
 
                 /*
-                 * 玩家自己不显示。
+                 * 不高亮玩家自己。
                  */
                 if (entity == mc.player) {
                     continue;
@@ -520,7 +377,7 @@ public class HunterVisionClient {
 
 
                 /*
-                 * 已删除实体。
+                 * 删除实体跳过。
                  */
                 if (entity.isRemoved()) {
                     continue;
@@ -528,7 +385,10 @@ public class HunterVisionClient {
 
 
                 /*
-                 * 只处理生物和掉落物。
+                 * 只处理：
+                 *
+                 * LivingEntity
+                 * ItemEntity
                  */
                 if (!(entity instanceof LivingEntity)
                         && !(entity instanceof ItemEntity)) {
@@ -538,8 +398,11 @@ public class HunterVisionClient {
 
 
                 /*
-                 * 距离检查。
+                 * =================================================
+                 * 距离检测
+                 * =================================================
                  */
+
                 if (mc.player.distanceToSqr(entity)
                         > radiusSq) {
 
@@ -548,14 +411,13 @@ public class HunterVisionClient {
 
 
                 /*
-                 * 获取实体 Renderer。
+                 * =================================================
+                 * 获取 Renderer
+                 * =================================================
                  */
-                EntityRenderDispatcher entityDispatcher =
-                        dispatcher;
-
 
                 var renderer =
-                        entityDispatcher.getRenderer(entity);
+                        dispatcher.getRenderer(entity);
 
 
                 if (renderer == null) {
@@ -565,7 +427,7 @@ public class HunterVisionClient {
 
                 /*
                  * =================================================
-                 * 实体插值位置
+                 * 插值位置
                  * =================================================
                  */
 
@@ -601,9 +463,10 @@ public class HunterVisionClient {
                  * 写入 Outline Buffer
                  * =================================================
                  */
+
                 try {
 
-                    entityDispatcher.render(
+                    dispatcher.render(
                             entity,
 
                             x,
@@ -618,7 +481,7 @@ public class HunterVisionClient {
 
                             outlineBuffer,
 
-                            entityDispatcher.getPackedLightCoords(
+                            dispatcher.getPackedLightCoords(
                                     entity,
                                     partialTick
                             )
@@ -627,67 +490,71 @@ public class HunterVisionClient {
                 } catch (Exception ignored) {
 
                     /*
-                     * 某些特殊实体 Renderer
-                     * 可能不允许二次渲染。
+                     * 某些特殊 Renderer
+                     * 不能安全地二次渲染。
                      *
-                     * 忽略单个实体，
-                     * 不影响其他实体。
+                     * 忽略该实体即可。
                      */
                 }
             }
 
         } finally {
 
-            /*
-             * 恢复 PoseStack。
-             */
             poseStack.popPose();
         }
 
 
         /*
-         * 提交 Outline Buffer。
-         *
-         * 非常重要。
+         * ========================================================
+         * 提交 Outline Buffer
+         * ========================================================
          */
+
         outlineBuffer.endOutlineBatch();
+
+
+        /*
+         * ========================================================
+         * ★ 关键修复 ★
+         * ========================================================
+         *
+         * OutlineBufferSource 只是把轮廓写入
+         * Minecraft 的 entity outline framebuffer。
+         *
+         * 必须调用 LevelRenderer.doEntityOutline()
+         * 才会真正执行 outline 后处理。
+         *
+         * Minecraft 1.20.1 的 LevelRenderer
+         * 本身就提供这个公开方法。
+         * ========================================================
+         */
+
+        try {
+
+            mc.levelRenderer.doEntityOutline();
+
+        } catch (Exception ignored) {
+
+            /*
+             * 防止某些渲染状态下异常导致客户端崩溃。
+             */
+        }
     }
 
 
     /*
-     * ========================================================
-     * 扫描容器
-     * ========================================================
+     * ============================================================
+     * 容器扫描
+     * ============================================================
      */
 
-    /**
-     * 扫描附近的容器。
-     *
-     * 使用：
-     *
-     * BaseContainerBlockEntity
-     *
-     * 可以检测：
-     *
-     * - 箱子
-     * - 陷阱箱
-     * - 木桶
-     * - 潜影盒
-     * - 其他继承 BaseContainerBlockEntity 的容器
-     */
     private static void scanContainers(
             Minecraft mc
     ) {
 
-        /*
-         * 清空旧数据。
-         */
         CONTAINER_BOXES.clear();
 
 
-        /*
-         * 玩家当前区块。
-         */
         ChunkPos center =
                 new ChunkPos(
                         mc.player.blockPosition()
@@ -695,9 +562,7 @@ public class HunterVisionClient {
 
 
         /*
-         * 根据高亮距离计算区块范围。
-         *
-         * +1 防止边缘漏扫描。
+         * 根据高亮半径计算 Chunk 范围。
          */
         int chunkRadius =
                 (int) Math.ceil(
@@ -706,9 +571,6 @@ public class HunterVisionClient {
                 ) + 1;
 
 
-        /*
-         * 遍历 Chunk。
-         */
         for (
                 int cx =
                 center.x - chunkRadius;
@@ -718,7 +580,6 @@ public class HunterVisionClient {
 
                 cx++
         ) {
-
 
             for (
                     int cz =
@@ -730,18 +591,14 @@ public class HunterVisionClient {
                     cz++
             ) {
 
-
                 /*
-                 * 没加载的 Chunk 不处理。
+                 * Chunk 未加载就跳过。
                  */
                 if (!mc.level.hasChunk(cx, cz)) {
                     continue;
                 }
 
 
-                /*
-                 * 获取客户端 Chunk。
-                 */
                 LevelChunk chunk =
                         mc.level.getChunk(
                                 cx,
@@ -750,13 +607,15 @@ public class HunterVisionClient {
 
 
                 /*
-                 * 遍历 BlockEntity。
+                 * =================================================
+                 * Block Entity
+                 * =================================================
                  */
+
                 for (
                         var entry :
                         chunk.getBlockEntities().entrySet()
                 ) {
-
 
                     /*
                      * 只处理容器。
@@ -768,24 +627,16 @@ public class HunterVisionClient {
                     }
 
 
-                    /*
-                     * 方块位置。
-                     */
                     var blockPos =
                             entry.getKey();
 
 
-                    /*
-                     * 创建方块 AABB。
-                     */
                     AABB box =
                             new AABB(blockPos);
 
 
                     /*
-                     * 进一步检查距离。
-                     *
-                     * 因为 Chunk 范围会比实际半径稍大。
+                     * 实际距离再次检查。
                      */
                     if (mc.player.distanceToSqr(
                             box.getCenter()
@@ -798,9 +649,6 @@ public class HunterVisionClient {
                     }
 
 
-                    /*
-                     * 保存。
-                     */
                     CONTAINER_BOXES.add(box);
                 }
             }
@@ -809,29 +657,16 @@ public class HunterVisionClient {
 
 
     /*
-     * ========================================================
-     * 容器线框渲染
-     * ========================================================
+     * ============================================================
+     * 容器线框
+     * ============================================================
      */
 
-    /**
-     * 绘制容器线框。
-     *
-     * 阶段：
-     *
-     * AFTER_TRANSLUCENT_BLOCKS
-     *
-     * 关闭深度测试，
-     * 因此容器可以穿墙显示。
-     */
     @SubscribeEvent
     public static void renderContainerBoxes(
             RenderLevelStageEvent event
     ) {
 
-        /*
-         * 只在半透明方块之后。
-         */
         if (event.getStage()
                 != RenderLevelStageEvent.Stage.AFTER_TRANSLUCENT_BLOCKS) {
 
@@ -839,9 +674,6 @@ public class HunterVisionClient {
         }
 
 
-        /*
-         * 猎人视野关闭。
-         */
         if (!isActive()) {
             return;
         }
@@ -851,32 +683,20 @@ public class HunterVisionClient {
                 Minecraft.getInstance();
 
 
-        /*
-         * 世界不存在。
-         */
         if (mc.level == null || mc.player == null) {
             return;
         }
 
 
-        /*
-         * 没有容器。
-         */
         if (CONTAINER_BOXES.isEmpty()) {
             return;
         }
 
 
-        /*
-         * 当前 PoseStack。
-         */
         PoseStack poseStack =
                 event.getPoseStack();
 
 
-        /*
-         * 当前摄像机。
-         */
         Vec3 cameraPos =
                 event.getCamera()
                         .getPosition();
@@ -884,12 +704,14 @@ public class HunterVisionClient {
 
         poseStack.pushPose();
 
-
         try {
 
             /*
-             * 转换为摄像机相对坐标。
+             * ====================================================
+             * 摄像机相对坐标
+             * ====================================================
              */
+
             poseStack.translate(
                     -cameraPos.x,
                     -cameraPos.y,
@@ -897,22 +719,16 @@ public class HunterVisionClient {
             );
 
 
-            /*
-             * Tesselator。
-             */
             Tesselator tesselator =
                     Tesselator.getInstance();
 
 
-            /*
-             * Buffer。
-             */
             BufferBuilder buffer =
                     tesselator.getBuilder();
 
 
             /*
-             * POSITION_COLOR Shader。
+             * Position Color Shader。
              */
             RenderSystem.setShader(
                     GameRenderer::getPositionColorShader
@@ -920,7 +736,7 @@ public class HunterVisionClient {
 
 
             /*
-             * 开启 Blend。
+             * Blend。
              */
             RenderSystem.enableBlend();
 
@@ -928,15 +744,13 @@ public class HunterVisionClient {
 
 
             /*
-             * 关闭深度测试。
-             *
-             * 允许穿墙。
+             * 穿墙。
              */
             RenderSystem.disableDepthTest();
 
 
             /*
-             * 设置线宽。
+             * 线宽。
              */
             RenderSystem.lineWidth(
                     CONTAINER_LINE_WIDTH
@@ -972,10 +786,9 @@ public class HunterVisionClient {
 
 
             /*
-             * 提交顶点。
+             * 提交。
              */
             tesselator.end();
-
 
         } finally {
 
@@ -992,4 +805,3 @@ public class HunterVisionClient {
         }
     }
 }
-
