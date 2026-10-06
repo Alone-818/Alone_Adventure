@@ -113,12 +113,6 @@ public class SelfHealDrinkGoal
     @Override
     public void start() {
 
-        LOGGER.info(
-                "[Faction] {} starts drinking (uses left: {})",
-                mob.getType().toShortString(),
-                mob.getSelfHealUsesLeft()
-        );
-
         drinkTicks = DRINK_TICKS;
 
         savedItem =
@@ -205,12 +199,6 @@ public class SelfHealDrinkGoal
         restoreHand();
 
         mob.consumeSelfHealUse();
-
-        LOGGER.info(
-                "[Faction] {} finished drinking, healed +{}",
-                mob.getType().toShortString(),
-                mob.getMaxHealth() * HEAL_RATIO
-        );
 
         mob.heal(
                 mob.getMaxHealth()

@@ -64,9 +64,6 @@ import java.util.UUID;
  */
 public class FactionRaid {
 
-    private static final Logger LOGGER =
-            LogUtils.getLogger();
-
     /** 突袭生物的持久数据标记（调试 / 清理用） */
     public static final String RAID_MOB_TAG =
             "AloneAdventureRaidMob";
@@ -243,14 +240,6 @@ public class FactionRaid {
                     1.2F
             );
 
-            LOGGER.info(
-                    "[Faction] raid wave {}/{} cleared (player {}, faction {})",
-                    completedWaves,
-                    totalWaves,
-                    player.getName().getString(),
-                    faction.getId()
-            );
-
             if (completedWaves >= totalWaves) {
                 RaidManager.succeedRaid(player, this);
                 return;
@@ -391,14 +380,6 @@ public class FactionRaid {
                 SoundSource.HOSTILE,
                 1.2F,
                 0.9F
-        );
-
-        LOGGER.info(
-                "[Faction] raid wave {} spawned: {} mobs (player {}, faction {})",
-                waveNumber,
-                waveMobs.size(),
-                player.getName().getString(),
-                faction.getId()
         );
     }
 

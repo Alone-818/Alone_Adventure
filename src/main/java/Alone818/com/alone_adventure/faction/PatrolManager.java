@@ -333,15 +333,6 @@ public final class PatrolManager {
             return;
         }
 
-        LOGGER.info(
-                "[Faction] patrol spawned: faction={} mobs={} threat={} hostile={} player={}",
-                faction.getId(),
-                spawned,
-                threat,
-                hostile,
-                player.getName().getString()
-        );
-
         // 敌对战团给预警（号角音量低于突袭）；
         // 中立战团静默游荡，遇到敌对派系才开战
         if (hostile) {

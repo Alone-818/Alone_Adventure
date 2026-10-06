@@ -197,12 +197,6 @@ public class FactionArcher
                             : 1;
 
             burstDelay = BURST_INTERVAL;
-
-            LOGGER.info(
-                    "[Faction] {} triggers burst fire: +{} arrows",
-                    getType().toShortString(),
-                    burstRemaining
-            );
         }
     }
 

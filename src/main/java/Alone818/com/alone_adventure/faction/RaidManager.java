@@ -455,13 +455,6 @@ public final class RaidManager {
                     0.6F,
                     1.4F
             );
-
-            LOGGER.info(
-                    "[Faction] {} reached threat level {} ({} total kills)",
-                    player.getName().getString(),
-                    newThreat,
-                    getTotalKills(playerId)
-            );
         }
 
         // 突袭期间：一切仇恨变化冻结
@@ -488,14 +481,6 @@ public final class RaidManager {
                     -KILL_OTHER_DECAY
             );
         }
-
-        LOGGER.info(
-                "[Faction] {} killed a {} mob, {} hatred now {}",
-                player.getName().getString(),
-                victimFaction.getId(),
-                victimFaction.getId(),
-                getHatred(playerId, victimFaction)
-        );
 
         // 短时连杀：窗口内击杀数达标 -> 立即突袭
         long now =
@@ -553,23 +538,10 @@ public final class RaidManager {
                     )
             );
 
-            LOGGER.info(
-                    "[Faction] burst kills raised {} hatred to {} (player {})",
-                    victimFaction.getId(),
-                    HOSTILE_THRESHOLD,
-                    player.getName().getString()
-            );
-
             return;
         }
 
         // 仇恨 >= 200：立即突袭（冷却挡住时进等待队列）
-        LOGGER.info(
-                "[Faction] burst kill threshold reached: {} -> raid on {}",
-                player.getName().getString(),
-                victimFaction.getId()
-        );
-
         tryStartRaid(player, victimFaction);
     }
 
@@ -996,12 +968,6 @@ public final class RaidManager {
         }
 
         if (worstFaction != null) {
-
-            LOGGER.info(
-                    "[Faction] periodic check: raid on {} (hatred {})",
-                    worstFaction.getId(),
-                    worstHatred
-            );
 
             startRaid(player, worstFaction);
         }

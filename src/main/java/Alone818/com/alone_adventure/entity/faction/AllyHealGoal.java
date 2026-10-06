@@ -146,13 +146,6 @@ public class AllyHealGoal extends Goal {
                         .nextFloat()
                         < GROUP_HEAL_CHANCE;
 
-        LOGGER.info(
-                "[Faction] {} ({}) heals: group={}",
-                mage.getType().toShortString(),
-                tier.name(),
-                groupHeal
-        );
-
         if (groupHeal) {
             groupHeal(mageFaction);
         } else {
@@ -198,12 +191,6 @@ public class AllyHealGoal extends Goal {
                         * mage.getStatMultiplier();
 
         target.heal(amount);
-
-        LOGGER.info(
-                "[Faction] heal {} +{} HP",
-                target.getType().toShortString(),
-                amount
-        );
 
         playHealEffects(target);
 
@@ -267,11 +254,6 @@ public class AllyHealGoal extends Goal {
         if (mage.getRank() != PromotionTier.ELITE) {
             return;
         }
-
-        LOGGER.info(
-                "[Faction] magus buffs {} (speed II + strength I)",
-                target.getType().toShortString()
-        );
 
         target.addEffect(
                 new MobEffectInstance(

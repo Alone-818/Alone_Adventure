@@ -170,12 +170,6 @@ public class FactionSoldier extends FactionMobEntity {
             return;
         }
 
-        LOGGER.info(
-                "[Faction] general {} heals from kill +{}",
-                getType().toShortString(),
-                getMaxHealth() * KILL_HEAL_RATIO
-        );
-
         heal(
                 getMaxHealth()
                         * KILL_HEAL_RATIO

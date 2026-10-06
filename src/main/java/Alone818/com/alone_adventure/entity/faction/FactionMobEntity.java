@@ -346,12 +346,6 @@ public abstract class FactionMobEntity
 
             applyCombatStats(true);
 
-            LOGGER.info(
-                    "[Faction] {} leveled up to {}",
-                    getType().toShortString(),
-                    level
-            );
-
             playLevelUpEffects();
         }
     }
@@ -458,15 +452,6 @@ public abstract class FactionMobEntity
         if (getTarget() != null) {
             promoted.setTarget(getTarget());
         }
-
-        LOGGER.info(
-                "[Faction] {} promoted to {} at {},{},{}",
-                getType().toShortString(),
-                promoted.getType().toShortString(),
-                (int) getX(),
-                (int) getY(),
-                (int) getZ()
-        );
 
         playLevelUpEffects();
 
