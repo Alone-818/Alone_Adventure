@@ -61,16 +61,17 @@ public class FactionMage
 
     /**
      * 法师基础属性（基础兵 1 级）：
-     * 生命最低，避免抢前排，
+     * 生命 20 / 护甲 4，
      * 军衔倍率在实体构造时叠上。
      */
     public static AttributeSupplier.Builder createAttributes() {
 
         return Monster.createMonsterAttributes()
-                .add(Attributes.MAX_HEALTH, 14.0D)
+                .add(Attributes.MAX_HEALTH, 20.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.30D)
                 .add(Attributes.ATTACK_DAMAGE, 1.0D)
-                .add(Attributes.FOLLOW_RANGE, 32.0D);
+                .add(Attributes.FOLLOW_RANGE, 32.0D)
+                .add(Attributes.ARMOR, 4.0D);
     }
 
     @Override

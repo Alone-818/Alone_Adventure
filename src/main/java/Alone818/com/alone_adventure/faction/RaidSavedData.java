@@ -87,6 +87,10 @@ public class RaidSavedData
     final Map<UUID, Long> nextPatrol =
             new HashMap<>();
 
+    /** 玩家加入的派系：玩家 UUID -> 派系 id（null 表示无派系） */
+    final Map<UUID, String> playerFaction =
+            new HashMap<>();
+
     /**
      * 取本存档的全局实例（不存在则创建）。
      */
@@ -235,6 +239,26 @@ public class RaidSavedData
                         raid.getPlayerId(),
                         raid
                 );
+            }
+        }
+
+        // 读取玩家派系
+        CompoundTag playerFactionTag =
+                tag.getCompound("PlayerFaction");
+
+        for (String key : playerFactionTag.getAllKeys()) {
+
+            try {
+                UUID playerId =
+                        UUID.fromString(key);
+
+                String factionId =
+                        playerFactionTag.getString(key);
+
+                if (!factionId.isEmpty()) {
+                    data.playerFaction.put(playerId, factionId);
+                }
+            } catch (IllegalArgumentException ignored) {
             }
         }
 
@@ -544,6 +568,21 @@ public class RaidSavedData
         }
 
         tag.put("ActiveRaids", raids);
+
+        // 玩家派系
+        CompoundTag playerFactionTag =
+                new CompoundTag();
+
+        for (Map.Entry<UUID, String> entry
+                : playerFaction.entrySet()) {
+
+            playerFactionTag.putString(
+                    entry.getKey().toString(),
+                    entry.getValue() != null ? entry.getValue() : ""
+            );
+        }
+
+        tag.put("PlayerFaction", playerFactionTag);
 
         return tag;
     }

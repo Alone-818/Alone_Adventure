@@ -353,7 +353,7 @@
 
   "item.alone_adventure.imperial_eagle": "帝国天鹰",
   "item.alone_adventure.imperial_eagle.tooltip.desc": "人类帝国的双头鹰徽记，象征着荣耀与不朽。",
-  "item.alone_adventure.imperial_eagle.tooltip.invert": "负面效果反转：虚弱→力量、缓慢→速度、黑暗→夜视、中毒→再生",
+  "item.alone_adventure.imperial_eagle.tooltip.invert": "负面效果反转：虚弱→力量、缓慢→速度、黑暗→夜视、中毒→再生、饥饿→饱和、反胃→抗性提升",
   "item.alone_adventure.imperial_eagle.tooltip.immunity": "免疫火焰与岩浆伤害",
   "item.alone_adventure.imperial_eagle.tooltip.skill": "主动技能（默认键 R）：抗性 II、力量 I、生命恢复 II，持续 2 分钟，冷却 30 秒",
   "item.alone_adventure.imperial_eagle.tooltip.cooldown_left": "技能冷却剩余：%d 秒",
@@ -361,6 +361,7 @@
   "key.alone_adventure.curio_skill": "饰品主动技能",
   "key.alone_adventure.gun_reload": "枪械装填",
   "key.alone_adventure.gun_switch_ammo": "枪械切换弹药",
+  "key.alone_adventure.toggle_curios_cd": "切换饰品 CD 显示",
   "key.categories.alone_adventure": "孤独冒险",
 
   "item.alone_adventure.starlight_greatsword": "星辉大剑",
@@ -440,6 +441,7 @@
   "item.alone_adventure.hatred_book.tooltip.view": "右键：查看当前派系对你的仇恨值与突袭可能性",
   "item.alone_adventure.hatred_book.tooltip.switch": "Shift + 右键：切换查看的派系",
   "item.alone_adventure.hatred_book.tooltip.current": "当前查看：%1$s",
+  "item.alone_adventure.hatred_book.tooltip.usage": "使用说明：右键显示仇恨详情，包括仇恨值、态度、突袭可能性与冷却倒计时",
 
   "item.alone_adventure.provocation_horn": "挑衅号角",
   "item.alone_adventure.provocation_horn.tooltip.desc": "用派系战旗骨雕成的号角。吹响它，那些对你忍无可忍的敌人会立刻赶来。",
@@ -463,7 +465,7 @@
   "item.alone_adventure.tribe_bone_ii": "部落兽骨 II",
   "item.alone_adventure.tribe_bone_iii": "部落兽骨 III",
   "item.alone_adventure.faction_drop.tooltip.desc": "派系掉落物：击败 %1$s 派系的 %2$s 级生物获得",
-  "item.alone_adventure.faction_drop.tooltip.combine": "8 个低阶掉落物可合成 1 个高阶",
+  "item.alone_adventure.faction_drop.tooltip.combine": "4 个低阶掉落物可合成 1 个高阶",
 
   "item.alone_adventure.empire_talisman_up_i": "帝国仇恨符 I",
   "item.alone_adventure.empire_talisman_up_ii": "帝国仇恨符 II",
@@ -679,12 +681,51 @@
   "item.alone_adventure.thirst_for_blood": "渴血症",
   "item.alone_adventure.thirst_for_blood.tooltip.desc": "§4 一件以血肉为祭的特质饰品，每次挥击都能吸取血液。",
   "item.alone_adventure.thirst_for_blood.tooltip.heal_desc": "§6 攻击命中：以 50% 的伤害 healing",
-  "item.alone_adventure.thirst_for_blood.tooltip.health_desc": "§7 最大生命值提升 30%",
   "item.alone_adventure.thirst_for_blood.tooltip.effect_desc": "§c 生命值 >80% 时：虚弱 III；生命值 <30% 时：急迫 II",
 
   "item.alone_adventure.weapon_master": "习武之人",
   "item.alone_adventure.weapon_master.tooltip.desc": "§7 一件传承自古代武者特质饰品——佩戴时提升战斗能力。",
-  "item.alone_adventure.weapon_master.tooltip.speed_desc": "§a 攻击速度：+10%",
-  "item.alone_adventure.weapon_master.tooltip.damage_desc": "§c 伤害：+20%",
-  "item.alone_adventure.weapon_master.tooltip.double_desc": "§6 二连击：基础 10% 概率，未触发时每次 +5%，触发后重置"
+  "item.alone_adventure.weapon_master.tooltip.double_desc": "§6 二连击：基础 10% 概率，未触发时每次 +5%，触发后重置",
+
+  "item.alone_adventure.shadow_step": "暗影跃迁",
+  "item.alone_adventure.shadow_step.tooltip.desc": "§5 一件源自暗影力量的特质饰品，撕裂空间进行短距瞬移。",
+  "item.alone_adventure.shadow_step.tooltip.skill_desc": "§b 激活方式：同时按住 [Shift] + [空格] 瞬移到准星指向的位置",
+  "item.alone_adventure.shadow_step.tooltip.distance_desc": "§b 最大跃迁距离：40 格（直线距离判定）",
+  "item.alone_adventure.shadow_step.tooltip.after_teleport": "§a 瞬移后获得：抗性提升 I ×5 秒、移动速度 +10%",
+  "item.alone_adventure.shadow_step.tooltip.cooldown_desc": "§b 冷却时间：15 秒",
+  "item.alone_adventure.shadow_step.tooltip.cooldown_left": "技能冷却剩余：%s 秒",
+  "hud.alone_adventure.trait_skill_cd": "技能冷却",
+
+  "item.alone_adventure.bald_eagle": "秃鹫",
+  "item.alone_adventure.bald_eagle.tooltip.desc": "§2 一件源自食腐猛禽的特质饰品，对击杀后的战利品充满渴望。",
+  "item.alone_adventure.bald_eagle.tooltip.luck_desc": "§e 常态：获得幸运 II",
+  "item.alone_adventure.bald_eagle.tooltip.kill_desc": "§e 击杀生物：30% 概率使该生物所有掉落物数量翻倍",
+
+  "item.alone_adventure.harvest_contract": "收割契约",
+  "item.alone_adventure.harvest_contract.tooltip.desc": "§6 一份来自丰收季节的契约——收获丰收，庆祝丰收。",
+  "item.alone_adventure.harvest_contract.tooltip.carrots_desc": "§a 提交胡萝卜 ×32",
+  "item.alone_adventure.harvest_contract.tooltip.potatoes_desc": "§a 提交土豆 ×32",
+  "item.alone_adventure.harvest_contract.tooltip.wheat_desc": "§a 提交小麦 ×16",
+  "item.alone_adventure.harvest_contract.tooltip.task_desc": "§7 完成后作为合成材料使用",
+
+  "item.alone_adventure.faction_join": "派系加入令牌",
+  "item.alone_adventure.faction_join.tooltip.join": "§e 右键点击加入派系",
+  "item.alone_adventure.faction_join.tooltip.effect": "§7 加入派系后将受到该派系保护并获得支援",
+  "item.alone_adventure.faction_leave": "派系退出令牌",
+  "item.alone_adventure.faction_join.tooltip.leave": "§c 右键点击退出当前派系",
+
+  "item.alone_adventure.faction_token": "派系令牌",
+  "item.alone_adventure.faction_token.tooltip.desc": "选择你的派系",
+  "item.alone_adventure.faction_token.tooltip.use": "点击加入（一次性使用）",
+
+  "faction.alone_adventure.joined": "§a 你已加入 %1$s！",
+  "faction.alone_adventure.left": "§c 你已退出 %1$s。",
+  "faction.alone_adventure.no_faction": "§c 你当前未加入任何派系。",
+  "faction.alone_adventure.already_joined": "§e 你已经是某个派系的成员。",
+  "faction.alone_adventure.no_joinable": "§c 没有可加入的派系。",
+  "faction.alone_adventure.join_hint": "§e 要加入 %1$s，请使用派系加入令牌",
+  "faction.alone_adventure.join_instructions": "§7 提示：不同派系提供不同的增益和盟友",
+  "faction.alone_adventure.leave_hint": "§c 确认退出 %1$s？使用派系退出令牌继续",
+  "faction.alone_adventure.cannot_join_hostile": "§c 无法加入 %1$s：敌意过高。",
+  "faction.alone_adventure.cannot_join_already_member": "§c 你已经是 %1$s 的成员。"
 }

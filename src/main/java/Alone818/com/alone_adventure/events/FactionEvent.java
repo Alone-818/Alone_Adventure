@@ -4,6 +4,7 @@ import Alone818.com.alone_adventure.Alone_adventure;
 import Alone818.com.alone_adventure.faction.Faction;
 import Alone818.com.alone_adventure.faction.FactionManager;
 import Alone818.com.alone_adventure.faction.IFactionMob;
+import Alone818.com.alone_adventure.faction.RaidManager;
 
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
@@ -27,6 +28,10 @@ import net.minecraftforge.fml.common.Mod;
  * 2. 同派系支援：
  *    模组派系生物（IFactionMob）被攻击时，
  *    附近同派系的模组派系生物会锁定攻击者。
+ *
+ * 3. 玩家派系保护：
+ *    加入派系的玩家无法对该派系生物造成伤害
+ *    （伤害事件拦截，直接归零）。
  *
  * 支援只在模组生物之间生效：
  * 原版生物（例如划入亡灵派系的原版亡灵）
@@ -89,22 +94,31 @@ public class FactionEvent {
         }
 
         /*
-         * 只有敌对派系才能互相锁定。
+         * 同派系生物之间不会互相锁定。
          *
-         * 同派系 / 同盟 -> 取消
-         * 中立 -> 取消（默认全面开战时无中立对）
+         * 但当玩家（没有派系）被攻击时，支援代码会调用 setTarget()，
+         * 这个需求需要允许它们锁定玩家。
+         * 所以这里只阻止同派系生物锁定彼此。
+         *
+         * 如果攻击者是加入派系的玩家，
+         * 同派系生物应该锁定该玩家。
          */
-        if (!FactionManager.isHostile(
-                own,
-                targetFaction
-        )) {
-
-            event.setCanceled(true);
+        if (own == targetFaction) {
+            // 如果目标是玩家且有派系，检查是否是同派系玩家
+            if (target instanceof Player targetPlayer) {
+                Faction targetPlayerFaction = RaidManager.getPlayerFaction(targetPlayer.getUUID());
+                if (targetPlayerFaction == own) {
+                    event.setCanceled(true); // 同派系玩家，不允许锁定
+                }
+                // 否则（不同派系或无派系玩家）允许锁定
+            } else {
+                event.setCanceled(true); // 非玩家目标，同派系不允许锁定
+            }
         }
     }
 
     /**
-     * 同派系支援。
+     * 同派系支援 & 玩家派系保护。
      */
     @SubscribeEvent
     public static void onLivingHurt(
@@ -129,6 +143,23 @@ public class FactionEvent {
             return;
         }
 
+        // ========== 玩家派系保护 ==========
+        // 加入派系的玩家无法对该派系生物造成伤害
+        if (attacker instanceof Player player) {
+            Faction playerFaction = RaidManager.getPlayerFaction(player.getUUID());
+
+            if (playerFaction != null) {
+                Faction victimFaction = FactionManager.getFaction(victim);
+
+                if (playerFaction == victimFaction) {
+                    // 同派系玩家无法伤害该派系生物
+                    event.setAmount(0);
+                    event.setCanceled(true);
+                    return;
+                }
+            }
+        }
+
         /*
          * 支援只在模组派系生物之间启用：
          * 被打的必须是模组派系生物。
@@ -147,11 +178,20 @@ public class FactionEvent {
         /*
          * 同派系内部误伤：
          * 不触发支援（锁定也已被上面的过滤取消）。
+         *
+         * 但玩家加入派系后攻击其他派系生物，
+         * 应该触发同派系支援。
          */
-        if (FactionManager.getFaction(attacker)
-                == victimFaction) {
+        Faction attackerFaction = FactionManager.getFaction(attacker);
 
-            return;
+        // 如果是玩家且有派系，用玩家派系判断
+        if (attacker instanceof Player player) {
+            Faction playerFaction = RaidManager.getPlayerFaction(player.getUUID());
+            if (playerFaction == victimFaction) {
+                return; // 同派系玩家，不触发支援
+            }
+        } else if (attackerFaction == victimFaction) {
+            return; // 同派系生物，不触发支援
         }
 
         if (!(victim.level()

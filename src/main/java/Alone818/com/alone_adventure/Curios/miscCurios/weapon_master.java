@@ -75,10 +75,6 @@ public class weapon_master extends Item implements ICurioItem {
         if (Screen.hasShiftDown()) {
             tooltip.add(Component.translatable("item.alone_adventure.weapon_master.tooltip.desc")
                     .withStyle(ChatFormatting.DARK_GREEN));
-            tooltip.add(Component.translatable("item.alone_adventure.weapon_master.tooltip.speed_desc")
-                    .withStyle(ChatFormatting.AQUA));
-            tooltip.add(Component.translatable("item.alone_adventure.weapon_master.tooltip.damage_desc")
-                    .withStyle(ChatFormatting.RED));
             tooltip.add(Component.translatable("item.alone_adventure.weapon_master.tooltip.double_desc")
                     .withStyle(ChatFormatting.GOLD));
         } else {

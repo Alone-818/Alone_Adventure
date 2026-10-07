@@ -476,6 +476,12 @@ public class hatred_book extends Item {
                 ).withStyle(ChatFormatting.AQUA)
         );
 
+        tooltip.add(
+                Component.translatable(
+                        "item.alone_adventure.hatred_book.tooltip.usage"
+                ).withStyle(ChatFormatting.GRAY)
+        );
+
         // 当前查看的派系
         tooltip.add(
                 Component.translatable(

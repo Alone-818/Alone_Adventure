@@ -41,7 +41,7 @@ public final class ModClientSetup {
             "key.alone_adventure.curio_skill",
             KeyConflictContext.IN_GAME,
             InputConstants.Type.KEYSYM,
-            GLFW.GLFW_KEY_R,
+            GLFW.GLFW_KEY_V,
             "key.categories.alone_adventure");
 
     /** 枪械装填按键（默认 R；持枪时 R 优先装填而非饰品技能，见 ClientInputHandler 的让位守卫） */
@@ -60,12 +60,21 @@ public final class ModClientSetup {
             GLFW.GLFW_KEY_G,
             "key.categories.alone_adventure");
 
+    /** 切换饰品 CD 侧边栏显示按键（默认 F6） */
+    public static final KeyMapping TOGGLE_CURIOS_CD_KEY = new KeyMapping(
+            "key.alone_adventure.toggle_curios_cd",
+            KeyConflictContext.IN_GAME,
+            InputConstants.Type.KEYSYM,
+            GLFW.GLFW_KEY_F6,
+            "key.categories.alone_adventure");
+
     /** 注册按键绑定（模组事件总线） */
     @SubscribeEvent
     public static void onRegisterKeys(RegisterKeyMappingsEvent event) {
         event.register(EAGLE_SKILL_KEY);
         event.register(GUN_RELOAD_KEY);
         event.register(GUN_SWITCH_AMMO_KEY);
+        event.register(TOGGLE_CURIOS_CD_KEY);
     }
 
     /** 举盾状态属性名，需与 parryshield.json 中 overrides 的键完全一致 */

@@ -212,6 +212,7 @@ public class ModCreativeModeTabs {
                                                         ModItems.NIGHT_CONTRACT.get()
                                                 )
                                         );
+
                                         output.accept(
                                                 new ItemStack(
                                                         ModItems.SINGLE_ACTION_RAPID_FIRE.get()
@@ -303,10 +304,21 @@ public class ModCreativeModeTabs {
                                         );
                                         output.accept(
                                                 new ItemStack(
+                                                        ModItems.SHADOW_STEP.get()
+                                                )
+                                        );
+                                        output.accept(
+                                                new ItemStack(
+                                                        ModItems.BALD_EAGLE.get()
+                                                )
+                                        );
+                                        output.accept(
+                                                new ItemStack(
                                                         ModItems.GRAND_OPENING.get()
                                                 )
                                         );
-                                        // 复生契约
+
+                                        // ========== 任务契约类物品 (放在饰品最后) ==========
                                         output.accept(
                                                 new ItemStack(
                                                         ModItems.RESURRECTION_CONTRACT.get()
@@ -332,7 +344,11 @@ public class ModCreativeModeTabs {
                                                         ModItems.EVIL_CONTRACT.get()
                                                 )
                                         );
-
+                                        output.accept(
+                                                new ItemStack(
+                                                        ModItems.HARVEST_CONTRACT.get()
+                                                )
+                                        );
                                     }
                             )
 
@@ -459,7 +475,17 @@ public class ModCreativeModeTabs {
                                                         ModItems.GUN_BOX.get()
                                                 )
                                         );
-
+                                        // ========== 派系令牌与退出物品（物品栏）==========
+                                        output.accept(
+                                                new ItemStack(
+                                                        ModItems.FACTION_JOIN_TOKEN.get()
+                                                )
+                                        );
+                                        output.accept(
+                                                new ItemStack(
+                                                        ModItems.FACTION_LEAVE.get()
+                                                )
+                                        );
                                         // =================================================
                                         // 基础弹药
                                         // =================================================
@@ -630,6 +656,9 @@ public class ModCreativeModeTabs {
                                                     )
                                             );
                                         }
+
+
+
 
                                     }
                             )

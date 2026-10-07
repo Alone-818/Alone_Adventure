@@ -130,16 +130,17 @@ public class FactionArcher
 
     /**
      * 弓手基础属性（基础兵 1 级）：
-     * 生命 16 / 移速稍快方便拉开距离，
+     * 生命 20 / 护甲 4 / 移速稍快方便拉开距离，
      * 军衔倍率在实体构造时叠上。
      */
     public static AttributeSupplier.Builder createAttributes() {
 
         return Monster.createMonsterAttributes()
-                .add(Attributes.MAX_HEALTH, 16.0D)
+                .add(Attributes.MAX_HEALTH, 20.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.32D)
                 .add(Attributes.ATTACK_DAMAGE, 2.0D)
-                .add(Attributes.FOLLOW_RANGE, 32.0D);
+                .add(Attributes.FOLLOW_RANGE, 32.0D)
+                .add(Attributes.ARMOR, 4.0D);
     }
 
     @Override

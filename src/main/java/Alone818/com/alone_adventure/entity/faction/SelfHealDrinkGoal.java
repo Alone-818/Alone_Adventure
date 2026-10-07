@@ -95,17 +95,25 @@ public class SelfHealDrinkGoal
             return false;
         }
 
-        return mob.getHealth()
-                < mob.getMaxHealth()
-                * HEALTH_TRIGGER;
+        float healthRatio = mob.getHealth()
+                / mob.getMaxHealth();
+        return healthRatio > 0
+                && healthRatio < HEALTH_TRIGGER;
     }
 
     /**
      * 开始喝就喝完：
      * 中途不会因为血量变化取消。
+     *
+     * 但如果实体已经死亡（血量 <= 0），
+     * 喝药自救不是复活技能，直接停止。
      */
     @Override
     public boolean canContinueToUse() {
+
+        if (mob.getHealth() <= 0) {
+            return false;
+        }
 
         return drinkTicks > 0;
     }

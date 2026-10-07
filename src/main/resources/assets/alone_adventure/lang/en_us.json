@@ -354,7 +354,7 @@
 
   "item.alone_adventure.imperial_eagle": "Imperial Eagle",
   "item.alone_adventure.imperial_eagle.tooltip.desc": "The double-headed eagle emblem of the human Imperium, symbolizing glory and immortality.",
-  "item.alone_adventure.imperial_eagle.tooltip.invert": "Negative effect inversion: Weakness→Strength, Slowness→Speed, Darkness→Night Vision, Poison→Regeneration",
+  "item.alone_adventure.imperial_eagle.tooltip.invert": "Negative effect inversion: Weakness→Strength, Slowness→Speed, Darkness→Night Vision, Poison→Regeneration, Hunger→Saturation, Nausea→Resistance",
   "item.alone_adventure.imperial_eagle.tooltip.immunity": "Immune to fire and lava damage",
   "item.alone_adventure.imperial_eagle.tooltip.skill": "Active skill (default key R): Resistance II, Strength I, Regeneration II for 2 minutes, cooldown 30 seconds",
   "item.alone_adventure.imperial_eagle.tooltip.cooldown_left": "Skill cooldown remaining: %d seconds",
@@ -362,6 +362,7 @@
   "key.alone_adventure.curio_skill": "Trinket Active Skill",
   "key.alone_adventure.gun_reload": "Gun Reload",
   "key.alone_adventure.gun_switch_ammo": "Gun Switch Ammo",
+  "key.alone_adventure.toggle_curios_cd": "Toggle Trinket CD Display",
   "key.categories.alone_adventure": "Alone Adventure",
 
   "item.alone_adventure.starlight_greatsword": "Starlight Greatsword",
@@ -438,6 +439,7 @@
   "item.alone_adventure.hatred_book.tooltip.view": "Right-click: view this faction's hatred toward you and the raid chance",
   "item.alone_adventure.hatred_book.tooltip.switch": "Shift + Right-click: switch the faction being viewed",
   "item.alone_adventure.hatred_book.tooltip.current": "Viewing: %1$s",
+  "item.alone_adventure.hatred_book.tooltip.usage": "Usage instructions: Right-click to display hatred details including hatred value, attitude, raid chance and cooldown countdown",
 
   "item.alone_adventure.provocation_horn": "Provocation Horn",
   "item.alone_adventure.provocation_horn.tooltip.desc": "A war horn carved from a faction banner. Blow it, and those who have had enough of you come at once.",
@@ -461,7 +463,7 @@
   "item.alone_adventure.tribe_bone_ii": "Tribe Beast Bone II",
   "item.alone_adventure.tribe_bone_iii": "Tribe Beast Bone III",
   "item.alone_adventure.faction_drop.tooltip.desc": "Faction drop: obtained by defeating tier %2$s mobs of the %1$s faction",
-  "item.alone_adventure.faction_drop.tooltip.combine": "8 lower-tier drops can be combined into 1 higher-tier drop",
+  "item.alone_adventure.faction_drop.tooltip.combine": "4 lower-tier drops can be combined into 1 higher-tier drop",
 
   "item.alone_adventure.empire_talisman_up_i": "Empire Hatred Talisman I",
   "item.alone_adventure.empire_talisman_up_ii": "Empire Hatred Talisman II",
@@ -674,12 +676,51 @@
   "item.alone_adventure.thirst_for_blood": "Thirst for Blood",
   "item.alone_adventure.thirst_for_blood.tooltip.desc": "§4A cursed relic that feeds on blood with every strike.",
   "item.alone_adventure.thirst_for_blood.tooltip.heal_desc": "§6On hit: restore 50% of damage dealt as health",
-  "item.alone_adventure.thirst_for_blood.tooltip.health_desc": "§7Increases maximum health by 30%",
   "item.alone_adventure.thirst_for_blood.tooltip.effect_desc": "§cAt >80% health: Weakness III; at <30% health: Haste II",
 
   "item.alone_adventure.weapon_master": "Weapon Master",
   "item.alone_adventure.weapon_master.tooltip.desc": "§7A trait relic inherited from ancient warriors — enhances combat abilities when worn.",
-  "item.alone_adventure.weapon_master.tooltip.speed_desc": "§aAttack Speed: +10%",
-  "item.alone_adventure.weapon_master.tooltip.damage_desc": "§cDamage: +20%",
-  "item.alone_adventure.weapon_master.tooltip.double_desc": "§6Double Hit: 10% base chance, +5% per missed trigger, resets on hit"
+  "item.alone_adventure.weapon_master.tooltip.double_desc": "§6Double Hit: 10% base chance, +5% per missed trigger, resets on hit",
+
+  "item.alone_adventure.shadow_step": "Shadow Step",
+  "item.alone_adventure.shadow_step.tooltip.desc": "§5A trait relic infused with shadow energy that tears space for short-range teleportation.",
+  "item.alone_adventure.shadow_step.tooltip.skill_desc": "§b Activation: Hold [Shift] + [Space] to teleport to where your crosshair points",
+  "item.alone_adventure.shadow_step.tooltip.distance_desc": "§b Max jump distance: 40 blocks (straight-line distance)",
+  "item.alone_adventure.shadow_step.tooltip.after_teleport": "§a After teleport: Resistance I ×5s, Movement Speed +10%",
+  "item.alone_adventure.shadow_step.tooltip.cooldown_desc": "§b Cooldown: 15 seconds",
+  "item.alone_adventure.shadow_step.tooltip.cooldown_left": "Skill cooldown remaining: %s seconds",
+  "hud.alone_adventure.trait_skill_cd": "Skill Cooldown",
+
+  "item.alone_adventure.bald_eagle": "Bald Eagle",
+  "item.alone_adventure.bald_eagle.tooltip.desc": "§2A trait relic drawn from a carrion-feeding raptor, ever greedy for spoils of the kill.",
+  "item.alone_adventure.bald_eagle.tooltip.luck_desc": "§ePassive: Luck II",
+  "item.alone_adventure.bald_eagle.tooltip.kill_desc": "§eOn kill: 30% chance to double the quantity of all drops",
+
+  "item.alone_adventure.harvest_contract": "Harvest Contract",
+  "item.alone_adventure.harvest_contract.tooltip.desc": "§6A seasonal contract for the harvest—celebrate the bounty of the fields.",
+  "item.alone_adventure.harvest_contract.tooltip.carrots_desc": "§a Submit Carrots ×32",
+  "item.alone_adventure.harvest_contract.tooltip.potatoes_desc": "§a Submit Potatoes ×32",
+  "item.alone_adventure.harvest_contract.tooltip.wheat_desc": "§a Submit Wheat ×16",
+  "item.alone_adventure.harvest_contract.tooltip.task_desc": "§7 Once completed, used as crafting material",
+
+  "item.alone_adventure.faction_join": "Faction Join Token",
+  "item.alone_adventure.faction_join.tooltip.join": "§eRight-click to view available factions",
+  "item.alone_adventure.faction_join.tooltip.effect": "§7Join a faction to gain their protection and support",
+  "item.alone_adventure.faction_leave": "Faction Leave Token",
+  "item.alone_adventure.faction_join.tooltip.leave": "§cRight-click to leave your current faction",
+
+  "item.alone_adventure.faction_token": "Faction Token",
+  "item.alone_adventure.faction_token.tooltip.desc": "Choose Your Faction",
+  "item.alone_adventure.faction_token.tooltip.use": "Click to join (single use)",
+
+  "faction.alone_adventure.joined": "§aYou have joined the %1$s!",
+  "faction.alone_adventure.left": "§cYou have left the %1$s.",
+  "faction.alone_adventure.no_faction": "§cYou are not currently in any faction.",
+  "faction.alone_adventure.already_joined": "§eYou are already a member of a faction.",
+  "faction.alone_adventure.no_joinable": "§cNo joinable factions available.",
+  "faction.alone_adventure.join_hint": "§eTo join the %1$s, use the Faction Join Token while standing near their territory",
+  "faction.alone_adventure.join_instructions": "§7Tip: Different factions offer different bonuses and allies",
+  "faction.alone_adventure.leave_hint": "§cConfirm leaving the %1$s? Use the Faction Leave Token to proceed",
+  "faction.alone_adventure.cannot_join_hostile": "§cCannot join %1$s: hostility too high.",
+  "faction.alone_adventure.cannot_join_already_member": "§cYou are already a member of the %1$s."
 }

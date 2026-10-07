@@ -35,8 +35,6 @@ public class thirst_for_blood extends Item implements ICurioItem {
                     .withStyle(ChatFormatting.DARK_RED));
             tooltip.add(Component.translatable("item.alone_adventure.thirst_for_blood.tooltip.heal_desc")
                     .withStyle(ChatFormatting.GREEN));
-            tooltip.add(Component.translatable("item.alone_adventure.thirst_for_blood.tooltip.health_desc")
-                    .withStyle(ChatFormatting.BLUE));
             tooltip.add(Component.translatable("item.alone_adventure.thirst_for_blood.tooltip.effect_desc")
                     .withStyle(ChatFormatting.GOLD));
         } else {

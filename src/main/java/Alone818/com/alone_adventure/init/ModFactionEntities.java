@@ -11,14 +11,18 @@ import Alone818.com.alone_adventure.faction.MobClass;
 import Alone818.com.alone_adventure.faction.PromotionTier;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.biome.Biomes;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
@@ -367,9 +371,8 @@ public class ModFactionEntities {
     /**
      * 自然生成位置规则（主 mod 构造函数挂载）。
      *
-     * 与原版僵尸完全一致——
      * ON_GROUND + MOTION_BLOCKING_NO_LEAVES
-     * = 只在地表、站方块上，
+     * = 只在地表、站方块上，不在水里生成；
      * 再叠加原版怪物条件（黑暗 + 非和平）。
      *
      * 只有基础军衔参与自然生成
@@ -393,9 +396,38 @@ public class ModFactionEntities {
                     entry.getType().get(),
                     SpawnPlacements.Type.ON_GROUND,
                     Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-                    Monster::checkMonsterSpawnRules,
+                    ModFactionEntities::checkFactionSpawnRules,
                     SpawnPlacementRegisterEvent.Operation.REPLACE
             );
         }
+    }
+
+    /**
+     * 派系生物生成检查：地表 + 不在水里。
+     */
+    private static boolean checkFactionSpawnRules(
+            EntityType<?> type,
+            ServerLevelAccessor level,
+            MobSpawnType spawnType,
+            BlockPos pos,
+            RandomSource random
+    ) {
+        // 先走原版怪物生成检查（黑暗 + 非和平）
+        if (!Monster.checkMonsterSpawnRules((EntityType<? extends Monster>) (EntityType<?>) type, level, spawnType, pos, random)) {
+            return false;
+        }
+
+        // 检查是否在地下：y 坐标低于海平面（63）视为地下，禁止生成
+        if (pos.getY() < 63) {
+            return false;
+        }
+
+        // 检查脚下是否是水：如果是水则禁止生成
+        if (!level.getBlockState(pos.below()).isAir()
+                && level.getBlockState(pos.below()).getFluidState().isSource()) {
+            return false;
+        }
+
+        return true;
     }
 }

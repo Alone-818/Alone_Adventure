@@ -8,7 +8,10 @@ import Alone818.com.alone_adventure.Curios.gun.OneWithGun;
 import Alone818.com.alone_adventure.Curios.gun.SingleActionRapidFire;
 import Alone818.com.alone_adventure.Curios.miscCurios.*;
 import Alone818.com.alone_adventure.Curios.towerCurios.*;
+import Alone818.com.alone_adventure.Curios.trait.shadow_step;
+import Alone818.com.alone_adventure.Curios.miscCurios.bald_eagle;
 import Alone818.com.alone_adventure.Items.ImperialItems.chainsawsword;
+import Alone818.com.alone_adventure.Items.contract.harvest_contract;
 import Alone818.com.alone_adventure.Items.ImperialItems.decapitation_axe;
 import Alone818.com.alone_adventure.Items.ImperialItems.powersword;
 import Alone818.com.alone_adventure.Items.ImperialItems.regiment_banner;
@@ -926,6 +929,27 @@ public class ModItems {
     // 习武之人：攻击速度 +10%，伤害 +20%，二连击概率（基础 10%，未触发时 +5%，触发后重置）
     public static final RegistryObject<Item> WEAPON_MASTER =
             ITEMS.register("weapon_master", weapon_master::new);
+
+    // 暗影跃迁：特质槽位饰品；Shift + 空格瞬移到鼠标指向位置，距离限制 40 格，冷却 30 秒
+    public static final RegistryObject<Item> SHADOW_STEP =
+            ITEMS.register("shadow_step", shadow_step::new);
+
+    // 秃鹫：特质槽位饰品；击杀怪物时有概率获得 2 倍掉落物 + 幸运 II
+    public static final RegistryObject<Item> BALD_EAGLE =
+            ITEMS.register("bald_eagle", bald_eagle::new);
+
+    // 收割契约：提交 32 胡萝卜 + 32 土豆 + 16 小麦
+    public static final RegistryObject<Item> HARVEST_CONTRACT =
+            ITEMS.register("harvest_contract", harvest_contract::new);
+
+    // 派系令牌：右键打开 4 选 1 派系选择界面，点击消耗并加入
+    public static final RegistryObject<Item> FACTION_JOIN_TOKEN =
+            ITEMS.register("faction_token", () -> new faction_token());
+
+    // 派系退出物品：四个角合金碎片，上下左右地狱疣，中间下界之星
+    public static final RegistryObject<Item> FACTION_LEAVE =
+            ITEMS.register("faction_leave", () -> new faction_join_item(false));
+
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

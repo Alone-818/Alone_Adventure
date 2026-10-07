@@ -30,7 +30,7 @@ import java.util.Optional;
  * 帝国天鹰 - 人类帝国的双头鹰徽记（参考《战锤 40K》）。
  *
  * 常态效果：
- * - 负面效果反转：虚弱→力量、缓慢→速度、黑暗→夜视、中毒→再生
+ * - 负面效果反转：饥饿→饱和、反胃→抗性提升
  *   （每 tick 在 curioTick 中检查并转换，保留原等级与剩余时长）
  * - 免疫火焰与岩浆伤害（由 {@link ImperialEagleEvent} 处理）
  *
@@ -56,7 +56,7 @@ public class imperial_eagle extends Item implements ICurioItem {
     @Override
     public void curioTick(SlotContext slotContext, ItemStack stack) {
         if (!(slotContext.entity() instanceof ServerPlayer player)) return;
-        // 节流：每 5 tick 检查一次。负面效果（虚弱/缓慢等）来源时长都远大于 5 tick，
+        // 节流：每 5 tick 检查一次。负面效果（饥饿/反胃等）来源时长都远大于 5 tick，
         // 最多 0.25 秒的反转延迟玩家无感知，换来 4 次效果查找降为 1/5
         if (player.tickCount % 5 != 0) return;
 
@@ -64,6 +64,8 @@ public class imperial_eagle extends Item implements ICurioItem {
         invert(player, MobEffects.MOVEMENT_SLOWDOWN, MobEffects.MOVEMENT_SPEED);
         invert(player, MobEffects.DARKNESS, MobEffects.NIGHT_VISION);
         invert(player, MobEffects.POISON, MobEffects.REGENERATION);
+        invert(player, MobEffects.HUNGER, MobEffects.SATURATION);
+        invert(player, MobEffects.CONFUSION, MobEffects.DAMAGE_RESISTANCE);
     }
 
     /** 把 from 效果替换为 to 效果，保留等级与剩余时长 */

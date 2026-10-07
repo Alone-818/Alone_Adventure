@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "QWQ",
+    "QFQ",
+    "QMQ"
+  ],
+  "key": {
+    "W": {"item": "minecraft:hay_block"},
+    "F": {"item": "minecraft:cake"},
+    "M": {"item": "minecraft:gold_block"},
+    "Q": {"item": "minecraft:iron_block"}
+  },
+  "result": {
+    "item": "alone_adventure:harvest_contract"
+  }
+}

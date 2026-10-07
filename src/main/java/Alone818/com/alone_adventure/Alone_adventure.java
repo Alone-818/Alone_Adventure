@@ -83,6 +83,12 @@ public class Alone_adventure {
                 GunSelectAmmoPacket::encode,
                 GunSelectAmmoPacket::decode,
                 GunSelectAmmoPacket::handle);
+
+        NETWORK.registerMessage(packetId++,
+                FactionJoinPacket.class,
+                FactionJoinPacket::encode,
+                FactionJoinPacket::decode,
+                FactionJoinPacket::handle);
     }
 
 

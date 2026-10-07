@@ -34,9 +34,9 @@ import java.util.List;
  *
  * 仇恨增减幅度（绝对值）：
  *
- * - I 级：50（从 0 起步时刚好够到敌对线 200 的门槛量级）
- * - II 级：150
- * - III 级：350（一次可从突袭临界 400 打回中立）
+ * - I 级：100
+ * - II 级：200
+ * - III 级：500
  *
  * 约束（全部走 RaidManager 的既定规则）：
 
@@ -84,9 +84,9 @@ public class hatred_talisman extends Item {
 
         return switch (tier) {
 
-            case TIER_1 -> 50;
-            case TIER_2 -> 150;
-            default -> 350;
+            case TIER_1 -> 100;
+            case TIER_2 -> 200;
+            default -> 500;
         };
     }
 

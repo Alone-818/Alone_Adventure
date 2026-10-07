@@ -1,6 +1,7 @@
 package Alone818.com.alone_adventure.faction;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.ChatFormatting;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -1617,5 +1618,167 @@ public final class RaidManager {
         if (raid != null) {
             raid.onPlayerDeath(player);
         }
+    }
+
+    // =========================================================
+    // 玩家派系归属
+    // =========================================================
+
+    /**
+     * 玩家当前加入的派系
+     * （null 表示未加入任何派系）。
+     */
+    @Nullable
+    public static Faction getPlayerFaction(
+            UUID playerId
+    ) {
+
+        if (data == null) {
+            return null;
+        }
+
+        String factionId =
+                data.playerFaction.get(playerId);
+
+        if (factionId == null
+                || factionId.isEmpty()) {
+            return null;
+        }
+
+        return FactionManager.getFaction(factionId);
+    }
+
+    /**
+     * 玩家是否已加入某个派系。
+     */
+    public static boolean hasPlayerFaction(
+            UUID playerId
+    ) {
+
+        return getPlayerFaction(playerId) != null;
+    }
+
+    /**
+     * 玩家加入派系：
+     * 清零对该派系的仇恨，重置该派系突袭冷却。
+     *
+     * 限制条件：
+     * - 玩家必须当前未加入任何派系
+     * - 目标派系对玩家必须态度中立（仇恨 < 200）
+     *
+     * @return true 表示成功加入，false 表示失败
+     */
+    public static boolean joinFaction(
+            ServerPlayer player,
+            Faction faction
+    ) {
+
+        if (data == null) {
+            return false;
+        }
+
+        UUID playerId =
+                player.getUUID();
+
+        // 检查：玩家是否已经加入了某个派系
+        if (hasPlayerFaction(playerId)) {
+            Faction current = getPlayerFaction(playerId);
+            player.sendSystemMessage(
+                    Component.translatable(
+                            "faction.alone_adventure.already_joined"
+                    ).withStyle(ChatFormatting.YELLOW)
+            );
+            return false;
+        }
+
+        // 检查：目标派系对玩家是否态度中立
+        if (isHostileToPlayer(faction, playerId)) {
+            player.sendSystemMessage(
+                    Component.translatable(
+                            "faction.alone_adventure.cannot_join_hostile"
+                    ).withStyle(ChatFormatting.RED)
+            );
+            return false;
+        }
+
+        // 清零仇恨
+        setHatred(playerId, faction, 0);
+
+        // 清除等待队列中该派系
+        List<String> queue =
+                data.raidQueue.get(playerId);
+
+        if (queue != null) {
+            queue.remove(faction.getId());
+        }
+
+        // 记录玩家派系
+        data.playerFaction.put(playerId, faction.getId());
+
+        data.setDirty();
+
+        player.sendSystemMessage(
+                Component.translatable(
+                        "faction.alone_adventure.joined",
+                        faction.getDisplayName()
+                )
+        );
+
+        player.playNotifySound(
+                net.minecraft.sounds.SoundEvents.PLAYER_LEVELUP,
+                net.minecraft.sounds.SoundSource.PLAYERS,
+                1.0F,
+                1.0F
+        );
+
+        return true;
+    }
+
+    /**
+     * 玩家退出当前派系。
+     *
+     * 退出后：
+     * - 对该派系增加 500 点仇恨值
+     * - 清除玩家派系归属
+     */
+    public static void leaveFaction(
+            ServerPlayer player
+    ) {
+
+        if (data == null
+                || !hasPlayerFaction(player.getUUID())) {
+            return;
+        }
+
+        UUID playerId =
+                player.getUUID();
+
+        Faction faction =
+                getPlayerFaction(playerId);
+
+        // 退出派系：增加 500 点仇恨值
+        if (faction != null) {
+            addHatred(playerId, faction, 500);
+        }
+
+        data.playerFaction.remove(playerId);
+
+        data.setDirty();
+
+        player.sendSystemMessage(
+                Component.translatable(
+                        "faction.alone_adventure.left",
+                        faction != null
+                                ? faction.getDisplayName()
+                                : Component.literal("Unknown")
+                )
+        );
+
+        player.playNotifySound(
+                SoundEvents.FIREWORK_ROCKET_BLAST,
+                net.minecraft.sounds.SoundSource.PLAYERS,
+                1.0F,
+                1.0F
+        );
     }
 }

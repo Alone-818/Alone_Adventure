@@ -17,6 +17,7 @@ import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 
 import net.minecraftforge.event.entity.living.MobSpawnEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -83,6 +84,9 @@ public class FactionSpawnEvent {
 
     /** 落点散布半径（格） */
     private static final int PLACE_RADIUS = 4;
+
+    /** 队长与玩家的最小生成距离：避免在玩家周围 12 格内生成 */
+    private static final double MIN_PLAYER_DISTANCE = 12.0D;
 
     /**
      * 自然生成结算：
@@ -272,6 +276,20 @@ public class FactionSpawnEvent {
                             Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                             new BlockPos(x, 0, z)
                     );
+
+            /*
+             * 检查与玩家的距离：避免在玩家周围 12 格内生成
+             */
+            Player nearest =
+                    leader.level()
+                            .getNearestPlayer(
+                                    leader,
+                                    MIN_PLAYER_DISTANCE
+                            );
+
+            if (nearest != null) {
+                continue;
+            }
 
             /*
              * 原版同款怪物生成检查：

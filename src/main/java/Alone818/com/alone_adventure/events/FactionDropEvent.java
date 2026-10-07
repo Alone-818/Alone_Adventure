@@ -1,9 +1,12 @@
 package Alone818.com.alone_adventure.events;
 
 import Alone818.com.alone_adventure.Alone_adventure;
+import Alone818.com.alone_adventure.entity.faction.FactionMobEntity;
 import Alone818.com.alone_adventure.faction.Faction;
 import Alone818.com.alone_adventure.faction.FactionManager;
+import Alone818.com.alone_adventure.faction.IFactionMob;
 import Alone818.com.alone_adventure.faction.MobTier;
+import Alone818.com.alone_adventure.faction.PromotionTier;
 import Alone818.com.alone_adventure.init.ModItems;
 
 import net.minecraft.world.entity.LivingEntity;
@@ -46,6 +49,23 @@ public class FactionDropEvent {
     /** 掉落数量（始终为 1） */
     public static final int DROP_COUNT = 1;
 
+    /**
+     * 掉落档位看军衔（整体），不看军衔内小等级：
+     *
+     * 士兵 / 弓手 / 法师   -> I 阶
+     * 中士 / 弩手 / 大法师 -> II 阶
+     * 将军 / 连弩手 / 魔导师 -> III 阶
+     *
+     * 非本模组派系实体（仅分类注册）
+     * 退回 FactionManager 的静态分类档位。
+     */
+    private static MobTier dropTierFor(LivingEntity entity) {
+        if (entity instanceof FactionMobEntity mob) {
+            return MobTier.values()[mob.getRank().ordinal()];
+        }
+        return FactionManager.getTier(entity);
+    }
+
     @SubscribeEvent
     public static void onLivingDrops(
             LivingDropsEvent event
@@ -77,7 +97,7 @@ public class FactionDropEvent {
         }
 
         MobTier tier =
-                FactionManager.getTier(victim);
+                dropTierFor(victim);
 
         if (tier == null) {
             return;
