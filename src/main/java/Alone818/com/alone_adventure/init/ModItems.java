@@ -214,6 +214,16 @@ public class ModItems {
     public static final RegistryObject<Item> EERIE_MUSIC_BOX =
             ITEMS.register("eerie_music_box", eerie_music_box::new);
 
+    // 通用仇恨符：对仇恨值最高的派系增加 100 仇恨
+    public static final RegistryObject<Item> UNIVERSAL_TALISMAN_UP =
+            ITEMS.register("universal_talisman_up",
+                    () -> new universal_talisman(true));
+
+    // 通用安息符：对仇恨值最高的派系减少 100 仇恨
+    public static final RegistryObject<Item> UNIVERSAL_TALISMAN_DOWN =
+            ITEMS.register("universal_talisman_down",
+                    () -> new universal_talisman(false));
+
     // ===== 枪械 =====
 // 通用子弹实体渲染物品
 // 仅用于 BulletProjectile 的统一外观，不作为实际弹药使用

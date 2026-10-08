@@ -1,7 +1,7 @@
 package Alone818.com.alone_adventure.Items.miscItems;
 
 import Alone818.com.alone_adventure.faction.Faction;
-import Alone818.com.alone_adventure.faction.MobTier;
+import Alone818.com.alone_adventure.faction.FactionManager;
 import Alone818.com.alone_adventure.faction.RaidManager;
 
 import net.minecraft.ChatFormatting;
@@ -19,75 +19,29 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
- * 仇恨符 - 人工干预派系仇恨值的道具
+ * 通用仇恨/安息符 - 对仇恨值最高的派系增加/减少仇恨
  *
- * 每个派系各 3 个等级（I / II / III），
- * 等级由制作材料决定（对应派系对应等级的掉落物，
- * 见 data/alone_adventure/recipes）。
- *
- * 每个派系 x 等级有增仇 / 减仇两种：
- *
- * - 增仇恨符：让该派系更恨你，推进巡逻与突袭
- * - 减仇恨符：平息该派系的敌意，脱离敌对与突袭
- *
- * 仇恨增减幅度（绝对值）：
- *
- * - I 级：100
- * - II 级：200
- * - III 级：500
- *
- * 约束（全部走 RaidManager 的既定规则）：
-
- * - 仇恨值夹在 0 ~ 上限（1000）之间
- * - 该玩家有突袭进行中时仇恨冻结，
- *   符仍然消耗但仇恨不变，并给出提示
- * - 增到敌对线（200）以上会让中立派系
- *   把玩家当敌人，见 hostility
- *
- * 24 个物品共用本类，
- * 派系、等级、方向在注册时传入
- * （见 ModItems 的仇恨符区块）。
+ * 通用仇恨符：对仇恨值最高的派系增加 100 仇恨
+ * 通用安息符：对仇恨值最高的派系减少 100 仇恨
  */
-public class hatred_talisman extends Item {
-
-    /** 归属派系 */
-    private final Faction faction;
-
-    /** 等级（对应制作材料的掉落物等级） */
-    private final MobTier tier;
+public class universal_talisman extends Item {
 
     /** 增仇（true）还是减仇（false） */
     private final boolean increase;
 
-    public hatred_talisman(
-            Faction faction,
-            MobTier tier,
-            boolean increase
-    ) {
+    /** 仇恨增减幅度 */
+    private static final int AMOUNT = 100;
 
+    public universal_talisman(boolean increase) {
         super(
                 new Properties()
                         .stacksTo(16)
         );
 
-        this.faction = faction;
-        this.tier = tier;
         this.increase = increase;
-    }
-
-    /**
-     * 本级符的仇恨增减绝对值。
-     */
-    private int amount() {
-
-        return switch (tier) {
-
-            case TIER_1 -> 150;
-            case TIER_2 -> 350;
-            default -> 600;
-        };
     }
 
     @Override
@@ -111,46 +65,47 @@ public class hatred_talisman extends Item {
         ServerPlayer serverPlayer =
                 (ServerPlayer) player;
 
+        UUID playerId = serverPlayer.getUUID();
+
         // 突袭进行中：仇恨冻结，符不生效
-        if (RaidManager.getActiveRaidFaction(
-                serverPlayer.getUUID()
-        ) != null) {
-
+        if (RaidManager.getActiveRaidFaction(playerId) != null) {
             serverPlayer.sendSystemMessage(
-                    Component.translatable(
-                            "talisman.alone_adventure.frozen"
-                    )
+                    Component.translatable("talisman.alone_adventure.frozen")
             );
-
-            return consume(
-                    serverPlayer,
-                    stack
-            );
+            return consume(serverPlayer, stack);
         }
 
-        int amount =
-                increase
-                        ? amount()
-                        : -amount();
+        // 找出仇恨值最高的派系
+        Faction highestFaction = null;
+        int highestHatred = -1;
 
-        RaidManager.addHatred(
-                serverPlayer.getUUID(),
-                faction,
-                amount
-        );
+        for (Faction faction : FactionManager.getAllFactions()) {
+            int hatred = RaidManager.getHatred(playerId, faction);
+            if (hatred > highestHatred) {
+                highestHatred = hatred;
+                highestFaction = faction;
+            }
+        }
 
-        int hatred =
-                RaidManager.getHatred(
-                        serverPlayer.getUUID(),
-                        faction
-                );
+        if (highestFaction == null || highestHatred <= 0) {
+            serverPlayer.sendSystemMessage(
+                    Component.translatable("talisman.alone_adventure.no_hostile")
+                            .withStyle(ChatFormatting.YELLOW)
+            );
+            return consume(serverPlayer, stack);
+        }
+
+        int amount = increase ? AMOUNT : -AMOUNT;
+        RaidManager.addHatred(playerId, highestFaction, amount);
+
+        int hatred = RaidManager.getHatred(playerId, highestFaction);
 
         serverPlayer.sendSystemMessage(
                 Component.translatable(
                         increase
-                                ? "talisman.alone_adventure.raised"
-                                : "talisman.alone_adventure.lowered",
-                        faction.getDisplayName(),
+                                ? "talisman.alone_adventure.raised_universal"
+                                : "talisman.alone_adventure.lowered_universal",
+                        highestFaction.getDisplayName(),
                         hatred,
                         RaidManager.HATRED_CAP
                 )
@@ -167,10 +122,7 @@ public class hatred_talisman extends Item {
                 increase ? 0.7F : 1.4F
         );
 
-        return consume(
-                serverPlayer,
-                stack
-        );
+        return consume(serverPlayer, stack);
     }
 
     /**
@@ -181,9 +133,7 @@ public class hatred_talisman extends Item {
             ItemStack stack
     ) {
 
-        if (!player.getAbilities()
-                .instabuild) {
-
+        if (!player.getAbilities().instabuild) {
             stack.shrink(1);
         }
 
@@ -207,18 +157,16 @@ public class hatred_talisman extends Item {
 
         tooltip.add(
                 Component.translatable(
-                        "item.alone_adventure.hatred_talisman.tooltip.desc",
-                        faction.getDisplayName(),
-                        tier.getDisplayName()
+                        "item.alone_adventure.universal_talisman.tooltip.desc"
                 ).withStyle(ChatFormatting.GRAY)
         );
 
         tooltip.add(
                 Component.translatable(
                         increase
-                                ? "item.alone_adventure.hatred_talisman.tooltip.up"
-                                : "item.alone_adventure.hatred_talisman.tooltip.down",
-                        amount()
+                                ? "item.alone_adventure.universal_talisman.tooltip.up"
+                                : "item.alone_adventure.universal_talisman.tooltip.down",
+                        AMOUNT
                 ).withStyle(
                         increase
                                 ? ChatFormatting.RED
@@ -228,13 +176,13 @@ public class hatred_talisman extends Item {
 
         tooltip.add(
                 Component.translatable(
-                        "item.alone_adventure.hatred_talisman.tooltip.use"
+                        "item.alone_adventure.universal_talisman.tooltip.use"
                 ).withStyle(ChatFormatting.YELLOW)
         );
 
         tooltip.add(
                 Component.translatable(
-                        "item.alone_adventure.hatred_talisman.tooltip.freeze"
+                        "item.alone_adventure.universal_talisman.tooltip.freeze"
                 ).withStyle(ChatFormatting.DARK_GRAY)
         );
     }

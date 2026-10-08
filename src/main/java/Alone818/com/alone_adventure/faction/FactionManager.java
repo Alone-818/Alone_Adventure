@@ -324,7 +324,7 @@ public final class FactionManager {
     }
 
     /**
-     * 两个生物是否敌对阵营。
+     * 查询两个生物是否敌对阵营。
      */
     public static boolean isHostile(
             LivingEntity a,
@@ -335,5 +335,12 @@ public final class FactionManager {
                 getFaction(a),
                 getFaction(b)
         );
+    }
+
+    /**
+     * 获取所有已注册的派系列表。
+     */
+    public static java.util.Collection<Faction> getAllFactions() {
+        return FACTIONS.values();
     }
 }

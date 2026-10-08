@@ -52,7 +52,7 @@ public class FactionArcher
             LogUtils.getLogger();
 
     /** 箭基础伤害（基础兵 1 级），随倍率成长 */
-    public static final float ARROW_BASE_DAMAGE = 2.5F;
+    public static final float ARROW_BASE_DAMAGE = 3F;
 
     /** 连发触发概率（弩手 / 连弩手） */
     public static final float BURST_CHANCE = 0.2F;
@@ -136,7 +136,7 @@ public class FactionArcher
     public static AttributeSupplier.Builder createAttributes() {
 
         return Monster.createMonsterAttributes()
-                .add(Attributes.MAX_HEALTH, 20.0D)
+                .add(Attributes.MAX_HEALTH, 30.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.32D)
                 .add(Attributes.ATTACK_DAMAGE, 2.0D)
                 .add(Attributes.FOLLOW_RANGE, 32.0D)

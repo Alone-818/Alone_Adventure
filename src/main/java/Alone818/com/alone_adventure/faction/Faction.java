@@ -3,6 +3,11 @@ package Alone818.com.alone_adventure.faction;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.BossEvent;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 派系定义。
@@ -124,4 +129,5 @@ public class Faction {
     public BossEvent.BossBarColor getRaidBarColor() {
         return raidBarColor;
     }
+
 }

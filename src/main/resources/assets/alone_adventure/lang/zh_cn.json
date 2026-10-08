@@ -188,6 +188,7 @@
   "book.alone_adventure.attitude.always": "§c当前态度：永久敌对",
   "book.alone_adventure.attitude.hostile": "§c当前态度：敌对",
   "book.alone_adventure.attitude.neutral": "§a当前态度：中立",
+  "book.alone_adventure.attitude.player_member": "§6★ 你是该派系成员 ★",
   "book.alone_adventure.raid.active": "§c突袭可能性：该派系正在突袭你！",
   "book.alone_adventure.raid.frozen": "§7突袭可能性：暂不结算——%1$s 的突袭正在进行，仇恨冻结中。",
   "book.alone_adventure.raid.chance": "§e突袭可能性：%1$s%%（仇恨达到 400 后触发突袭）",
@@ -499,6 +500,17 @@
   "talisman.alone_adventure.raised": "%1$s 对你的仇恨提升至 %2$s / %3$s",
   "talisman.alone_adventure.lowered": "%1$s 对你的仇恨降低至 %2$s / %3$s",
   "talisman.alone_adventure.frozen": "突袭进行中，仇恨被冻结，符未生效",
+  "talisman.alone_adventure.raised_universal": "§e 最高仇恨派系 [%1$s] 对你的仇恨提升至 %2$s / %3$s",
+  "talisman.alone_adventure.lowered_universal": "§e 最高仇恨派系 [%1$s] 对你的仇恨降低至 %2$s / %3$s",
+  "talisman.alone_adventure.no_hostile": "§e 目前没有对任何派系有仇恨",
+
+  "item.alone_adventure.universal_talisman_up": "通用仇恨符",
+  "item.alone_adventure.universal_talisman_down": "通用安息符",
+  "item.alone_adventure.universal_talisman.tooltip.desc": "§7 自动识别仇恨值最高的派系",
+  "item.alone_adventure.universal_talisman.tooltip.up": "右键：对该派系仇恨 +%1$s（上限 1000）",
+  "item.alone_adventure.universal_talisman.tooltip.down": "右键：对该派系仇恨 -%1$s",
+  "item.alone_adventure.universal_talisman.tooltip.use": "仇恨 >= 200 该派系转为敌对，>= 400 即刻迎来突袭",
+  "item.alone_adventure.universal_talisman.tooltip.freeze": "突袭进行中仇恨冻结，符仍消耗但不生效",
 
     "gui.alone_adventure.ammo_box.empty": "弹药箱中的弹药不足。",
     "gui.alone_adventure.ammo_box.inventory_full": "你的背包没有足够的空间。",
@@ -708,6 +720,10 @@
   "item.alone_adventure.harvest_contract.tooltip.wheat_desc": "§a 提交小麦 ×16",
   "item.alone_adventure.harvest_contract.tooltip.task_desc": "§7 完成后作为合成材料使用",
 
+  "quest.alone_adventure.harvest_contract.collect_carrots": "提交胡萝卜 ×32",
+  "quest.alone_adventure.harvest_contract.collect_potatoes": "提交土豆 ×32",
+  "quest.alone_adventure.harvest_contract.collect_wheat": "提交小麦 ×16",
+
   "item.alone_adventure.faction_join": "派系加入令牌",
   "item.alone_adventure.faction_join.tooltip.join": "§e 右键点击加入派系",
   "item.alone_adventure.faction_join.tooltip.effect": "§7 加入派系后将受到该派系保护并获得支援",
@@ -720,6 +736,9 @@
 
   "faction.alone_adventure.joined": "§a 你已加入 %1$s！",
   "faction.alone_adventure.left": "§c 你已退出 %1$s。",
+  "faction.alone_adventure.undead_resurrect": "§5 亡灵之力让你复活了！",
+  "faction.alone_adventure.empire_synergy": "§6 帝国协同：护甲 +%.0f%%，生命 +%.0f%%",
+  "faction.alone_adventure.demon_berserk": "§c 恶魔狂怒：力量 II + 抗性 I",
   "faction.alone_adventure.no_faction": "§c 你当前未加入任何派系。",
   "faction.alone_adventure.already_joined": "§e 你已经是某个派系的成员。",
   "faction.alone_adventure.no_joinable": "§c 没有可加入的派系。",

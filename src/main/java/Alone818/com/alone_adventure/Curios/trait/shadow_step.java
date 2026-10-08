@@ -86,7 +86,7 @@ public class shadow_step extends Item implements ICurioItem {
         }
 
         // 瞬移到目标位置（脚底）
-        double finalY = Math.floor(targetY); // 保证脚底在目标方块上方
+        double finalY = Math.floor(targetY) + 0.1; // 稍微抬高以防止卡在方块里
         player.teleportTo((ServerLevel) player.level(), targetX, finalY, targetZ,
                 player.getYRot(), player.getXRot());
 

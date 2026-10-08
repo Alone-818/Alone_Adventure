@@ -187,6 +187,7 @@
   "book.alone_adventure.attitude.always": "§cCurrent attitude: Permanently Hostile",
   "book.alone_adventure.attitude.hostile": "§cCurrent attitude: Hostile",
   "book.alone_adventure.attitude.neutral": "§aCurrent attitude: Neutral",
+  "book.alone_adventure.attitude.player_member": "§6★ You are a member of this faction ★",
   "book.alone_adventure.raid.active": "§cRaid chance: this faction is raiding you right now!",
   "book.alone_adventure.raid.frozen": "§7Raid chance: on hold — a %1$s raid is in progress, hatred settlement is frozen.",
   "book.alone_adventure.raid.chance": "§eRaid chance: %1$s%% (raids trigger once hatred reaches 400)",
@@ -497,6 +498,17 @@
   "talisman.alone_adventure.raised": "%1$s hatred toward you rises to %2$s / %3$s",
   "talisman.alone_adventure.lowered": "%1$s hatred toward you falls to %2$s / %3$s",
   "talisman.alone_adventure.frozen": "A raid is in progress, hatred is frozen, the talisman had no effect",
+  "talisman.alone_adventure.raised_universal": "§e Highest hatred faction [%1$s] hatred toward you rises to %2$s / %3$s",
+  "talisman.alone_adventure.lowered_universal": "§e Highest hatred faction [%1$s] hatred toward you falls to %2$s / %3$s",
+  "talisman.alone_adventure.no_hostile": "§e No current hatred with any faction",
+
+  "item.alone_adventure.universal_talisman_up": "Universal Hatred Talisman",
+  "item.alone_adventure.universal_talisman_down": "Universal Peace Talisman",
+  "item.alone_adventure.universal_talisman.tooltip.desc": "§7 Automatically identifies the faction with highest hatred",
+  "item.alone_adventure.universal_talisman.tooltip.up": "Right-click: +%1$s hatred to that faction (max 1000)",
+  "item.alone_adventure.universal_talisman.tooltip.down": "Right-click: -%1$s hatred to that faction",
+  "item.alone_adventure.universal_talisman.tooltip.use": "Hatred >= 200 turns the faction hostile, >= 400 a raid strikes at once",
+  "item.alone_adventure.universal_talisman.tooltip.freeze": "Hatred is frozen while a raid is in progress; the talisman is still consumed but has no effect",
 
   "gui.alone_adventure.ammo_box.empty": "There is not enough ammunition in the ammo box.",
   "gui.alone_adventure.ammo_box.inventory_full": "Your inventory does not have enough space.",
@@ -703,6 +715,10 @@
   "item.alone_adventure.harvest_contract.tooltip.wheat_desc": "§a Submit Wheat ×16",
   "item.alone_adventure.harvest_contract.tooltip.task_desc": "§7 Once completed, used as crafting material",
 
+  "quest.alone_adventure.harvest_contract.collect_carrots": "Submit Carrots ×32",
+  "quest.alone_adventure.harvest_contract.collect_potatoes": "Submit Potatoes ×32",
+  "quest.alone_adventure.harvest_contract.collect_wheat": "Submit Wheat ×16",
+
   "item.alone_adventure.faction_join": "Faction Join Token",
   "item.alone_adventure.faction_join.tooltip.join": "§eRight-click to view available factions",
   "item.alone_adventure.faction_join.tooltip.effect": "§7Join a faction to gain their protection and support",
@@ -715,6 +731,9 @@
 
   "faction.alone_adventure.joined": "§aYou have joined the %1$s!",
   "faction.alone_adventure.left": "§cYou have left the %1$s.",
+  "faction.alone_adventure.undead_resurrect": "§5 Undead rebirth grants you rising again!",
+  "faction.alone_adventure.empire_synergy": "§6 Empire Synergy: Armor +%.0f%%, Health +%.0f%%",
+  "faction.alone_adventure.demon_berserk": "§c Demon Berserk: Strength II + Resistance I",
   "faction.alone_adventure.no_faction": "§cYou are not currently in any faction.",
   "faction.alone_adventure.already_joined": "§eYou are already a member of a faction.",
   "faction.alone_adventure.no_joinable": "§cNo joinable factions available.",

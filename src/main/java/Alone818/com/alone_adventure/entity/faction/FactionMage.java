@@ -67,11 +67,11 @@ public class FactionMage
     public static AttributeSupplier.Builder createAttributes() {
 
         return Monster.createMonsterAttributes()
-                .add(Attributes.MAX_HEALTH, 20.0D)
+                .add(Attributes.MAX_HEALTH, 25.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.30D)
                 .add(Attributes.ATTACK_DAMAGE, 1.0D)
                 .add(Attributes.FOLLOW_RANGE, 32.0D)
-                .add(Attributes.ARMOR, 4.0D);
+                .add(Attributes.ARMOR, 2.0D);
     }
 
     @Override

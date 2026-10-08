@@ -419,6 +419,10 @@ public class ModCreativeModeTabs {
                                         // 挑衅号角
                                         output.accept(new ItemStack(ModItems.PROVOCATION_HORN.get()));
 
+                                        // 通用仇恨符 / 安息符
+                                        output.accept(new ItemStack(ModItems.UNIVERSAL_TALISMAN_UP.get()));
+                                        output.accept(new ItemStack(ModItems.UNIVERSAL_TALISMAN_DOWN.get()));
+
                                         // =================================================
                                         // 枪械改装件
                                         // =================================================

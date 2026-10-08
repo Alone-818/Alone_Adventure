@@ -7,6 +7,8 @@ import Alone818.com.alone_adventure.faction.PromotionTier;
 import Alone818.com.alone_adventure.faction.ModFactions;
 import Alone818.com.alone_adventure.faction.RaidManager;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.server.level.ServerPlayer;
+import java.util.List;
 
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -250,32 +252,19 @@ public abstract class FactionMobEntity
 
     /**
      * 派系特效执行（仅服务端）。
+     *
+     * 注：已移除所有药水效果和属性加成。
      */
     private void serverTickFactionAbility() {
-        if (!(level() instanceof ServerLevel server)) {
-            return;
-        }
-
-        Faction faction = getFaction();
-
-        // 帝国 ：周围 8 格内帝国实体越多，护甲越高（上限+5），生命上限越高（上限+12）
-        if (faction == ModFactions.EMPIRE) {
-            applyEmpireSynergy(server);
-        }
-
-        // 亡灵 ：在白天重置重生冷却
-        if (faction == ModFactions.UNDEAD) {
-            resetUndeadCooldownIfDay(server);
-        }
-
-        // 恶魔 ：低血量获得力量 II + 抗性 I
-        if (faction == ModFactions.DEMON) {
-            applyDemonBuff(server);
-        }
+        // 所有派系特效已移除
     }
 
+    // =========================================================
+    // 已移除的派系特效代码（保留注释供参考）
+    // =========================================================
+
     /**
-     * 帝国同派加成：
+     * 【已移除】帝国同派加成：
      * 8 格内每有 1 名帝国实体 = +1 护甲（上限 5）
      * 同步加成 +1 最大生命（上限 8）。
      */
@@ -337,7 +326,7 @@ public abstract class FactionMobEntity
     }
 
     /**
-     * 亡灵白天重置重生冷却。
+     * 【已移除】亡灵白天重置重生冷却。
      *
      * 修复：只在冷却已结束的情况下才重置，避免正在冷却中被清空导致无限复活。
      */
@@ -351,7 +340,7 @@ public abstract class FactionMobEntity
     }
 
     /**
-     * 恶魔低血量增益：
+     * 【已移除】恶魔低血量增益：
      * 生命低于 50% 时获得力量 II + 抗性 I。
      */
     private void applyDemonBuff(ServerLevel server) {

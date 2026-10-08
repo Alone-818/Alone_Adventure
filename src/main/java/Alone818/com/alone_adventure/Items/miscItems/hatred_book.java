@@ -167,6 +167,20 @@ public class hatred_book extends Item {
         );
 
         // 当前态度
+        String playerFactionId = RaidManager.getPlayerFactionId(player.getUUID());
+
+        if (playerFactionId != null && !playerFactionId.isEmpty()) {
+            Faction playerFaction = FactionManager.getFaction(playerFactionId);
+            if (playerFaction == faction) {
+                // 当前玩家是该派系成员
+                player.sendSystemMessage(
+                        Component.translatable(
+                                "book.alone_adventure.attitude.player_member"
+                        )
+                );
+            }
+        }
+
         player.sendSystemMessage(
                 Component.translatable(
                         attitudeKey(

@@ -114,12 +114,11 @@ public class EagleSkillPacket {
             // 获取指向方块的中心
             var pos = hitResult.getBlockPos();
             double targetX = pos.getX() + 0.5;
-            double targetY = pos.getY() + 0.5;
+            double targetY = pos.getY() + 1.1; // 抬高以防止卡在方块里
             double targetZ = pos.getZ() + 0.5;
 
             // 瞬移到目标位置
-            double finalY = Math.floor(targetY);
-            player.teleportTo((ServerLevel) player.level(), targetX, finalY, targetZ,
+            player.teleportTo((ServerLevel) player.level(), targetX, targetY, targetZ,
                     player.getYRot(), player.getXRot());
 
             // 应用增益效果：5秒抗性 I + 5秒速度 I

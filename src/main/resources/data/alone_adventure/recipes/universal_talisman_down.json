@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " R ",
+    "ARA",
+    " R "
+  ],
+  "key": {
+    "R": {
+      "item": "minecraft:bone_meal"
+    },
+    "A": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "result": {
+    "item": "alone_adventure:universal_talisman_down",
+    "count": 1
+  }
+}

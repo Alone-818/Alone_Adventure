@@ -8,8 +8,18 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.AABB;
+
+import Alone818.com.alone_adventure.entity.faction.FactionMobEntity;
+
+import java.util.Map;
 
 import com.mojang.logging.LogUtils;
 import org.slf4j.Logger;
@@ -826,6 +836,7 @@ public final class RaidManager {
      * 服务端每 tick：
      * 推进所有进行中的突袭 + 周期检测仇恨
      * + 轮询巡逻战团（每 10 秒一次）。
+     * + 玩家派系特效（低血量增益、击杀回血等）。
      */
     public static void tick(MinecraftServer server) {
 
@@ -1625,6 +1636,22 @@ public final class RaidManager {
     // =========================================================
 
     /**
+     * 玩家当前加入的派系 id
+     * （null 表示未加入任何派系）。
+     */
+    @Nullable
+    public static String getPlayerFactionId(UUID playerId) {
+        if (data == null) {
+            return null;
+        }
+        String factionId = data.playerFaction.get(playerId);
+        if (factionId == null || factionId.isEmpty()) {
+            return null;
+        }
+        return factionId;
+    }
+
+    /**
      * 玩家当前加入的派系
      * （null 表示未加入任何派系）。
      */
@@ -1685,7 +1712,8 @@ public final class RaidManager {
             Faction current = getPlayerFaction(playerId);
             player.sendSystemMessage(
                     Component.translatable(
-                            "faction.alone_adventure.already_joined"
+                            "faction.alone_adventure.already_joined",
+                            current != null ? current.getDisplayName() : Component.literal("")
                     ).withStyle(ChatFormatting.YELLOW)
             );
             return false;
@@ -1695,7 +1723,8 @@ public final class RaidManager {
         if (isHostileToPlayer(faction, playerId)) {
             player.sendSystemMessage(
                     Component.translatable(
-                            "faction.alone_adventure.cannot_join_hostile"
+                            "faction.alone_adventure.cannot_join_hostile",
+                            faction.getDisplayName()
                     ).withStyle(ChatFormatting.RED)
             );
             return false;
@@ -1714,6 +1743,9 @@ public final class RaidManager {
 
         // 记录玩家派系
         data.playerFaction.put(playerId, faction.getId());
+
+        // 应用派系效果
+        applyPlayerFactionEffects(player);
 
         data.setDirty();
 
@@ -1763,6 +1795,9 @@ public final class RaidManager {
 
         data.playerFaction.remove(playerId);
 
+        // 移除派系效果
+        removePlayerFactionEffects(player);
+
         data.setDirty();
 
         player.sendSystemMessage(
@@ -1780,5 +1815,106 @@ public final class RaidManager {
                 1.0F,
                 1.0F
         );
+    }
+
+    // =========================================================
+    // 玩家派系效果
+    // =========================================================
+
+    /**
+     * 玩家派系属性倍率：基于威胁等级。
+     * 威胁等级 0-4 对应不同的属性加成倍率。
+     * 与派系实体的军衔倍率机制相同：
+     * 通过 attribute modifier 缩放生命上限 / 攻击伤害 / 护甲。
+     */
+    private static final float[] PLAYER_FACTION_STAT_MULTIPLIERS = {
+            1.0F,  // 威胁 0: 100%
+            1.2F,  // 威胁 1: 120%
+            1.5F,  // 威胁 2: 150%
+            2.0F,  // 威胁 3: 200%
+            2.5F   // 威胁 4: 250%
+    };
+
+    /** 玩家派系属性修改器 UUID */
+    private static final UUID PLAYER_FACTION_HEALTH_MODIFIER =
+            UUID.fromString("7f5a1a9e-1a1e-4ad2-9a71-4c0f7e5b9001");
+
+    private static final UUID PLAYER_FACTION_DAMAGE_MODIFIER =
+            UUID.fromString("7f5a1a9e-1a1e-4ad2-9a71-4c0f7e5b9002");
+
+    private static final UUID PLAYER_FACTION_ARMOR_MODIFIER =
+            UUID.fromString("7f5a1a9e-1a1e-4ad2-9a71-4c0f7e5b9003");
+
+    /**
+     * 当玩家站在派系领地方块上时调用，
+     * 为加入该派系的玩家刷新派系效果。
+     * 当前实现为空，玩家加入派系后不获得任何效果。
+     */
+    public static void onPlayerInFactionTerritory(
+            ServerPlayer player,
+            Faction faction
+    ) {
+        // 当前不做任何效果处理
+    }
+
+    /**
+     * 为玩家施加派系专属的永久/短时效果。
+     * 效果持续时间由玩家所在派系的实体等级决定，
+     * 类似派系实体的属性倍率计算方式。
+     */
+    private static void applyFactionEffectsToPlayer(
+            ServerPlayer player,
+            Faction faction
+    ) {
+
+        // 移除旧的派系效果
+        player.removeEffect(MobEffects.DAMAGE_BOOST);
+        player.removeEffect(MobEffects.DAMAGE_RESISTANCE);
+        player.removeEffect(MobEffects.MOVEMENT_SPEED);
+
+        // 当前不做任何效果处理
+    }
+
+    /**
+     * 玩家加入派系后调用，施加派系专属效果。
+     */
+    private static void applyPlayerFactionEffects(ServerPlayer player) {
+        Faction faction = getPlayerFaction(player.getUUID());
+        if (faction == null) {
+            return;
+        }
+
+        // 移除旧效果
+        player.removeEffect(MobEffects.DAMAGE_BOOST);
+        player.removeEffect(MobEffects.DAMAGE_RESISTANCE);
+        player.removeEffect(MobEffects.MOVEMENT_SPEED);
+        player.removeEffect(MobEffects.HEALTH_BOOST);
+        player.removeEffect(MobEffects.FIRE_RESISTANCE);
+
+        // 根据派系施加效果
+        if (faction == ModFactions.EMPIRE) {
+            // 帝国：力量 II + 抗性 I（基础效果）
+            player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, -1, 1, false, true));
+            player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, -1, 0, false, true));
+        } else if (faction == ModFactions.UNDEAD) {
+            // 亡灵：死亡后复活（由 FactionPlayerDeathEvent 处理）
+        } else if (faction == ModFactions.DEMON) {
+            // 恶魔：无基础效果，仅在生命值低于 50% 时获得力量 II + 抗性 I（由 FactionPlayerBonusEvent 处理）
+        } else if (faction == ModFactions.TRIBE) {
+            // 部落：速度 II + 力量 II（基础效果）
+            player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, -1, 1, false, true));
+            player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, -1, 1, false, true));
+        }
+    }
+
+    /**
+     * 玩家退出派系后调用，移除派系效果。
+     */
+    private static void removePlayerFactionEffects(ServerPlayer player) {
+        player.removeEffect(MobEffects.DAMAGE_BOOST);
+        player.removeEffect(MobEffects.DAMAGE_RESISTANCE);
+        player.removeEffect(MobEffects.MOVEMENT_SPEED);
+        player.removeEffect(MobEffects.HEALTH_BOOST);
+        player.removeEffect(MobEffects.FIRE_RESISTANCE);
     }
 }

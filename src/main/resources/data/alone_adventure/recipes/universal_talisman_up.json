@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " B ",
+    "ABA",
+    " B "
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:redstone"
+    },
+    "A": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "result": {
+    "item": "alone_adventure:universal_talisman_up",
+    "count": 1
+  }
+}
