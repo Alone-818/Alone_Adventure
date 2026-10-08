@@ -7,6 +7,7 @@ import Alone818.com.alone_adventure.Curios.miscCurios.hunter_serum;
 import Alone818.com.alone_adventure.Curios.ImperialCurios.imperial_eagle;
 import Alone818.com.alone_adventure.Curios.towerCurios.necromancer_ledger;
 import Alone818.com.alone_adventure.Curios.towerCurios.sealed_throne;
+import Alone818.com.alone_adventure.Curios.towerCurios.confession_apocalypse;
 import Alone818.com.alone_adventure.Curios.trait.shadow_step;
 import Alone818.com.alone_adventure.init.ModItems;
 import top.theillusivec4.curios.api.CuriosApi;
@@ -65,7 +66,8 @@ public class EagleSkillPacket {
                         && !sealed_throne.activateSkill(sender)
                         && !charging_core.activateSkill(sender)
                         && !hunter_serum.activateSkill(sender)
-                        && !necromancer_ledger.activateSkill(sender)) {
+                        && !necromancer_ledger.activateSkill(sender)
+                        && !confession_apocalypse.activateSkill(sender)) {
                     // 若普通技能均不可用，尝试暗影跃迁（需要读取当前视线）
                     if (!tryShadowStep(sender)) {
                         // 全部不可用（未佩戴/冷却中）：给本人短促提示音

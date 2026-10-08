@@ -239,7 +239,14 @@ public class ModFactionEntities {
                                                     ),
                                             MobCategory.MONSTER
                                     )
-                                    .sized(0.6F, 1.95F)
+                                    .sized(
+                                            tier == PromotionTier.BASE ? 0.6F :
+                                            tier == PromotionTier.ADVANCED ? 0.7F :
+                                            0.8F,  // BASE=0.6, ADVANCED=0.7, ELITE=0.8
+                                            tier == PromotionTier.BASE ? 1.95F :
+                                            tier == PromotionTier.ADVANCED ? 2.2F :
+                                            2.5F   // BASE=1.95, ADVANCED=2.2, ELITE=2.5
+                                    )
                                     .clientTrackingRange(10)
                                     .build(id)
                     );

@@ -108,17 +108,17 @@ public class FactionSoldier extends FactionMobEntity {
 
     /**
      * 士兵基础属性（基础兵 1 级）：
-     * 生命 20 / 攻击 3 / 护甲 4，
+     * 生命 20 / 攻击 4 / 护甲 4，
      * 军衔倍率在实体构造时叠上。
      */
     public static AttributeSupplier.Builder createAttributes() {
 
         return Monster.createMonsterAttributes()
-                .add(Attributes.MAX_HEALTH, 35.0D)
+                .add(Attributes.MAX_HEALTH, 20.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.30D)
                 .add(Attributes.ATTACK_DAMAGE, 4.0D)
                 .add(Attributes.FOLLOW_RANGE, 32.0D)
-                .add(Attributes.ARMOR, 6.0D);
+                .add(Attributes.ARMOR, 4.0D);
     }
 
     /**

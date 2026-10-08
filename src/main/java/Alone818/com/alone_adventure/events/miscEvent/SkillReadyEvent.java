@@ -6,6 +6,7 @@ import Alone818.com.alone_adventure.Curios.towerCurios.broken_mask;
 import Alone818.com.alone_adventure.Curios.miscCurios.hunter_serum;
 import Alone818.com.alone_adventure.Curios.ImperialCurios.imperial_eagle;
 import Alone818.com.alone_adventure.Curios.towerCurios.sealed_throne;
+import Alone818.com.alone_adventure.Curios.towerCurios.confession_apocalypse;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -23,7 +24,7 @@ import java.util.Map;
 
 /**
  * 主动技能冷却完成提示 —— 覆盖所有绑定按键（默认 R）的主动技能饰品：
- * 帝国天鹰、破损面具、紧缚绷带、封印王座。
+ * 帝国天鹰、破损面具、紧缚绷带、封印王座、忏悔默示录。
  *
  * 绝对时刻冷却类（天鹰/面具/绷带）：NBT 记录技能下次可用时刻 TAG_SKILL_READY_AT，
  * 佩戴中的饰品一旦跨过该时刻即通知玩家，并随即移除记录（既清理数据也防止重复提醒）。
@@ -106,6 +107,12 @@ public class SkillReadyEvent {
                 && sealed_throne.getStars(stack) > 0) {
             tag.remove(sealed_throne.NB_TAG_SKILL_PENDING);
             return "subtitle.alone_adventure.skill_ready.sealed_throne";
+        }
+        // 忏悔默示录
+        if (tag.contains(confession_apocalypse.TAG_SKILL_READY_AT)) {
+            if (now < tag.getLong(confession_apocalypse.TAG_SKILL_READY_AT)) return null;
+            tag.remove(confession_apocalypse.TAG_SKILL_READY_AT);
+            return "subtitle.alone_adventure.skill_ready.confession_apocalypse";
         }
         return null;
     }

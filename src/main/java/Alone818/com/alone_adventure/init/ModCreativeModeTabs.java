@@ -13,6 +13,8 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 
+import static Alone818.com.alone_adventure.init.ModBlocks.DETERRENCE_BANNER_ITEM;
+
 public class ModCreativeModeTabs {
 
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS =
@@ -263,6 +265,12 @@ public class ModCreativeModeTabs {
                                         output.accept(
                                                 new ItemStack(
                                                         ModItems.NECROMANCER_LEDGER.get()
+                                                )
+                                        );
+
+                                        output.accept(
+                                                new ItemStack(
+                                                        ModItems.CONFESSION_APOCALYPSE.get()
                                                 )
                                         );
 
@@ -661,9 +669,8 @@ public class ModCreativeModeTabs {
                                             );
                                         }
 
-
-
-
+                                        // 威慑战旗（方块物品）
+                                        output.accept(new ItemStack(DETERRENCE_BANNER_ITEM.get()));
                                     }
                             )
 

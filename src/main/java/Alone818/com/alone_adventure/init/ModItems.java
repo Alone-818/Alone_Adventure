@@ -96,6 +96,15 @@ public class ModItems {
     public static final RegistryObject<Item> CHARGING_CORE =
             ITEMS.register("charging_core", charging_core::new);
 
+    // 忏悔默示录：契约饰品；罪孽上限 10 层，攻击命中 +1 罪孽，受伤害 +1 罪孽；
+    // 每层罪孽：输出伤害 +5%、受到伤害 +5%；≥5 层生成暗红粒子；
+    // 右键消耗全部罪孽释放忏悔宣告（冷却 90 秒）：
+    // ≥3 层：获得 4 秒抗性提升 II，对周围所有实体造成 层数×2 神圣伤害；
+    // ≥7 层：额外获得持续再生效果；≥8 层：饥饿消耗速度 +20%；
+    // 死亡保留一半罪孽
+    public static final RegistryObject<Item> CONFESSION_APOCALYPSE =
+            ITEMS.register("confession_apocalypse", confession_apocalypse::new);
+
     // 猎人血清：契约饰品；R 键开启猎人视野——黑暗+黑白视角，
     // 高亮范围内生物/掉落物（发光）与容器（白色线框），仅本人可见
     public static final RegistryObject<Item> HUNTER_SERUM =

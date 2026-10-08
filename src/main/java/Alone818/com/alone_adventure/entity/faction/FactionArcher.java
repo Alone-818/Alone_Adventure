@@ -55,7 +55,7 @@ public class FactionArcher
     public static final float ARROW_BASE_DAMAGE = 3F;
 
     /** 连发触发概率（弩手 / 连弩手） */
-    public static final float BURST_CHANCE = 0.2F;
+    public static final float BURST_CHANCE = 0.1F;
 
     /** 连弩手连发数量 */
     public static final int REPEATER_BURST_COUNT = 5;
@@ -136,11 +136,11 @@ public class FactionArcher
     public static AttributeSupplier.Builder createAttributes() {
 
         return Monster.createMonsterAttributes()
-                .add(Attributes.MAX_HEALTH, 30.0D)
+                .add(Attributes.MAX_HEALTH, 15.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.32D)
                 .add(Attributes.ATTACK_DAMAGE, 2.0D)
                 .add(Attributes.FOLLOW_RANGE, 32.0D)
-                .add(Attributes.ARMOR, 4.0D);
+                .add(Attributes.ARMOR, 2.0D);
     }
 
     @Override

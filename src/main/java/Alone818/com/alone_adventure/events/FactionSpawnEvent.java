@@ -8,6 +8,7 @@ import Alone818.com.alone_adventure.faction.PromotionTier;
 import Alone818.com.alone_adventure.faction.RaidManager;
 import Alone818.com.alone_adventure.init.ModFactionEntities;
 
+import Alone818.com.alone_adventure.init.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -16,6 +17,7 @@ import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 
@@ -27,41 +29,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 派系生物自然生成（少量补充）。
+ * 派系生物自然生成。
  *
- * 派系生物的主力刷新是巡逻战团（PatrolManager）
- * 与突袭（RaidManager），自然生成只做少量补充：
+ * 派系生物的主力刷新方式：
  *
- * 生成权重挂接（只挂基础军衔的士兵做队长）：
+ * 1. 自然生成（主力）：通过 biome_modifier 刷怪
+ *    data/alone_adventure/forge/biome_modifier/faction_natural_spawns.json
+ *    每派系权重 25，minCount 2 / maxCount 4
+ *    与原版僵尸相当的频率
  *
- *   data/alone_adventure/forge/biome_modifier/faction_natural_spawns.json
+ * 2. 巡逻战团（稀有事件）：间隔 4-8 分钟在玩家
+ *    周围 24-40 格处生成 5-8 人精英结群
+ *    详见 PatrolManager
  *
- * 士兵权重 15（四派系合计 60），
- * 原版僵尸 95 —— 派系结群是
- * 夜里常见的遭遇战。
+ * 3. 突袭（仇恨驱动）：仇恨>=400 触发
+ *    详见 RaidManager
+ *
+ * 自然生成结群：
+ * - 基础兵单独生成（像僵尸一样随机分布）
+ * - 精英军衔（一阶/二阶/精英）生成同派系精英结群
+ *   1 名精英 + 2-3 名基础兵伴从
  *
  * 蘑菇岛不刷怪：
  * 蘑菇岛是原版无怪生物群系（安全区），
- * 自然 / 区块首刷在这里直接取消，
- * 与巡逻战团（同样避开蘑菇岛）共同保持
- * 蘑菇岛的避难所定位；突袭不受限
- * （玩家仇恨触发的定向事件，同原版劫掠）。
- *
- * 队长落地时补齐同派系结群：
- *
- * 1. 再补一名战士
- * 2. 必有一名弓手
- * 3. 远程第四人随机二选一：再一名弓手 / 一名法师
- *
- * 名义上 4 只，队友找不到合格落点时缺员，
- * 实际 3 ~ 4 只结群。
- *
- * 结群军衔随威胁等级成长（升级机制）：
- * 队长保持基础军衔（生成入口），
- * 队友军衔按附近玩家的威胁等级掷骰
- * （RaidManager.rollAmbientTier）——
- * 威胁 0 级全基础兵，威胁 4 级
- * 混入大量一阶 / 二阶军衔。
+ * 自然 / 区块首刷在这里直接取消；
+ * 突袭 / 巡逻战团不受限。
  *
  * 位置规则与原版僵尸一致：
  * MOTION_BLOCKING_NO_LEAVES 高度图 = 只在地表，
@@ -69,7 +61,7 @@ import java.util.List;
  * （站位方块合法 + 黑暗 + 非和平）。
  *
  * 自然生成的生物标记为随距离消失
- * （保持怪物上限流动，不永久占位），
+ * （保持怪物上限流动），
  * 突袭 / 生成蛋生物不受影响，保持常驻。
  *
  * 结群之间由派系关系驱动开战：
@@ -90,10 +82,9 @@ public class FactionSpawnEvent {
 
     /**
      * 自然生成结算：
-     * 蘑菇岛拦截 + 标记可消失 + 队长补齐结群。
+     * 蘑菇岛拦截 + 标记可消失 + 精英结群。
      *
-     * 生成蛋 / 突袭 / 指令生成不进这里
-     * （突袭直接构造实体，见 FactionRaid），
+     * 生成蛋 / 突袭 / 指令生成不进这里，
      * 保持一只一只生成、且常驻。
      */
     @SubscribeEvent
@@ -133,6 +124,15 @@ public class FactionSpawnEvent {
         }
 
         /*
+         * 威慑战旗区域拦截：
+         * 检查生成位置是否在威慑战旗的 5×5 区块范围内。
+         */
+        if (natural && isWithinDeterrenceRange(event.getLevel(), mob.blockPosition())) {
+            event.setSpawnCancelled(true);
+            return;
+        }
+
+        /*
          * 自然 / 区块首刷 / 刷怪笼生成的
          * 随距离消失，保持怪物上限流动。
          */
@@ -143,12 +143,11 @@ public class FactionSpawnEvent {
         }
 
         /*
-         * 只有自然生成的近战基础兵做队长：
-         * 补齐同派系结群。
+         * 自然生成的精英军衔（非基础兵）生成精英结群：
+         * 一阶/二阶/精英兵生成自己的同派系精英结群。
          */
         if (natural
-                && mob.getRank() == PromotionTier.BASE
-                && mob instanceof FactionSoldier) {
+                && mob.getRank() != PromotionTier.BASE) {
 
             spawnPack(
                     mob,
@@ -338,5 +337,70 @@ public class FactionSpawnEvent {
 
             return;
         }
+    }
+
+    /**
+     * 检查给定位置是否在威慑战旗的 5×5 区块范围内。
+     *
+     * @param level 关卡
+     * @param pos   要检查的位置
+     * @return 如果在威慑范围内返回 true，否则返回 false
+     */
+    private static boolean isWithinDeterrenceRange(
+            net.minecraft.world.level.LevelReader level,
+            BlockPos pos
+    ) {
+        // 获取当前区块坐标
+        int chunkX = pos.getX() >> 4;
+        int chunkZ = pos.getZ() >> 4;
+
+        // 检查周围 5×5 范围内的区块是否有威慑战旗
+        // 即检查中心 ±2 的区块范围
+        if (level instanceof net.minecraft.server.level.ServerLevel serverLevel) {
+            for (int dx = -2; dx <= 2; dx++) {
+                for (int dz = -2; dz <= 2; dz++) {
+                    int bannerChunkX = chunkX + dx;
+                    int bannerChunkZ = chunkZ + dz;
+
+                    // 检查此区块是否有威慑战旗方块
+                    if (hasDeterrenceBannerInChunk(serverLevel, bannerChunkX, bannerChunkZ)) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * 检查指定区块内是否有威慑战旗方块。
+     *
+     * 通过区块的方块实体 (BlockEntity) 缓存快速查找。
+     *
+     * @param level     关卡
+     * @param chunkX    区块 X 坐标
+     * @param chunkZ    区块 Z 坐标
+     * @return 如果有威慑战旗返回 true，否则返回 false
+     */
+    private static boolean hasDeterrenceBannerInChunk(
+            net.minecraft.server.level.ServerLevel level,
+            int chunkX,
+            int chunkZ
+    ) {
+        // 检查区块是否已加载
+        if (!level.hasChunk(chunkX, chunkZ)) {
+            return false;
+        }
+
+        net.minecraft.world.level.chunk.LevelChunk chunk = level.getChunk(chunkX, chunkZ);
+
+        for (var blockEntity : chunk.getBlockEntities().values()) {
+            if (blockEntity instanceof Alone818.com.alone_adventure.blocks.DeterrenceBannerBlockEntity) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

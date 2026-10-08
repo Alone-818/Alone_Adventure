@@ -746,5 +746,24 @@
   "faction.alone_adventure.join_instructions": "§7 提示：不同派系提供不同的增益和盟友",
   "faction.alone_adventure.leave_hint": "§c 确认退出 %1$s？使用派系退出令牌继续",
   "faction.alone_adventure.cannot_join_hostile": "§c 无法加入 %1$s：敌意过高。",
-  "faction.alone_adventure.cannot_join_already_member": "§c 你已经是 %1$s 的成员。"
+  "faction.alone_adventure.cannot_join_already_member": "§c 你已经是 %1$s 的成员。",
+
+  "block.alone_adventure.deterrence_banner": "威慑战旗",
+  "block.alone_adventure.deterrence_banner.desc": "§7 以当前区块为中心，周围 5×5 的区块内无法刷新派系生物",
+
+  "item.alone_adventure.confession_apocalypse": "忏悔默示录",
+  "item.alone_adventure.confession_apocalypse.tooltip.desc": "§4 一本记载着罪孽与救赎的古老典籍，佩戴者通过战斗积累罪孽，并通过忏悔宣告释放力量。",
+  "item.alone_adventure.confession_apocalypse.tooltip.sin": "当前罪孽：%s/%s",
+  "item.alone_adventure.confession_apocalypse.tooltip.passive_desc": "§c 每层罪孽：输出伤害 +5%，受到伤害 +5%",
+  "item.alone_adventure.confession_apocalypse.tooltip.hit_desc": "§e 攻击命中实体时 +1 罪孽（单次攻击最多 +1）",
+  "item.alone_adventure.confession_apocalypse.tooltip.damage_desc": "§e 受到伤害时 +1 罪孽",
+  "item.alone_adventure.confession_apocalypse.tooltip.particle_desc": "§5 罪孽 ≥ 5 层时生成暗红色粒子",
+  "item.alone_adventure.confession_apocalypse.tooltip.hunger_desc": "§6 罪孽 ≥ 8 层时，饥饿消耗速度 +20%",
+  "item.alone_adventure.confession_apocalypse.tooltip.skill_desc": "§b 右键释放忏悔宣告：消耗全部罪孽，冷却 90 秒",
+  "item.alone_adventure.confession_apocalypse.tooltip.skill_effect_1": "§a 罪孽 ≥ 3 层：获得 4 秒抗性提升 II，对周围所有实体造成 层数×2 的神圣伤害",
+  "item.alone_adventure.confession_apocalypse.tooltip.skill_effect_2": "§a 罪孽 ≥ 7 层：额外获得持续再生效果",
+  "item.alone_adventure.confession_apocalypse.tooltip.death_desc": "§e 死亡时保留一半罪孽",
+  "item.alone_adventure.confession_apocalypse.tooltip.cooldown_left": "技能冷却剩余：%s 秒",
+
+  "subtitle.alone_adventure.skill_ready.confession_apocalypse": "忏悔默示录准备就绪"
 }

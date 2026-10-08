@@ -46,7 +46,9 @@ import java.util.UUID;
  * 巡逻战团的行为：
  *
  * - 敌对派系（含仇恨过线的中立派系）：
- *   落地锁定玩家 + 号角预警（音量低于突袭）
+ *   落地号角预警（音量低于突袭），不自动锁敌玩家
+ *   （参考原版掠夺者小队行为，靠FactionEnemyTargetGoal
+ *   触发开战：玩家靠近或主动攻击时才会攻击）
  * - 中立派系：落地游荡，
  *   与敌对派系的战团互相开战
  *   （FactionEnemyTargetGoal）
@@ -67,13 +69,13 @@ public final class PatrolManager {
     private static final Logger LOGGER =
             LogUtils.getLogger();
 
-    /** 巡逻最短间隔：约 5 分 20 秒（原 8 分钟，概率 x1.5） */
+    /** 巡逻最短间隔：30 分钟 */
     public static final long MIN_INTERVAL_TICKS =
-            6_400L;
+            36_000L;
 
-    /** 巡逻最长间隔：8 分钟（原 12 分钟，概率 x1.5） */
+    /** 巡逻最长间隔：40 分钟 */
     public static final long MAX_INTERVAL_TICKS =
-            9_600L;
+            48_000L;
 
     /**
      * 迟到豁免：到期超过 1 分钟视为离线期间错过，
@@ -411,10 +413,9 @@ public final class PatrolManager {
                 0.0F
         );
 
-        // 敌对战团落地锁敌；中立战团游荡
-        if (hostile) {
-            mob.setTarget(player);
-        }
+        // 巡逻战团不自动锁敌 (参考原版掠夺者小队)
+        // 敌对行为由 FactionEnemyTargetGoal 处理，
+        // 只在玩家靠近或主动攻击时开战
 
         // 与自然生成一致：随距离消失，保持怪物上限流动
         mob.markDespawnable();

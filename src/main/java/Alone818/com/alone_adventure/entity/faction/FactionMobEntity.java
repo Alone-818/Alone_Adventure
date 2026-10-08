@@ -113,11 +113,11 @@ public abstract class FactionMobEntity
     public static final int MAX_LEVEL = 3;
 
     /** 等级属性加成：1 / 2 / 3 级（每级 +5%） */
-    private static final float[] LEVEL_STAT = {0.0F, 0.05F, 0.1F};
+    private static final float[] LEVEL_STAT = {0.0F, 0.02F, 0.05F};
 
     /** 难度血量乘区：普通 1.05，困难 1.1 */
-    private static final float DIFFICULTY_HEALTH_MULTIPLIER_NORMAL = 1.05F;
-    private static final float DIFFICULTY_HEALTH_MULTIPLIER_HARD = 1.1F;
+    private static final float DIFFICULTY_HEALTH_MULTIPLIER_NORMAL = 1.02F;
+    private static final float DIFFICULTY_HEALTH_MULTIPLIER_HARD = 1.5F;
 
     /** 难度护甲加成：普通 +0，困难 +1 */
     private static final int DIFFICULTY_ARMOR_BONUS_NORMAL = 0;
@@ -479,6 +479,15 @@ public abstract class FactionMobEntity
                 + LEVEL_STAT[level - 1];
     }
 
+    /**
+     * 当前攻击力倍率 = 军衔基础 + 等级加成。
+     *
+     * 默认与生命倍率相同，子类可覆写以实现独立调整。
+     */
+    public float getDamageMultiplier() {
+        return getStatMultiplier();
+    }
+
     // =========================================================
     // 等级成长
     // =========================================================
@@ -692,7 +701,7 @@ public abstract class FactionMobEntity
             );
         }
 
-        level().addFreshEntity(promoted);
+                level().addFreshEntity(promoted);
 
         // 保留当前目标，晋升后继续作战
         if (getTarget() != null) {
@@ -741,7 +750,7 @@ public abstract class FactionMobEntity
                     new AttributeModifier(
                             DAMAGE_MODIFIER,
                             "AloneAdventure_FactionDamage",
-                            getStatMultiplier() - 1.0F,
+                            getDamageMultiplier() - 1.0F,
                             AttributeModifier.Operation.MULTIPLY_TOTAL
                     )
             );

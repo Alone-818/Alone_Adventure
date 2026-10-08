@@ -548,6 +548,12 @@ public class FactionRaid {
                         new BlockPos(x, 0, z)
                 );
 
+        // 防止在地下卡住：高度图返回的位置过低时向上修正
+        int minY = level.getMinSection()+5;
+        if (pos.getY() < minY) {
+            pos = pos.above();
+        }
+
         if (Math.abs(
                 pos.getY() - player.getY())
                 > 24.0D) {

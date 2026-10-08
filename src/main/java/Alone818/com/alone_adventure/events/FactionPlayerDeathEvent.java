@@ -1,16 +1,23 @@
 package Alone818.com.alone_adventure.events;
 
 import Alone818.com.alone_adventure.Alone_adventure;
+import Alone818.com.alone_adventure.Curios.towerCurios.confession_apocalypse;
 import Alone818.com.alone_adventure.faction.Faction;
 import Alone818.com.alone_adventure.faction.ModFactions;
 import Alone818.com.alone_adventure.faction.RaidManager;
+import Alone818.com.alone_adventure.init.ModItems;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.SlotResult;
+
+import java.util.Optional;
 
 /**
  * 派系玩家死亡事件处理。
@@ -70,7 +77,7 @@ public class FactionPlayerDeathEvent {
         // 设置冷却时间
         setResurrectionCooldownEnd(player, currentTime + UNDEAD_RESURRECTION_COOLDOWN);
 
-        // 播放复活特效
+        // 复活时播放特效
         server.sendParticles(
                 ParticleTypes.ENCHANT,
                 player.getX(),
@@ -107,6 +114,21 @@ public class FactionPlayerDeathEvent {
                         "faction.alone_adventure.undead_resurrect"
                 ).withStyle(net.minecraft.ChatFormatting.DARK_PURPLE)
         );
+
+        // 处理忏悔默示录死亡保护：保留一半罪孽
+        handleConfessionOnDeath(player);
+    }
+
+    /**
+     * 玩家死亡时，忏悔默示录保留一半罪孽
+     */
+    private static void handleConfessionOnDeath(Player player) {
+        Optional<SlotResult> curioOpt = CuriosApi.getCuriosHelper()
+                .findFirstCurio(player, ModItems.CONFESSION_APOCALYPSE.get());
+        if (curioOpt.isPresent()) {
+            ItemStack stack = curioOpt.get().stack();
+            confession_apocalypse.onPlayerDeath(player, stack);
+        }
     }
 
     /**

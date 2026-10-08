@@ -40,7 +40,7 @@ public class SelfHealDrinkGoal
     public static final float HEALTH_TRIGGER = 0.3F;
 
     /** 喝药回复：最大生命百分比 */
-    public static final float HEAL_RATIO = 0.5F;
+    public static final float HEAL_RATIO = 0.3F;
 
     /** 喝药耗时（与原版药水饮用时间一致） */
     public static final int DRINK_TICKS = 32;

@@ -104,6 +104,8 @@ public class Alone_adventure {
 
         ModBlocks.register(modEventBus);
 
+        ModBlockEntities.register(modEventBus);
+
         ModEffects.register(modEventBus);
 
         ModEntities.register(modEventBus);

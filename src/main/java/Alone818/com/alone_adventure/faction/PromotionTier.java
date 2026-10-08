@@ -20,10 +20,10 @@ public enum PromotionTier {
     BASE(1.0F),
 
     /** 一阶军衔：中士 / 弩手 / 大法师 */
-    ADVANCED(1.2F),
+    ADVANCED(1.1F),
 
     /** 二阶军衔（封顶）：将军 / 连弩手 / 魔导师 */
-    ELITE(1.5F);
+    ELITE(1.2F);
 
     /** 军衔基础属性倍率 */
     private final float baseStat;
