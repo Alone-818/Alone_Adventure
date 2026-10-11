@@ -81,10 +81,10 @@ public class CurseOfCorpseEvent {
         // 对自身随机施加一个负面效果
         applyRandomDebuff(attacker);
 
-        // 根据目标身上负面效果层数增加伤害：每层 +10%
+        // 根据目标身上负面效果层数增加伤害：每层 +8%
         int debuffLayers = countNegativeEffects(target);
         if (debuffLayers > 0) {
-            float multiplier = 1.0F + debuffLayers * 0.10F;
+            float multiplier = 1.0F + debuffLayers * 0.08F;
             float originalDamage = event.getAmount();
             event.setAmount(originalDamage * multiplier);
         }

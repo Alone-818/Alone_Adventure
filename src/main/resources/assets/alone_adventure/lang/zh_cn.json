@@ -713,6 +713,42 @@
   "item.alone_adventure.bald_eagle.tooltip.luck_desc": "§e 常态：获得幸运 II",
   "item.alone_adventure.bald_eagle.tooltip.kill_desc": "§e 击杀生物：30% 概率使该生物所有掉落物数量翻倍",
 
+  "item.alone_adventure.victim_humus": "受害者腐殖",
+  "item.alone_adventure.victim_humus.tooltip.desc": "§2 如果大地不能缓和您的愤怒，就请拿走我的血与骨。",
+  "item.alone_adventure.victim_humus.tooltip.layers": "当前黄心层数：%d/%d（提供 %d 点吸收）",
+  "item.alone_adventure.victim_humus.tooltip.mechanism": "§6 攻击时损失的红色生命的 50% 转换为可叠加黄心",
+
+  "item.alone_adventure.chronos_reagent": "克罗诺斯试剂",
+  "item.alone_adventure.chronos_reagent.tooltip.desc": "§9 很好，这样能行。",
+  "item.alone_adventure.chronos_reagent.tooltip.stack_desc": "§b 连续攻击之间不受到攻击将获得可堆叠的力量，上限为 9",
+  "item.alone_adventure.chronos_reagent.tooltip.clear_desc": "§c 受击后清除力量，获得虚弱等级 3 时间 7 秒",
+
+  "item.alone_adventure.nothing_left": "一无所有",
+  "item.alone_adventure.nothing_left.tooltip.desc": "§4 主管！主管！主管！主管！主管！",
+  "item.alone_adventure.nothing_left.tooltip.regen_desc": "§a 10s 内未受到伤害则快速回复生命值",
+  "item.alone_adventure.nothing_left.tooltip.resistance_desc": "§b 常态获得抗性提升 II",
+  "item.alone_adventure.nothing_left.tooltip.penalty_desc": "§c 减少 20% 护甲值与护甲韧性",
+
+  "item.alone_adventure.black_flower": "黑色花朵",
+  "item.alone_adventure.black_flower.tooltip.desc": "§8 一朵黑色的花，散发着死亡的芳香，曾佩戴在某个死神的头上。",
+  "item.alone_adventure.black_flower.tooltip.soul_desc": "§5 攻击时获得灵魂（上限 7）",
+  "item.alone_adventure.black_flower.tooltip.skill_desc": "§6 激活技能：消耗 (灵魂×2) 生命，获得力量 (灵魂 -2) 等级，时长 (灵魂×5 秒)",
+
+  "item.alone_adventure.ancient_power": "远古力量",
+  "item.alone_adventure.ancient_power.tooltip.desc": "§8 那遥远的古代留下的召唤之力。",
+  "item.alone_adventure.ancient_power.tooltip.effect_desc": "§a 每等级增加 15% 的攻击伤害",
+  "item.alone_adventure.ancient_power.tooltip.side_effect_desc": "§c 若佩戴时拥有力量效果，额外获得基于力量×0.7 等级的同等时长虚弱",
+
+  "item.alone_adventure.explosive_loading_ammo": "爆炸填装弹",
+  "item.alone_adventure.explosive_loading_ammo.tooltip.desc": "§7 弹夹里装满了致命的爆炸药研。",
+  "item.alone_adventure.explosive_loading_ammo.tooltip.effect": "§6 枪械打出子弹数量 +2；子弹落地造成基于伤害的等级的爆炸（不破坏方块）",
+
+  "item.alone_adventure.strake_challenge_gauntlet": "斯特拉克的挑战护手",
+  "item.alone_adventure.strake_challenge_gauntlet.tooltip.desc": "§c 未伸张的怒火，未宽解的悲哀，未照耀的荣光。",
+  "item.alone_adventure.strake_challenge_gauntlet.tooltip.high_hp_desc": "§a 生命值 >50%：+20% 最大生命 / -20% 移速",
+  "item.alone_adventure.strake_challenge_gauntlet.tooltip.low_hp_desc": "§e 生命值 ≤50%：-20% 护甲 / +20% 移速 / +10% 攻速",
+  "item.alone_adventure.strake_challenge_gauntlet.tooltip.skill_desc": "§6 技能：生命>50% 时扣血至 50% 并获得力量 IV/速度 III 15 秒；生命≤50% 时回血至 50% 并获得虚弱 III/迟缓 III/再生 III 10 秒 + 最大生命 50% 的黄心",
+
   "item.alone_adventure.harvest_contract": "收割契约",
   "item.alone_adventure.harvest_contract.tooltip.desc": "§6 一份来自丰收季节的契约——收获丰收，庆祝丰收。",
   "item.alone_adventure.harvest_contract.tooltip.carrots_desc": "§a 提交胡萝卜 ×32",
@@ -749,12 +785,13 @@
   "faction.alone_adventure.cannot_join_already_member": "§c 你已经是 %1$s 的成员。",
 
   "block.alone_adventure.deterrence_banner": "威慑战旗",
+  "item.alone_adventure.deterrence_banner": "威慑战旗",
   "block.alone_adventure.deterrence_banner.desc": "§7 以当前区块为中心，周围 5×5 的区块内无法刷新派系生物",
 
   "item.alone_adventure.confession_apocalypse": "忏悔默示录",
   "item.alone_adventure.confession_apocalypse.tooltip.desc": "§4 一本记载着罪孽与救赎的古老典籍，佩戴者通过战斗积累罪孽，并通过忏悔宣告释放力量。",
   "item.alone_adventure.confession_apocalypse.tooltip.sin": "当前罪孽：%s/%s",
-  "item.alone_adventure.confession_apocalypse.tooltip.passive_desc": "§c 每层罪孽：输出伤害 +5%，受到伤害 +5%",
+  "item.alone_adventure.confession_apocalypse.tooltip.passive_desc": "§c 每层罪孽：输出伤害 +2.5%，受到伤害 +5%",
   "item.alone_adventure.confession_apocalypse.tooltip.hit_desc": "§e 攻击命中实体时 +1 罪孽（单次攻击最多 +1）",
   "item.alone_adventure.confession_apocalypse.tooltip.damage_desc": "§e 受到伤害时 +1 罪孽",
   "item.alone_adventure.confession_apocalypse.tooltip.particle_desc": "§5 罪孽 ≥ 5 层时生成暗红色粒子",
@@ -766,4 +803,5 @@
   "item.alone_adventure.confession_apocalypse.tooltip.cooldown_left": "技能冷却剩余：%s 秒",
 
   "subtitle.alone_adventure.skill_ready.confession_apocalypse": "忏悔默示录准备就绪"
+
 }

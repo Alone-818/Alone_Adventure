@@ -1,5 +1,7 @@
 package Alone818.com.alone_adventure.network;
 
+import Alone818.com.alone_adventure.events.miscEvent.StrakeChallengeGauntletEvent;
+import Alone818.com.alone_adventure.Curios.trait.black_flower;
 import Alone818.com.alone_adventure.Curios.towerCurios.binding_bandage;
 import Alone818.com.alone_adventure.Curios.towerCurios.broken_mask;
 import Alone818.com.alone_adventure.Curios.towerCurios.charging_core;
@@ -67,7 +69,9 @@ public class EagleSkillPacket {
                         && !charging_core.activateSkill(sender)
                         && !hunter_serum.activateSkill(sender)
                         && !necromancer_ledger.activateSkill(sender)
-                        && !confession_apocalypse.activateSkill(sender)) {
+                        && !confession_apocalypse.activateSkill(sender)
+                        && !black_flower.activateSkill(sender)
+                        && !StrakeChallengeGauntletEvent.activateSkill(sender)) {
                     // 若普通技能均不可用，尝试暗影跃迁（需要读取当前视线）
                     if (!tryShadowStep(sender)) {
                         // 全部不可用（未佩戴/冷却中）：给本人短促提示音

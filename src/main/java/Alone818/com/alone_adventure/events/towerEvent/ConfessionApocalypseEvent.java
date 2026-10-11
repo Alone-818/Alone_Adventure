@@ -36,6 +36,7 @@ public class ConfessionApocalypseEvent {
     /**
      * 攻击命中实体时 +1 罪孽
      * 由 AttackEntityEvent 处理，确保单次攻击只 +1 罪孽
+     * 只有近战（距离 < 7 格）时才增加罪孽层数
      */
     @SubscribeEvent
     public static void onAttackEntity(AttackEntityEvent event) {
@@ -48,7 +49,15 @@ public class ConfessionApocalypseEvent {
         if (curioOpt.isEmpty()) return;
 
         ItemStack stack = curioOpt.get().stack();
-        confession_apocalypse.addSinOnHit(player, stack);
+        Entity target = event.getTarget();
+
+        // 只有近战（距离 < 7 格）时才增加罪孽
+        if (target != null && target instanceof LivingEntity livingTarget) {
+            double distance = player.distanceTo(livingTarget);
+            if (distance < 7.0) {
+                confession_apocalypse.addSinOnHit(player, stack);
+            }
+        }
     }
 
     /**
@@ -65,11 +74,16 @@ public class ConfessionApocalypseEvent {
 
         ItemStack stack = curioOpt.get().stack();
 
-        // 应用罪孽带来的受到伤害增加（每层 +5%）
-        float sinMultiplier = (float) confession_apocalypse.getSinDamageMultiplier(stack);
-        if (sinMultiplier > 0) {
-            float newAmount = event.getAmount() * (1.0F + sinMultiplier);
-            event.setAmount(newAmount);
+        // 应用罪孽带来的伤害增伤（每层 +10%）
+        // 只在近战时触发：距离 < 5 格时才增加罪孽层数、才触发增伤
+        Entity entity = event.getSource().getDirectEntity();
+        if (entity != null && entity instanceof LivingEntity livingAttacker) {
+            double distance = player.distanceTo(livingAttacker);
+            float sinMultiplier = (float) confession_apocalypse.getSinDamageMultiplier(stack);
+            if (sinMultiplier > 0 && distance < 5.0) {
+                float newAmount = event.getAmount() * (1.0F + sinMultiplier);
+                event.setAmount(newAmount);
+            }
         }
 
         // 增加罪孽

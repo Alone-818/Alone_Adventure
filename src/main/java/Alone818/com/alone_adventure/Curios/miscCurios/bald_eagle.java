@@ -42,8 +42,8 @@ public class bald_eagle extends Item implements ICurioItem {
 
     /** 移速 +20%（可由 Config 覆盖） */
     public static final float MOVEMENT_SPEED_BONUS = 0.2F;
-    /** 最大生命值 +10%（可由 Config 覆盖） */
-    public static final float MAX_HEALTH_BONUS = 0.1F;
+    /** 最大生命值 -10%（可由 Config 覆盖） */
+    public static final float MAX_HEALTH_BONUS = -0.1F;
     /** 掉落数翻倍概率：30%（可由 Config 覆盖） */
     public static float DOUBLING_CHANCE = 0.3F;
 

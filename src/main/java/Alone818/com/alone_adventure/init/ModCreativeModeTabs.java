@@ -326,6 +326,33 @@ public class ModCreativeModeTabs {
                                                 )
                                         );
 
+                                        // ========== 特质饰品 ==========
+                                        output.accept(
+                                                new ItemStack(
+                                                        ModItems.VICTIM_HUMUS.get()
+                                                )
+                                        );
+                                        output.accept(
+                                                new ItemStack(
+                                                        ModItems.CHRONOS_REAGENT.get()
+                                                )
+                                        );
+                                        output.accept(
+                                                new ItemStack(
+                                                        ModItems.NOTHING_LEFT.get()
+                                                )
+                                        );
+                                        output.accept(
+                                                new ItemStack(
+                                                        ModItems.BLACK_FLOWER.get()
+                                                )
+                                        );
+                                        output.accept(
+                                                new ItemStack(
+                                                        ModItems.STRAKE_CHALLENGE_GAUNTLET.get()
+                                                )
+                                        );
+
                                         // ========== 任务契约类物品 (放在饰品最后) ==========
                                         output.accept(
                                                 new ItemStack(
@@ -480,6 +507,9 @@ public class ModCreativeModeTabs {
                                                         ModItems.GUN_PART.get()
                                                 )
                                         );
+
+                                        // 威慑战旗（采用旗帜模型）
+                                        output.accept(new ItemStack(DETERRENCE_BANNER_ITEM.get()));
 
                                         // 枪械盒
                                         output.accept(

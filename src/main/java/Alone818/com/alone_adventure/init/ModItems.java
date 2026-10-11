@@ -9,7 +9,13 @@ import Alone818.com.alone_adventure.Curios.gun.SingleActionRapidFire;
 import Alone818.com.alone_adventure.Curios.miscCurios.*;
 import Alone818.com.alone_adventure.Curios.towerCurios.*;
 import Alone818.com.alone_adventure.Curios.trait.shadow_step;
+import Alone818.com.alone_adventure.Curios.trait.victim_humus;
+import Alone818.com.alone_adventure.Curios.trait.chronos_reagent;
+import Alone818.com.alone_adventure.Curios.trait.nothing_left;
+import Alone818.com.alone_adventure.Curios.trait.black_flower;
+import Alone818.com.alone_adventure.Curios.trait.ancient_power;
 import Alone818.com.alone_adventure.Curios.miscCurios.bald_eagle;
+import Alone818.com.alone_adventure.Curios.miscCurios.strake_challenge_gauntlet;
 import Alone818.com.alone_adventure.Items.ImperialItems.chainsawsword;
 import Alone818.com.alone_adventure.Items.contract.harvest_contract;
 import Alone818.com.alone_adventure.Items.ImperialItems.decapitation_axe;
@@ -956,6 +962,31 @@ public class ModItems {
     // 秃鹫：特质槽位饰品；击杀怪物时有概率获得 2 倍掉落物 + 幸运 II
     public static final RegistryObject<Item> BALD_EAGLE =
             ITEMS.register("bald_eagle", bald_eagle::new);
+
+    // 受害者腐殖：特质槽位饰品；攻击时损失的红色生命的 50% 转换为可叠加黄心
+    public static final RegistryObject<Item> VICTIM_HUMUS =
+            ITEMS.register("victim_humus", victim_humus::new);
+
+    // 克罗诺斯试剂：特质槽位饰品；连续攻击之间不受到攻击将获得可堆叠的力量，上限为 9；受击后清除力量，获得虚弱等级 3 时间 7 秒
+    public static final RegistryObject<Item> CHRONOS_REAGENT =
+            ITEMS.register("chronos_reagent", chronos_reagent::new);
+
+    // 一无所有：特质槽位饰品；10s 内未受到伤害则快速回复生命值；常态获得抗性 2；减少 20% 护甲值与护甲韧性
+    public static final RegistryObject<Item> NOTHING_LEFT =
+            ITEMS.register("nothing_left", nothing_left::new);
+
+    // 黑色花朵：特质槽位饰品；攻击时获得灵魂（上限 7）；损失 (灵魂×10%) 生命；按 R 获得力量 (灵魂 -2) 等级，时长 (灵魂×5 秒)
+    public static final RegistryObject<Item> BLACK_FLOWER =
+            ITEMS.register("black_flower", black_flower::new);
+
+    // 远古力量：特质槽位饰品；不直接增加攻击伤害，每等级增加 15% 攻击伤害
+    public static final RegistryObject<Item> ANCIENT_POWER =
+            ITEMS.register("ancient_power", ancient_power::new);
+
+    // 斯特拉克的挑战护手：契约饰品；生命值>50% 时 +20% 最大生命/-10% 移速，≤50% 时 -20% 护甲/+10% 移速/+10% 攻速；
+    // 按 R 键：若生命>50% 则扣血到 50% 并获得力量 II/速度 II 15 秒；若生命≤50% 则回血到 50% 并获得虚弱 II/再生 II 10 秒
+    public static final RegistryObject<Item> STRAKE_CHALLENGE_GAUNTLET =
+            ITEMS.register("strake_challenge_gauntlet", strake_challenge_gauntlet::new);
 
     // 收割契约：提交 32 胡萝卜 + 32 土豆 + 16 小麦
     public static final RegistryObject<Item> HARVEST_CONTRACT =

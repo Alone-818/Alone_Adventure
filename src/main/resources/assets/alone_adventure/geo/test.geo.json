@@ -1,92 +1,100 @@
 {
-  "format_version": "1.12.0",
-  "minecraft:geometry": [
-    {
-      "description": {
-        "identifier": "geometry.test",
-        "texture_width": 64,
-        "texture_height": 64
-      },
-
-      "bones": [
-
-        {
-          "name":"armorBody",
-          "pivot":[0,24,0],
-          "cubes":[
-            {
-              "origin":[-4,12,-2],
-              "size":[8,12,4],
-              "uv":[16,16]
-            }
-          ]
-        },
-
-        {
-          "name": "armorRightArm",
-          "pivot": [-5, 22, 0],
-          "cubes": [
-            {
-              "origin": [-8, 12, -2],
-              "size": [4, 12, 4],
-              "uv": [40, 16]
-            }
-          ]
-        },
-
-
-        {
-          "name": "armorLeftArm",
-          "pivot": [5, 22, 0],
-          "cubes": [
-            {
-              "origin": [4, 12, -2],
-              "size": [4, 12, 4],
-              "uv": [40, 16]
-            }
-          ]
-        },
-
-
-        {
-          "name": "armorRightLeg",
-          "pivot": [-2, 12, 0],
-          "cubes": [
-            {
-              "origin": [-4, 0, -2],
-              "size": [4, 12, 4],
-              "uv": [0, 16]
-            }
-          ]
-        },
-
-
-        {
-          "name": "armorLeftLeg",
-          "pivot": [2, 12, 0],
-          "cubes": [
-            {
-              "origin": [0, 0, -2],
-              "size": [4, 12, 4],
-              "uv": [0, 16]
-            }
-          ]
-        },
-
-
-        {
-          "name": "armorHead",
-          "pivot": [0, 24, 0],
-          "cubes": [
-            {
-              "origin": [-4, 24, -4],
-              "size": [8, 8, 8],
-              "uv": [0, 0]
-            }
-          ]
-        }
-
-      ]
-    }
-  ]
+	"format_version": "1.12.0",
+	"minecraft:geometry": [
+		{
+			"description": {
+				"identifier": "geometry.test",
+				"texture_width": 128,
+				"texture_height": 128,
+				"visible_bounds_width": 3,
+				"visible_bounds_height": 3.5,
+				"visible_bounds_offset": [0, 1.25, 0]
+			},
+			"bones": [
+				{
+					"name": "armorBody",
+					"pivot": [0, 24, 0],
+					"cubes": [
+						{"origin": [-5, 17, -4], "size": [10, 7, 8], "uv": [0, 0]},
+						{"origin": [-4.5, 11.5, -3.75], "size": [9, 5, 7], "uv": [0, 15]},
+						{"origin": [-3.5, 11, 1], "size": [7, 3, 3], "uv": [58, 7]},
+						{"origin": [-7, 25, 5], "size": [5, 4, 4], "pivot": [-4, 25, 6], "rotation": [0, 0, -17.5], "uv": [56, 63]},
+						{"origin": [2, 25, 5], "size": [5, 4, 4], "pivot": [4, 25, 6], "rotation": [0, 0, 17.5], "uv": [20, 66]},
+						{"origin": [-5, 22.75, 3.75], "size": [10, 4, 4], "uv": [26, 27]},
+						{"origin": [-4, 19, 4], "size": [8, 4, 3], "uv": [58, 0]},
+						{"origin": [-2, 21, 7], "size": [4, 4, 2], "uv": [72, 37]},
+						{"origin": [-3, 17, 4], "size": [6, 2, 2], "uv": [72, 33]}
+					]
+				},
+				{
+					"name": "armorRightArm",
+					"pivot": [-5, 22, 0],
+					"cubes": [
+						{"origin": [-9.25, 21, -3], "size": [5, 5, 6], "uv": [0, 38]},
+						{"origin": [-8.5, 17, -2.5], "size": [4, 3, 5], "uv": [38, 63]},
+						{"origin": [-9, 15, -2.5], "size": [3, 3, 5], "inflate": 0.5, "uv": [38, 71]},
+						{"origin": [-9, 11, -2.5], "size": [5, 4, 5], "uv": [0, 58]},
+						{"origin": [-9.5, 20, -3.5], "size": [5, 2, 7], "uv": [48, 44]}
+					]
+				},
+				{
+					"name": "armorLeftArm",
+					"pivot": [5, 22, 0],
+					"cubes": [
+						{"origin": [4.25, 21, -3], "size": [5, 5, 6], "uv": [32, 15]},
+						{"origin": [4.5, 17, -2.5], "size": [4, 3, 5], "uv": [20, 58]},
+						{"origin": [6, 15, -2.5], "size": [3, 3, 5], "inflate": 0.5, "uv": [68, 53]},
+						{"origin": [4, 11, -2.5], "size": [5, 4, 5], "uv": [54, 24]},
+						{"origin": [4.5, 20, -3.5], "size": [5, 2, 7], "uv": [48, 35]}
+					]
+				},
+				{
+					"name": "armorRightLeg",
+					"pivot": [-2, 12, 0],
+					"cubes": [
+						{"origin": [-5, 1.5, -2.5], "size": [5, 5, 5], "uv": [54, 14]},
+						{"origin": [-5, -1, -3.75], "size": [5, 2, 7], "uv": [24, 49]},
+						{"origin": [-3.75, 0, 1.5], "size": [3, 5, 2], "uv": [74, 13]},
+						{"origin": [-5, 6.75, -2.5], "size": [2, 4, 2], "uv": [0, 77]},
+						{"origin": [-4, 5, -3], "size": [3, 4, 1], "uv": [8, 77]},
+						{"origin": [-3.5, 9.25, -3], "size": [3, 4, 2], "uv": [74, 20]},
+						{"origin": [-5, 7, 0.25], "size": [2, 5, 2], "uv": [74, 26]},
+						{"origin": [-2.5, 6, 2], "size": [2, 5, 1], "uv": [76, 77]}
+					]
+				},
+				{
+					"name": "armorLeftLeg",
+					"pivot": [2, 12, 0],
+					"cubes": [
+						{"origin": [0, 1.5, -2.5], "size": [5, 5, 5], "uv": [48, 53]},
+						{"origin": [0, -1, -3.75], "size": [5, 2, 7], "uv": [0, 49]},
+						{"origin": [0.75, 0, 1.5], "size": [3, 5, 2], "uv": [72, 43]},
+						{"origin": [3, 6.75, -2.5], "size": [2, 4, 2], "uv": [74, 61]},
+						{"origin": [1, 5, -3], "size": [3, 4, 1], "uv": [38, 58]},
+						{"origin": [0.5, 9.25, -3], "size": [3, 4, 2], "uv": [16, 74]},
+						{"origin": [3, 7, 0.25], "size": [2, 5, 2], "uv": [26, 74]},
+						{"origin": [0.5, 6, 2], "size": [2, 5, 1], "uv": [70, 77]}
+					]
+				},
+				{
+					"name": "armorHead",
+					"pivot": [0, 24, 0],
+					"cubes": [
+						{"origin": [-5.5, 27, -1], "size": [2, 3, 2], "pivot": [-4.5, 27, 0], "rotation": [0, 0, -20], "uv": [54, 77]},
+						{"origin": [3.5, 27, -1], "size": [2, 3, 2], "pivot": [4.5, 27, 0], "rotation": [0, 0, 20], "uv": [62, 77]},
+						{"origin": [-2, 22, -8], "size": [4, 6, 4], "inflate": -1, "pivot": [-1, 22, -7], "rotation": [-10, 0, 0], "uv": [0, 67]},
+						{"origin": [-3, 24, -7], "size": [2, 1, 1], "uv": [54, 33]},
+						{"origin": [1, 24, -7], "size": [2, 1, 1], "uv": [60, 33]},
+						{"origin": [-3.5, 24.5, -6.5], "size": [2, 2, 2], "uv": [74, 67]},
+						{"origin": [1.5, 24.5, -6.5], "size": [2, 2, 2], "uv": [78, 7]},
+						{"origin": [-3, 23.5, -6], "size": [6, 4, 2], "uv": [54, 71]},
+						{"origin": [-2, 31.5, -4.5], "size": [4, 2, 9], "uv": [0, 27]},
+						{"origin": [3.25, 25.75, -4.75], "size": [2, 5, 9], "uv": [26, 35]},
+						{"origin": [-5.25, 25.75, -4.75], "size": [2, 5, 9], "uv": [36, 0]},
+						{"origin": [-3, 26, -7], "size": [6, 4, 2], "uv": [70, 71]}
+					]
+				}
+			]
+		}
+	]
 }

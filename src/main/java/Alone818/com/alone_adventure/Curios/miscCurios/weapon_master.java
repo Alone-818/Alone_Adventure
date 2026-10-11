@@ -30,7 +30,7 @@ import java.util.UUID;
  */
 public class weapon_master extends Item implements ICurioItem {
 
-    public static final float ATTACK_SPEED_BONUS = 0.1F;
+    public static final float ATTACK_SPEED_BONUS = -0.1F;
     public static final float DAMAGE_BONUS = 0.2F;
     public static final float BASE_DOUBLE_ATTACK_CHANCE = 0.1F;
     public static final float PROBABILISTIC_INCREMENT = 0.05F;

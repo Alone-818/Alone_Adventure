@@ -55,9 +55,9 @@ public class confession_apocalypse extends Item implements ICurioItem {
 
     // ===== 罪孽 =====
     /** 罪孽上限 */
-    public static final int MAX_SIN = 10;
-    /** 每层罪孽提供的伤害加成比例（5%） */
-    public static final double DAMAGE_PER_SIN = 0.05;
+    public static final int MAX_SIN = 5;
+    /** 每层罪孽提供的伤害加成比例（10%） */
+    public static final double DAMAGE_PER_SIN = 0.10;
     /** 罪孽 ≥ 5 层时生成暗红粒子 */
     public static final int SIN_PARTICLE_THRESHOLD = 5;
     /** 罪孽 ≥ 8 层时饥饿消耗速度 +20% */
